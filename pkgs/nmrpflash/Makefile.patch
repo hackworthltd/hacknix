@@ -1,0 +1,31 @@
+diff --git a/Makefile b/Makefile
+index 797aaac..375d990 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,15 +1,10 @@
+ CC ?= gcc
+ PREFIX ?= /usr/local
+-VERSION = $(shell git describe --always | tail -c +2)
++VERSION ?= $(shell git describe --always | tail -c +2)
+ LIBS = -lpcap
+ CFLAGS += -Wall -g -DNMRPFLASH_VERSION=\"$(VERSION)\"
+ LDFLAGS += $(LIBS)
+ 
+-ifeq ($(shell uname -s),Linux)
+-	CFLAGS += $(shell pkg-config libnl-route-3.0 --cflags)
+-	LIBS += $(shell pkg-config libnl-route-3.0 --libs)
+-endif
+-
+ nmrpflash_OBJ = nmrp.o tftp.o ethsock.o main.o util.o
+ 
+ .PHONY: clean install release release/macos release/linux release/win32
+@@ -36,7 +31,8 @@ clean:
+ 	rm -f $(nmrpflash_OBJ) nmrpflash
+ 
+ install: nmrpflash
+-	install -m 755 nmrpflash $(PREFIX)/bin
++	mkdir -p $(PREFIX)/bin
++	install -m 755 nmrpflash $(PREFIX)/bin/nmrpflash
+ 
+ release/macos:
+ 	CFLAGS="-mmacosx-version-min=10.6" make release

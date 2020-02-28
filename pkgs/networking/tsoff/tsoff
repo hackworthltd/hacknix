@@ -1,0 +1,174 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use feature 'say';
+use Getopt::Long qw(:config no_ignore_case bundling);
+use Pod::Usage qw(pod2usage);
+
+END {
+}
+
+my $ident = "tsoff";
+
+my $man = 0;
+my $help = 0;
+my $verbose = 0;
+my $ethtool = 'ethtool';
+
+GetOptions('ethtool=s' => \$ethtool,
+           'help|h' => \$help,
+           man => \$man,
+           'verbose|v+' => \$verbose) or pod2usage(2);
+pod2usage(1) if $help;
+pod2usage(-exitval => 0, -verbose => 2) if $man;
+
+pod2usage("$ident: expected 1 device name") if (@ARGV != 1);
+my ($device) = @ARGV;
+
+my $output = `$ethtool --show-offload $device`;
+exit $? >> 8 if $? >> 8;
+my @output_lines = split /\n/ => $output;
+
+sub make_notice {
+    my $verbosity = shift;
+    return sub { say shift() if ($verbosity > 0) };
+}
+
+sub make_info {
+    my $verbosity = shift;
+    return sub { say shift() if ($verbosity > 1) };
+}
+
+my $notice = make_notice($verbose);
+my $info = make_info($verbose);
+
+# Some features have special names. Ugh, how gross.
+my %feature_name_map = (
+    "rx-checksumming" => "rx",
+    "tx-checksumming" => "tx",
+    "scatter-gather" => "sg",
+    "tcp-segmentation-offload" => "tso",
+    "udp-fragmentation-offload" => "ufo",
+    "generic-segmentation-offload" => "gso",
+    "generic-receive-offload" => "gro",
+    "large-receive-offload" => "lro",
+    "rx-vlan-offload" => "rxvlan",
+    "tx-vlan-offload" => "txvlan",
+    "ntuple-filters" => "ntuple",
+    "receive-hashing" => "rxhash"
+    );
+
+my @args;
+
+LINE: for my $line (@output_lines) {
+    chomp $line;
+    next LINE if $line =~ /^Features for $device:$/;
+    my ($is_subfeature, $feature, $status, $special) = $line =~
+        /^
+        (\s+)?                                   # is_subfeature
+        ([a-z0-9_-]+):                           # feature
+        \s+
+        (on|off)                                 # status
+        (?:\s+\[(fixed|requested (?:on|off))\])? # special
+        /x or die "Aborting on unexpected output from ethtool: '$line'";
+
+    if ($status eq "off") {
+        $info->("Skipping already-off feature '$feature'");
+    } elsif (defined $is_subfeature) {
+        $info->("Skipping sub-feature '$feature'");
+    } elsif (defined $special && $special eq "fixed") {
+        $info->("Skipping fixed-$status feature '$feature'");
+    } else {
+        $notice->("Disabling '$feature'");
+        my $feature_name = $feature_name_map{$feature} || $feature;
+        push @args, ($feature_name, "off")
+    }
+}
+
+if (scalar(@args) > 0) {
+    my @cmd = ($ethtool, "--offload", $device);
+    push(@cmd, @args);
+    system(@cmd) == 0 or exit $? >> 8;
+} else {
+    $notice->("All non-fixed offload features already disabled");
+}
+
+__END__
+
+=head1 tsoff
+
+tsoff - Disable offloading features on an Ethernet NIC
+
+=head1 SYNOPSIS
+
+tsoff [options] device
+
+  Options:
+    --ethtool     Specify the path to ethtool
+    -h
+    --help        Brief help message
+    --man         Full documentation
+    -v
+    --verbose     Be verbose (may be specified multiple times)
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--ethtool>
+
+If B<ethtool> is not in B<PATH>, or if you want to override it, use
+this flag to specify the B<ethtool> executable.
+
+=item B<--help>
+
+Print a brief help message and exit.
+
+=item B<--man>
+
+Print the man page and exit.
+
+=item B<--verbose>    
+
+Normally, B<tsoff> will only produce output if there is an error, but
+if this flag is specified, B<tsoff> will print to stdout the offload
+features that it will attempt to disable; or, if all features that can
+be disabled are already disabled, a message indicating that nothing
+was changed.
+
+If this flag is specified twice (e.g., B<-vv>), then B<tsoff> will
+also print to stdout which offload features it is ignoring, either
+because they are already disabled, or because they are "fixed" and
+cannot be disabled.
+
+=back
+
+=head1 DESCRIPTION
+
+B<tsoff> takes the name of a network device, uses B<ethtool> to
+determine the device's offloading features (e.g., TCP segment
+offload), and disables them. B<ethtool> does all the work; B<tsoff> is
+just a convenient wrapper around it.
+
+Disabling offloading is useful when you want to use a device for
+packet capture, as it ensures that the packet capture software sees
+the packets as they appeared on the wire.
+
+=head1 NOTES
+
+On some cards, certain offloading features cannot be disabled.
+B<tsoff> will detect these "fixed" features and ignore them.
+
+Some offloading features have sub-features. B<ethtool> indicates
+sub-features by indenting them under their "super" feature name, e.g.:
+
+    tx-checksumming: on
+            tx-checksum-ipv4: off [fixed]
+            tx-checksum-ip-generic: on
+            tx-checksum-ipv6: off [fixed]
+            tx-checksum-fcoe-crc: off [fixed]
+            tx-checksum-sctp: on
+
+B<tsoff> ignores sub-features and disables their super features,
+instead.

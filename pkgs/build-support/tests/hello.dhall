@@ -1,0 +1,1 @@
+let nat = 3 : Natural in let text = "Hi" : Text in { text = text, nat = nat }

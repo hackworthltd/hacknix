@@ -1,0 +1,11 @@
+files {
+        moddir = ${modconfdir}/${.:instance}
+        filename = ${moddir}/authorize
+        acctusersfile = ${moddir}/accounting
+        preproxy_usersfile = ${moddir}/pre-proxy
+}
+
+files authorized_macs {
+        key = "%{Calling-Station-ID}"
+        usersfile = ${modconfdir}/files/authorized_macs
+}

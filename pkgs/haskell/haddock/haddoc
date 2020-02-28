@@ -1,0 +1,20 @@
+{ mkDerivation, base, fetchgit, filepath, haddock-api, stdenv }:
+mkDerivation {
+  pname = "haddock";
+  version = "2.23.0";
+  src = fetchgit {
+    url = "https://github.com/haskell/haddock.git";
+    sha256 = "0b6c78paq6hh8n9pasnwwmlhfk745ha84fd84500mcpjlrsm5qgf";
+    rev = "be8b02c4e3cffe7d45b3dad0a0f071d35a274d65";
+    fetchSubmodules = true;
+  };
+  isLibrary = false;
+  isExecutable = true;
+  executableHaskellDepends = [ base haddock-api ];
+  testHaskellDepends = [ base filepath ];
+  doCheck = false;
+  preCheck = "unset GHC_PACKAGE_PATH";
+  homepage = "http://www.haskell.org/haddock/";
+  description = "A documentation-generation tool for Haskell libraries";
+  license = stdenv.lib.licenses.bsd3;
+}
