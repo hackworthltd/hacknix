@@ -75,6 +75,7 @@ let
     name = "nixtools-env";
     paths = with super; [
       cabal2nix
+      cachix
       hydra-cli
       lorri
       niv
