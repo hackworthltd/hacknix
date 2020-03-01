@@ -140,6 +140,14 @@ let
 
   ghcide = exeOnly (mkGhcidePackages haskellPackages).ghcide;
 
+  # cachix.
+  # ghcide currently has special requirements.
+  mkCachixPackages = hp: properExtend hp (self: super: {
+    cachix = (import localLib.fixedCachix);
+  });
+
+  cachix = exeOnly (mkCachixPackages haskellPackages).cachix;
+
   ## Package sets that we want to be built.
 
   # A list of currently-problematic packages, things that can't easily
@@ -441,5 +449,6 @@ in
 
   ## Executables only.
 
+  inherit cachix;
   inherit ghcide;
 }
