@@ -30,10 +30,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "4c3ca55a6d53bfeb7baf54b1c7594dec012c025d",
-        "sha256": "0qn5m9ppzaw5vyj1n29bjk20yja06awvdwccbii49c2lwz7hbalr",
+        "rev": "2d597faf21be6433d62c958dcc76a7a170033987",
+        "sha256": "0mhf9mi43hmygspjsnhhl3ly77vrg8qycgn0sxw7p1lsca19f7xk",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/4c3ca55a6d53bfeb7baf54b1c7594dec012c025d.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/2d597faf21be6433d62c958dcc76a7a170033987.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -42,10 +42,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "66f4e37314b39356964ae160bfc5a9dc7880a6b2",
-        "sha256": "090h7jkk06j97jaw5yiwn88izn972784nr1qmhxfkzrqw3912n7f",
+        "rev": "bef6d701c3ab264bd09e0ccdfe5c0ed96cbf6edc",
+        "sha256": "1whkz2idg4hpfw588nrgy0jfdj2blzckdhkgqhfbg9jjxvfyrc2d",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/66f4e37314b39356964ae160bfc5a9dc7880a6b2.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/bef6d701c3ab264bd09e0ccdfe5c0ed96cbf6edc.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -121,6 +121,18 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
+        "branch": "master",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "98cbc40570e60a1eadf7833ad7948d10910fc16b",
+        "sha256": "0c308w50z3xdib5cxyfygvq9kf7ijrcy3k1454ksy2ig699nk77y",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/98cbc40570e60a1eadf7833ad7948d10910fc16b.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-unstable": {
         "branch": "nixpkgs-unstable",
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
         "homepage": "https://github.com/NixOS/nixpkgs",

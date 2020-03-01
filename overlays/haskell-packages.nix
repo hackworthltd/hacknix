@@ -17,131 +17,31 @@ let
   ## current nixpkgs snapshot that we're using.
 
   mkHaskellPackages = hp: properExtend hp (self: super: {
-    HsYAML = super.HsYAML_0_2_1_0;
-
-    algebra = doJailbreak super.algebra;
-    amazonka = doJailbreak super.amazonka;
-    amazonka-core = doJailbreak super.amazonka-core;
-    bloodhound = doJailbreak super.bloodhound;
-
-    clay = doJailbreak super.clay;
     concurrent-machines = doJailbreak super.concurrent-machines;
-
-    # dhall tests try to hit the network.
-    dhall = dontCheck super.dhall_1_29_0;
-
-    # Fix upstream breakage.
-    dhall-json = super.dhall-json_1_6_1.override {
-      prettyprinter = self.prettyprinter_1_6_0;
-      prettyprinter-ansi-terminal =
-        self.prettyprinter-ansi-terminal.override {
-          prettyprinter = self.prettyprinter_1_6_0;
-        };
-    };
-
-    doctest-driver-gen = dontCheck (super.doctest-driver-gen.overrideAttrs (drv: {
-      broken = false;
-      meta.hydraPlatforms = stdenv.lib.platforms.all;
-    }));
-
-    generic-lens = dontCheck super.generic-lens_1_2_0_1;
-
-    # Ironically, haddock-api doesn't haddock.
-    haddock-api =  dontHaddock (doJailbreak super.haddock-api);
-    haddock-library = super.haddock-library_1_8_0;
-
-    hal = super.callPackage ../pkgs/haskell/hal {};
-
-    haskell-lsp = super.haskell-lsp_0_20_0_1;
-    haskell-lsp-types = super.haskell-lsp-types_0_20_0_0;
-
-    haxl = doJailbreak (super.callPackage ../pkgs/haskell/haxl {});
-
-    hedgehog-classes = super.callPackage ../pkgs/haskell/hedgehog-classes {};
-
-    hex = doJailbreak super.hex;
-
+    doctest-driver-gen = dontCheck super.doctest-driver-gen;
+    hal = doJailbreak super.hal;
+    hedgehog-classes = doJailbreak super.hedgehog-classes;
     hie-bios = dontCheck super.hie-bios;
-
-    hoopl = doJailbreak super.hoopl;
-
-    hw-balancedparens = super.hw-balancedparens_0_3_0_4;
-
-    hw-bits = doJailbreak super.hw-bits;
-    hw-excess = doJailbreak super.hw-excess;
-    hw-json = super.hw-json_1_3_1_1;
-
-    hw-rankselect = dontCheck super.hw-rankselect_0_13_3_2;
-    hw-rankselect-base = doJailbreak super.hw-rankselect-base;
-    insert-ordered-containers = doJailbreak super.insert-ordered-containers;
-
-    # One test is superficially broken.
-    ip = dontCheck (super.ip_1_7_1);
-
-    ivory = doJailbreak super.ivory;
-    katip-elasticsearch = dontCheck super.katip-elasticsearch;
-    hfsevents = super.hfsevents.overrideAttrs (drv: {
-      meta.hydraPlatforms = stdenv.lib.platforms.darwin;
-    });
-
-    lsp-test = dontCheck super.lsp-test_0_9_0_0;
-
-    machines = super.machines_0_7;
-    machines-binary = doJailbreak super.machines-binary;
-    machines-directory = doJailbreak super.machines-directory;
     machines-io = doJailbreak super.machines-io;
-    machines-process = doJailbreak super.machines-process;
-
-    # Undo upstream breakage.
-    network-bsd = super.network-bsd.override { network = super.network; };
-
-    pipes-errors = doJailbreak super.pipes-errors;
+    monad-logger-syslog = doJailbreak super.monad-logger-syslog;
     pipes-text = doJailbreak super.pipes-text;
+    pipes-errors = doJailbreak super.pipes-errors;
     pipes-transduce = dontCheck super.pipes-transduce;
-    prettyprinter = super.prettyprinter_1_6_0;
 
-    # dontCheck, or else it causes infinite recursion.
-    primitive = dontCheck super.primitive_0_7_0_0;
-
-    primitive-extras = super.primitive-extras_0_8;
-    primitive-unlifted = dontCheck (doJailbreak super.primitive-unlifted);
-    quickcheck-classes = super.quickcheck-classes_0_6_4_0;
-    serialise = doJailbreak super.serialise;
-    servant-docs = doJailbreak super.servant-docs;
-    stm-hamt = doJailbreak super.stm-hamt;
-    stream-monad = doJailbreak super.stream-monad;
-    streaming-utils = doJailbreak super.streaming-utils;
-
-    tdigest = doJailbreak super.tdigest;
-    these = doJailbreak super.these;
-
-    time-recurrence = doJailbreak super.time-recurrence;
-
-    # Disable tests on aarch64-linux; the doctests cause an internal error.
-    trifecta = if stdenv.hostPlatform.isAarch64 then dontCheck super.trifecta else super.trifecta;
-
-    wide-word = doJailbreak super.wide-word;
-
-    # Disable tests on aarch64-linux; the doctests cause an internal error.
-    zippers = if stdenv.hostPlatform.isAarch64 then dontCheck super.zippers else super.zippers;
+    Agda = dontCheck (super.callPackage ../pkgs/haskell/Agda {});
+    ghcide = dontCheck (super.callPackage ../pkgs/haskell/ghcide {});
+    hnix = dontCheck (super.callPackage ../pkgs/haskell/hnix {});
+    hnix-store-core = super.callPackage ../pkgs/haskell/hnix-store-core {};
+    ivory = super.callPackage ../pkgs/haskell/ivory {};
+    saltine = dontCheck (super.callPackage ../pkgs/haskell/saltine {});
   });
 
   # The current GHC.
   haskellPackages = mkHaskellPackages super.haskellPackages;
 
-  # ghcide currently has special requirements.
-  mkGhcidePackages = hp: properExtend hp (self: super: {
-    regex-base = super.regex-base_0_94_0_0;
-    regex-posix = super.regex-posix_0_96_0_0;
-    regex-tdfa = super.regex-tdfa_1_3_1_0;
-
-    ghcide = dontCheck (super.callPackage ../pkgs/haskell/ghcide {});
-  });
-
-  ghcide = exeOnly (mkGhcidePackages haskellPackages).ghcide;
+  ghcide = exeOnly haskellPackages.ghcide;
 
   # cachix.
-  # ghcide currently has special requirements.
   mkCachixPackages = hp: properExtend hp (self: super: {
     cachix = (import localLib.fixedCachix);
   });
@@ -153,7 +53,12 @@ let
   # A list of currently-problematic packages, things that can't easily
   # be fixed by overrides.
   problems = hp: with hp; [
-    ivory
+    accelerate
+    bloodhound
+    configuration-tools
+    haxl
+    hex
+    linear-accelerate
     show-prettyprint
   ];
 
@@ -163,7 +68,6 @@ let
   # A list of "core" Haskell packages that we want to build for any
   # given release of this overlay.
   coreList = hp: with hp; [
-    acid-state
     aeson
     aeson-pretty
     alex
@@ -227,7 +131,6 @@ let
     megaparsec
     monad-control
     monad-logger
-    monad-logger-syslog
     mtl
     network
     network-bsd
@@ -298,6 +201,7 @@ let
   extraList = hp: with hp; (coreList hp) ++ [
     Agda
     accelerate
+    acid-state
     ad
     amazonka
     amazonka-ec2
@@ -319,7 +223,6 @@ let
     configurator
     configuration-tools
     constraints
-    dhall-nix
     doctest-driver-gen
     fgl
     fmt
@@ -334,7 +237,6 @@ let
     hedgehog-fn
     hex
     hnix
-    hoopl
     hw-hedgehog
     hw-hspec-hedgehog
     hw-json
@@ -343,8 +245,6 @@ let
     ip
     ivory
     justified-containers
-    katip
-    katip-elasticsearch
     lens-action
     lifted-async
     lifted-base
@@ -355,11 +255,8 @@ let
     lucid
     lzma
     machines
-    machines-binary
-    machines-directory
-    machines-io
-    machines-process
     memory
+    monad-logger-syslog
     mustache
     neat-interpolation
     numeric-extras
@@ -383,7 +280,6 @@ let
     tar
     tasty-hunit
     temporary
-    time-recurrence
     turtle
     type-of-html
     uniplate
@@ -407,8 +303,8 @@ let
   let
     paths =  [
         (hp.ghcWithHoogle packageList)
-        (all-hies.selection { selector = p: { inherit (p) ghc865; }; })
-        ghcide
+        (all-hies.selection { selector = p: { inherit (p) ghc882; }; })
+        (exeOnly hp.ghcide)
         (exeOnly hp.cabal-install)
         (exeOnly hp.hpack)
         (exeOnly hp.structured-haskell-mode)
