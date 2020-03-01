@@ -87,6 +87,7 @@ let
   # A helper script for rebuilding nix-darwin systems.
   macnix-rebuild = callPackage ../pkgs/macnix-rebuild {};
 
+  cachix = (import lib.fixedCachix {});
 in
 {
   inherit (badhosts) badhosts-unified;
@@ -100,6 +101,7 @@ in
   inherit (badhosts) badhosts-fakenews-gambling-nsfw-social;
   inherit (badhosts) badhosts-all;
 
+  inherit cachix;
   inherit ccextractor;
   inherit chamber;
   inherit hacknix-source;

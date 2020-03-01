@@ -29,6 +29,8 @@ let
 
   fixedBadhosts = lib.fetchers.fixedNixSrc "badhosts" sources.badhosts;
 
+  fixedCachix = lib.fetchers.fixedNixSrc "cachix" sources.cachix;
+
   overlays = [
     hacknix-lib.overlays.all
   ] ++ (map import [
@@ -74,6 +76,7 @@ in lib //
   inherit fixedNixOps;
   inherit fixedLorri;
   inherit fixedBadhosts;
+  inherit fixedCachix;
 
   inherit sources;
 
