@@ -98,10 +98,6 @@ let
     opsec-env = all;
     shell-env = darwin;
 
-    # Won't evaluate in Hydra because it's not a proper derivation.
-    #hello-dhall-file = all;
-    #hello-dhall-src = all;
-
     hacknix-source = all;
 
     examples.nix-darwin.build-host.system = darwin;
@@ -172,9 +168,6 @@ let
         nixtools-env.x86_64-linux
         opsec-env.x86_64-linux
 
-        #hello-dhall-file.x86_64-linux
-        #hello-dhall-src.x86_64-linux
-
         hacknix-source.x86_64-linux
       ];
     };
@@ -240,9 +233,6 @@ let
         nixtools-env.x86_64-darwin
         opsec-env.x86_64-darwin
         shell-env.x86_64-darwin
-
-        #hello-dhall-file.x86_64-darwin
-        #hello-dhall-src.x86_64-darwin
 
         hacknix-source.x86_64-darwin
       ];

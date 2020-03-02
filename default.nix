@@ -58,8 +58,6 @@ in
   inherit (self) tsoff;
   inherit (self) wpa_supplicant;
 
-  inherit (self) dhallToNixFromFile dhallToNixFromSrc;
-  inherit (self) hello-dhall-file hello-dhall-src;
   inherit (self) hashedCertDir;
 
   inherit (self) emacsMelpaPackagesNg;

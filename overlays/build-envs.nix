@@ -64,7 +64,6 @@ let
   nixops-env = super.buildEnv {
     name = "nixops-env";
     paths = with super; [
-      dhall-nix
       nixops
       terraform
     ];

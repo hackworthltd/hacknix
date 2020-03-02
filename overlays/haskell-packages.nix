@@ -93,8 +93,6 @@ let
     data-fix
     data-has
     deepseq
-    dhall
-    dhall-json
     directory
     distributive
     doctest
