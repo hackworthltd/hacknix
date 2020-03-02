@@ -33,6 +33,7 @@ in
   inherit (self) ccextractor;
   inherit (self) cfssl;
   inherit (self) chamber;
+  inherit (self) darcs;
   inherit (self) delete-tweets;
   inherit (self) ffmpeg-full;
   inherit (self) fsatrace;
