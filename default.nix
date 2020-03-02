@@ -74,6 +74,8 @@ in
   inherit (self) extensive-haskell-env;
   inherit (self) all-hies;
 
+  inherit (self) haskell-nix;
+
   inherit (self) hyperkit;
   inherit (self) minikube;
 
