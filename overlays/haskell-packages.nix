@@ -32,6 +32,7 @@ let
     ghcide = dontCheck (super.callPackage ../pkgs/haskell/ghcide {});
     hnix = dontCheck (super.callPackage ../pkgs/haskell/hnix {});
     hnix-store-core = super.callPackage ../pkgs/haskell/hnix-store-core {};
+    ip = super.callPackage ../pkgs/haskell/ip {};
     ivory = super.callPackage ../pkgs/haskell/ivory {};
     saltine = dontCheck (super.callPackage ../pkgs/haskell/saltine {});
   });
@@ -60,6 +61,7 @@ let
     hex
     linear-accelerate
     show-prettyprint
+    stm-containers
   ];
 
   mkInstalledPackages = desired: problems: hp:
@@ -248,7 +250,6 @@ let
     lifted-base
     linear
     linear-accelerate
-    list-t
     llvm-hs-pure
     lucid
     lzma
@@ -272,7 +273,6 @@ let
     shake
     shelly
     smtLib
-    stm-containers
     streams
     tagged
     tar
