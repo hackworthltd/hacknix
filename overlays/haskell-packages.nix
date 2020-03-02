@@ -320,10 +320,17 @@ let
   extensive-haskell-env = mkHaskellBuildEnv "extensive-haskell-env" haskellPackages extensiveHaskellPackages;  
 
   # Darcs won't build with GHC 8.8.x.
-  darcsHaskellPackages = super.dontRecurseIntoAttrs super.haskell.packages.ghc865;
+  mkDarcsPackages = hp: properExtend hp (self: super: {
+    darcs = doJailbreak super.darcs;
+    time-compat = doJailbreak super.time-compat;
+  });
+
+  darcsHaskellPackages = mkDarcsPackages super.haskell.packages.ghc865;
   darcs = super.haskell.lib.overrideCabal (super.haskell.lib.justStaticExecutables darcsHaskellPackages.darcs) (drv: {
     configureFlags = (stdenv.lib.remove "-flibrary" drv.configureFlags or []) ++ ["-f-library"];
-  });
+  }) // {
+    meta.platforms = darcsHaskellPackages.ghc.meta.platforms;
+  };
 
 in
 {
