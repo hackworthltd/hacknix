@@ -80,7 +80,7 @@ in
     # Useful utilities.
     environment.systemPackages = with pkgs; [
       htop
-      pythonPackages.glances
+      glances
     ];
   };
 
