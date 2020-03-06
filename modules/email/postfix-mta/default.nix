@@ -693,11 +693,6 @@ in
         smtpd_tls_ask_ccert = "yes";
         tls_preempt_cipherlist = "yes";
 
-        # Allow SASL-authenticated senders to send as different users
-        # according to their virtual mailbox mappings.
-
-        smtpd_sender_login_maps = [ "hash:/etc/postfix/virtual" ];
-
         smtp_tls_security_level = "may";
         smtp_tls_loglevel = "1";
         smtp_tls_note_starttls_offer = "yes";
