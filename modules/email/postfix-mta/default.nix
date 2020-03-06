@@ -22,6 +22,8 @@ let
 
   relay_clientcerts = pkgs.writeText "postfix-relay-clientcerts" cfg.relayClientCerts;
 
+  login_maps = pkgs.writeText "login_maps" cfg.submission.smtpd.senderLoginMaps;
+
   bogus_mx = pkgs.writeText "postfix-bogus-mx" ''
     0.0.0.0/8              REJECT Domain MX in broadcast network (RFC 1700)
     10.0.0.0/8             REJECT No route to your network (RFC 1918)
@@ -437,11 +439,11 @@ in
           type = types.listOf pkgs.lib.types.nonEmptyStr;
           default = [
             "permit_sasl_authenticated"
-            "permit_tls_clientcerts"
             "reject"
           ];
           example = literalExample [
             "permit_sasl_authenticated"
+            "permit_tls_clientcerts"
             "reject"
           ];
           description = ''
@@ -473,6 +475,28 @@ in
 
             The default value configures Postfix to use Dovecot
             SASL.
+          '';
+        };
+
+        senderLoginMaps = mkOption {
+          type = types.lines;
+          default = builtins.readFile ./login_map;
+          description = ''
+            PCRE-style entries for Postfix's
+            <literal>smtpd_sender_login_maps</literal> file. Entries
+            in this map will be used to determine which aliases
+            authenticated submission clients can use for their MAIL
+            FROM address.
+
+            The default file limits users to sending MAIL FROM only
+            the email address they used to authenticate with the
+            submission server. This is often not what you want, so you
+            should read the following helpful links carefully to
+            determine how to configure this for your own MTA servers:
+
+            https://serverfault.com/questions/318334/how-to-enforce-sender-address-to-be-logged-in-userexample-org-in-postfix
+            https://wiki2.dovecot.org/HowTo/PostfixAndDovecotSASL#Using_SASL_with_Postfix_submission_port
+            https://blog.felipe-alfaro.com/2006/02/19/block-sender-address-spoofing-with-smpt-auth/
           '';
         };
 
@@ -656,6 +680,7 @@ in
         "recipient_access" = recipient_access;
         "relay_clientcerts" = relay_clientcerts;
         "bogus_mx" = bogus_mx;
+        "login_maps" = login_maps;
       };
 
       config = {
@@ -790,6 +815,8 @@ in
               "-o" "smtpd_sasl_authenticated_header=yes"
               "-o" "smtpd_client_restrictions=${smtpd_client_restrictions}"
               "-o" "milter_macro_daemon_name=ORIGINATING"
+              "-o" "smtpd_sender_restrictions=reject_sender_login_mismatch"
+              "-o" "smtpd_sender_login_maps=pcre:/etc/postfix/login_maps"
             ];
           };
         }
