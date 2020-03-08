@@ -122,15 +122,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
-        "branch": "3affcd7baad743acb4dd210fafa0f9b79b8b2b9b",
+        "branch": "master",
         "description": "NixOps, the NixOS-based cloud deployment tool",
         "homepage": "https://nixos.org/nixops",
         "owner": "dhess",
         "repo": "nixops",
-        "rev": "3affcd7baad743acb4dd210fafa0f9b79b8b2b9b",
-        "sha256": "08gf9xqa7sjw3zczh6mhicb2liwhrq992jr2z0i7mss7nwng6lnj",
+        "rev": "9746d9f75d86ab16badf57ed134ebc9d55b8dcbe",
+        "sha256": "0rh3yajc5z3nq5dl6c7qmg11q70cyikix4g726wlq60binm9lvvs",
         "type": "tarball",
-        "url": "https://github.com/dhess/nixops/archive/3affcd7baad743acb4dd210fafa0f9b79b8b2b9b.tar.gz",
+        "url": "https://github.com/dhess/nixops/archive/9746d9f75d86ab16badf57ed134ebc9d55b8dcbe.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
