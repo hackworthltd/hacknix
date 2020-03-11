@@ -157,8 +157,13 @@ in {
       serverCertificateKeyLiteral = lib.mkOption {
         type = pkgs.lib.types.nonEmptyStr;
         description = ''
-          The path to the server TLS certificate to use with (outer)
-          RADIUS TLS authentication protocols, such as EAP-TLS.
+          The private key of the certificate specified in the
+          <option>tls.serverCertificate</option> option, as a
+          plaintext literal.
+
+          Note that this secret will not be written to the Nix store.
+          It will be securely copied to the RADIUS host and stored in
+          the RADIUS server's configuration directory.
         '';
       };
     };
