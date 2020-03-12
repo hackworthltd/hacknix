@@ -18,6 +18,10 @@ let
   stateDir = "/var/lib/postfix/data";
   queueDir = "/var/lib/postfix/queue";
 
+  submission_header_checks = pkgs.writeText "submission_header_checks" cfg.submission.cleanup.headerChecks;
+
+  smtp_header_checks = pkgs.writeText "smtp_header_checks" cfg.smtpHeaderChecks;
+
   recipient_access = pkgs.writeText "postfix-recipient-access" cfg.smtpd.recipientAccess;
 
   relay_clientcerts = pkgs.writeText "postfix-relay-clientcerts" cfg.relayClientCerts;
@@ -400,6 +404,18 @@ in
       };
     };
 
+    smtpHeaderChecks = mkOption {
+      type = pkgs.lib.types.nullOr pkgs.lib.types.lines;
+      default = null;
+      description = ''
+        If non-null, this option specifies PCRE-formatted lines of
+        Postfix <literal>smtp_header_checks</literal>.
+
+        See Postfix's <literal>smtp_header_checks(5)</literal> man
+        page for details on the format of the checks.
+      '';
+    };
+
     submission = {
       listenAddresses = mkOption {
         type = types.nonEmptyListOf (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
@@ -530,6 +546,32 @@ in
             This key will be written to a file that is securely
             deployed to the host. It will not be written to the Nix
             store.
+          '';
+        };
+      };
+
+      cleanup = {
+        headerChecks = mkOption {
+          type = pkgs.lib.types.nullOr pkgs.lib.types.lines;
+          default = null;
+          description = ''
+            If non-null, this option specifies a Postfix
+            <literal>header_checks</literal> PCRE-formatted file that
+            is only applied to mail that's processed by the submission
+            service. These header checks are not applied to mail sent
+            via Postfix's standard SMTP service. The separate header
+            checks are implemented via a custom Postfix
+            <literal>cleanup</literal> daemon for the submission
+            service.
+
+            If null (the default), no special header checks are
+            performed for the submission service, and whatever
+            <literal>postfix.headerChecks</literal> options you
+            specify are applied to mail processed by both the SMTP and
+            submission services.
+
+            See Postfix's <literal>header_checks(5)</literal> man page
+            for details on the format of the checks.
           '';
         };
       };
@@ -680,7 +722,6 @@ in
         "recipient_access" = recipient_access;
         "relay_clientcerts" = relay_clientcerts;
         "bogus_mx" = bogus_mx;
-        "login_maps" = login_maps;
       };
 
       config = {
@@ -736,6 +777,10 @@ in
         postscreen_greet_action = cfg.postscreen.greetAction;
         postscreen_dnsbl_sites = cfg.postscreen.dnsblSites;
         postscreen_dnsbl_action = cfg.postscreen.dnsblAction;
+      } else {})
+      //
+      (if cfg.smtpHeaderChecks != null then {
+        smtp_header_checks = "pcre:${smtp_header_checks}";
       } else {});
 
       extraConfig =
@@ -753,6 +798,11 @@ in
           ("smtpd_recipient_restrictions = " + (concatStringsSep ", " cfg.smtpd.recipientRestrictions));
         smtpd_data_restrictions = optionalString (cfg.smtpd.dataRestrictions != null)
           ("smtpd_data_restrictions = " + (concatStringsSep ", " cfg.smtpd.dataRestrictions));
+        submission_cleanup_service = optionalString (cfg.submission.cleanup.headerChecks != null)
+          ''
+            submission_cleanup_service_name = submission_cleanup
+            submission_header_checks = pcre:${submission_header_checks}
+          '';
       in
       ''
         ${smtpd_client_restrictions}
@@ -761,6 +811,7 @@ in
         ${smtpd_relay_restrictions}
         ${smtpd_recipient_restrictions}
         ${smtpd_data_restrictions}
+        ${submission_cleanup_service}
       '' + cfg.extraConfig;
 
       # We don't use enableSubmission here because we want to limit it
@@ -789,6 +840,9 @@ in
       masterConfig =
       let
         smtpd_client_restrictions = concatStringsSep "," cfg.submission.smtpd.clientRestrictions;
+        submission_cleanup_args = if cfg.submission.cleanup.headerChecks != null then [
+          "-o" "cleanup_service_name=$submission_cleanup_service_name"
+        ] else [];
       in
       listToAttrs (map (ip:
         { name = "[${ip}]:submission";
@@ -816,8 +870,8 @@ in
               "-o" "smtpd_client_restrictions=${smtpd_client_restrictions}"
               "-o" "milter_macro_daemon_name=ORIGINATING"
               "-o" "smtpd_sender_restrictions=reject_sender_login_mismatch"
-              "-o" "smtpd_sender_login_maps=pcre:/etc/postfix/login_maps"
-            ];
+              "-o" "smtpd_sender_login_maps=pcre:${login_maps}"
+            ] ++ submission_cleanup_args;
           };
         }
       ) cfg.submission.listenAddresses)
@@ -858,6 +912,16 @@ in
           type = "unix";
           command = "dnsblog";
           maxproc = 0;
+        };
+      } else {}) // (if cfg.submission.cleanup.headerChecks != null then {
+        submission_cleanup = {
+          private = false;
+          maxproc = 0;
+          command = "cleanup";
+          args = [
+            "-o" "header_checks=$submission_header_checks"
+            "-o" "syslog_name=postfix/submission"
+          ];
         };
       } else {});
     };
