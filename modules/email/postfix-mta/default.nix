@@ -434,8 +434,8 @@ in
 
     submission = {
       listenAddresses = mkOption {
-        type = types.nonEmptyListOf (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
-        default = [ "127.0.0.1" "::1" ];
+        type = types.listOf (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
+        default = [];
         example = [ "127.0.0.1" "::1" "10.0.0.2" "2001:db8::2" ];
         description = ''
           A list of IPv4 and/or IPv6 addresses on which Postfix will
@@ -443,6 +443,9 @@ in
 
           Note that you should also list any loopback addresses here on
           which you want Postfix to accept local submission requests.
+
+          If empty (the default), Postfix will listen on all active
+          interfaces for incoming submission connections.
         '';
       };
 
@@ -831,10 +834,10 @@ in
         ${submission_cleanup_service}
       '' + cfg.extraConfig;
 
-      # We don't use enableSubmission here because we want to limit it
-      # to just the listenAddresses, and the NixOS submissionOptions
-      # is too limited to permit that. We have to construct the
-      # "submission" master.cf line manually.
+      # We don't use enableSubmission here because we may want to
+      # limit it to just the listenAddresses, and the NixOS
+      # submissionOptions is too limited to permit that. We have to
+      # construct the "submission" master.cf line manually.
       #
       # We also don't use enableSmtp because we want to disable MIME
       # output conversion, to avoid breaking DKIM signatures, and
@@ -860,87 +863,90 @@ in
         submission_cleanup_args = if cfg.submission.cleanup.headerChecks != null then [
           "-o" "cleanup_service_name=$submission_cleanup_service_name"
         ] else [];
-      in
-      listToAttrs (map (ip:
-        { name = "[${ip}]:submission";
-          value = {
-            type = "inet";
-            private = false;
-            command = "smtpd";
-            args = [
-              "-o" "myhostname=${cfg.submission.myHostname}"
-              "-o" "tls_preempt_cipherlist=yes"
-              "-o" "syslog_name=postfix/submission"
-              "-o" "smtpd_tls_security_level=encrypt"
-              "-o" "smtpd_tls_mandatory_ciphers=high"
-              "-o" "smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1"
-              "-o" "smtpd_tls_cert_file=${cfg.submission.smtpd.tlsCertFile}"
-              "-o" "smtpd_tls_key_file=${submissionKeyFile}"
-              "-o" "smtpd_tls_ask_ccert=yes"
-              "-o" "smtpd_sasl_auth_enable=yes"
-              "-o" "smtpd_sasl_path=${cfg.submission.smtpd.saslPath}"
-              "-o" "smtpd_sasl_type=${cfg.submission.smtpd.saslType}"
-              "-o" "smtpd_sasl_security_options=noanonymous,noplaintext"
-              "-o" "smtpd_sasl_tls_security_options=noanonymous"
-              "-o" "smtpd_sasl_local_domain=$mydomain"
-              "-o" "smtpd_sasl_authenticated_header=yes"
-              "-o" "smtpd_client_restrictions=${smtpd_client_restrictions}"
-              "-o" "milter_macro_daemon_name=ORIGINATING"
-              "-o" "smtpd_sender_restrictions=reject_sender_login_mismatch"
-              "-o" "smtpd_sender_login_maps=pcre:${login_maps}"
-            ] ++ submission_cleanup_args;
-          };
-        }
-      ) cfg.submission.listenAddresses)
-      //
-      {
-        smtp = {
-          args = [ "-o" "disable_mime_output_conversion=yes" ];
-        };
-        relay = {
-          command = "smtp";
-          args = [
-            "-o" "smtp_fallback_relay="
-            "-o" "disable_mime_output_conversion=yes"
-          ];
-        };
-      } // (if cfg.postscreen.enable then
-      {
-        smtp_inet = mkForce {
-          name = "smtp";
+        value = {
           type = "inet";
           private = false;
-          maxproc = 1;
-          command = "postscreen";
-        };
-        smtpd_pass = {
-          name = "smtpd";
-          type = "pass";
           command = "smtpd";
-        };
-        tlsproxy = {
-          name = "tlsproxy";
-          type = "unix";
-          command = "tlsproxy";
-          maxproc = 0;
-        };
-        dnsblog = {
-          name = "dnsblog";
-          type = "unix";
-          command = "dnsblog";
-          maxproc = 0;
-        };
-      } else {}) // (if cfg.submission.cleanup.headerChecks != null then {
-        submission_cleanup = {
-          private = false;
-          maxproc = 0;
-          command = "cleanup";
           args = [
-            "-o" "header_checks=$submission_header_checks"
+            "-o" "myhostname=${cfg.submission.myHostname}"
+            "-o" "tls_preempt_cipherlist=yes"
             "-o" "syslog_name=postfix/submission"
-          ];
+            "-o" "smtpd_tls_security_level=encrypt"
+            "-o" "smtpd_tls_mandatory_ciphers=high"
+            "-o" "smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1"
+            "-o" "smtpd_tls_cert_file=${cfg.submission.smtpd.tlsCertFile}"
+            "-o" "smtpd_tls_key_file=${submissionKeyFile}"
+            "-o" "smtpd_tls_ask_ccert=yes"
+            "-o" "smtpd_sasl_auth_enable=yes"
+            "-o" "smtpd_sasl_path=${cfg.submission.smtpd.saslPath}"
+            "-o" "smtpd_sasl_type=${cfg.submission.smtpd.saslType}"
+            "-o" "smtpd_sasl_security_options=noanonymous,noplaintext"
+            "-o" "smtpd_sasl_tls_security_options=noanonymous"
+            "-o" "smtpd_sasl_local_domain=$mydomain"
+            "-o" "smtpd_sasl_authenticated_header=yes"
+            "-o" "smtpd_client_restrictions=${smtpd_client_restrictions}"
+            "-o" "milter_macro_daemon_name=ORIGINATING"
+            "-o" "smtpd_sender_restrictions=reject_sender_login_mismatch"
+            "-o" "smtpd_sender_login_maps=pcre:${login_maps}"
+          ] ++ submission_cleanup_args;
         };
-      } else {});
+      in
+        (if cfg.submission.listenAddresses != [] then (
+          listToAttrs (map (ip:
+            { name = "[${ip}]:submission";
+              inherit value;
+            }
+          ) cfg.submission.listenAddresses))
+         else {
+           submission = value;
+         })
+        // {
+          smtp = {
+            args = [ "-o" "disable_mime_output_conversion=yes" ];
+          };
+          relay = {
+            command = "smtp";
+            args = [
+              "-o" "smtp_fallback_relay="
+              "-o" "disable_mime_output_conversion=yes"
+            ];
+          };
+        } // (if cfg.postscreen.enable then {
+          smtp_inet = mkForce {
+            name = "smtp";
+            type = "inet";
+            private = false;
+            maxproc = 1;
+            command = "postscreen";
+          };
+          smtpd_pass = {
+            name = "smtpd";
+            type = "pass";
+            command = "smtpd";
+          };
+          tlsproxy = {
+            name = "tlsproxy";
+            type = "unix";
+            command = "tlsproxy";
+            maxproc = 0;
+          };
+          dnsblog = {
+            name = "dnsblog";
+            type = "unix";
+            command = "dnsblog";
+            maxproc = 0;
+          };
+        } else {}) // (if cfg.submission.cleanup.headerChecks != null then {
+          submission_cleanup = {
+            private = false;
+            maxproc = 0;
+            command = "cleanup";
+            args = [
+              "-o" "header_checks=$submission_header_checks"
+              "-o" "syslog_name=postfix/submission"
+            ];
+          };
+        } else {});
     };
   };
 
