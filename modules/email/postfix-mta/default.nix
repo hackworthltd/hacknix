@@ -48,6 +48,7 @@ let
   acmeCertDir = config.security.acme.certs."${cfg.myHostname}".directory;
   acmeCertPublic = "${acmeCertDir}/fullchain.pem";
   acmeCertPrivate = "${acmeCertDir}/key.pem";
+  extraDomains = builtins.listToAttrs (builtins.map (name: { name = "${name}"; value = null; }) cfg.acmeExtraDomains);
 
   submissionKeyFile = config.hacknix.keychain.keys."sasl-tls-key".path;
 
@@ -98,6 +99,21 @@ in
         delivery. It should be the same as the name specified in your
         domains' published TXT records for SPF, assuming you use
         <literal>a:</literal> notation in your TXT SPF records.
+      '';
+    };
+
+    acmeExtraDomains = mkOption {
+      type = pkgs.lib.types.listOf pkgs.lib.types.nonEmptyStr;
+      example = "submission.example.com";
+      default = [];
+      description = ''
+        A list of domain names that this MTA also answers to (e.g.,
+        CNAMEs) for the purposes of acquiring ACME TLS certificates.
+
+        These names will not be used in the Postfix configuration;
+        they're merely here to give you a chance to ask the ACME
+        server for additional Common Names in the certificates that it
+        issues to the MTA host.
       '';
     };
 
@@ -687,6 +703,7 @@ in
     # domains to the ACME extraDomains.
 
     security.acme.certs."${cfg.myHostname}" = {
+      inherit extraDomains;
       webroot = acmeChallenge;
       email = "postmaster@${cfg.myDomain}";
       allowKeysForGroup = true;
