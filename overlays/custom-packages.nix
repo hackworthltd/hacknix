@@ -52,8 +52,6 @@ let
   # function exists.
   mkCacert = (callPackage ../pkgs/security/custom-cacert.nix);
 
-  ppp-devel = callPackage ../pkgs/networking/ppp-devel {};
-
   badhosts = callPackage ../pkgs/dns/badhosts {
     lib = super.lib;
     source = lib.fixedBadhosts;
@@ -109,7 +107,6 @@ in
   inherit micromdm;
   inherit nixops;
   inherit nmrpflash;
-  inherit ppp-devel;
   inherit terraform-provider-okta;
   inherit trimpcap;
   inherit tsoff;

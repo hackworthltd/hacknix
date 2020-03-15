@@ -16,8 +16,8 @@ mkDerivation {
   version = "0.1.0";
   src = fetchgit {
     url = "https://github.com/digital-asset/ghcide.git";
-    sha256 = "0lqn3bc2hmkns2r2a8ss8jp31mi0x5bsh83kz78bk26792m0xlma";
-    rev = "ff62fdd87de813573167419809273fe07893678d";
+    sha256 = "19m8jgqqgcarr991adxz5cnd2zixvy14v0ima5950jrd8h73nzcm";
+    rev = "c74e9b51f131df446c8e011ae79f3370c683f12b";
     fetchSubmodules = true;
   };
   isLibrary = true;
@@ -31,10 +31,10 @@ mkDerivation {
     time transformers unix unordered-containers utf8-string
   ];
   executableHaskellDepends = [
-    base base16-bytestring binary bytestring containers cryptohash-sha1
-    data-default deepseq directory extra filepath ghc ghc-paths gitrev
-    hashable haskell-lsp hie-bios hslogger optparse-applicative shake
-    text unordered-containers
+    aeson base base16-bytestring binary bytestring containers
+    cryptohash-sha1 data-default deepseq directory extra filepath ghc
+    ghc-paths gitrev hashable haskell-lsp haskell-lsp-types hie-bios
+    hslogger optparse-applicative shake text unordered-containers
   ];
   testHaskellDepends = [
     aeson base bytestring containers directory extra filepath ghc

@@ -301,7 +301,7 @@ let
   let
     paths =  [
         (hp.ghcWithHoogle packageList)
-        (all-hies.selection { selector = p: { inherit (p) ghc882; }; })
+        (all-hies.selection { selector = p: { inherit (p) ghc883; }; })
         (exeOnly hp.ghcide)
         (exeOnly hp.cabal-install)
         (exeOnly hp.hpack)

@@ -50,7 +50,6 @@ in
   inherit (self) nmrpflash;
   inherit (self) ntp;
   inherit (self) oauth2_proxy;
-  inherit (self) ppp-devel;
   inherit (self) radare2;
   inherit (self) saml2aws;
   inherit (self) terraform-provider-okta;

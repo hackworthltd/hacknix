@@ -66,7 +66,6 @@ let
     nmrpflash = all;
     ntp = linux;
     oauth2_proxy = all;
-    ppp-devel = linux;
     radare2 = all;
     saml2aws = all;
     terraform-provider-okta = all;
@@ -148,7 +147,6 @@ let
         nixops.x86_64-linux
         ntp.x86_64-linux
         oauth2_proxy.x86_64-linux
-        ppp-devel.x86_64-linux
         radare2.x86_64-linux
         saml2aws.x86_64-linux
         terraform-provider-okta.x86_64-linux
