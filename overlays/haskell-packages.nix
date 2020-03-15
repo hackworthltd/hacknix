@@ -46,6 +46,13 @@ let
 
   cachix = exeOnly (mkCachixPackages haskellPackages).cachix;
 
+  # ghcide.
+  mkGhcidePackages = hp: properExtend hp (self: super: {
+    ghcide = dontCheck (super.callPackage ../pkgs/haskell/ghcide {});
+  });
+
+  ghcide = hp: exeOnly (mkGhcidePackages hp).ghcide;
+
   # HIE.
   mkHIEPackages = hp: properExtend hp (self: super: {
     constrained-dynamic = doJailbreak super.constrained-dynamic;
@@ -312,7 +319,7 @@ let
     paths =  [
       (hp.ghcWithHoogle packageList)
       (haskell-ide-engine hp)
-      (exeOnly hp.ghcide)
+      (ghcide hp)
       (exeOnly hp.cabal-install)
       (exeOnly hp.hpack)
       (exeOnly hp.structured-haskell-mode)
