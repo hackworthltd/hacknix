@@ -29,7 +29,6 @@ let
     pipes-transduce = dontCheck super.pipes-transduce;
 
     Agda = dontCheck (super.callPackage ../pkgs/haskell/Agda {});
-    ghcide = dontCheck (super.callPackage ../pkgs/haskell/ghcide {});
     hnix = dontCheck (super.callPackage ../pkgs/haskell/hnix {});
     hnix-store-core = super.callPackage ../pkgs/haskell/hnix-store-core {};
     ip = super.callPackage ../pkgs/haskell/ip {};

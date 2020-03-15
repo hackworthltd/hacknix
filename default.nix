@@ -38,7 +38,6 @@ in
   inherit (self) ffmpeg-full;
   inherit (self) fsatrace;
   inherit (self) gawk_4_2_1;
-  inherit (self) ghcide;
   inherit (self) hydra;
   inherit (self) libprelude;
   inherit (self) libvmaf;
