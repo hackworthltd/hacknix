@@ -169,18 +169,5 @@
         "url": "https://github.com/articulate/terraform-provider-okta/archive/2440ba0a46d30e5f717494b9e74a72b51d831389.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
         "version": "3.0.38"
-    },
-    "terraform-provider-vultr": {
-        "branch": "master",
-        "description": "Terraform Vultr Provider",
-        "homepage": "",
-        "owner": "squat",
-        "repo": "terraform-provider-vultr",
-        "rev": "1616f3c28af1c3810c692e9e48cfee3a7c867060",
-        "sha256": "1rysny8ghnbg9q6ipgprqk7xxhr04667ia6p15cv25ivvxpk3as0",
-        "type": "tarball",
-        "url": "https://github.com/squat/terraform-provider-vultr/archive/1616f3c28af1c3810c692e9e48cfee3a7c867060.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
-        "version": "0.1.10"
     }
 }

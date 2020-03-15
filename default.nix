@@ -54,7 +54,6 @@ in
   inherit (self) radare2;
   inherit (self) saml2aws;
   inherit (self) terraform-provider-okta;
-  inherit (self) terraform-provider-vultr;
   inherit (self) trimpcap;
   inherit (self) tsoff;
   inherit (self) wpa_supplicant;

@@ -66,9 +66,6 @@ let
   terraform-provider-okta = callPackage ../pkgs/terraform/providers/okta {
     source = lib.sources.terraform-provider-okta;
   };
-  terraform-provider-vultr = callPackage ../pkgs/terraform/providers/vultr {
-    source = lib.sources.terraform-provider-vultr;
-  };
 
   hacknix-source = callPackage ../pkgs/hacknix-source { inherit (super) packageSource; };
 
@@ -114,7 +111,6 @@ in
   inherit nmrpflash;
   inherit ppp-devel;
   inherit terraform-provider-okta;
-  inherit terraform-provider-vultr;
   inherit trimpcap;
   inherit tsoff;
 }
