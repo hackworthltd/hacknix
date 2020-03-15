@@ -274,7 +274,7 @@ in {
     (lib.mkIf enabled {
 
       hacknix.assertions.moduleHashes."services/networking/freeradius.nix" =
-        "7eb867fd77729c3a050ec1e82cf9dbb142fbb8fe266c31b5ed23f97a432c4725";
+        "92331a400ab45fb307511a0bda9986b79e58e373bc6d048a1031782c20ae5c5a";
     
       networking.firewall.accept =
         (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v4) ++

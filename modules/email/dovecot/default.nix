@@ -574,7 +574,7 @@ in
   config = mkIf cfg.enable {
 
     hacknix.assertions.moduleHashes."services/mail/dovecot.nix" =
-      "085b87a7def8e05e170fdf658bf1b14ad5c48b4a30dc20bf07a7387283bb9301";
+      "95fb85fd51c6c09898f44499bde5ce1fd1e3c167b4e6f6529d5cf9d2cb3ffd10";
 
     security.pam.services.dovecot2 = mkIf cfg.enablePAM {};
 

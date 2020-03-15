@@ -233,7 +233,7 @@ in
   config = mkIf (cfg.interfaces != {}) {
 
     hacknix.assertions.moduleHashes."services/networking/wireguard.nix" =
-      "d894683e0e4b91ad8327adf56e6422afd058bd541efad8a116e9289a8884206c";
+      "f7c76defbdf729bbd6c9d46349eea81904cf02ddf1d5dde637bf032b591904f3";
 
     boot.extraModulePackages = [ kernel.wireguard ];
     environment.systemPackages = [ pkgs.wireguard-tools ];
