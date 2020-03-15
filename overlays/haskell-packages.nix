@@ -40,14 +40,28 @@ let
   # The current GHC.
   haskellPackages = mkHaskellPackages super.haskellPackages;
 
-  ghcide = exeOnly haskellPackages.ghcide;
-
   # cachix.
   mkCachixPackages = hp: properExtend hp (self: super: {
     cachix = (import localLib.fixedCachix);
   });
 
   cachix = exeOnly (mkCachixPackages haskellPackages).cachix;
+
+  # HIE.
+  mkHIEPackages = hp: properExtend hp (self: super: {
+    constrained-dynamic = doJailbreak super.constrained-dynamic;
+    floskell = dontCheck super.floskell;
+    hsimport = doJailbreak super.hsimport;
+    monad-dijkstra = dontCheck super.monad-dijkstra; # hlint failure
+    unliftio-core = super.unliftio-core_0_2_0_1;
+
+    haddock-api = super.callPackage ../pkgs/haskell/haddock-api {};
+    haddock-library = super.callPackage ../pkgs/haskell/haddock-library {};
+    haskell-ide-engine = dontCheck (super.callPackage ../pkgs/haskell/haskell-ide-engine {});
+    hie-plugin-api = super.callPackage ../pkgs/haskell/hie-plugin-api {};
+  });
+
+  haskell-ide-engine = hp: exeOnly (mkHIEPackages hp).haskell-ide-engine;
 
   ## Package sets that we want to be built.
 
@@ -290,9 +304,6 @@ let
   # set, minus any problematic packages.
   extensiveHaskellPackages = mkInstalledPackages extraList problems;
 
-  # haskell-ide-engine via all-hies.
-  inherit (localLib) all-hies;
-
   ## Create a buildEnv with useful Haskell tools and the given set of
   ## haskellPackages and a list of packages to install in the
   ## buildEnv.
@@ -300,14 +311,14 @@ let
   mkHaskellBuildEnv = name: hp: packageList:
   let
     paths =  [
-        (hp.ghcWithHoogle packageList)
-        (all-hies.selection { selector = p: { inherit (p) ghc883; }; })
-        (exeOnly hp.ghcide)
-        (exeOnly hp.cabal-install)
-        (exeOnly hp.hpack)
-        (exeOnly hp.structured-haskell-mode)
-        (exeOnly hp.stylish-haskell)
-        (exeOnly hp.brittany)
+      (hp.ghcWithHoogle packageList)
+      (haskell-ide-engine hp)
+      (exeOnly hp.ghcide)
+      (exeOnly hp.cabal-install)
+      (exeOnly hp.hpack)
+      (exeOnly hp.structured-haskell-mode)
+      (exeOnly hp.stylish-haskell)
+      (exeOnly hp.brittany)
     ];
   in
   super.buildEnv
@@ -351,14 +362,9 @@ in
   inherit haskell-env;
   inherit extensive-haskell-env;
 
-  ## haskell-ide-engine.
-
-  inherit all-hies;
-
 
   ## Executables only.
 
   inherit cachix;
   inherit darcs;
-  inherit ghcide;
 }

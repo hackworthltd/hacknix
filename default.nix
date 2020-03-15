@@ -70,7 +70,6 @@ in
   inherit (self) mkHaskellBuildEnv;
   inherit (self) haskell-env;
   inherit (self) extensive-haskell-env;
-  inherit (self) all-hies;
 
   inherit (self) haskell-nix;
 

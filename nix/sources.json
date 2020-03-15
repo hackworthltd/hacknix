@@ -1,16 +1,4 @@
 {
-    "all-hies": {
-        "branch": "master",
-        "description": "Cached Haskell IDE Engine Nix builds for all GHC versions",
-        "homepage": "",
-        "owner": "Infinisil",
-        "repo": "all-hies",
-        "rev": "4b6aab017cdf96a90641dc287437685675d598da",
-        "sha256": "0ap12mbzk97zmxk42fk8vqacyvpxk29r2wrnjqpx4m2w9g7gfdya",
-        "type": "tarball",
-        "url": "https://github.com/Infinisil/all-hies/archive/4b6aab017cdf96a90641dc287437685675d598da.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
     "aws-okta": {
         "branch": "d61d1b20b32c8a3bbc4e3b48ee0aee49599cc2a1",
         "description": "aws-vault like tool for Okta authentication",

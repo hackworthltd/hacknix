@@ -22,9 +22,6 @@ let
 
   fixedNixOps = lib.fetchers.fixedNixSrc "nixops" sources.nixops;
 
-  fixedAllHies = lib.fetchers.fixedNixSrc "all-hies" sources.all-hies;
-  all-hies = (import fixedAllHies) {};
-
   fixedLorri = lib.fetchers.fixedNixSrc "lorri" sources.lorri;
 
   fixedBadhosts = lib.fetchers.fixedNixSrc "badhosts" sources.badhosts;
@@ -75,7 +72,6 @@ in lib //
   inherit nixpkgs;
   inherit nix-darwin;
   inherit overlays;
-  inherit fixedAllHies all-hies;
   inherit fixedNixOps;
   inherit fixedLorri;
   inherit fixedBadhosts;
