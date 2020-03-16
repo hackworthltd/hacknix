@@ -54,10 +54,10 @@
         "homepage": null,
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "489c1dd9261510898304a183ecdbe9e0346e1057",
-        "sha256": "0dyzd8ah8mmfbbv0r0qpj288ki8lrdfyypqwyvh0r3nv79945x8v",
+        "rev": "f02151f90aebf29cc163d6139601ea3c07758adc",
+        "sha256": "09s21rl3zibh3cr3bhn9bfg0m3a5zrw26av4jhfs11idbf5n5nw1",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/489c1dd9261510898304a183ecdbe9e0346e1057.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/f02151f90aebf29cc163d6139601ea3c07758adc.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "haskell-nix": {
