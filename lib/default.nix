@@ -28,15 +28,12 @@ let
 
   fixedCachix = lib.fetchers.fixedNixSrc "cachix" sources.cachix;
 
-  fixedHaskellNix = lib.fetchers.fixedNixSrc "haskell-nix" sources.haskell-nix;
-
   overlays = [
     hacknix-lib.overlays.all
   ] ++ (map import [
     ../overlays/custom-packages.nix
     ../overlays/emacs.nix
     ../overlays/haskell-packages.nix
-    ../overlays/haskell-nix.nix
     ../overlays/lib/hacknix.nix
     ../overlays/lib/types.nix
     ../overlays/overrides.nix
@@ -76,7 +73,6 @@ in lib //
   inherit fixedLorri;
   inherit fixedBadhosts;
   inherit fixedCachix;
-  inherit fixedHaskellNix;
 
   inherit sources;
 

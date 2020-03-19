@@ -70,8 +70,6 @@ in
   inherit (self) haskell-env;
   inherit (self) extensive-haskell-env;
 
-  inherit (self) haskell-nix;
-
   inherit (self) hyperkit;
   inherit (self) minikube;
 

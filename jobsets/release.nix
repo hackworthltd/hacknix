@@ -84,10 +84,6 @@ let
     haskell-env = all;
     extensive-haskell-env = x86_64;
 
-    haskell-nix = {
-      ghc883 = all;
-    };
-
     python-env = all;
 
     anki-env = darwin;
@@ -241,16 +237,6 @@ let
       constituents = with jobs; [
         examples.nix-darwin.build-host.system.x86_64-darwin
         examples.nix-darwin.remote-builder.system.x86_64-darwin
-      ];
-    };
-
-    haskell-nix-support = pkgs.releaseTools.aggregate {
-      name = "haskell-nix-support";
-      meta.description = "haskell.nix support";
-      meta.maintainer = lib.maintainers.dhess;
-      constituents = with jobs; [
-        haskell-nix.ghc883.x86_64-darwin
-        haskell-nix.ghc883.x86_64-linux
       ];
     };
   });

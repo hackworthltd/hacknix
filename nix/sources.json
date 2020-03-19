@@ -60,19 +60,6 @@
         "url": "https://github.com/hackworthltd/hacknix-lib/archive/f02151f90aebf29cc163d6139601ea3c07758adc.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
-    "haskell-nix": {
-        "branch": "3cf6c30386588f35e57715af01b83a6756443382",
-        "description": "Alternative Haskell Infrastructure for Nixpkgs",
-        "homepage": "https://input-output-hk.github.io/haskell.nix",
-        "owner": "input-output-hk",
-        "repo": "haskell.nix",
-        "rev": "3cf6c30386588f35e57715af01b83a6756443382",
-        "sha256": "01sp0bkd1mr1rfy83pkbwzgm08n5822735hlnc4w6z4rnbnr1hyl",
-        "type": "tarball",
-        "url": "https://github.com/input-output-hk/haskell.nix/archive/3cf6c30386588f35e57715af01b83a6756443382.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
-        "version": "64a27464a7a59901f011971df5716c05aab9bd58"
-    },
     "lorri": {
         "branch": "master",
         "description": "Your project's nix-env",
