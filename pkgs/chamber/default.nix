@@ -11,7 +11,7 @@ let
 in
 buildGoModule rec {
   pname = "chamber";
-  version = "2.7.5";
+  version = "2.8.0";
 
   goPackagePath = "github.com/${source.owner}/${source.repo}";
   modSha256 = "0l9wjvlkkqyjjh949av041iwxsni4d3ypp2kf9iqfpi9l7kwf3nn";
