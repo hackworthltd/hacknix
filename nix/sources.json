@@ -18,10 +18,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "6480c7f3c98af04fe8b593c4ab4ae2970a0d1ecb",
-        "sha256": "19m8a0wgfzcjik0wq9bak7lns08sakg5zmjvpidnx03sf4pgmv19",
+        "rev": "bae9bb27c005b27cf279167f776afa6ba290b15e",
+        "sha256": "1f95z3bvd4xr10a4dsxv6mbikys74vlkfzafikvm4mdcgggbwz18",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/6480c7f3c98af04fe8b593c4ab4ae2970a0d1ecb.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/bae9bb27c005b27cf279167f776afa6ba290b15e.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -30,22 +30,22 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "f7851303552f0ee63c5aa3c12b490f940add3ce3",
-        "sha256": "143jz2lrz93gldaldxkv2mgg8dcbb455ascikb9n29scg6q0vdyx",
+        "rev": "267c1173b0c743f8cefe442f381fc7989736135f",
+        "sha256": "07b19acram02icg21hyy9ai6082z41l8cv2w84im152641d1ap4j",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/f7851303552f0ee63c5aa3c12b490f940add3ce3.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/267c1173b0c743f8cefe442f381fc7989736135f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
-        "branch": "v2.7.5",
+        "branch": "v2.8.0",
         "description": "CLI for managing secrets",
         "homepage": null,
         "owner": "segmentio",
         "repo": "chamber",
-        "rev": "72a39a7787ae7f021cd52cdf9b087730435c78ee",
-        "sha256": "0cdbq7r6ndfba259mxlig5cp08bmc502gazkd7j28ad6hqzwghqh",
+        "rev": "233c6c10ce75f00d057ec17a05f86905e26c0868",
+        "sha256": "142pxxjc2kz2yhqbqgr03rs8lmixb181izkax6hphk867gchf9q2",
         "type": "tarball",
-        "url": "https://github.com/segmentio/chamber/archive/72a39a7787ae7f021cd52cdf9b087730435c78ee.tar.gz",
+        "url": "https://github.com/segmentio/chamber/archive/233c6c10ce75f00d057ec17a05f86905e26c0868.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hacknix-lib": {
@@ -66,10 +66,22 @@
         "homepage": "",
         "owner": "target",
         "repo": "lorri",
-        "rev": "74f36eae976425ecf51e451c222d75aca8a3e65c",
-        "sha256": "0qd4chxgkfcyhnc9535k657s2cfw793xzh98dzmy8gh5ww79wnny",
+        "rev": "13354036ce2161d21da91e07337814e2a9fa734b",
+        "sha256": "1rqjknk1iywwq0npwqnfkvg565wmaf5742aly97giid9jadb1r6c",
         "type": "tarball",
-        "url": "https://github.com/target/lorri/archive/74f36eae976425ecf51e451c222d75aca8a3e65c.tar.gz",
+        "url": "https://github.com/target/lorri/archive/13354036ce2161d21da91e07337814e2a9fa734b.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "minikube": {
+        "branch": "v1.9.0-beta.2",
+        "description": "Run Kubernetes locally",
+        "homepage": "https://minikube.sigs.k8s.io/",
+        "owner": "kubernetes",
+        "repo": "minikube",
+        "rev": "559556401554be76eca384b7878e31a7217c4028",
+        "sha256": "0vwg29i1i73qia025y4dzcdnw9kfhzfpkdwkgfx7lscssnpv9yx3",
+        "type": "tarball",
+        "url": "https://github.com/kubernetes/minikube/archive/559556401554be76eca384b7878e31a7217c4028.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
@@ -90,10 +102,10 @@
         "homepage": "",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "1ffae69c561c67087f5023aa8b6b3dcc6078b04d",
-        "sha256": "0bn35dxqx02fbp0q10p6czfjmlbsdacyx2k6jrd8yrszkcn132bn",
+        "rev": "073935fb9994ccfaa30b658ace9feda2f8bbafee",
+        "sha256": "1wysl0rmwjf22wzvy18kz70j4mbvljhyn9rvklrnv840j3prsfm2",
         "type": "tarball",
-        "url": "https://github.com/LnL7/nix-darwin/archive/1ffae69c561c67087f5023aa8b6b3dcc6078b04d.tar.gz",
+        "url": "https://github.com/LnL7/nix-darwin/archive/073935fb9994ccfaa30b658ace9feda2f8bbafee.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
@@ -114,10 +126,22 @@
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "nixos",
         "repo": "nixpkgs-channels",
-        "rev": "13e7a3e11272159b9b1fc41ec67f53c1088412ff",
-        "sha256": "1d6byw99i4wjwdz501r6b12i8nifwl86gjd43cjvg8f2d78fazpg",
+        "rev": "9b3515eb95d9b3bc033f43cd562fe2b14f9efd86",
+        "sha256": "1gc1hc30cqymkrrw4nj545md6h5dr9cpjf10vh080wwf5ybaggcl",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs-channels/archive/13e7a3e11272159b9b1fc41ec67f53c1088412ff.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/9b3515eb95d9b3bc033f43cd562fe2b14f9efd86.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "saml2aws": {
+        "branch": "v2.25.0",
+        "description": "CLI tool which enables you to login and retrieve AWS temporary credentials using a SAML IDP",
+        "homepage": "https://github.com/Versent/saml2aws",
+        "owner": "Versent",
+        "repo": "saml2aws",
+        "rev": "96998410abc0c1b0454b47dee3b703b104480575",
+        "sha256": "12aidylamrq4rvy2cfdz669lr1p20yqrshigcc5x1hrlhh9y64xc",
+        "type": "tarball",
+        "url": "https://github.com/Versent/saml2aws/archive/96998410abc0c1b0454b47dee3b703b104480575.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "terraform-provider-okta": {
@@ -126,10 +150,10 @@
         "homepage": null,
         "owner": "articulate",
         "repo": "terraform-provider-okta",
-        "rev": "2440ba0a46d30e5f717494b9e74a72b51d831389",
-        "sha256": "082cp93c7vdnkfsfrwrk940ck9lqrrh14shrvnvi5barrx8b25nq",
+        "rev": "0e12accff2cf79f742048cb5dc6aa5c26b1a3d6a",
+        "sha256": "00lp3n2s74la20rly4b0ajr7hryjgrkxlaz6qbcw5wl610qvha8x",
         "type": "tarball",
-        "url": "https://github.com/articulate/terraform-provider-okta/archive/2440ba0a46d30e5f717494b9e74a72b51d831389.tar.gz",
+        "url": "https://github.com/articulate/terraform-provider-okta/archive/0e12accff2cf79f742048cb5dc6aa5c26b1a3d6a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
         "version": "3.0.38"
     }

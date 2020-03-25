@@ -73,11 +73,12 @@ let
     inherit (super.darwin) libobjc dtrace;
   };
 
-  chamber = callPackage ../pkgs/chamber {};
+  chamber = callPackage ../pkgs/chamber {
+    source = lib.sources.chamber;
+    inherit (super.darwin.apple_sdk.frameworks) Security;
+  };
 
   nmrpflash = callPackage ../pkgs/nmrpflash {};
-
-  micromdm = callPackage ../pkgs/micromdm {};
 
   # A helper script for rebuilding nix-darwin systems.
   macnix-rebuild = callPackage ../pkgs/macnix-rebuild {};
@@ -104,7 +105,6 @@ in
   inherit lorri;
   inherit macnix-rebuild;
   inherit mkCacert;
-  inherit micromdm;
   inherit nixops;
   inherit nmrpflash;
   inherit terraform-provider-okta;

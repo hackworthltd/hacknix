@@ -1,6 +1,8 @@
-{ lib
+{ stdenv
+, lib
 , buildGoModule
 , fetchFromGitHub
+, Security
 }:
 
 buildGoModule rec {
@@ -16,6 +18,8 @@ buildGoModule rec {
     rev = "v${version}";
     sha256 = "07qacg95mbh94fv64y577zyr4vk986syf8h5l8lbcmpr0zcfk0pd";
   };
+
+  buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     homepage = https://cfssl.org/;

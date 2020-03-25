@@ -1,6 +1,8 @@
-{ lib
+{ stdenv
+, lib
 , buildGoModule
 , fetchFromGitHub
+, Security
 }:
 
 buildGoModule rec {
@@ -16,6 +18,8 @@ buildGoModule rec {
     sha256 = "0kd09pjcwxhb2dpscg0h7gca5klml4i3gm8ywq455kln9kpn1w2j";
     rev = "9670f54dd00fd75ffd0fb765f8fd60aa64c1fabd";
   };
+
+  buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = "A reverse proxy that provides authentication with Google, Github or other provider";

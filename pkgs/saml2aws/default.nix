@@ -1,22 +1,26 @@
-{ stdenv
+{ source
+, stdenv
 , lib  
 , buildGoModule
-, fetchFromGitHub }:
+, fetchFromGitHub
+, libobjc
+, Foundation
+, IOKit
+}:
 
 buildGoModule rec {
   pname = "saml2aws";
-  version = "2.22.1";
+  version = "2.25.0";
 
   src = fetchFromGitHub {
-    owner = "Versent";
-    repo = "saml2aws";
-    rev = "v${version}";
-    sha256 = "1i06h7jv49vr3b778x1rln72i5jcyn62yxfi3h101i1l10hx9gl1";
+    inherit (source) repo owner sha256 rev;
   };
 
-  modSha256 = "0qxf2i06spjig3ynixh3xmbxpghh222jhfqcg71i4i79x4ycp5wx";
+  modSha256 = "1kcj5065yy52p1jy4fad5lsz3y4spqc40k1qsirm53qqixhrhvag";
 
   subPackages = [ "." "cmd/saml2aws" ];
+
+  buildInputs = stdenv.lib.optionals stdenv.isDarwin [ libobjc Foundation IOKit ];
 
   buildFlagsArray = ''
     -ldflags=-X main.Version=${version}

@@ -16,7 +16,6 @@ let
 in
 {
   inherit (self) aws-okta;
-  inherit (self) aws-vault;
 
   inherit (self) badhosts-unified;
   inherit (self) badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social;
@@ -44,7 +43,6 @@ in
   inherit (self) lorri;
   inherit (self) macnix-rebuild;
   inherit (self) mkCacert;
-  inherit (self) micromdm;
   inherit (self) nixops;
   inherit (self) nmrpflash;
   inherit (self) ntp;

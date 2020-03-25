@@ -1,4 +1,5 @@
-{ stdenv
+{ source
+, stdenv
 , lib  
 , buildGoModule
 , fetchFromGitHub
@@ -9,7 +10,11 @@
 , libvirt
 , qemu
 , gpgme
+, Foundation
+, Security
+, libobjc
 , vmnet
+, xpc
 , hyperkit
 , extraDrivers ? []
 }:
@@ -25,25 +30,21 @@ let
 in
 buildGoModule rec {
   pname   = "minikube";
-  rev     = "7969c25a98a018b94ea87d949350f3271e9d64b6";
-  version = "1.4.0";
+  version = "1.9.0-beta.2";
 
   goPackagePath = "k8s.io/minikube";
   subPackages   = [ "cmd/minikube" ]
                   ++ stdenv.lib.optional stdenv.hostPlatform.isLinux "cmd/drivers/kvm"
                   ++ stdenv.lib.optional stdenv.hostPlatform.isDarwin "cmd/drivers/hyperkit";
-  modSha256     = "0vkzlhjlc8qwzk813c8rj0yan1ripbbziq78kiigiaszjwhs1rza";
+  modSha256     = "0p8cq43s1k5d5azl24xlli93bfzki41mfpyfh6v1dyakng7a2rd9";
 
   src = fetchFromGitHub {
-    inherit rev;
-    owner  = "kubernetes";
-    repo   = "minikube";
-    sha256 = "1wq0qhv2zlj3ndrv3ppp2hzb076kwni3mlr9j5jy04zdjxx705rs";
+    inherit (source) repo owner sha256 rev;
   };
 
   nativeBuildInputs = [ pkgconfig go-bindata makeWrapper ];
   buildInputs = [ gpgme ] ++ stdenv.lib.optionals stdenv.isLinux [ libvirt ]
-    ++ stdenv.lib.optionals stdenv.isDarwin [ vmnet ];
+    ++ stdenv.lib.optionals stdenv.isDarwin [ Foundation Security libobjc vmnet ];
 
   postPatch = ''
     substituteInPlace pkg/minikube/command/exec_runner.go \
@@ -63,11 +64,11 @@ buildGoModule rec {
       -X ${goPackagePath}/pkg/version.version=v${version} \
       -X ${goPackagePath}/pkg/version.isoVersion=$ISO_VERSION \
       -X ${goPackagePath}/pkg/version.isoPath=$ISO_BUCKET \
-      -X ${goPackagePath}/pkg/version.gitCommitID=${rev} \
+      -X ${goPackagePath}/pkg/version.gitCommitID=${source.rev} \
       -X ${goPackagePath}/pkg/drivers/kvm.version=v${version} \
-      -X ${goPackagePath}/pkg/drivers/kvm.gitCommitID=${rev} \
+      -X ${goPackagePath}/pkg/drivers/kvm.gitCommitID=${source.rev} \
       -X ${goPackagePath}/pkg/drivers/hyperkit.version=v${version} \
-      -X ${goPackagePath}/pkg/drivers/hyperkit.gitCommitID=${rev}"
+      -X ${goPackagePath}/pkg/drivers/hyperkit.gitCommitID=${source.rev}"
   '';
 
   postInstall = ''

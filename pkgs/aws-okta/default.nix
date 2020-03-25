@@ -5,6 +5,7 @@
 , libiconv
 , libusb1
 , pkgconfig
+, Security
 }:
 
 buildGoModule rec {
@@ -19,7 +20,8 @@ buildGoModule rec {
   buildFlags = "--tags release";
 
   nativeBuildInputs = [ pkgconfig ];
-  buildInputs = [ libusb1 libiconv ];
+  buildInputs =
+    [ libusb1 libiconv ] ++ stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = "aws-vault like tool for Okta authentication";

@@ -1,12 +1,12 @@
-{ lib
+{ source
+, stdenv
+, lib
 , buildGoModule
 , fetchFromGitHub
+, Security
 }:
 
 let
-
-  localLib = import ../../lib;
-  source = localLib.sources.chamber;
 
 in
 buildGoModule rec {
@@ -19,6 +19,8 @@ buildGoModule rec {
   src = fetchFromGitHub {
     inherit (source) repo owner sha256 rev;
   };
+
+  buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = source.description;
