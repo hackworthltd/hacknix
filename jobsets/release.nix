@@ -26,6 +26,7 @@ let
 
   jobs = (mapTestOn (rec {
     aws-okta = all;
+    aws-vault = all;
 
     badhosts-unified = all;
     badhosts-fakenews = all;
@@ -104,6 +105,7 @@ let
       meta.maintainer = lib.maintainers.dhess;
       constituents = with jobs; [
         aws-okta.x86_64-linux
+        aws-vault.x86_64-linux
 
         badhosts-unified.x86_64-linux
         badhosts-fakenews.x86_64-linux
@@ -169,6 +171,7 @@ let
       meta.maintainer = lib.maintainers.dhess;
       constituents = with jobs; [
         aws-okta.x86_64-darwin
+        aws-vault.x86_64-darwin
 
         badhosts-unified.x86_64-darwin
         badhosts-fakenews.x86_64-darwin

@@ -26,6 +26,11 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
 
+  # Upstream is broken on macOS.
+  aws-vault = callPackage ../pkgs/aws-vault {
+    inherit (super.darwin.apple_sdk.frameworks) Security;
+  };
+
   # Upstream is out of date.
   oauth2_proxy = callPackage ../pkgs/oauth2_proxy {
     inherit (super.darwin.apple_sdk.frameworks) Security;
@@ -89,6 +94,7 @@ in
   };
 
   inherit aws-okta;
+  inherit aws-vault;
   inherit cfssl;
   inherit fsatrace;
   inherit libvmaf;
