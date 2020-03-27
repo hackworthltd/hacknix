@@ -18,10 +18,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "bae9bb27c005b27cf279167f776afa6ba290b15e",
-        "sha256": "1f95z3bvd4xr10a4dsxv6mbikys74vlkfzafikvm4mdcgggbwz18",
+        "rev": "4c36cad8eb3ad99d7c7d8fceaf551b82c4704d0e",
+        "sha256": "0qk35f7vihy3j88g3yw8bxz0bj81j02dn7yzxfzp7714z0zi07gc",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/bae9bb27c005b27cf279167f776afa6ba290b15e.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/4c36cad8eb3ad99d7c7d8fceaf551b82c4704d0e.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -54,10 +54,10 @@
         "homepage": null,
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "f02151f90aebf29cc163d6139601ea3c07758adc",
-        "sha256": "09s21rl3zibh3cr3bhn9bfg0m3a5zrw26av4jhfs11idbf5n5nw1",
+        "rev": "58f2c4567cf77533161e528381ed9d2c22530be6",
+        "sha256": "1kryxjirm5cyyqxmxzqbwwyl3b7mhwrkwv227whkzxc0cbig4jw6",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/f02151f90aebf29cc163d6139601ea3c07758adc.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/58f2c4567cf77533161e528381ed9d2c22530be6.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "lorri": {
@@ -90,10 +90,10 @@
         "homepage": "https://github.com/nmattia/niv",
         "owner": "nmattia",
         "repo": "niv",
-        "rev": "98c74a80934123cb4c3bf3314567f67311eb711a",
-        "sha256": "1w8n54hapd4x9f1am33icvngkqns7m3hl9yair38yqq08ffwg0kn",
+        "rev": "372f96bff217a7a019de27667d04118cffa9841b",
+        "sha256": "1l0z6162zw60pdcdj03aq64qgf1vyzmf24i9pxca64i4sprl1b7p",
         "type": "tarball",
-        "url": "https://github.com/nmattia/niv/archive/98c74a80934123cb4c3bf3314567f67311eb711a.tar.gz",
+        "url": "https://github.com/nmattia/niv/archive/372f96bff217a7a019de27667d04118cffa9841b.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nix-darwin": {
@@ -126,10 +126,10 @@
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "nixos",
         "repo": "nixpkgs-channels",
-        "rev": "9b3515eb95d9b3bc033f43cd562fe2b14f9efd86",
-        "sha256": "1gc1hc30cqymkrrw4nj545md6h5dr9cpjf10vh080wwf5ybaggcl",
+        "rev": "4a3f9aced7ff35ff8cd7e021a542121a66396586",
+        "sha256": "0jhx75jv4m9nrhandbvi41shpv3sbqgaqrh6az8fhfybw6b5w7ip",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs-channels/archive/9b3515eb95d9b3bc033f43cd562fe2b14f9efd86.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/4a3f9aced7ff35ff8cd7e021a542121a66396586.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "saml2aws": {
