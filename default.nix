@@ -63,11 +63,6 @@ in
   inherit (self) emacs-env emacs-nox-env emacs-macport-env;
 
   inherit (self) haskellPackages;
-  inherit (self) coreHaskellPackages;
-  inherit (self) extensiveHaskellPackages;
-  inherit (self) mkHaskellBuildEnv;
-  inherit (self) haskell-env;
-  inherit (self) extensive-haskell-env;
 
   inherit (self) hyperkit;
   inherit (self) minikube;

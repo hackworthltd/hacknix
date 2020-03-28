@@ -80,9 +80,6 @@ let
     hyperkit = darwin;
     minikube = all;
 
-    haskell-env = all;
-    extensive-haskell-env = x86_64;
-
     python-env = all;
 
     anki-env = darwin;
@@ -148,8 +145,6 @@ let
         wpa_supplicant.x86_64-linux
 
         emacs-nox-env.x86_64-linux
-        haskell-env.x86_64-linux
-        extensive-haskell-env.x86_64-linux
 
         minikube.x86_64-linux
 
@@ -208,8 +203,6 @@ let
 
         emacs-env.x86_64-darwin
         emacs-macport-env.x86_64-darwin
-        haskell-env.x86_64-darwin
-        extensive-haskell-env.x86_64-darwin
 
         hyperkit.x86_64-darwin
         minikube.x86_64-darwin
