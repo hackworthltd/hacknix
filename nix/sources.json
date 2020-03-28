@@ -114,10 +114,10 @@
         "homepage": "https://nixos.org/nixops",
         "owner": "dhess",
         "repo": "nixops",
-        "rev": "9746d9f75d86ab16badf57ed134ebc9d55b8dcbe",
-        "sha256": "0rh3yajc5z3nq5dl6c7qmg11q70cyikix4g726wlq60binm9lvvs",
+        "rev": "49c8e15d3191774f83ca3196528be0df2e834719",
+        "sha256": "12g7bspcz7p2wgmmhlds109iy3va6pnbasz4l09sdfbs115dh3yj",
         "type": "tarball",
-        "url": "https://github.com/dhess/nixops/archive/9746d9f75d86ab16badf57ed134ebc9d55b8dcbe.tar.gz",
+        "url": "https://github.com/dhess/nixops/archive/49c8e15d3191774f83ca3196528be0df2e834719.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-unstable": {
