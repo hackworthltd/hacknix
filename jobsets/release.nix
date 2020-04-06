@@ -59,6 +59,7 @@ let
     libvmaf = x86_64;
     lorri = all;
     macnix-rebuild = darwin;
+    neovim = all;
     netsniff-ng = x86_64_linux;
     nixops = x86_64;
     nmrpflash = all;
@@ -133,6 +134,7 @@ let
         libprelude.x86_64-linux
         libvmaf.x86_64-linux
         lorri.x86_64-linux
+        neovim.x86_64-linux
         netsniff-ng.x86_64-linux
         nixops.x86_64-linux
         ntp.x86_64-linux
@@ -196,6 +198,7 @@ let
         libvmaf.x86_64-darwin
         lorri.x86_64-darwin
         macnix-rebuild.x86_64-darwin
+        neovim.x86_64-darwin
         nixops.x86_64-darwin
         radare2.x86_64-darwin
         saml2aws.x86_64-darwin

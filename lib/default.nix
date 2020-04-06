@@ -14,7 +14,9 @@ let
   inherit (hacknix-lib) lib;
   inherit (lib.fetchers) fixedNixSrc;
 
-  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
+  #fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
+  # Temporary workaround for neovim.
+  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.hackworthltd-nixpkgs;
   nixpkgs = import fixedNixpkgs;
 
   fixedNixDarwin = lib.fetchers.fixedNixSrc "nix_darwin" sources.nix-darwin;

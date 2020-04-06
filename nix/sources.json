@@ -60,6 +60,18 @@
         "url": "https://github.com/hackworthltd/hacknix-lib/archive/58f2c4567cf77533161e528381ed9d2c22530be6.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "hackworthltd-nixpkgs": {
+        "branch": "fix-neovim",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "hackworthltd",
+        "repo": "nixpkgs",
+        "rev": "bed3b0530f100f2f9faba785c60fdd73f0945dbe",
+        "sha256": "0c2ixhr3arq679fa6p7a58h8pd4l4ckin9g959yngrwz8d8wnjlh",
+        "type": "tarball",
+        "url": "https://github.com/hackworthltd/nixpkgs/archive/bed3b0530f100f2f9faba785c60fdd73f0945dbe.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "lorri": {
         "branch": "master",
         "description": "Your project's nix-env",

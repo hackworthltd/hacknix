@@ -44,6 +44,7 @@ in
   inherit (self) lorri;
   inherit (self) macnix-rebuild;
   inherit (self) mkCacert;
+  inherit (self) neovim;
   inherit (self) nixops;
   inherit (self) nmrpflash;
   inherit (self) ntp;
