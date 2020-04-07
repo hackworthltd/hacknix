@@ -75,6 +75,7 @@ let
     paths = with super; [
       cabal2nix
       cachix
+      direnv
       hydra-cli
       lorri
       niv
@@ -97,7 +98,6 @@ let
     name = "shell-env";
     paths = with super; [
       coreutils
-      direnv
       gitAndTools.git-crypt
       gitAndTools.git-extras
       gitAndTools.git-secrets
@@ -106,7 +106,6 @@ let
       gnused
       htop
       keybase
-      mosh
       pwgen
       ripgrep
       speedtest-cli
