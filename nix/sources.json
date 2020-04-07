@@ -48,6 +48,18 @@
         "url": "https://github.com/segmentio/chamber/archive/233c6c10ce75f00d057ec17a05f86905e26c0868.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "gitignore.nix": {
+        "branch": "master",
+        "description": "Nix function for filtering local git sources",
+        "homepage": "",
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "2ced4519f865341adcb143c5d668f955a2cb997f",
+        "sha256": "0fc5bgv9syfcblp23y05kkfnpgh3gssz6vn24frs8dzw39algk2z",
+        "type": "tarball",
+        "url": "https://github.com/hercules-ci/gitignore.nix/archive/2ced4519f865341adcb143c5d668f955a2cb997f.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "hacknix-lib": {
         "branch": "master",
         "description": "A library of useful Nix functions and types",

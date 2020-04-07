@@ -30,6 +30,8 @@ let
 
   fixedCachix = lib.fetchers.fixedNixSrc "cachix" sources.cachix;
 
+  fixedGitignoreNix = lib.fetchers.fixedNixSrc "gitignore.nix" sources."gitignore.nix";
+
   overlays = [
     hacknix-lib.overlays.all
   ] ++ (map import [
@@ -75,6 +77,7 @@ in lib //
   inherit fixedLorri;
   inherit fixedBadhosts;
   inherit fixedCachix;
+  inherit fixedGitignoreNix;
 
   inherit sources;
 

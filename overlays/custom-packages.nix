@@ -83,6 +83,8 @@ let
   # A helper script for rebuilding nix-darwin systems.
   macnix-rebuild = callPackage ../pkgs/macnix-rebuild {};
 
+  gitignoreSrc = (import lib.fixedGitignoreNix) { inherit (super) lib; };
+
 in
 {
   inherit (badhosts) badhosts-unified;
@@ -95,6 +97,8 @@ in
   inherit (badhosts) badhosts-gambling-nsfw-social;
   inherit (badhosts) badhosts-fakenews-gambling-nsfw-social;
   inherit (badhosts) badhosts-all;
+
+  inherit (gitignoreSrc) gitignoreSource gitignoreFilter;
 
   inherit ccextractor;
   inherit chamber;
