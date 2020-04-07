@@ -54,10 +54,10 @@
         "homepage": null,
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "f9d8703fb31068d716e4f90e976f30f0490cec9c",
-        "sha256": "1la43v4bv014r0rnb2h71jhvd2m103lvagr5505lwzz59qzykl29",
+        "rev": "c93e1b73010af6879fe3194f2083d6bb7abdda91",
+        "sha256": "1v29wpyi60z7wdn1brq73i9dq989gnn7w59qrqfs26gsjkd7ppbm",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/f9d8703fb31068d716e4f90e976f30f0490cec9c.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/c93e1b73010af6879fe3194f2083d6bb7abdda91.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hackworthltd-nixpkgs": {
