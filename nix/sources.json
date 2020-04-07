@@ -18,10 +18,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "7c1d988db6c8db02c3684b77cc871ed355dff69c",
-        "sha256": "0kvcc54q72rhrbfjc2fznfxmx2ygkgb89y5cifcg2zz7valclq3n",
+        "rev": "303a3eb63d7276a0d185d766f1cba72a2edb635e",
+        "sha256": "0n4m5165hv015jy792dfjm7n290wa1xps0s8qcqh0drh2mg7czmw",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/7c1d988db6c8db02c3684b77cc871ed355dff69c.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/303a3eb63d7276a0d185d766f1cba72a2edb635e.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -30,10 +30,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "267c1173b0c743f8cefe442f381fc7989736135f",
-        "sha256": "07b19acram02icg21hyy9ai6082z41l8cv2w84im152641d1ap4j",
+        "rev": "b19af3300db0e91d0277d626cfce4371f339a444",
+        "sha256": "1rpl7a86vnhsycvk5blnf6mlhv75ani5hqcbq0ih7ci9s2dsmhg8",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/267c1173b0c743f8cefe442f381fc7989736135f.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/b19af3300db0e91d0277d626cfce4371f339a444.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -54,10 +54,10 @@
         "homepage": null,
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "58f2c4567cf77533161e528381ed9d2c22530be6",
-        "sha256": "1kryxjirm5cyyqxmxzqbwwyl3b7mhwrkwv227whkzxc0cbig4jw6",
+        "rev": "f9d8703fb31068d716e4f90e976f30f0490cec9c",
+        "sha256": "1la43v4bv014r0rnb2h71jhvd2m103lvagr5505lwzz59qzykl29",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/58f2c4567cf77533161e528381ed9d2c22530be6.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/f9d8703fb31068d716e4f90e976f30f0490cec9c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hackworthltd-nixpkgs": {
@@ -78,10 +78,10 @@
         "homepage": "",
         "owner": "target",
         "repo": "lorri",
-        "rev": "13354036ce2161d21da91e07337814e2a9fa734b",
-        "sha256": "1rqjknk1iywwq0npwqnfkvg565wmaf5742aly97giid9jadb1r6c",
+        "rev": "cb966b0d4ab7f4b5861d79a19822eca6b6a50e82",
+        "sha256": "1q01cjmvd1shxlwzjsi4gzdn0sx5a132bqql3xksbnhaj7ka6j3f",
         "type": "tarball",
-        "url": "https://github.com/target/lorri/archive/13354036ce2161d21da91e07337814e2a9fa734b.tar.gz",
+        "url": "https://github.com/target/lorri/archive/cb966b0d4ab7f4b5861d79a19822eca6b6a50e82.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "minikube": {
@@ -102,10 +102,10 @@
         "homepage": "https://github.com/nmattia/niv",
         "owner": "nmattia",
         "repo": "niv",
-        "rev": "372f96bff217a7a019de27667d04118cffa9841b",
-        "sha256": "1l0z6162zw60pdcdj03aq64qgf1vyzmf24i9pxca64i4sprl1b7p",
+        "rev": "f73bf8d584148677b01859677a63191c31911eae",
+        "sha256": "0jlmrx633jvqrqlyhlzpvdrnim128gc81q5psz2lpp2af8p8q9qs",
         "type": "tarball",
-        "url": "https://github.com/nmattia/niv/archive/372f96bff217a7a019de27667d04118cffa9841b.tar.gz",
+        "url": "https://github.com/nmattia/niv/archive/f73bf8d584148677b01859677a63191c31911eae.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nix-darwin": {
@@ -114,10 +114,10 @@
         "homepage": "",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "e44188bf4c1b1ea1a85deb299847c95a277e7204",
-        "sha256": "0hpqbaws0mx04vjzc08cy1954q70y6hnaix4yc2qcf5qv49yc7w8",
+        "rev": "053f2cb9cb0ce7ceb4933cbd76e2d28713ad85da",
+        "sha256": "04m9id1gzq0k7n5rkrds6y6r0mmhhsci3aqwhj3i691kx0sf09ia",
         "type": "tarball",
-        "url": "https://github.com/LnL7/nix-darwin/archive/e44188bf4c1b1ea1a85deb299847c95a277e7204.tar.gz",
+        "url": "https://github.com/LnL7/nix-darwin/archive/053f2cb9cb0ce7ceb4933cbd76e2d28713ad85da.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
