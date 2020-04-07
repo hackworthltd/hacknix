@@ -29,6 +29,7 @@ in
   inherit (self) badhosts-fakenews-gambling-nsfw-social;
   inherit (self) badhosts-all;
 
+  inherit (self) cabal-fmt;
   inherit (self) cachix;
   inherit (self) ccextractor;
   inherit (self) cfssl;
