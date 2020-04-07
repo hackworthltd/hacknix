@@ -59,11 +59,13 @@ let
     org-journal
     org-plus-contrib
     org-ref
+    ormolu
     paredit
     popup
     projectile
     projectile-ripgrep
     proof-general
+    reformatter
     rg
     ripgrep
     shm
