@@ -32,7 +32,7 @@ let
   };
 
   # Upstream is out of date.
-  oauth2_proxy = callPackage ../pkgs/oauth2_proxy {
+  oauth2-proxy = callPackage ../pkgs/oauth2-proxy {
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
 
@@ -112,7 +112,7 @@ in
   inherit fsatrace;
   inherit libvmaf;
   inherit minikube;
-  inherit oauth2_proxy;
+  inherit oauth2-proxy;
   inherit radare2;
   inherit saml2aws;
   inherit yubikey-manager;

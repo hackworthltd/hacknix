@@ -1,4 +1,4 @@
-# NixOS module for oauth2_proxy.
+# NixOS module for oauth2-proxy.
 
 { config, lib, pkgs, ... }:
 
@@ -105,10 +105,10 @@ in
 
     package = mkOption {
       type = types.package;
-      default = pkgs.oauth2_proxy;
-      defaultText = "pkgs.oauth2_proxy";
+      default = pkgs.oauth2-proxy;
+      defaultText = "pkgs.oauth2-proxy";
       description = ''
-        The package that provides oauth2_proxy.
+        The package that provides oauth2-proxy.
       '';
     };
 
@@ -549,7 +549,7 @@ in
       type = types.bool;
       default = false;
       description = ''
-        Set this to <literal>true</literal> if oauth2_proxy is running
+        Set this to <literal>true</literal> if oauth2-proxy is running
         behind a reverse proxy such as a load balancer. This permits
         the application to see the actual client's information (e.g.,
         IP address), rather than the proxy's.
@@ -589,7 +589,7 @@ in
     extraConfig = mkOption {
       default = {};
       description = ''
-        Extra config to pass to oauth2_proxy.
+        Extra config to pass to oauth2-proxy.
       '';
     };
 
@@ -597,7 +597,7 @@ in
       type = types.nullOr types.path;
       default = null;
       description = ''
-        oauth2_proxy allows passing sensitive configuration via environment variables.
+        oauth2-proxy allows passing sensitive configuration via environment variables.
         Make a file that contains lines like
         OAUTH2_PROXY_CLIENT_SECRET=asdfasdfasdf.apps.googleuserscontent.com
         and specify the path here.
