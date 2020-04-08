@@ -68,6 +68,19 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Foundation IOKit;
   };
 
+  # We need YubiKey OpenPGP KDF functionality, which hasn't been
+  # released yet.
+  yubikey-manager = super.yubikey-manager.overrideAttrs (drv: {
+    version = "3.1.1";
+    name = "yubikey-manager-3.1.1";
+    srcs = super.fetchFromGitHub {
+      owner = "Yubico";
+      repo = "yubikey-manager";
+      rev = "2bbab3072ea0ec7cdcbaba398ce8dc0105aa27c2";
+      sha256 = "1i4qfmmwiw3pfbhzyivw6qp3zc17qv38sgxvza1lb2hl577za9y1";
+    };
+  });
+
 in
 {
   # Enable TLS v1.2 in wpa_supplicant.
@@ -102,4 +115,5 @@ in
   inherit oauth2_proxy;
   inherit radare2;
   inherit saml2aws;
+  inherit yubikey-manager;
 }

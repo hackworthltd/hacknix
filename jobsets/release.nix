@@ -72,6 +72,7 @@ let
     trimpcap = linux;
     tsoff = linux;
     wpa_supplicant = linux;
+    yubikey-manager = all;
 
     emacs = darwin;
     emacs-env = darwin;
@@ -147,6 +148,7 @@ let
         trimpcap.x86_64-linux
         tsoff.x86_64-linux
         wpa_supplicant.x86_64-linux
+        yubikey-manager.x86_64-linux
 
         emacs-nox-env.x86_64-linux
 
@@ -206,6 +208,7 @@ let
         radare2.x86_64-darwin
         saml2aws.x86_64-darwin
         terraform-provider-okta.x86_64-darwin
+        yubikey-manager.x86_64-darwin
 
         emacs-env.x86_64-darwin
         emacs-macport-env.x86_64-darwin

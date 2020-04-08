@@ -57,6 +57,7 @@ in
   inherit (self) trimpcap;
   inherit (self) tsoff;
   inherit (self) wpa_supplicant;
+  inherit (self) yubikey-manager;
 
   inherit (self) hashedCertDir;
 
