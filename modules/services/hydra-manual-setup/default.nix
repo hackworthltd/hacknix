@@ -8,6 +8,8 @@ let
   deployed-bckey = config.hacknix.keychain.keys.hydra-manual-setup-bckey.path;
   cfg = config.services.hydra-manual-setup;
 
+  hydraPkg = config.services.hydra.package;
+
 in
 {
   options = {
@@ -168,7 +170,7 @@ in
       in ''
         if [ ! -e ~hydra/.manual-setup-is-complete-v1 ]; then
           HYDRA_PW=$(cat "${deployed-pw}")
-          "${pkgs.hydra}"/bin/hydra-create-user ${cfg.adminUser.userName} --full-name "${cfg.adminUser.fullName}" --email-address ${cfg.adminUser.email} --role admin --password $HYDRA_PW
+          ${hydraPkg}/bin/hydra-create-user ${cfg.adminUser.userName} --full-name "${cfg.adminUser.fullName}" --email-address ${cfg.adminUser.email} --role admin --password $HYDRA_PW
 
           install -d -m 551 "${bcKeyDir}"
           cp "${deployed-bckey}" "${bcKeyDir}/secret"
