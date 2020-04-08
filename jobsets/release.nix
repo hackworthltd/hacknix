@@ -55,7 +55,7 @@ let
     ffmpeg-full = x86_64;
     fsatrace = all;
     gawk_4_2_1 = all;
-    hydra = x86_64_linux;
+    hydra-unstable = x86_64_linux;
     libprelude = x86_64_linux;
     libvmaf = x86_64;
     lorri = all;
@@ -130,7 +130,7 @@ let
         ccextractor.x86_64-linux
         chamber.x86_64-linux
         cfssl.x86_64-linux
-        hydra.x86_64-linux
+        hydra-unstable.x86_64-linux
         ffmpeg-full.x86_64-linux
         fsatrace.x86_64-linux
         gawk_4_2_1.x86_64-linux

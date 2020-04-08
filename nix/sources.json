@@ -18,10 +18,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "303a3eb63d7276a0d185d766f1cba72a2edb635e",
-        "sha256": "0n4m5165hv015jy792dfjm7n290wa1xps0s8qcqh0drh2mg7czmw",
+        "rev": "4c3aa77895558473c83c07993b1a59fa415dc413",
+        "sha256": "129mpssc7jywdcp458c02z41zyl4bz6d71m8pyrky3rlbvhbl2p1",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/303a3eb63d7276a0d185d766f1cba72a2edb635e.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/4c3aa77895558473c83c07993b1a59fa415dc413.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -70,18 +70,6 @@
         "sha256": "1v29wpyi60z7wdn1brq73i9dq989gnn7w59qrqfs26gsjkd7ppbm",
         "type": "tarball",
         "url": "https://github.com/hackworthltd/hacknix-lib/archive/c93e1b73010af6879fe3194f2083d6bb7abdda91.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
-    "hackworthltd-nixpkgs": {
-        "branch": "fix-neovim",
-        "description": "Nix Packages collection",
-        "homepage": null,
-        "owner": "hackworthltd",
-        "repo": "nixpkgs",
-        "rev": "bed3b0530f100f2f9faba785c60fdd73f0945dbe",
-        "sha256": "0c2ixhr3arq679fa6p7a58h8pd4l4ckin9g959yngrwz8d8wnjlh",
-        "type": "tarball",
-        "url": "https://github.com/hackworthltd/nixpkgs/archive/bed3b0530f100f2f9faba785c60fdd73f0945dbe.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "lorri": {
@@ -150,10 +138,10 @@
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "nixos",
         "repo": "nixpkgs-channels",
-        "rev": "05f0934825c2a0750d4888c4735f9420c906b388",
-        "sha256": "1g8c2w0661qn89ajp44znmwfmghbbiygvdzq0rzlvlpdiz28v6gy",
+        "rev": "f601ab37c2fb7e5f65989a92df383bcd6942567a",
+        "sha256": "0ikhcmcc29iiaqjv5r91ncgxny2z67bjzkppd3wr1yx44sv7v69s",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs-channels/archive/05f0934825c2a0750d4888c4735f9420c906b388.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/f601ab37c2fb7e5f65989a92df383bcd6942567a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "saml2aws": {

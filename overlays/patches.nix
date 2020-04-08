@@ -20,7 +20,7 @@ in
 
 
   # Hydra fixes from iohk.
-  hydra = super.hydra.overrideAttrs (drv: {
+  hydra-unstable = super.hydra-unstable.overrideAttrs (drv: {
     patches = [
       (super.fetchpatch {
         url = "https://github.com/input-output-hk/hydra/commit/ed87d2ba82807d30d91d70a88cda276083ef4e79.patch";
