@@ -14,7 +14,11 @@ let
   inherit (hacknix-lib) lib;
   inherit (lib.fetchers) fixedNixSrc;
 
-  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
+  #fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
+
+  # Override upstream until
+  # https://github.com/NixOS/nixpkgs/pull/83689 is merged.
+  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.hackworthltd-nixpkgs;
   nixpkgs = import fixedNixpkgs;
 
   fixedNixDarwin = lib.fetchers.fixedNixSrc "nix_darwin" sources.nix-darwin;

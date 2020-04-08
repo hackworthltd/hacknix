@@ -72,6 +72,18 @@
         "url": "https://github.com/hackworthltd/hacknix-lib/archive/c93e1b73010af6879fe3194f2083d6bb7abdda91.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "hackworthltd-nixpkgs": {
+        "branch": "fix-go",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "hackworthltd",
+        "repo": "nixpkgs",
+        "rev": "ab6d0d5fa80178443a9f33dc71c4411a9f009300",
+        "sha256": "08rmd91s1jnxwvpis4krkf0ywdci6kxrgqpsdmbd7fb39fc0xylk",
+        "type": "tarball",
+        "url": "https://github.com/hackworthltd/nixpkgs/archive/ab6d0d5fa80178443a9f33dc71c4411a9f009300.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "lorri": {
         "branch": "master",
         "description": "Your project's nix-env",
