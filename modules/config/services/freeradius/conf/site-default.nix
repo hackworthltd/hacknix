@@ -1,4 +1,6 @@
-{ config, pkgs, lib, ... }:
+{ pkgs
+, postAuthConfig
+}:
 
 let
 
@@ -97,6 +99,7 @@ let
         update {
           &reply: += &session-state:
         }
+        ${postAuthConfig}
         exec
         remove_reply_message_if_eap
         Post-Auth-Type REJECT {

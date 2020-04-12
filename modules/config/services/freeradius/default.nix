@@ -187,6 +187,24 @@ in {
       };
     };
 
+    postAuthConfig = lib.mkOption {
+      type = lib.types.str;
+      default = "";
+      example = lib.literalExample ''
+        update reply {
+          Tunnel-Type := VLAN
+          Tunnel-Medium-Type := IEEE-802
+          Tunnel-Private-Group-ID := 100
+        }
+      '';
+      description = ''
+        A FreeRADIUS configuration block that's inserted in the
+        post-auth config stanza verbatim. This is intended to be used
+        to update the RADIUS reply message with additional
+        configuration; e.g., dynamic VLAN configuration.
+      '';
+    };
+
     modsEnabled = lib.mkOption {
       example = [ "eap" "pap" ];
       default = [

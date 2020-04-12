@@ -58,7 +58,8 @@ let
   };
 
   siteDefault = import ./site-default.nix {
-    inherit pkgs lib config;
+    inherit pkgs;
+    inherit (cfg) postAuthConfig;
   };
 
   radiusdConf = import ./radiusd.nix {
