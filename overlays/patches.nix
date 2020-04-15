@@ -34,6 +34,10 @@ in
         url = "https://github.com/input-output-hk/hydra/commit/0768891e3cd3ef067d28742098f1dea8462fca75.patch";
         sha256 = "0m4009pmi4sl0vwq6q98bzp4hpnfr4ww1j27czwcazbda7l8fdzy";
       })
+      (super.fetchpatch {
+        url = "https://github.com/NixOS/hydra/commit/2f9d422172235297759f2b224fe0636cad07b6fb.patch";
+        sha256 = "0152nsqqc5d85qdygmwrsk88i9y6nk1b639fj2n042pjvr0kpz6k";
+      })
       # Broken on hydra-unstable.
       # (super.fetchpatch {
       #   url = "https://github.com/input-output-hk/hydra/commit/11db34b6a9243a428b3d5935c65ac13a8080d02c.patch";
