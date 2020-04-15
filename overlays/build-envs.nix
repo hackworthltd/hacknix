@@ -79,6 +79,7 @@ let
       hydra-cli
       lorri
       niv
+      nixfmt
       nix-index
       nix-info
       nox
