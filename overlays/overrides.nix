@@ -18,7 +18,7 @@ let
   };
 
   # Upstream disables macOS.
-  libvmaf = callPackage ../pkgs/libvmaf { };
+  libvmaf = callPackage ../pkgs/libvmaf {};
 
   # Upstream is out of date.
   aws-okta = callPackage ../pkgs/aws-okta {
@@ -47,14 +47,19 @@ let
     # XXX dhess - this is a bit of a hack.
     HOST_CC = if super.stdenv.cc.isClang then "clang" else "gcc";
 
-    meta = drv.meta // { platforms = super.lib.platforms.unix; };
+    meta = drv.meta // {
+      platforms = super.lib.platforms.unix;
+    };
   });
 
   # Upstream prevents fsatrace from building on macOS. It should work,
   # more or less, as long as you're using it with binaries built from
   # Nixpkgs and not pulling in Apple frameworks.
-  fsatrace = super.fsatrace.overrideAttrs
-    (drv: { meta = drv.meta // { platforms = super.lib.platforms.unix; }; });
+  fsatrace = super.fsatrace.overrideAttrs (drv: {
+    meta = drv.meta // {
+      platforms = super.lib.platforms.unix;
+    };
+  });
 
   # Upstream is out of date.
   saml2aws = callPackage ../pkgs/saml2aws {
@@ -76,41 +81,35 @@ let
     };
   });
 
-  # Workaround for broken nixflakes in upstream; doesn't seem to be
-  # able to fetch private repos with Hydra.
-  hydra-unstable =
-    super.hydra-unstable.overrideAttrs (drv: { nix = super.nixStable; });
-
-in {
+in
+{
   # Enable TLS v1.2 in wpa_supplicant.
   wpa_supplicant = super.wpa_supplicant.overrideAttrs (drv: {
     extraConfig = drv.extraConfig + ''
-      CONFIG_TLSV12=y
+     CONFIG_TLSV12=y
     '';
   });
 
   # Use fdk_aac in ffmpeg-full.
   #
   # Don't override super; it disables a bunch of things on macOS.
-  ffmpeg-full =
-    callPackage (super.path + "/pkgs/development/libraries/ffmpeg-full") {
-      nonfreeLicensing = true;
-      fdkaacExtlib = true;
-      fdk_aac = super.fdk_aac;
-      inherit libvmaf;
-      nvenc = false;
-      inherit (super.darwin.apple_sdk.frameworks)
-        Cocoa CoreServices CoreAudio AVFoundation MediaToolbox
-        VideoDecodeAcceleration;
+  ffmpeg-full = callPackage (super.path + "/pkgs/development/libraries/ffmpeg-full") {
+    nonfreeLicensing = true;
+    fdkaacExtlib = true;
+    fdk_aac = super.fdk_aac;
+    inherit libvmaf;
+    nvenc = false;
+    inherit (super.darwin.apple_sdk.frameworks)
+      Cocoa CoreServices CoreAudio AVFoundation MediaToolbox
+      VideoDecodeAcceleration;
 
-      frei0r = if super.stdenv.isDarwin then null else super.frei0r;
-    };
+    frei0r = if super.stdenv.isDarwin then null else super.frei0r;
+  };
 
   inherit aws-okta;
   inherit aws-vault;
   inherit cfssl;
   inherit fsatrace;
-  inherit hydra-unstable;
   inherit libvmaf;
   inherit minikube;
   inherit oauth2-proxy;
