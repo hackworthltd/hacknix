@@ -1,4 +1,4 @@
-## Generally speaking, my approach here is to name options by their
+# # Generally speaking, my approach here is to name options by their
 ## actual Postfix name, so that the mapping between options specified
 ## here to what goes into the Postfix config file is clear. (With the
 ## NixOS option names, which are slightly different than the Postfix
@@ -18,13 +18,16 @@ let
   stateDir = "/var/lib/postfix/data";
   queueDir = "/var/lib/postfix/queue";
 
-  submission_header_checks = pkgs.writeText "submission_header_checks" cfg.submission.cleanup.headerChecks;
+  submission_header_checks = pkgs.writeText "submission_header_checks"
+    cfg.submission.cleanup.headerChecks;
 
   smtp_header_checks = pkgs.writeText "smtp_header_checks" cfg.smtpHeaderChecks;
 
-  recipient_access = pkgs.writeText "postfix-recipient-access" cfg.smtpd.recipientAccess;
+  recipient_access =
+    pkgs.writeText "postfix-recipient-access" cfg.smtpd.recipientAccess;
 
-  relay_clientcerts = pkgs.writeText "postfix-relay-clientcerts" cfg.relayClientCerts;
+  relay_clientcerts =
+    pkgs.writeText "postfix-relay-clientcerts" cfg.relayClientCerts;
 
   login_maps = pkgs.writeText "login_maps" cfg.submission.smtpd.senderLoginMaps;
 
@@ -48,12 +51,14 @@ let
   acmeCertDir = config.security.acme.certs."${cfg.myHostname}".directory;
   acmeCertPublic = "${acmeCertDir}/fullchain.pem";
   acmeCertPrivate = "${acmeCertDir}/key.pem";
-  extraDomains = builtins.listToAttrs (builtins.map (name: { name = "${name}"; value = null; }) cfg.acmeExtraDomains);
+  extraDomains = builtins.listToAttrs (builtins.map (name: {
+    name = "${name}";
+    value = null;
+  }) cfg.acmeExtraDomains);
 
   submissionKeyFile = config.hacknix.keychain.keys."sasl-tls-key".path;
 
-in
-{
+in {
   meta.maintainers = lib.maintainers.dhess;
 
   options.services.postfix-mta = {
@@ -105,7 +110,7 @@ in
     acmeExtraDomains = mkOption {
       type = pkgs.lib.types.listOf pkgs.lib.types.nonEmptyStr;
       example = "submission.example.com";
-      default = [];
+      default = [ ];
       description = ''
         A list of domain names that this MTA also answers to (e.g.,
         CNAMEs) for the purposes of acquiring ACME TLS certificates.
@@ -119,7 +124,7 @@ in
 
     proxyInterfaces = mkOption {
       type = types.listOf pkgs.lib.types.nonEmptyStr;
-      default = [];
+      default = [ ];
       example = [ "192.0.2.1" ];
       description = ''
         Postfix's <literal>proxy_interfaces</literal> setting.
@@ -129,7 +134,7 @@ in
     milters = {
       smtpd = mkOption {
         type = types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         description = ''
           A list of smtpd milter sockets to use with the MTA.
         '';
@@ -137,7 +142,7 @@ in
 
       nonSmtpd = mkOption {
         type = types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         description = ''
           A list of non-smtpd milter sockets to use with the MTA.
         '';
@@ -158,11 +163,7 @@ in
       };
 
       blacklistAction = mkOption {
-        type = types.enum [
-          "ignore"
-          "enforce"
-          "drop"
-        ];
+        type = types.enum [ "ignore" "enforce" "drop" ];
         default = "ignore";
         example = "enforce";
         description = ''
@@ -184,11 +185,7 @@ in
       };
 
       greetAction = mkOption {
-        type = types.enum [
-          "ignore"
-          "enforce"
-          "drop"
-        ];
+        type = types.enum [ "ignore" "enforce" "drop" ];
         default = "ignore";
         example = "enforce";
         description = ''
@@ -200,13 +197,8 @@ in
 
       dnsblSites = mkOption {
         type = types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [
-          "zen.spamhaus.org"
-        ];
-        example = [
-          "zen.spamhaus.org"
-          "dnsrbl.org"
-        ];
+        default = [ "zen.spamhaus.org" ];
+        example = [ "zen.spamhaus.org" "dnsrbl.org" ];
         description = ''
           Postfix's <literal>postscreen_dnsbl_sites</literal> setting.
 
@@ -216,11 +208,7 @@ in
       };
 
       dnsblAction = mkOption {
-        type = types.enum [
-          "ignore"
-          "enforce"
-          "drop"
-        ];
+        type = types.enum [ "ignore" "enforce" "drop" ];
         default = "ignore";
         example = "enforce";
         description = ''
@@ -301,10 +289,8 @@ in
           "reject_invalid_helo_hostname"
           "reject_non_fqdn_helo_hostname"
         ];
-        example = literalExample [
-          "permit_mynetworks"
-          "reject_invalid_helo_hostname"
-        ];
+        example =
+          literalExample [ "permit_mynetworks" "reject_invalid_helo_hostname" ];
         description = ''
           Postfix's <literal>smtpd_helo_restrictions</literal> setting.
 
@@ -319,10 +305,8 @@ in
           "reject_unknown_sender_domain"
           "check_sender_mx_access hash:/etc/postfix/bogus_mx"
         ];
-        example = literalExample [
-          "permit_mynetworks"
-          "reject_invalid_helo_hostname"
-        ];
+        example =
+          literalExample [ "permit_mynetworks" "reject_invalid_helo_hostname" ];
         description = ''
           Postfix's <literal>smtpd_sender_restrictions</literal> setting.
 
@@ -406,12 +390,8 @@ in
 
       dataRestrictions = mkOption {
         type = types.nullOr (types.listOf pkgs.lib.types.nonEmptyStr);
-        default = [
-          "reject_unauth_pipelining"
-        ];
-        example = literalExample [
-          "reject_multi_recipient_bounce"
-        ];
+        default = [ "reject_unauth_pipelining" ];
+        example = literalExample [ "reject_multi_recipient_bounce" ];
         description = ''
           Postfix's <literal>smtpd_data_restrictions</literal> setting.
 
@@ -434,8 +414,9 @@ in
 
     submission = {
       listenAddresses = mkOption {
-        type = types.listOf (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
-        default = [];
+        type = types.listOf
+          (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
+        default = [ ];
         example = [ "127.0.0.1" "::1" "10.0.0.2" "2001:db8::2" ];
         description = ''
           A list of IPv4 and/or IPv6 addresses on which Postfix will
@@ -472,10 +453,7 @@ in
 
         clientRestrictions = mkOption {
           type = types.listOf pkgs.lib.types.nonEmptyStr;
-          default = [
-            "permit_sasl_authenticated"
-            "reject"
-          ];
+          default = [ "permit_sasl_authenticated" "reject" ];
           example = literalExample [
             "permit_sasl_authenticated"
             "permit_tls_clientcerts"
@@ -607,13 +585,8 @@ in
 
       mailboxDomains = mkOption {
         type = types.nonEmptyListOf pkgs.lib.types.nonEmptyStr;
-        default = [
-          "$mydomain"
-        ];
-        example = literalExample [
-          "$mydomain"
-          "another.local.tld"
-        ];
+        default = [ "$mydomain" ];
+        example = literalExample [ "$mydomain" "another.local.tld" ];
         description = ''
           Postfix's <literal>virtual_mailbox_domains</literal> setting.
         '';
@@ -621,10 +594,8 @@ in
 
       aliasDomains = mkOption {
         type = types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [];
-        example = literalExample [
-          "another.local.tld"
-        ];
+        default = [ ];
+        example = literalExample [ "another.local.tld" ];
         description = ''
           Postfix's <literal>virtual_alias_domains</literal> setting.
         '';
@@ -642,9 +613,8 @@ in
     transport = mkOption {
       type = types.lines;
       default = "";
-      description = "
-        Entries for Postfix's <literal>transport_map</literal> file.
-      ";
+      description =
+        "\n        Entries for Postfix's <literal>transport_map</literal> file.\n      ";
     };
 
     extraConfig = mkOption {
@@ -661,7 +631,7 @@ in
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
       "8f3c4e79c65ff037385c5550a05f2271cb832ef074d072e03f6903be87a7c95b";
     hacknix.assertions.moduleHashes."security/acme.nix" =
-      "7f390d390d041d4901dec87613452b40c6a9f895390bf17b3a83ef9c9c56bd01";
+      "b5f26e2f27d6459650f7e84b59a89f55ecf95cd7e89dea5779e0227ca3b821ec";
 
     hacknix.keychain.keys."sasl-tls-key" = {
       destDir = "/var/lib/postfix/keys";
@@ -679,12 +649,9 @@ in
       virtualHosts."${cfg.myHostname}" = {
         forceSSL = true;
         useACMEHost = "${cfg.myHostname}";
-        locations."/" = {
-          root = acmeChallenge;
-        };
+        locations."/" = { root = acmeChallenge; };
       };
     };
-
 
     # We need a group that both nginx and postfix belong to, so that
     # the ACME service can set the correct permissions on the ACME
@@ -693,10 +660,7 @@ in
     # to present them to clients.
 
     users.groups.postfix-acme = {
-      members = [
-        config.services.postfix.user
-        config.services.nginx.user
-      ];
+      members = [ config.services.postfix.user config.services.nginx.user ];
     };
 
     # If this MX is configured correctly, we only need the ACME cert
@@ -716,7 +680,6 @@ in
         systemctl reload nginx
       '';
     };
-
 
     services.postfix = {
       enable = true;
@@ -784,47 +747,54 @@ in
         smtp_tls_note_starttls_offer = "yes";
 
         unverified_recipient_reject_reason = "Address lookup failed";
-      }
-      //
-      (if cfg.postscreen.enable then
-      {
-        postscreen_access_list = [
-          "permit_mynetworks"
-          "cidr:${cfg.postscreen.accessList}"
-        ];
+      } // (if cfg.postscreen.enable then {
+        postscreen_access_list =
+          [ "permit_mynetworks" "cidr:${cfg.postscreen.accessList}" ];
         postscreen_blacklist_action = cfg.postscreen.blacklistAction;
         postscreen_greet_wait = cfg.postscreen.greetWait;
         postscreen_greet_action = cfg.postscreen.greetAction;
         postscreen_dnsbl_sites = cfg.postscreen.dnsblSites;
         postscreen_dnsbl_action = cfg.postscreen.dnsblAction;
-      } else {})
-      //
-      (if cfg.smtpHeaderChecks != null then {
-        smtp_header_checks = "pcre:${smtp_header_checks}";
-      } else {});
+      } else
+        { }) // (if cfg.smtpHeaderChecks != null then {
+          smtp_header_checks = "pcre:${smtp_header_checks}";
+        } else
+          { });
 
-      extraConfig =
-      let
-        smtpd_client_restrictions = optionalString (cfg.smtpd.clientRestrictions != null)
-          ("smtpd_client_restrictions = " + (concatStringsSep ", " cfg.smtpd.clientRestrictions));
-        smtpd_helo_restrictions = optionalString (cfg.smtpd.heloRestrictions != null)
-          ("smtpd_helo_restrictions = " + (concatStringsSep ", " cfg.smtpd.heloRestrictions) +
-          (optionalString (cfg.smtpd.heloRestrictions != []) "\nsmtpd_helo_required = yes"));
-        smtpd_sender_restrictions = optionalString (cfg.smtpd.senderRestrictions != null)
-          ("smtpd_sender_restrictions = " + (concatStringsSep ", " cfg.smtpd.senderRestrictions));
-        smtpd_relay_restrictions = optionalString (cfg.smtpd.relayRestrictions != null)
-          ("smtpd_relay_restrictions = " + (concatStringsSep ", " cfg.smtpd.relayRestrictions));
-        smtpd_recipient_restrictions = optionalString (cfg.smtpd.recipientRestrictions != null)
-          ("smtpd_recipient_restrictions = " + (concatStringsSep ", " cfg.smtpd.recipientRestrictions));
-        smtpd_data_restrictions = optionalString (cfg.smtpd.dataRestrictions != null)
-          ("smtpd_data_restrictions = " + (concatStringsSep ", " cfg.smtpd.dataRestrictions));
-        submission_cleanup_service = optionalString (cfg.submission.cleanup.headerChecks != null)
-          ''
+      extraConfig = let
+        smtpd_client_restrictions =
+          optionalString (cfg.smtpd.clientRestrictions != null)
+          ("smtpd_client_restrictions = "
+            + (concatStringsSep ", " cfg.smtpd.clientRestrictions));
+        smtpd_helo_restrictions =
+          optionalString (cfg.smtpd.heloRestrictions != null)
+          ("smtpd_helo_restrictions = "
+            + (concatStringsSep ", " cfg.smtpd.heloRestrictions)
+            + (optionalString (cfg.smtpd.heloRestrictions != [ ]) ''
+
+              smtpd_helo_required = yes''));
+        smtpd_sender_restrictions =
+          optionalString (cfg.smtpd.senderRestrictions != null)
+          ("smtpd_sender_restrictions = "
+            + (concatStringsSep ", " cfg.smtpd.senderRestrictions));
+        smtpd_relay_restrictions =
+          optionalString (cfg.smtpd.relayRestrictions != null)
+          ("smtpd_relay_restrictions = "
+            + (concatStringsSep ", " cfg.smtpd.relayRestrictions));
+        smtpd_recipient_restrictions =
+          optionalString (cfg.smtpd.recipientRestrictions != null)
+          ("smtpd_recipient_restrictions = "
+            + (concatStringsSep ", " cfg.smtpd.recipientRestrictions));
+        smtpd_data_restrictions =
+          optionalString (cfg.smtpd.dataRestrictions != null)
+          ("smtpd_data_restrictions = "
+            + (concatStringsSep ", " cfg.smtpd.dataRestrictions));
+        submission_cleanup_service =
+          optionalString (cfg.submission.cleanup.headerChecks != null) ''
             submission_cleanup_service_name = submission_cleanup
             submission_header_checks = pcre:${submission_header_checks}
           '';
-      in
-      ''
+      in ''
         ${smtpd_client_restrictions}
         ${smtpd_helo_restrictions}
         ${smtpd_sender_restrictions}
@@ -857,96 +827,120 @@ in
 
       enableSubmission = false;
       enableSmtp = false;
-      masterConfig =
-      let
-        smtpd_client_restrictions = concatStringsSep "," cfg.submission.smtpd.clientRestrictions;
-        submission_cleanup_args = if cfg.submission.cleanup.headerChecks != null then [
-          "-o" "cleanup_service_name=$submission_cleanup_service_name"
-        ] else [];
+      masterConfig = let
+        smtpd_client_restrictions =
+          concatStringsSep "," cfg.submission.smtpd.clientRestrictions;
+        submission_cleanup_args =
+          if cfg.submission.cleanup.headerChecks != null then [
+            "-o"
+            "cleanup_service_name=$submission_cleanup_service_name"
+          ] else
+            [ ];
         value = {
           type = "inet";
           private = false;
           command = "smtpd";
           args = [
-            "-o" "myhostname=${cfg.submission.myHostname}"
-            "-o" "tls_preempt_cipherlist=yes"
-            "-o" "syslog_name=postfix/submission"
-            "-o" "smtpd_tls_security_level=encrypt"
-            "-o" "smtpd_tls_mandatory_ciphers=high"
-            "-o" "smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1"
-            "-o" "smtpd_tls_cert_file=${cfg.submission.smtpd.tlsCertFile}"
-            "-o" "smtpd_tls_key_file=${submissionKeyFile}"
-            "-o" "smtpd_tls_ask_ccert=yes"
-            "-o" "smtpd_sasl_auth_enable=yes"
-            "-o" "smtpd_sasl_path=${cfg.submission.smtpd.saslPath}"
-            "-o" "smtpd_sasl_type=${cfg.submission.smtpd.saslType}"
-            "-o" "smtpd_sasl_security_options=noanonymous,noplaintext"
-            "-o" "smtpd_sasl_tls_security_options=noanonymous"
-            "-o" "smtpd_sasl_local_domain=$mydomain"
-            "-o" "smtpd_sasl_authenticated_header=yes"
-            "-o" "smtpd_client_restrictions=${smtpd_client_restrictions}"
-            "-o" "milter_macro_daemon_name=ORIGINATING"
-            "-o" "smtpd_sender_restrictions=reject_sender_login_mismatch"
-            "-o" "smtpd_sender_login_maps=pcre:${login_maps}"
+            "-o"
+            "myhostname=${cfg.submission.myHostname}"
+            "-o"
+            "tls_preempt_cipherlist=yes"
+            "-o"
+            "syslog_name=postfix/submission"
+            "-o"
+            "smtpd_tls_security_level=encrypt"
+            "-o"
+            "smtpd_tls_mandatory_ciphers=high"
+            "-o"
+            "smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1"
+            "-o"
+            "smtpd_tls_cert_file=${cfg.submission.smtpd.tlsCertFile}"
+            "-o"
+            "smtpd_tls_key_file=${submissionKeyFile}"
+            "-o"
+            "smtpd_tls_ask_ccert=yes"
+            "-o"
+            "smtpd_sasl_auth_enable=yes"
+            "-o"
+            "smtpd_sasl_path=${cfg.submission.smtpd.saslPath}"
+            "-o"
+            "smtpd_sasl_type=${cfg.submission.smtpd.saslType}"
+            "-o"
+            "smtpd_sasl_security_options=noanonymous,noplaintext"
+            "-o"
+            "smtpd_sasl_tls_security_options=noanonymous"
+            "-o"
+            "smtpd_sasl_local_domain=$mydomain"
+            "-o"
+            "smtpd_sasl_authenticated_header=yes"
+            "-o"
+            "smtpd_client_restrictions=${smtpd_client_restrictions}"
+            "-o"
+            "milter_macro_daemon_name=ORIGINATING"
+            "-o"
+            "smtpd_sender_restrictions=reject_sender_login_mismatch"
+            "-o"
+            "smtpd_sender_login_maps=pcre:${login_maps}"
           ] ++ submission_cleanup_args;
         };
-      in
-        (if cfg.submission.listenAddresses != [] then (
-          listToAttrs (map (ip:
-            { name = "[${ip}]:submission";
-              inherit value;
-            }
-          ) cfg.submission.listenAddresses))
-         else {
-           submission = value;
-         })
-        // {
-          smtp = {
-            args = [ "-o" "disable_mime_output_conversion=yes" ];
-          };
-          relay = {
-            command = "smtp";
-            args = [
-              "-o" "smtp_fallback_relay="
-              "-o" "disable_mime_output_conversion=yes"
-            ];
-          };
-        } // (if cfg.postscreen.enable then {
-          smtp_inet = mkForce {
-            name = "smtp";
-            type = "inet";
-            private = false;
-            maxproc = 1;
-            command = "postscreen";
-          };
-          smtpd_pass = {
-            name = "smtpd";
-            type = "pass";
-            command = "smtpd";
-          };
-          tlsproxy = {
-            name = "tlsproxy";
-            type = "unix";
-            command = "tlsproxy";
-            maxproc = 0;
-          };
-          dnsblog = {
-            name = "dnsblog";
-            type = "unix";
-            command = "dnsblog";
-            maxproc = 0;
-          };
-        } else {}) // (if cfg.submission.cleanup.headerChecks != null then {
+      in (if cfg.submission.listenAddresses != [ ] then
+        (listToAttrs (map (ip: {
+          name = "[${ip}]:submission";
+          inherit value;
+        }) cfg.submission.listenAddresses))
+      else {
+        submission = value;
+      }) // {
+        smtp = { args = [ "-o" "disable_mime_output_conversion=yes" ]; };
+        relay = {
+          command = "smtp";
+          args = [
+            "-o"
+            "smtp_fallback_relay="
+            "-o"
+            "disable_mime_output_conversion=yes"
+          ];
+        };
+      } // (if cfg.postscreen.enable then {
+        smtp_inet = mkForce {
+          name = "smtp";
+          type = "inet";
+          private = false;
+          maxproc = 1;
+          command = "postscreen";
+        };
+        smtpd_pass = {
+          name = "smtpd";
+          type = "pass";
+          command = "smtpd";
+        };
+        tlsproxy = {
+          name = "tlsproxy";
+          type = "unix";
+          command = "tlsproxy";
+          maxproc = 0;
+        };
+        dnsblog = {
+          name = "dnsblog";
+          type = "unix";
+          command = "dnsblog";
+          maxproc = 0;
+        };
+      } else
+        { }) // (if cfg.submission.cleanup.headerChecks != null then {
           submission_cleanup = {
             private = false;
             maxproc = 0;
             command = "cleanup";
             args = [
-              "-o" "header_checks=$submission_header_checks"
-              "-o" "syslog_name=postfix/submission"
+              "-o"
+              "header_checks=$submission_header_checks"
+              "-o"
+              "syslog_name=postfix/submission"
             ];
           };
-        } else {});
+        } else
+          { });
     };
   };
 
