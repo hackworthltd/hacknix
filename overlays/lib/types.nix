@@ -1,4 +1,4 @@
-## Additional useful types, mostly for NixOS modules.
+# # Additional useful types, mostly for NixOS modules.
 
 # The key type defined here is based on keyOptionType in NixOps. As it
 # is a derivative work of NixOps, it is covered by the GNU LGPL; see
@@ -85,7 +85,6 @@ let
     };
   });
 
-
   fwRule = types.listOf (types.submodule {
     options = {
 
@@ -110,7 +109,8 @@ let
 
       src = {
         port = mkOption {
-          type = types.nullOr (types.either super.lib.types.port (types.strMatching "[[:digit:]]+:[[:digit:]]+"));
+          type = types.nullOr (types.either super.lib.types.port
+            (types.strMatching "[[:digit:]]+:[[:digit:]]+"));
           default = null;
           example = "67:68";
           description = ''
@@ -135,7 +135,8 @@ let
 
       dest = {
         port = mkOption {
-          type = types.nullOr (types.either super.lib.types.port (types.strMatching "[[:digit:]]+:[[:digit:]]+"));
+          type = types.nullOr (types.either super.lib.types.port
+            (types.strMatching "[[:digit:]]+:[[:digit:]]+"));
           default = null;
           example = "8000:8007";
           description = ''
@@ -180,7 +181,8 @@ let
 
       src = {
         port = mkOption {
-          type = types.nullOr (types.either super.lib.types.port (types.strMatching "[[:digit:]]+:[[:digit:]]+"));
+          type = types.nullOr (types.either super.lib.types.port
+            (types.strMatching "[[:digit:]]+:[[:digit:]]+"));
           default = null;
           example = "67:68";
           description = ''
@@ -205,7 +207,8 @@ let
 
       dest = {
         port = mkOption {
-          type = types.nullOr (types.either super.lib.types.port (types.strMatching "[[:digit:]]+:[[:digit:]]+"));
+          type = types.nullOr (types.either super.lib.types.port
+            (types.strMatching "[[:digit:]]+:[[:digit:]]+"));
           default = null;
           example = "8000:8007";
           description = ''
@@ -225,7 +228,6 @@ let
 
     };
   });
-
 
   ## An IPv4 subnet description.
 
@@ -304,12 +306,8 @@ let
       range = mkOption {
         type = types.nullOr (types.submodule {
           options = {
-            start = mkOption {
-              type = super.lib.types.ipv4NoCIDR;
-            };
-            end = mkOption {
-              type = super.lib.types.ipv4NoCIDR;
-            };
+            start = mkOption { type = super.lib.types.ipv4NoCIDR; };
+            end = mkOption { type = super.lib.types.ipv4NoCIDR; };
           };
         });
         default = null;
@@ -325,12 +323,8 @@ let
       leaseTime = mkOption {
         type = types.nullOr (types.submodule {
           options = {
-            default = mkOption {
-              type = types.ints.unsigned;
-            };
-            max = mkOption {
-              type = types.ints.unsigned;
-            };
+            default = mkOption { type = types.ints.unsigned; };
+            max = mkOption { type = types.ints.unsigned; };
           };
         });
         default = null;
@@ -344,8 +338,9 @@ let
       };
 
       nameservers = mkOption {
-        type = types.listOf (types.either super.lib.types.ipv4NoCIDR super.lib.types.ipv6NoCIDR);
-        default = [];
+        type = types.listOf
+          (types.either super.lib.types.ipv4NoCIDR super.lib.types.ipv6NoCIDR);
+        default = [ ];
         example = [ "192.168.0.8" "2001:db8::8" ];
         description = ''
           An optional list of IPv4 and IPv6 addresses of nameservers
@@ -355,7 +350,7 @@ let
 
       deny = mkOption {
         type = types.listOf super.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         example = [ "unknown-clients" ];
         description = ''
           An optional list of <literal>dhcpd</literal>
@@ -363,6 +358,17 @@ let
         '';
       };
 
+      extraConfig = mkOption {
+        type = types.lines;
+        default = "";
+        example = literalExample ''
+          option ubnt.unifi-address 192.168.0.8;
+        '';
+        description = ''
+          Optional additional configuration for the
+          <literal>dhcpd</literal> subnet.
+        '';
+      };
     };
   };
 
@@ -497,13 +503,14 @@ let
           to the Nix store. However, upon start-up, the service will
           copy a file containing the key to its persistent state
           directory.
-       '';
+        '';
       };
 
       allowedIPs = mkOption {
-        example = literalExample [
-          { ip = "10.192.122.3/32"; route.enable = true; }
-        ];
+        example = literalExample [{
+          ip = "10.192.122.3/32";
+          route.enable = true;
+        }];
         type = types.listOf wgAllowedIP;
         description = ''
           List of IP addresses (and optional routes) for IPs that are
@@ -515,27 +522,28 @@ let
         default = null;
         example = "demo.wireguard.io:12913";
         type = with types; nullOr str;
-        description = ''Endpoint IP or hostname of the peer, followed by a colon,
-        and then a port number of the peer.'';
+        description = ''
+          Endpoint IP or hostname of the peer, followed by a colon,
+                  and then a port number of the peer.'';
       };
 
       persistentKeepalive = mkOption {
         default = null;
         type = with types; nullOr int;
         example = 25;
-        description = ''This is optional and is by default off, because most
-        users will not need it. It represents, in seconds, between 1 and 65535
-        inclusive, how often to send an authenticated empty packet to the peer,
-        for the purpose of keeping a stateful firewall or NAT mapping valid
-        persistently. For example, if the interface very rarely sends traffic,
-        but it might at anytime receive traffic from a peer, and it is behind
-        NAT, the interface might benefit from having a persistent keepalive
-        interval of 25 seconds; however, most users will not need this.'';
+        description = ''
+          This is optional and is by default off, because most
+                  users will not need it. It represents, in seconds, between 1 and 65535
+                  inclusive, how often to send an authenticated empty packet to the peer,
+                  for the purpose of keeping a stateful firewall or NAT mapping valid
+                  persistently. For example, if the interface very rarely sends traffic,
+                  but it might at anytime receive traffic from a peer, and it is behind
+                  NAT, the interface might benefit from having a persistent keepalive
+                  interval of 25 seconds; however, most users will not need this.'';
       };
 
     };
   });
-
 
   # A remote build host type.
   #
@@ -591,7 +599,7 @@ let
 
       alternateHostNames = mkOption {
         type = types.listOf super.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         example = [ "192.168.1.1" "2001:db8::1" ];
         description = ''
           A list of alternate names by which the host is known. At the
@@ -604,7 +612,8 @@ let
 
       hostPublicKeyLiteral = mkOption {
         type = super.lib.types.nonEmptyStr;
-        example = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
+        example =
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
         description = ''
           A string literal containing the host's SSH public key. This
           can be obtained by running <literal>ssh-keyscan</literal> on
@@ -643,7 +652,7 @@ let
 
       mandatoryFeatures = mkOption {
         type = types.listOf super.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         example = [ "perf" ];
         description = ''
           A list of features that the host must provide.
@@ -652,7 +661,7 @@ let
 
       supportedFeatures = mkOption {
         type = types.listOf super.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         example = [ "kvm" "big-parallel" ];
         description = ''
           A list of features that the host supports.
@@ -683,8 +692,8 @@ let
   };
 
 in {
-  lib = (super.lib or {}) // {
-    types = (super.lib.types or {}) // {
+  lib = (super.lib or { }) // {
+    types = (super.lib.types or { }) // {
       inherit key;
       inherit fwRule fwRule6;
       inherit ipv4Subnet dhcp4Subnet;
