@@ -1,8 +1,4 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
@@ -12,17 +8,14 @@ let
 in makeTest rec {
   name = "tftpd-hpa";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
 
     server1 = { config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports =
-        pkgs.lib.hacknix.modules ++
-        pkgs.lib.hacknix.testing.testModules;
+      imports = pkgs.lib.hacknix.modules
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       networking.firewall.allowedUDPPorts = [ 69 ];
       services.tftpd-hpa.enable = true;
@@ -36,32 +29,28 @@ in makeTest rec {
 
       systemd.services.make-tftp-root = {
         wantedBy = [ "multi-user.target" ];
-        script =
-        let
-          root = config.services.tftpd-hpa.root;
-        in
-        ''
+        script = let root = config.services.tftpd-hpa.root;
+        in ''
           mkdir -p ${root}
           cp ${canary1} ${root}/canary1
         '';
       };
     };
 
-
     # This server runs tftpd on a virtual IP, to test the
     # listenAddress functionality.
 
     server2 = { config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports =
-        pkgs.lib.hacknix.modules ++
-        pkgs.lib.hacknix.testing.testModules;
+      imports = pkgs.lib.hacknix.modules
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       networking.firewall.allowedUDPPorts = [ 69 ];
       boot.kernelModules = [ "dummy" ];
-      networking.interfaces.dummy0.ipv4.addresses = [
-        { address = "192.168.1.100"; prefixLength = 32; }
-      ];
+      networking.interfaces.dummy0.ipv4.addresses = [{
+        address = "192.168.1.100";
+        prefixLength = 32;
+      }];
       services.tftpd-hpa = {
         enable = true;
         listenAddress = "192.168.1.100";
@@ -76,11 +65,8 @@ in makeTest rec {
 
       systemd.services.make-tftp-root = {
         wantedBy = [ "multi-user.target" ];
-        script =
-        let
-          root = config.services.tftpd-hpa.root;
-        in
-        ''
+        script = let root = config.services.tftpd-hpa.root;
+        in ''
           mkdir -p ${root}
           cp ${canary2} ${root}/canary2
         '';
@@ -97,8 +83,7 @@ in makeTest rec {
 
   };
 
-  testScript = { nodes, ... }:
-  ''
+  testScript = { nodes, ... }: ''
     startAll;
 
     $server1->waitForUnit("tftpd-hpa.service");

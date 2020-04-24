@@ -1,16 +1,11 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{ config, pkgs, lib, ... }:
 
 let
 
   cfg = config.networking.virtual-ips;
-  enabled = cfg.v4 != [] || cfg.v6 != [];
+  enabled = cfg.v4 != [ ] || cfg.v6 != [ ];
 
-in
-{
+in {
 
   options.networking.virtual-ips.interface = lib.mkOption {
     type = pkgs.lib.types.nonEmptyStr;
@@ -31,7 +26,7 @@ in
 
   options.networking.virtual-ips.v4 = lib.mkOption {
     type = lib.types.listOf pkgs.lib.types.ipv4NoCIDR;
-    default = [];
+    default = [ ];
     example = [ "10.0.0.1" ];
     description = ''
       A list of virtual IPv4 addresses. Each address will be assigned
@@ -42,7 +37,7 @@ in
 
   options.networking.virtual-ips.v6 = lib.mkOption {
     type = lib.types.listOf pkgs.lib.types.ipv6NoCIDR;
-    default = [];
+    default = [ ];
     example = [ "2001:db8::3" ];
     description = ''
       A list of virtual IPv6 addresses. Each address will be assigned
@@ -54,10 +49,14 @@ in
   config = lib.mkIf enabled {
     boot.kernelModules = [ "dummy" ];
     networking.interfaces."${cfg.interface}" = {
-      ipv4.addresses =
-        map (address: { inherit address; prefixLength = 32; }) cfg.v4;
-      ipv6.addresses =
-        map (address: { inherit address; prefixLength = 128; }) cfg.v6;
+      ipv4.addresses = map (address: {
+        inherit address;
+        prefixLength = 32;
+      }) cfg.v4;
+      ipv6.addresses = map (address: {
+        inherit address;
+        prefixLength = 128;
+      }) cfg.v6;
     };
   };
 }

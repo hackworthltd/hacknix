@@ -7,8 +7,7 @@ let
   cfg = config.hacknix.defaults.networking;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.defaults.networking = {
     enable = mkEnableOption "the hacknix networking configuration defaults.";
   };

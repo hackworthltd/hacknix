@@ -11,8 +11,7 @@ let
   cfg = config.hacknix.hardware.supermicro.sys-5018d-mtln4f;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.hardware.supermicro.sys-5018d-mtln4f = {
     enable = mkEnableOption ''
       a Supermicro 5018D-MTLN4F hardware configuration.
@@ -24,7 +23,6 @@ in
     '';
   };
 
-  config = mkIf enabled {
-    boot.kernelModules = [ "coretemp" "jc42" "nct6775" ];
-  };
+  config =
+    mkIf enabled { boot.kernelModules = [ "coretemp" "jc42" "nct6775" ]; };
 }

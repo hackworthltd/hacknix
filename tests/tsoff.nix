@@ -1,24 +1,17 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
-
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
   makeTsoffTest = name: machineAttrs:
     makeTest {
       name = "tsoff-${name}";
-      meta = with pkgs.lib.maintainers; {
-        maintainers = [ dhess ];
-      };
-      machine = { config, ... }: {
-        nixpkgs.localSystem.system = system;
-        imports = pkgs.lib.hacknix.modules;
-      } // machineAttrs;
-      testScript = { nodes, ... }:
-      ''
+      meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
+      machine = { config, ... }:
+        {
+          nixpkgs.localSystem.system = system;
+          imports = pkgs.lib.hacknix.modules;
+        } // machineAttrs;
+      testScript = { nodes, ... }: ''
         $machine->waitForUnit("network.target");
 
         subtest "disables-offloads", sub {
@@ -42,7 +35,4 @@ let
       '';
     };
 
-in
-{
-  defaultTest = makeTsoffTest "default" {};
-}
+in { defaultTest = makeTsoffTest "default" { }; }

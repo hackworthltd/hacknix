@@ -2,22 +2,18 @@ self: super:
 
 let
 
-  myPass = super.pass.withExtensions (ext: [
-    ext.pass-audit
-    ext.pass-genphrase
-    ext.pass-update
-  ]);
+  myPass = super.pass.withExtensions
+    (ext: [ ext.pass-audit ext.pass-genphrase ext.pass-update ]);
 
   anki-env = super.buildEnv {
     name = "anki-env";
-    paths = with super; [
-      # Disabled for now, see:
-      # https://github.com/NixOS/nixpkgs/issues/76715
-      #anki
-      (texlive.combine {
-        inherit (texlive) scheme-medium;
-      })
-    ];
+    paths = with super;
+      [
+        # Disabled for now, see:
+        # https://github.com/NixOS/nixpkgs/issues/76715
+        #anki
+        (texlive.combine { inherit (texlive) scheme-medium; })
+      ];
   };
 
   mactools-env = super.buildEnv {
@@ -43,30 +39,19 @@ let
 
   maths-env = super.buildEnv {
     name = "maths-env";
-    paths = with super; [
-      coq
-      lean
-      prooftree
-    ];
+    paths = with super; [ coq lean prooftree ];
     meta.platforms = super.lib.platforms.all;
   };
 
   minikube-env = super.buildEnv {
     name = "minikube-env";
-    paths = with super; [
-      kubectl
-      linuxkit
-      minikube
-    ];
+    paths = with super; [ kubectl linuxkit minikube ];
     meta.platforms = super.lib.platforms.all;
   };
 
   nixops-env = super.buildEnv {
     name = "nixops-env";
-    paths = with super; [
-      nixops
-      terraform
-    ];
+    paths = with super; [ nixops terraform ];
     meta.platforms = super.lib.platforms.all;
   };
 
@@ -89,9 +74,10 @@ let
 
   opsec-env = super.buildEnv {
     name = "opsec-env";
-    paths = with super; [
-      #nmap
-    ];
+    paths = with super;
+      [
+        #nmap
+      ];
     meta.platforms = super.lib.platforms.all;
   };
 
@@ -117,8 +103,7 @@ let
     meta.platforms = super.lib.platforms.all;
   };
 
-in
-{
+in {
   inherit anki-env;
   inherit mactools-env;
   inherit maths-env;

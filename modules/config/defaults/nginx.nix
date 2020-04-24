@@ -8,8 +8,7 @@ let
   enabled = cfg.enable;
   nginx_enabled = config.services.nginx.enable;
 
-in
-{
+in {
   options.hacknix.defaults.nginx = {
 
     enable = mkEnableOption ''
@@ -37,7 +36,6 @@ in
 
       serverTokens = false;
 
-
       ## Mozilla recommendations. See
       ## https://mozilla.github.io/server-side-tls/ssl-config-generator/?server=nginx-1.10.3&openssl=1.0.1e&hsts=yes&profile=modern
 
@@ -60,7 +58,7 @@ in
         # fetch OCSP records from URL in ssl_certificate and cache them
         ssl_stapling on;
         ssl_stapling_verify on;
-      '';      
+      '';
 
     };
 

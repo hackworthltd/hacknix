@@ -1,16 +1,11 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{ config, pkgs, lib, ... }:
 
 let
 
   cfg = config.hacknix.providers.linode;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.providers.linode = {
     enable = lib.mkEnableOption "configuration defaults for Linode VPSes.";
   };

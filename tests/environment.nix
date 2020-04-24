@@ -1,26 +1,17 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
-
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
   makeEnvTest = name: machineAttrs:
     makeTest {
       name = "environment-${name}";
-      meta = with pkgs.lib.maintainers; {
-        maintainers = [ dhess ];
-      };
-      machine = { config, ... }: {
-        nixpkgs.localSystem.system = system;
-        imports = [
-          ./common/users.nix
-        ] ++ pkgs.lib.hacknix.modules;
-      } // machineAttrs;
-      testScript = { ... }:
-      ''
+      meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
+      machine = { config, ... }:
+        {
+          nixpkgs.localSystem.system = system;
+          imports = [ ./common/users.nix ] ++ pkgs.lib.hacknix.modules;
+        } // machineAttrs;
+      testScript = { ... }: ''
         $machine->waitForUnit("multi-user.target");
 
         subtest "root-no-histfile", sub {
@@ -49,10 +40,10 @@ let
       '';
     };
 
-in
-{
+in {
 
   test1 = makeEnvTest "global-enable" { hacknix.defaults.enable = true; };
-  test2 = makeEnvTest "env-enable" { hacknix.defaults.environment.enable = true; };
+  test2 =
+    makeEnvTest "env-enable" { hacknix.defaults.environment.enable = true; };
 
 }

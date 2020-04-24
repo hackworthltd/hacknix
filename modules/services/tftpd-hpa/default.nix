@@ -10,17 +10,15 @@ let
   group = "tftp";
 
   # tftp-hpa requires IPv6 addresses to be enclosed in brackets.
-  addressOption =
-  let
-    addr = cfg.listenAddress;
-  in
-    if addr == null then "" else
-    if pkgs.lib.ipaddr.isIPv4NoCIDR addr then "--address ${addr}" else
+  addressOption = let addr = cfg.listenAddress;
+  in if addr == null then
+    ""
+  else if pkgs.lib.ipaddr.isIPv4NoCIDR addr then
+    "--address ${addr}"
+  else
     "--address [${addr}]";
 
-in
-
-{
+in {
 
   options = {
 
@@ -51,7 +49,8 @@ in
       };
 
       listenAddress = mkOption {
-        type = types.nullOr (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
+        type = types.nullOr
+          (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
         default = null;
         example = "2001:db8::2";
         description = ''
@@ -91,19 +90,19 @@ in
       # appear to be running as root in `ps`.
 
       script = ''
-        ${pkgs.tftp-hpa}/bin/in.tftpd --user ${user} --listen ${addressOption} ${concatStringsSep " " cfg.extraOptions} --secure ${cfg.root}
+        ${pkgs.tftp-hpa}/bin/in.tftpd --user ${user} --listen ${addressOption} ${
+          concatStringsSep " " cfg.extraOptions
+        } --secure ${cfg.root}
       '';
 
-      serviceConfig = {
-        Type = "forking";
-      };
+      serviceConfig = { Type = "forking"; };
     };
 
     users.users."${user}" = {
       description = "tftp user";
       name = "${user}";
       group = "${group}";
-      isSystemUser = true;          
+      isSystemUser = true;
     };
     users.groups."${group}".name = "${group}";
 

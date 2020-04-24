@@ -1,6 +1,4 @@
-{ pkgs
-, postAuthConfig
-}:
+{ pkgs, postAuthConfig }:
 
 let
 
@@ -120,5 +118,4 @@ let
       }
     }
   '';
-in
-  pkgs.writeText "default" siteDefault
+in pkgs.writeText "default" siteDefault

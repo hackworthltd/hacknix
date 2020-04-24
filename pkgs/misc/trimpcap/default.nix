@@ -1,9 +1,4 @@
-{ lib
-, stdenv
-, makeWrapper
-, python
-, pythonPackages
-}:
+{ lib, stdenv, makeWrapper, python, pythonPackages }:
 
 stdenv.mkDerivation rec {
   pname = "trimpcap";
@@ -12,10 +7,7 @@ stdenv.mkDerivation rec {
 
   src = ./.;
 
-  buildInputs = [
-    makeWrapper
-    python
-  ];
+  buildInputs = [ makeWrapper python ];
 
   propagatedBuildInputs = with pythonPackages; [ dpkt repoze_lru ];
 
@@ -27,7 +19,7 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with lib; {
-    homepage = https://www.netresec.com/?page=TrimPCAP;
+    homepage = "https://www.netresec.com/?page=TrimPCAP";
     description = "Trim pcap files";
     license = licenses.gpl2;
     maintainers = maintainers.dhess;

@@ -7,12 +7,10 @@ let
   cfg = config.hacknix.defaults;
   enabled = cfg.enable;
 
-in
-{
+in {
 
   options.hacknix.defaults = {
-    enable = mkEnableOption
-    ''
+    enable = mkEnableOption ''
       all of the hacknix configuration defaults.
 
       These defaults will configure a NixOS server according to the

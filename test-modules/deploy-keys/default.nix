@@ -1,4 +1,4 @@
-## Dummy (and insecure!) secret deployments for our tests.
+# # Dummy (and insecure!) secret deployments for our tests.
 ##
 ## Do not use this in production -- it will put secrets into the Nix
 ## store.
@@ -23,24 +23,20 @@ let
   keychain = config.hacknix.keychain;
   enabled = cfg.reallyReallyEnable;
 
-  deployKeys =
-    (concatStrings (mapAttrsToList
-      (name: value: let
-                      keyFile = pkgs.writeText name value.text;
-                      destDir = toString value.destDir;
-                    in
-                    ''
-                         if test ! -d ${destDir}
-                         then
-                             mkdir -p ${destDir} -m 0750
-                             chown ${value.user}:${value.group} ${destDir}
-                         fi
-                         install -m ${value.permissions} -o ${value.user} -g ${value.group} ${keyFile} ${destDir}/${name}
-                    '')
-     cfg.keys));
+  deployKeys = (concatStrings (mapAttrsToList (name: value:
+    let
+      keyFile = pkgs.writeText name value.text;
+      destDir = toString value.destDir;
+    in ''
+      if test ! -d ${destDir}
+      then
+          mkdir -p ${destDir} -m 0750
+          chown ${value.user}:${value.group} ${destDir}
+      fi
+      install -m ${value.permissions} -o ${value.user} -g ${value.group} ${keyFile} ${destDir}/${name}
+    '') cfg.keys));
 
-in
-{
+in {
   options.deployment = {
     reallyReallyEnable = mkOption {
       default = false;
@@ -75,22 +71,21 @@ in
 
   config = mkIf enabled {
 
-    warnings = [(
-      "NOTE: The hacknix faux NixOps secret deployment system has been " +
-      "enabled. This system is inteded for use ONLY IN TESTING. This " +
-      "system WILL copy secrets to the Nix store. Do NOT use this system " +
-      "in production!"
-    )];
+    warnings = [
+      ("NOTE: The hacknix faux NixOps secret deployment system has been "
+        + "enabled. This system is inteded for use ONLY IN TESTING. This "
+        + "system WILL copy secrets to the Nix store. Do NOT use this system "
+        + "in production!")
+    ];
 
     deployment.keys = keychain.keys;
 
     # Emulate NixOps.
-    system.activationScripts.nixops-keys = stringAfter [ "users" "groups" ]
-      ''
-        mkdir -p /run/keys -m 0750
-        chown root:keys /run/keys
-        ${deployKeys}
-        touch /run/keys/done
-      '';
+    system.activationScripts.nixops-keys = stringAfter [ "users" "groups" ] ''
+      mkdir -p /run/keys -m 0750
+      chown root:keys /run/keys
+      ${deployKeys}
+      touch /run/keys/done
+    '';
   };
 }

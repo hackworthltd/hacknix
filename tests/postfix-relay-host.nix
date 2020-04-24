@@ -1,8 +1,4 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
@@ -13,30 +9,30 @@ let
   bob-cert = ./testfiles/certs/bob-at-acme.com.crt;
   bob-sha1 = ./testfiles/certs/bob-at-acme.com.sha1;
   bob-certKey = ./testfiles/keys/bob-at-acme.com.key;
-  bob-certKeyInStore = pkgs.copyPathToStore ./testfiles/keys/bob-at-acme.com.key;
+  bob-certKeyInStore =
+    pkgs.copyPathToStore ./testfiles/keys/bob-at-acme.com.key;
 
 in makeTest rec {
   name = "postfix-relay-host";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
     host = { config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports =
-        pkgs.lib.hacknix.modules ++
-        pkgs.lib.hacknix.testing.testModules;
+      imports = pkgs.lib.hacknix.modules
+        ++ pkgs.lib.hacknix.testing.testModules;
 
-       networking.useDHCP = false;
-       networking.firewall.allowedTCPPorts = [ 25 587 ];
-       networking.interfaces.eth1.ipv4.addresses = [
-         { address = "192.168.1.1"; prefixLength = 24; }
-       ];
-       networking.interfaces.eth1.ipv6.addresses = [
-         { address = "fd00:1234:5678::1000"; prefixLength = 64; }
-       ];
+      networking.useDHCP = false;
+      networking.firewall.allowedTCPPorts = [ 25 587 ];
+      networking.interfaces.eth1.ipv4.addresses = [{
+        address = "192.168.1.1";
+        prefixLength = 24;
+      }];
+      networking.interfaces.eth1.ipv6.addresses = [{
+        address = "fd00:1234:5678::1000";
+        prefixLength = 64;
+      }];
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;
@@ -55,8 +51,7 @@ in makeTest rec {
     };
   };
 
-  testScript = { nodes, ... }:
-  ''
+  testScript = { nodes, ... }: ''
     $host->waitForUnit("multi-user.target");
     $host->requireActiveUnit("postfix.service");
 

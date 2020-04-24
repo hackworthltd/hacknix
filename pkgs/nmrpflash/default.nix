@@ -1,10 +1,4 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, pkgconfig
-, libpcap
-, libnl
-}:
+{ stdenv, lib, fetchFromGitHub, pkgconfig, libpcap, libnl }:
 
 stdenv.mkDerivation rec {
   name = "nmrpflash";
@@ -17,17 +11,11 @@ stdenv.mkDerivation rec {
     rev = "v${version}";
   };
 
-  patches = [
-    ./Makefile.patch
-  ];
+  patches = [ ./Makefile.patch ];
 
-  nativeBuildInputs = stdenv.lib.optionals stdenv.isLinux [
-    pkgconfig
-  ];
+  nativeBuildInputs = stdenv.lib.optionals stdenv.isLinux [ pkgconfig ];
 
-  buildInputs = [ libpcap ] ++ stdenv.lib.optionals stdenv.isLinux [
-    libnl
-  ];
+  buildInputs = [ libpcap ] ++ stdenv.lib.optionals stdenv.isLinux [ libnl ];
 
   configurePhase = stdenv.lib.optionalString stdenv.isLinux ''
     export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE $(pkg-config --cflags libnl-route-3.0)"
@@ -38,7 +26,7 @@ stdenv.mkDerivation rec {
   installFlags = buildFlags;
 
   meta = with lib; {
-    homepage = https://github.com/jclehner/nmrpflash;
+    homepage = "https://github.com/jclehner/nmrpflash";
     description = "A Netgear unbrick utility";
     platforms = platforms.unix;
     maintainers = with maintainers; [ dhess ];

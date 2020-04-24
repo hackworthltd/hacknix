@@ -8,8 +8,7 @@ let
   enabled = cfg.enable;
   commonConfig = import ./common.nix { inherit config lib pkgs; };
 
-in
-{
+in {
   options.hacknix.hardware.smartd-1x-non-removable = {
     enable = mkEnableOption ''
       <literal>smartd</literal> for 1 non-removable drive.
@@ -73,12 +72,11 @@ in
   config = mkIf enabled ({
     services.smartd = {
       autodetect = false;
-      devices = [
-        {
-          device = "/dev/sda";
-          options = "-a -n standby,7 -o on -S on -s (S/../../(2|3|4|5|6|7)/02|L/../../1/02)";
-        }
-      ];
+      devices = [{
+        device = "/dev/sda";
+        options =
+          "-a -n standby,7 -o on -S on -s (S/../../(2|3|4|5|6|7)/02|L/../../1/02)";
+      }];
     };
   } // commonConfig);
 }

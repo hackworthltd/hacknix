@@ -1,17 +1,11 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
 in makeTest rec {
   name = "tarsnapper";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
 
@@ -38,8 +32,7 @@ in makeTest rec {
     };
   };
 
-  testScript = { nodes, ... }:
-  ''
+  testScript = { nodes, ... }: ''
     startAll;
 
     ## Not a whole lot we can do here without an actual tarsnap server
@@ -47,7 +40,7 @@ in makeTest rec {
     ## designed not to create the cache directory until it can
     ## successfully ping v1-0-0-server.tarsnap.com, so we don't test
     ## that here, either.
-    
+
     $machine->waitForUnit("multi-user.target");
     $machine->waitForUnit("tarsnapper.timer");
   '';

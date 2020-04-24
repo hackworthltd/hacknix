@@ -1,9 +1,4 @@
-{ stdenv
-, buildGoModule
-, lib
-, fetchFromGitHub
-, Security
-}:
+{ stdenv, buildGoModule, lib, fetchFromGitHub, Security }:
 
 buildGoModule rec {
   pname = "aws-vault";

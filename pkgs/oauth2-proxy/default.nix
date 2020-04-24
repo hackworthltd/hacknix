@@ -1,9 +1,4 @@
-{ stdenv
-, lib
-, buildGoModule
-, fetchFromGitHub
-, Security
-}:
+{ stdenv, lib, buildGoModule, fetchFromGitHub, Security }:
 
 buildGoModule rec {
   pname = "oauth2-proxy";
@@ -22,8 +17,9 @@ buildGoModule rec {
   buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
-    description = "A reverse proxy that provides authentication with Google, Github or other provider";
-    homepage = https://github.com/oauth2-proxy/oauth2-proxy/;
+    description =
+      "A reverse proxy that provides authentication with Google, Github or other provider";
+    homepage = "https://github.com/oauth2-proxy/oauth2-proxy/";
     license = licenses.mit;
     maintainers = [ maintainers.dhess ];
     platforms = platforms.all;

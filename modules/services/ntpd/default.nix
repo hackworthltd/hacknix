@@ -29,11 +29,10 @@ let
     ${cfg.extraConfig}
   '';
 
-  ntpFlags = "-c ${configFile} -u ${ntpUser}:nogroup ${toString cfg.extraFlags}";
+  ntpFlags =
+    "-c ${configFile} -u ${ntpUser}:nogroup ${toString cfg.extraFlags}";
 
-in
-
-{
+in {
 
   disabledModules = [ "services/networking/ntp/ntpd.nix" ];
 
@@ -91,19 +90,19 @@ in
         type = types.listOf types.str;
         description = "Extra flags passed to the ntpd command.";
         example = literalExample ''[ "--interface=eth0" ]'';
-        default = [];
+        default = [ ];
       };
 
       extraConfig = mkOption {
         type = types.lines;
-        description = "Extra ntpd config that is appended to the default config file.";
+        description =
+          "Extra ntpd config that is appended to the default config file.";
         default = "";
       };
 
     };
 
   };
-
 
   ###### implementation
 
@@ -116,7 +115,9 @@ in
     environment.systemPackages = [ pkgs.ntp ];
     services.timesyncd.enable = mkForce false;
 
-    systemd.services.systemd-timedated.environment = { SYSTEMD_TIMEDATED_NTP_SERVICES = "ntpd.service"; };
+    systemd.services.systemd-timedated.environment = {
+      SYSTEMD_TIMEDATED_NTP_SERVICES = "ntpd.service";
+    };
 
     users.users."${ntpUser}" = {
       name = ntpUser;
@@ -125,24 +126,23 @@ in
       home = stateDir;
     };
 
-    systemd.services.ntpd =
-      { description = "NTP Daemon";
+    systemd.services.ntpd = {
+      description = "NTP Daemon";
 
-        wantedBy = [ "multi-user.target" ];
-        wants = [ "time-sync.target" ];
-        before = [ "time-sync.target" ];
+      wantedBy = [ "multi-user.target" ];
+      wants = [ "time-sync.target" ];
+      before = [ "time-sync.target" ];
 
-        preStart =
-          ''
-            mkdir -m 0755 -p ${stateDir}
-            chown ${ntpUser} ${stateDir}
-          '';
+      preStart = ''
+        mkdir -m 0755 -p ${stateDir}
+        chown ${ntpUser} ${stateDir}
+      '';
 
-        serviceConfig = {
-          ExecStart = "@${ntp}/bin/ntpd ntpd -g ${ntpFlags}";
-          Type = "forking";
-        };
+      serviceConfig = {
+        ExecStart = "@${ntp}/bin/ntpd ntpd -g ${ntpFlags}";
+        Type = "forking";
       };
+    };
 
   };
 

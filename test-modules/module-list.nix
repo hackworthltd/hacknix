@@ -1,3 +1,1 @@
-[
-  ./deploy-keys
-]
+[ ./deploy-keys ]

@@ -1,11 +1,6 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
-
 
   exampleCA1Pem = pkgs.writeText "exampleCA1.pem" ''
     -----BEGIN CERTIFICATE-----
@@ -92,14 +87,11 @@ let
 in makeTest rec {
   name = "dovecot";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   machine = { config, ... }: {
-    imports = [ ./common/user-account.nix ] ++
-      pkgs.lib.hacknix.modules ++
-      pkgs.lib.hacknix.testing.testModules;
+    imports = [ ./common/user-account.nix ] ++ pkgs.lib.hacknix.modules
+      ++ pkgs.lib.hacknix.testing.testModules;
 
     # Use the test key deployment system.
     deployment.reallyReallyEnable = true;

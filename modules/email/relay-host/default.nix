@@ -1,4 +1,4 @@
-## Configuration for an opinionated Postfix relay host, i.e., a host
+# # Configuration for an opinionated Postfix relay host, i.e., a host
 ## that can send mail *to a prescribed set of domains* on behalf of
 ## other hosts. One typical use for such a service is to support
 ## oddball hardware (e.g., a UPS) that can send email, but not
@@ -32,8 +32,7 @@ let
 
   dhParamsFile = "${stateDir}/dh.pem";
 
-in
-{
+in {
   options.services.postfix-relay-host = {
 
     enable = mkEnableOption ''
@@ -100,7 +99,7 @@ in
 
     relayDomains = mkOption {
       type = types.listOf pkgs.lib.types.nonEmptyStr;
-      default = [];
+      default = [ ];
       example = [ "example.com" "example.net" ];
       description = ''
         A list of domains for which this Postfix service will accept
@@ -119,17 +118,13 @@ in
     relayHost = mkOption {
       type = types.str;
       default = "";
-      description = "
-        Mail relay for outbound mail.
-      ";
+      description = "\n        Mail relay for outbound mail.\n      ";
     };
 
     relayPort = mkOption {
       type = types.int;
       default = 25;
-      description = "
-        SMTP port for relay mail relay.
-      ";
+      description = "\n        SMTP port for relay mail relay.\n      ";
     };
 
     relayClientCertFingerprintsFile = mkOption {
@@ -149,9 +144,8 @@ in
     lookupMX = mkOption {
       type = types.bool;
       default = false;
-      description = "
-        Whether relay specified is just domain whose MX must be used.
-      ";
+      description =
+        "\n        Whether relay specified is just domain whose MX must be used.\n      ";
     };
 
     smtpTlsCAFile = mkOption {
@@ -182,7 +176,8 @@ in
     };
 
     listenAddresses = mkOption {
-      type = types.nonEmptyListOf (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
+      type = types.nonEmptyListOf
+        (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
       default = [ "127.0.0.1" "::1" ];
       example = [ "127.0.0.1" "::1" "10.0.0.25" "2001:db8::25" ];
       description = ''
@@ -208,11 +203,11 @@ in
       text = cfg.smtpTlsKeyLiteral;
     };
 
-    assertions = [
-      { assertion = !globalCfg.services.postfix-null-client.enable;
-        message = "Only one of `services.postfix-null-client` and `services.postfix-relay-host` can be set";
-      }
-    ];
+    assertions = [{
+      assertion = !globalCfg.services.postfix-null-client.enable;
+      message =
+        "Only one of `services.postfix-null-client` and `services.postfix-relay-host` can be set";
+    }];
 
     services.postfix = {
       enable = true;
@@ -223,47 +218,49 @@ in
       # "submission" master.cf line manually.
 
       enableSubmission = false;
-      masterConfig = listToAttrs (map (ip:
-        { name = "[${ip}]:submission";
-          value = {
-            type = "inet";
-            private = false;
-            command = "smtpd";
-            args = [
-              "-o" "milter_macro_daemon_name=ORIGINATING"
-              "-o" "smtpd_client_restrictions=permit_tls_clientcerts,reject"
-              "-o" "smtpd_reject_unlisted_recipient=no"
-              "-o" "smtpd_tls_dh1024_param_file=${dhParamsFile}"
-              "-o" "smtpd_tls_security_level=encrypt"
-              "-o" "syslog_name=postfix/submission"
-              "-o" "tls_preempt_cipherlist=yes"
-            ];
-          };
-        }
-      ) cfg.listenAddresses)
-
-      // listToAttrs (map (ip:
-        { name = "[${ip}]:smtp";
-          value = {
-            type = "inet";
-            private = false;
-            command = "smtpd";
-          };
-        }
-      ) cfg.listenAddresses)
-
-      //
-      {
-        # Nixpkgs postfix module always enables smtp inet; we have to
-        # override it here.
-        #
-        # Note: this is a bit of a hack. It works because the name of
-        # the service is at the beginning of the line and we can
-        # change its name to be a comment.
-        smtp_inet = {
-          name = mkForce "#smtp";
+      masterConfig = listToAttrs (map (ip: {
+        name = "[${ip}]:submission";
+        value = {
+          type = "inet";
+          private = false;
+          command = "smtpd";
+          args = [
+            "-o"
+            "milter_macro_daemon_name=ORIGINATING"
+            "-o"
+            "smtpd_client_restrictions=permit_tls_clientcerts,reject"
+            "-o"
+            "smtpd_reject_unlisted_recipient=no"
+            "-o"
+            "smtpd_tls_dh1024_param_file=${dhParamsFile}"
+            "-o"
+            "smtpd_tls_security_level=encrypt"
+            "-o"
+            "syslog_name=postfix/submission"
+            "-o"
+            "tls_preempt_cipherlist=yes"
+          ];
         };
-      };
+      }) cfg.listenAddresses)
+
+        // listToAttrs (map (ip: {
+          name = "[${ip}]:smtp";
+          value = {
+            type = "inet";
+            private = false;
+            command = "smtpd";
+          };
+        }) cfg.listenAddresses)
+
+        // {
+          # Nixpkgs postfix module always enables smtp inet; we have to
+          # override it here.
+          #
+          # Note: this is a bit of a hack. It works because the name of
+          # the service is at the beginning of the line and we can
+          # change its name to be a comment.
+          smtp_inet = { name = mkForce "#smtp"; };
+        };
 
       domain = cfg.myDomain;
       origin = cfg.myOrigin;
@@ -281,9 +278,7 @@ in
       sslCert = "${cfg.smtpTlsCertFile}";
       sslKey = key.path;
 
-      mapFiles = {
-        relay_clientcerts = cfg.relayClientCertFingerprintsFile;
-      };
+      mapFiles = { relay_clientcerts = cfg.relayClientCertFingerprintsFile; };
 
       extraConfig = ''
 

@@ -14,8 +14,10 @@ let
 
   stateDir = "/var/lib/unbound-multi-instance";
 
-
-  wrapped = runCommand "ipfs" { buildInputs = [ makeWrapper ]; preferLocalBuild = true; } ''
+  wrapped = runCommand "ipfs" {
+    buildInputs = [ makeWrapper ];
+    preferLocalBuild = true;
+  } ''
     mkdir -p "$out/bin"
     makeWrapper "${ipfs}/bin/ipfs" "$out/bin/ipfs" \
       --set IPFS_PATH ${cfg.dataDir} \
@@ -25,79 +27,88 @@ let
   mkServiceName = name: "unbound-${name}";
 
   mkUnboundService = name: cfg:
-  let
-    isLocalAddress = x: substring 0 3 x == "::1" || substring 0 9 x == "127.0.0.1";
-    rootTrustAnchorFile = "${stateDir}/root.key";
-    confFileName = "unbound-${name}.conf";
-    confFile = pkgs.writeText confFileName ''
-      server:
-        directory: "${stateDir}"
-        username: unbound
-        chroot: "${stateDir}"
-        pidfile: ""
-        num-threads: ${toString cfg.numThreads}
-        tls-cert-bundle: ${cfg.tlsCertBundle}
-        ${concatMapStringsSep "\n  " (ip: "interface: ${ip}") cfg.listenAddresses}
-        ${concatMapStringsSep "\n  " (cidr: "access-control: ${cidr} allow") cfg.allowedAccess}
-        ${optionalString cfg.enableRootTrustAnchor "auto-trust-anchor-file: ${rootTrustAnchorFile}"}
+    let
+      isLocalAddress = x:
+        substring 0 3 x == "::1" || substring 0 9 x == "127.0.0.1";
+      rootTrustAnchorFile = "${stateDir}/root.key";
+      confFileName = "unbound-${name}.conf";
+      confFile = pkgs.writeText confFileName ''
+        server:
+          directory: "${stateDir}"
+          username: unbound
+          chroot: "${stateDir}"
+          pidfile: ""
+          num-threads: ${toString cfg.numThreads}
+          tls-cert-bundle: ${cfg.tlsCertBundle}
+          ${
+            concatMapStringsSep "\n  " (ip: "interface: ${ip}")
+            cfg.listenAddresses
+          }
+          ${
+            concatMapStringsSep "\n  " (cidr: "access-control: ${cidr} allow")
+            cfg.allowedAccess
+          }
+          ${
+            optionalString cfg.enableRootTrustAnchor
+            "auto-trust-anchor-file: ${rootTrustAnchorFile}"
+          }
 
-      unwanted-reply-threshold: 10000000
+        unwanted-reply-threshold: 10000000
 
-      verbosity: 3
-      prefetch: yes
-      prefetch-key: yes
+        verbosity: 3
+        prefetch: yes
+        prefetch-key: yes
 
-      hide-version: yes
-      hide-identity: yes
+        hide-version: yes
+        hide-identity: yes
 
-      private-address: 10.0.0.0/8
-      private-address: 172.16.0.0/12
-      private-address: 192.168.0.0/16
-      private-address: 169.254.0.0/16
-      private-address: fd00::/8
-      private-address: fe80::/10
+        private-address: 10.0.0.0/8
+        private-address: 172.16.0.0/12
+        private-address: 192.168.0.0/16
+        private-address: 169.254.0.0/16
+        private-address: fd00::/8
+        private-address: fe80::/10
 
-      ${cfg.extraConfig}
-      ${optionalString (any isLocalAddress cfg.forwardAddresses) ''
+        ${cfg.extraConfig}
+        ${optionalString (any isLocalAddress cfg.forwardAddresses) ''
           do-not-query-localhost: no
-        '' +
-        optionalString (cfg.forwardAddresses != []) ''
+        '' + optionalString (cfg.forwardAddresses != [ ]) ''
           forward-zone:
             name: .
             ${optionalString cfg.dnsOverTLS "forward-tls-upstream: yes"}
-        '' +
-        concatMapStringsSep "\n" (x: "    forward-addr: ${x}") cfg.forwardAddresses}
-    '';
-  in nameValuePair (mkServiceName name)
-  {
-    description = "Unbound recursive name server (multi-instance)";
-    after = [ "network.target" ];
-    before = [ "nss-lookup.target" ];
-    wants = [ "nss-lookup.target" ];
-    wantedBy = [ "multi-user.target" ];
+        '' + concatMapStringsSep "\n" (x: "    forward-addr: ${x}")
+        cfg.forwardAddresses}
+      '';
+    in nameValuePair (mkServiceName name) {
+      description = "Unbound recursive name server (multi-instance)";
+      after = [ "network.target" ];
+      before = [ "nss-lookup.target" ];
+      wants = [ "nss-lookup.target" ];
+      wantedBy = [ "multi-user.target" ];
 
-    preStart = ''
-      mkdir -m 0755 -p ${stateDir}/dev/
-      cp ${confFile} ${stateDir}/${confFileName}
-      ${optionalString cfg.enableRootTrustAnchor ''
-        ${pkgs.unbound}/bin/unbound-anchor -a ${rootTrustAnchorFile} || echo "Root anchor updated!"
-        chown unbound ${stateDir} ${rootTrustAnchorFile}
-      ''}
-      touch ${stateDir}/dev/random
-      ${pkgs.utillinux}/bin/mount --bind -n /dev/urandom ${stateDir}/dev/random
-    '';
+      preStart = ''
+        mkdir -m 0755 -p ${stateDir}/dev/
+        cp ${confFile} ${stateDir}/${confFileName}
+        ${optionalString cfg.enableRootTrustAnchor ''
+          ${pkgs.unbound}/bin/unbound-anchor -a ${rootTrustAnchorFile} || echo "Root anchor updated!"
+          chown unbound ${stateDir} ${rootTrustAnchorFile}
+        ''}
+        touch ${stateDir}/dev/random
+        ${pkgs.utillinux}/bin/mount --bind -n /dev/urandom ${stateDir}/dev/random
+      '';
 
-    serviceConfig = {
-      ExecStart = "${pkgs.unbound}/bin/unbound -d -c ${stateDir}/${confFileName}";
-      ExecStopPost="${pkgs.utillinux}/bin/umount ${stateDir}/dev/random";
+      serviceConfig = {
+        ExecStart =
+          "${pkgs.unbound}/bin/unbound -d -c ${stateDir}/${confFileName}";
+        ExecStopPost = "${pkgs.utillinux}/bin/umount ${stateDir}/dev/random";
 
-      ProtectSystem = true;
-      ProtectHome = true;
-      PrivateDevices = true;
-      Restart = "always";
-      RestartSec = "5s";
+        ProtectSystem = true;
+        ProtectHome = true;
+        PrivateDevices = true;
+        Restart = "always";
+        RestartSec = "5s";
+      };
     };
-  };
 
 in {
 
@@ -107,12 +118,13 @@ in {
       description = ''
         Zero or more Unbound service instances.
       '';
-      default = {};
+      default = { };
       example = literalExample {
         adblock = {
           allowedAccess = [ "10.0.0.0/8" ];
           listenAddresses = [ "10.8.8.8" "2001:db8::1" ];
-          extraConfig = builtins.readFile "${pkgs.badhosts-unified}/unbound.conf";
+          extraConfig =
+            builtins.readFile "${pkgs.badhosts-unified}/unbound.conf";
         };
       };
       type = types.attrsOf (types.submodule {
@@ -128,8 +140,9 @@ in {
 
           allowedAccess = mkOption {
             default = [ "127.0.0.0/8" "::1" ];
-            example = [ "192.168.1.0/24" "2001:db8::/64"];
-            type = types.listOf (types.either pkgs.lib.types.ipv4CIDR pkgs.lib.types.ipv6CIDR);
+            example = [ "192.168.1.0/24" "2001:db8::/64" ];
+            type = types.listOf
+              (types.either pkgs.lib.types.ipv4CIDR pkgs.lib.types.ipv6CIDR);
             description = ''
               A list of networks that can use this instance as a
               resolver, in CIDR notation.
@@ -140,7 +153,8 @@ in {
           };
 
           listenAddresses = mkOption {
-            type = types.nonEmptyListOf (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
+            type = types.nonEmptyListOf (types.either pkgs.lib.types.ipv4NoCIDR
+              pkgs.lib.types.ipv6NoCIDR);
             example = [ "10.8.8.8" "2001:db8::1" ];
             description = ''
               A list of IPv4 and/or IPv6 addresses on which this
@@ -179,7 +193,8 @@ in {
           enableRootTrustAnchor = mkOption {
             default = true;
             type = types.bool;
-            description = "Use and update root trust anchor for DNSSEC validation on this Unbound instance.";
+            description =
+              "Use and update root trust anchor for DNSSEC validation on this Unbound instance.";
           };
 
           extraConfig = mkOption {
@@ -193,13 +208,13 @@ in {
 
   };
 
-  config = mkIf (instances != {}) {
+  config = mkIf (instances != { }) {
 
-    assertions = [
-      { assertion = !globalCfg.services.unbound.enable;
-        message = "Only one of `services.unbound` and `services.unbound-multi-instance` can be enabled.";
-      }
-    ];
+    assertions = [{
+      assertion = !globalCfg.services.unbound.enable;
+      message =
+        "Only one of `services.unbound` and `services.unbound-multi-instance` can be enabled.";
+    }];
 
     # Track changes in upstream service, in case we need to reproduce
     # them here.
@@ -214,9 +229,7 @@ in {
       isSystemUser = true;
     };
 
-
-    systemd.services =
-      mapAttrs' mkUnboundService instances;
+    systemd.services = mapAttrs' mkUnboundService instances;
 
   };
 

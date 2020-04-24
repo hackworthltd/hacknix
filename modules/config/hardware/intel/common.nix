@@ -9,10 +9,10 @@ let
   cfg = config.hacknix.hardware.intel.common;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.hardware.intel.common = {
-    enable = mkEnableOption "a Intel hardware configuration common to modern Intel platforms.";
+    enable = mkEnableOption
+      "a Intel hardware configuration common to modern Intel platforms.";
   };
 
   config = mkIf enabled {

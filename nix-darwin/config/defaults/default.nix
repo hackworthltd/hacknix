@@ -1,16 +1,11 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{ config, pkgs, lib, ... }:
 
 let
 
   localLib = import ../../../lib;
   cfg = config.hacknix-nix-darwin.defaults;
 
-in
-{
+in {
   options.hacknix-nix-darwin.defaults = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -127,9 +122,7 @@ in
 
     # Make sure our `darwin-rebuild` convenience wrapper is in the
     # system path.
-    environment.systemPackages = [
-      pkgs.macnix-rebuild
-    ];
+    environment.systemPackages = [ pkgs.macnix-rebuild ];
 
     # Always use our fixed package sets and ignore channels. We want a
     # pure NIX_PATH by default.

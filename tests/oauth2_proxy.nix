@@ -1,8 +1,4 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
@@ -54,9 +50,7 @@ let
     -----END CERTIFICATE-----
   '';
 
-  extraCerts = {
-    "Example Org CA" = exampleCA1Pem;
-  };
+  extraCerts = { "Example Org CA" = exampleCA1Pem; };
 
   server1Pem = pkgs.writeText "server1.pem" ''
     -----BEGIN CERTIFICATE-----
@@ -128,16 +122,13 @@ let
 in makeTest rec {
   name = "oauth2_proxy";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
     server = { lib, config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports =
-        pkgs.lib.hacknix.modules ++
-        pkgs.lib.hacknix.testing.testModules;
+      imports = pkgs.lib.hacknix.modules
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;
@@ -148,7 +139,7 @@ in makeTest rec {
           forceSSL = true;
           sslCertificate = server1Pem;
           sslCertificateKey = server1Key;
-          locations."/".root = pkgs.runCommand "docroot" {} ''
+          locations."/".root = pkgs.runCommand "docroot" { } ''
             mkdir -p "$out"
             echo "<!DOCTYPE html><title>server1</title>" > "$out/index.html"
           '';
@@ -162,9 +153,7 @@ in makeTest rec {
         provider = "github";
         redirectURL = "https://server/oauth2/callback";
         github.org = "examplecom";
-        upstream = [
-          "http://127.0.0.1:80"
-        ];
+        upstream = [ "http://127.0.0.1:80" ];
         keyFile = "/run/keys/oauth2_proxy";
         cookie.sameSite = "lax";
       };
@@ -189,8 +178,7 @@ in makeTest rec {
     };
   };
 
-  testScript = { nodes, ... }:
-  ''
+  testScript = { nodes, ... }: ''
     startAll;
     $server->waitForUnit("nginx.service");
     $server->waitForUnit("oauth2_proxy.service");

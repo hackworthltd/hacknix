@@ -7,8 +7,7 @@ let
   cfg = config.hacknix.defaults.nix;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.defaults.nix = {
     enable = mkEnableOption "the hacknix Nix configuration defaults.";
   };
@@ -25,15 +24,14 @@ in
       useSandbox = true;
       nixPath = [
         (let
-          cfg = pkgs.writeText "configuration.nix"
-            ''
-              assert builtins.trace "This server is managed by NixOps; do not run `nixos-rebuild` here." false;
-              {}
-            '';
-         in "nixos-config=${cfg}")
+          cfg = pkgs.writeText "configuration.nix" ''
+            assert builtins.trace "This server is managed by NixOps; do not run `nixos-rebuild` here." false;
+            {}
+          '';
+        in "nixos-config=${cfg}")
 
-         # Copy the channel version from the deploy host to the target
-         "nixpkgs=/run/current-system/nixpkgs"
+        # Copy the channel version from the deploy host to the target
+        "nixpkgs=/run/current-system/nixpkgs"
       ];
     };
 

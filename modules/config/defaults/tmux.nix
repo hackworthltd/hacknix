@@ -7,8 +7,7 @@ let
   cfg = config.hacknix.defaults.tmux;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.defaults.tmux = {
     enable = mkEnableOption "the hacknix tmux configuration defaults.";
   };

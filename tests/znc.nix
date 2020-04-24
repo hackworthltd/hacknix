@@ -1,27 +1,18 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
-
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
   makeZncTest = name: machineAttrs:
     makeTest {
       name = "znc-${name}";
-      meta = with pkgs.lib.maintainers; {
-        maintainers = [ dhess ];
-      };
+      meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
       nodes = {
 
-        localhostServer = { config, ... }:
-        {
+        localhostServer = { config, ... }: {
           nixpkgs.localSystem.system = system;
-          imports =
-            pkgs.lib.hacknix.modules ++
-            pkgs.lib.hacknix.testing.testModules;
+          imports = pkgs.lib.hacknix.modules
+            ++ pkgs.lib.hacknix.testing.testModules;
 
           # Use the test key deployment system.
           deployment.reallyReallyEnable = true;
@@ -38,23 +29,16 @@ let
               host = "localhost";
               userName = "bob-znc";
               nick = "bob";
-              passBlock = "
-                <Pass password>
-                  Method = sha256
-                  Hash = e2ce303c7ea75c571d80d8540a8699b46535be6a085be3414947d638e48d9e93
-                  Salt = l5Xryew4g*!oa(ECfX2o
-                </Pass>
-              ";
+              passBlock =
+                "\n                <Pass password>\n                  Method = sha256\n                  Hash = e2ce303c7ea75c571d80d8540a8699b46535be6a085be3414947d638e48d9e93\n                  Salt = l5Xryew4g*!oa(ECfX2o\n                </Pass>\n              ";
             };
           };
         };
 
-        server = { config, ... }:
-        {
+        server = { config, ... }: {
           nixpkgs.localSystem.system = system;
-          imports =
-            pkgs.lib.hacknix.modules ++
-            pkgs.lib.hacknix.testing.testModules;
+          imports = pkgs.lib.hacknix.modules
+            ++ pkgs.lib.hacknix.testing.testModules;
 
           # Use the test key deployment system.
           deployment.reallyReallyEnable = true;
@@ -70,48 +54,47 @@ let
             confOptions = {
               userName = "bob-znc";
               nick = "bob";
-              passBlock = "
-                <Pass password>
-                  Method = sha256
-                  Hash = e2ce303c7ea75c571d80d8540a8699b46535be6a085be3414947d638e48d9e93
-                  Salt = l5Xryew4g*!oa(ECfX2o
-                </Pass>
-              ";
+              passBlock =
+                "\n                <Pass password>\n                  Method = sha256\n                  Hash = e2ce303c7ea75c571d80d8540a8699b46535be6a085be3414947d638e48d9e93\n                  Salt = l5Xryew4g*!oa(ECfX2o\n                </Pass>\n              ";
             };
           };
         };
 
-        client = { config, ... }:
-        {
-          nixpkgs.localSystem.system = system;
-        };
+        client = { config, ... }: { nixpkgs.localSystem.system = system; };
 
       } // machineAttrs;
 
-      testScript = { nodes, ... }:
-      ''
+      testScript = { nodes, ... }: ''
         startAll;
 
         $server->waitForUnit("znc.service");
         $localhostServer->waitForUnit("znc.service");
 
         subtest "no-remote-connections", sub {
-          $client->fail("${pkgs.netcat}/bin/nc -w 5 localhostServer ${builtins.toString nodes.localhostServer.config.services.qx-znc.confOptions.port}");
+          $client->fail("${pkgs.netcat}/bin/nc -w 5 localhostServer ${
+            builtins.toString
+            nodes.localhostServer.config.services.qx-znc.confOptions.port
+          }");
         };
 
         subtest "localhost-connections", sub {
-          $localhostServer->succeed("${pkgs.netcat}/bin/nc -w 5 localhost ${builtins.toString nodes.localhostServer.config.services.qx-znc.confOptions.port}");
+          $localhostServer->succeed("${pkgs.netcat}/bin/nc -w 5 localhost ${
+            builtins.toString
+            nodes.localhostServer.config.services.qx-znc.confOptions.port
+          }");
         };
 
         subtest "allow-remote-connections", sub {
-          $client->succeed("${pkgs.netcat}/bin/nc -w 5 server ${builtins.toString nodes.server.config.services.qx-znc.confOptions.port}");
+          $client->succeed("${pkgs.netcat}/bin/nc -w 5 server ${
+            builtins.toString
+            nodes.server.config.services.qx-znc.confOptions.port
+          }");
         };
       '';
 
     };
 
-in
-{
+in {
 
   defaultTest = makeZncTest "default" { };
 

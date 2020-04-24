@@ -1,9 +1,7 @@
 { config, lib, ... }:
 with lib;
-let
-  cfg = config.services.oauth2_proxy.nginx;
-in
-{
+let cfg = config.services.oauth2_proxy.nginx;
+in {
   options.services.oauth2_proxy.nginx = {
     proxy = mkOption {
       type = types.str;
@@ -14,16 +12,17 @@ in
     };
     virtualHosts = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = ''
         A list of nginx virtual hosts to put behind the oauth2 proxy
       '';
     };
   };
-  config.services.oauth2_proxy = mkIf (cfg.virtualHosts != [] && (hasPrefix "127.0.0.1:" cfg.proxy)) {
-    enable = true;
-  };
-  config.services.nginx = mkMerge ((optional (cfg.virtualHosts != []) {
+  config.services.oauth2_proxy =
+    mkIf (cfg.virtualHosts != [ ] && (hasPrefix "127.0.0.1:" cfg.proxy)) {
+      enable = true;
+    };
+  config.services.nginx = mkMerge ((optional (cfg.virtualHosts != [ ]) {
     recommendedProxySettings = true; # needed because duplicate headers
   }) ++ (map (vhost: {
     virtualHosts.${vhost} = {

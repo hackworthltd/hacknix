@@ -7,8 +7,7 @@ let
   cfg = config.hacknix.defaults.ssh;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.defaults.ssh = {
     enable = mkEnableOption "the hacknix SSH configuration defaults.";
   };
@@ -21,8 +20,8 @@ in
 
     # Prevent users from installing their own authorized_keys.
 
-    services.openssh.authorizedKeysFiles = pkgs.lib.mkForce
-      [ "/etc/ssh/authorized_keys.d/%u" ];
+    services.openssh.authorizedKeysFiles =
+      pkgs.lib.mkForce [ "/etc/ssh/authorized_keys.d/%u" ];
 
     ## Additional sshd_config
     #

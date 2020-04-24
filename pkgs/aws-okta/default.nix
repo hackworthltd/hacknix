@@ -1,12 +1,4 @@
-{ stdenv
-, lib
-, source
-, buildGoModule
-, libiconv
-, libusb1
-, pkgconfig
-, Security
-}:
+{ stdenv, lib, source, buildGoModule, libiconv, libusb1, pkgconfig, Security }:
 
 buildGoModule rec {
   pname = "aws-okta";
@@ -20,14 +12,14 @@ buildGoModule rec {
   buildFlags = "--tags release";
 
   nativeBuildInputs = [ pkgconfig ];
-  buildInputs =
-    [ libusb1 libiconv ] ++ stdenv.lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = [ libusb1 libiconv ]
+    ++ stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = "aws-vault like tool for Okta authentication";
     license = licenses.mit;
     maintainers = [ maintainers.dhess ];
     platforms = platforms.all;
-    homepage = https://github.com/segmentio/aws-okta;
+    homepage = "https://github.com/segmentio/aws-okta";
   };
 }

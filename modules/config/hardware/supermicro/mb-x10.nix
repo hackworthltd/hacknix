@@ -9,8 +9,7 @@ let
   cfg = config.hacknix.hardware.supermicro.mb-x10;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.hardware.supermicro.mb-x10 = {
     enable = mkEnableOption ''
       a Supermicro X10 motherboard configuration.
@@ -21,7 +20,6 @@ in
     '';
   };
 
-  config = mkIf enabled {
-    boot.kernelModules = [ "coretemp" "jc42" "nct6775" ];
-  };
+  config =
+    mkIf enabled { boot.kernelModules = [ "coretemp" "jc42" "nct6775" ]; };
 }

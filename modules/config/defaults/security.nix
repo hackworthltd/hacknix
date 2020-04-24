@@ -7,8 +7,7 @@ let
   cfg = config.hacknix.defaults.security;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.defaults.security = {
     enable = mkEnableOption "the hacknix security configuration defaults.";
   };
@@ -16,9 +15,7 @@ in
   config = mkIf enabled {
 
     boot.cleanTmpDir = true;
-    boot.kernel.sysctl = {
-      "kernel.unprivileged_bpf_disabled" = 1;
-    };
+    boot.kernel.sysctl = { "kernel.unprivileged_bpf_disabled" = 1; };
 
   };
 }

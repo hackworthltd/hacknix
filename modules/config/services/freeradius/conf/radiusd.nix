@@ -2,28 +2,28 @@
 
 let
 
-  cfg           = config.hacknix.freeradius;
+  cfg = config.hacknix.freeradius;
 
-  prefix        = "${pkgs.freeradius}";
-  exec_prefix   = prefix;
-  sysconfdir    = "/etc";
+  prefix = "${pkgs.freeradius}";
+  exec_prefix = prefix;
+  sysconfdir = "/etc";
   localstatedir = "/var";
-  sbindir       = "${prefix}/sbin";
-  logdir        = cfg.logDir;
-  raddbdir      = cfg.configDir;
-  radacctdir    = "${logdir}/radacct";
+  sbindir = "${prefix}/sbin";
+  logdir = cfg.logDir;
+  raddbdir = cfg.configDir;
+  radacctdir = "${logdir}/radacct";
 
-  name          = "radiusd";
+  name = "radiusd";
 
-  confdir    = "${raddbdir}";
+  confdir = "${raddbdir}";
   modconfdir = "${confdir}/mods-config";
-  certdir    = "${confdir}/certs";
-  cadir      = cfg.tls.caPath;
-  run_dir    = "${localstatedir}/run/${name}";
+  certdir = "${confdir}/certs";
+  cadir = cfg.tls.caPath;
+  run_dir = "${localstatedir}/run/${name}";
 
-  db_dir  = cfg.dataDir;
+  db_dir = cfg.dataDir;
 
-  libdir  = "${prefix}/lib";
+  libdir = "${prefix}/lib";
 
   pidfile = "${run_dir}/${name}.pid";
 
@@ -120,5 +120,4 @@ let
     $INCLUDE ${confdir}/sites-enabled/
   '';
 
-in
-radiusdConf
+in radiusdConf

@@ -1,7 +1,6 @@
 { name, config, lib, pkgs, outputDirPerms }:
 
-with lib;
-rec {
+with lib; rec {
   options = {
 
     name = mkOption {
@@ -92,7 +91,8 @@ rec {
     };
 
     packetType = mkOption {
-      type = types.nullOr (types.enum [ "host" "outgoing" "broadcast" "multicast" "others" ]);
+      type = types.nullOr
+        (types.enum [ "host" "outgoing" "broadcast" "multicast" "others" ]);
       default = null;
       description = ''
         If specified, only packets addressed to this class will be
@@ -146,7 +146,7 @@ rec {
 
     serviceRequires = mkOption {
       type = types.listOf pkgs.lib.types.nonEmptyStr;
-      default = [];
+      default = [ ];
       example = [ "pcap.mount" ];
       description = ''
         An optional list of <literal>systemd</literal> units required
@@ -177,12 +177,16 @@ rec {
     trim = {
 
       schedule = mkOption {
-        default = [];
+        default = [ ];
         example = [
-          { size = 100000;
-            afterDays = 7; }
-          { size = 8192;
-            afterDays = 14; }
+          {
+            size = 100000;
+            afterDays = 7;
+          }
+          {
+            size = 8192;
+            afterDays = 14;
+          }
         ];
         description = ''
           If this list contains one or more attribute sets, the pcap

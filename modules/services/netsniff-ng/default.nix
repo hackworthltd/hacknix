@@ -19,7 +19,6 @@ let
   defaultUser = "netsniff-ng";
   defaultGroup = "netsniff-ng";
 
-
   outputDir = conf: "${toString conf.outputBaseDirectory}/${conf.name}";
   outputDirPerms = "u+rwx,g+rx,o-rwx";
 
@@ -28,41 +27,54 @@ let
   perInstanceAssertions = c: [
     {
       assertion = c.inputInterface != "";
-      message = "services.netsniff-ng.instances.${c.name}.inputInterface cannot be the empty string.";
+      message =
+        "services.netsniff-ng.instances.${c.name}.inputInterface cannot be the empty string.";
     }
     {
       assertion = c.outputBaseDirectory != "";
-      message = "services.netsniff-ng.instances.${c.name}.outputBaseDirectory cannot be the empty string.";
+      message =
+        "services.netsniff-ng.instances.${c.name}.outputBaseDirectory cannot be the empty string.";
     }
   ];
 
   preCmd = conf:
-  let
-    dir = outputDir conf;
-  in ''
-    if [[ ! -d "${dir}" ]]; then
-      mkdir -p "${dir}"
-    fi
-    chown ${cfg.user}:${cfg.group} "${dir}"
-    chmod ${outputDirPerms} "${dir}"
-  '';
+    let dir = outputDir conf;
+    in ''
+      if [[ ! -d "${dir}" ]]; then
+        mkdir -p "${dir}"
+      fi
+      chown ${cfg.user}:${cfg.group} "${dir}"
+      chmod ${outputDirPerms} "${dir}"
+    '';
 
   netsniffNgCmd = conf:
-  let
-    dir = outputDir conf;
-  in ''
-    USERID=`id -u ${cfg.user}`
-    GROUPID=`id -g ${cfg.group}`
-    ${pkgs.netsniff-ng}/bin/netsniff-ng --in ${conf.inputInterface} --out "${dir}"       \
-      ${optionalString (conf.bindToCPU != null) "--bind-cpu ${toString conf.bindToCPU}"} \
-      ${optionalString (conf.interval != "") "--interval ${conf.interval}"}              \
-      ${optionalString (conf.packetType != null) "--type ${conf.packetType}"}            \
-      ${optionalString (conf.pcapMagic != "") "--magic ${conf.pcapMagic}"}               \
-      ${optionalString (conf.pcapPrefix != "") "--prefix ${conf.pcapPrefix}"}            \
-      ${optionalString (conf.ringSize != "") "--ring-size ${conf.ringSize}"}             \
-      --user $USERID --group $GROUPID                                                    \
-      --silent --verbose ${conf.extraOptions}
-  '';
+    let dir = outputDir conf;
+    in ''
+      USERID=`id -u ${cfg.user}`
+      GROUPID=`id -g ${cfg.group}`
+      ${pkgs.netsniff-ng}/bin/netsniff-ng --in ${conf.inputInterface} --out "${dir}"       \
+        ${
+          optionalString (conf.bindToCPU != null)
+          "--bind-cpu ${toString conf.bindToCPU}"
+        } \
+        ${
+          optionalString (conf.interval != "") "--interval ${conf.interval}"
+        }              \
+        ${
+          optionalString (conf.packetType != null) "--type ${conf.packetType}"
+        }            \
+        ${
+          optionalString (conf.pcapMagic != "") "--magic ${conf.pcapMagic}"
+        }               \
+        ${
+          optionalString (conf.pcapPrefix != "") "--prefix ${conf.pcapPrefix}"
+        }            \
+        ${
+          optionalString (conf.ringSize != "") "--ring-size ${conf.ringSize}"
+        }             \
+        --user $USERID --group $GROUPID                                                    \
+        --silent --verbose ${conf.extraOptions}
+    '';
 
   # Note: delete expired files first, and then trim from highest
   # 'afterDays' to lowest to guarantee we only process each file at
@@ -71,42 +83,55 @@ let
   # that files are only trimmed once.
 
   trimScript = conf:
-  let
-    dir = outputDir conf;
+    let
+      dir = outputDir conf;
 
-    deleteCmd = ''
-      echo "Deleting files older than ${toString conf.trim.deleteAfterDays} days"
-      find "${dir}" -type f -name "${conf.pcapPrefix}*.pcap" -mtime +${toString conf.trim.deleteAfterDays} -exec rm {} \;
+      deleteCmd = ''
+        echo "Deleting files older than ${
+          toString conf.trim.deleteAfterDays
+        } days"
+        find "${dir}" -type f -name "${conf.pcapPrefix}*.pcap" -mtime +${
+          toString conf.trim.deleteAfterDays
+        } -exec rm {} \;
+      '';
+
+      trimExtension = params: ".${toString params.afterDays}days";
+
+      trimCmd = params: ''
+        echo "Trimming files older than ${toString params.afterDays} days"
+        find "${dir}" -type f -name "${conf.pcapPrefix}*.pcap" -mtime +${
+          toString params.afterDays
+        } -execdir ${pkgs.trimpcap}/bin/trimpcap --flowsize ${
+          toString params.size
+        } --delete --extension "${
+          trimExtension params
+        }" --preserve-file-times {} +
+      '';
+
+      postTrimCmd = params: ''
+        echo "Replacing trimmed files older than ${
+          toString params.afterDays
+        } days"
+        find "${dir}" -type f -name "${conf.pcapPrefix}*.pcap${
+          trimExtension params
+        }" -execdir /bin/sh -c 'mv {} $(${pkgs.coreutils}/bin/basename {} ${
+          trimExtension params
+        })' \;
+      '';
+
+      trimSchedule = concatStrings (map (s: trimCmd s)
+        (sort (a: b: a.afterDays > b.afterDays) conf.trim.schedule));
+
+      postTrimSchedule = concatStrings (map (s: postTrimCmd s)
+        (sort (a: b: a.afterDays > b.afterDays) conf.trim.schedule));
+
+    in ''
+      ${optionalString (conf.trim.deleteAfterDays != null) deleteCmd}
+      ${trimSchedule}
+      ${postTrimSchedule}
     '';
 
-    trimExtension = params: ".${toString params.afterDays}days";
-
-    trimCmd = params: ''
-      echo "Trimming files older than ${toString params.afterDays} days"
-      find "${dir}" -type f -name "${conf.pcapPrefix}*.pcap" -mtime +${toString params.afterDays} -execdir ${pkgs.trimpcap}/bin/trimpcap --flowsize ${toString params.size} --delete --extension "${trimExtension params}" --preserve-file-times {} +
-    '';
-
-    postTrimCmd = params: ''
-      echo "Replacing trimmed files older than ${toString params.afterDays} days"
-      find "${dir}" -type f -name "${conf.pcapPrefix}*.pcap${trimExtension params}" -execdir /bin/sh -c 'mv {} $(${pkgs.coreutils}/bin/basename {} ${trimExtension params})' \;
-    '';
-
-    trimSchedule =
-      concatStrings (map (s: trimCmd s)
-                         (sort (a: b: a.afterDays > b.afterDays) conf.trim.schedule));
-
-    postTrimSchedule =
-      concatStrings (map (s: postTrimCmd s) 
-                         (sort (a: b: a.afterDays > b.afterDays) conf.trim.schedule));
-
-  in ''
-    ${optionalString (conf.trim.deleteAfterDays != null) deleteCmd}
-    ${trimSchedule}
-    ${postTrimSchedule}
-  '';
-
-in
-{
+in {
   options = {
     services.netsniff-ng = {
 
@@ -135,10 +160,11 @@ in
       };
 
       instances = mkOption {
-        type = types.attrsOf (types.submodule ({ name, ... }: (import ./netsniff-ng-options.nix {
-          inherit name config lib pkgs outputDirPerms;
-        })));
-        default = {};
+        type = types.attrsOf (types.submodule ({ name, ... }:
+          (import ./netsniff-ng-options.nix {
+            inherit name config lib pkgs outputDirPerms;
+          })));
+        default = { };
         example = literalExample ''
           full-cap = {
             inputInterface = "eno1";
@@ -188,16 +214,18 @@ in
 
   };
 
-  config = mkIf (cfg.instances != {}) {
+  config = mkIf (cfg.instances != { }) {
 
-    assertions =
-      (flatten (map perInstanceAssertions instancesList)) ++
-      [
-        { assertion = cfg.group != "";
-          message = "services.netsniff-ng.group cannot be the empty string."; }
-        { assertion = cfg.user != "";
-          message = "serivces.netsniff-ng.user cannot be the empty string."; }
-      ];
+    assertions = (flatten (map perInstanceAssertions instancesList)) ++ [
+      {
+        assertion = cfg.group != "";
+        message = "services.netsniff-ng.group cannot be the empty string.";
+      }
+      {
+        assertion = cfg.user != "";
+        message = "serivces.netsniff-ng.user cannot be the empty string.";
+      }
+    ];
 
     users.users = optionalAttrs (cfg.user == defaultUser) {
       "${cfg.user}" = {
@@ -208,42 +236,39 @@ in
     };
 
     users.groups = optionalAttrs (cfg.group == defaultGroup) {
-      "${cfg.group}" = {
-        name = defaultGroup;
-      };
+      "${cfg.group}" = { name = defaultGroup; };
     };
 
-    systemd.services = listToAttrs (filter (x: x.value != null) (
-      (mapAttrsToList
-        (_: conf: nameValuePair "netsniff-ng@${conf.name}" ({
+    systemd.services = listToAttrs (filter (x: x.value != null) ((mapAttrsToList
+      (_: conf:
+        nameValuePair "netsniff-ng@${conf.name}" ({
 
           description = "Packet capture (${conf.name})";
           wantedBy = [ "multi-user.target" ];
-          after = [ "network.target" "local-fs.target" ] ++ conf.serviceRequires;
+          after = [ "network.target" "local-fs.target" ]
+            ++ conf.serviceRequires;
           requires = conf.serviceRequires;
           preStart = preCmd conf;
           script = netsniffNgCmd conf;
 
-        })) cfg.instances) ++
-      (mapAttrsToList
-        (_: conf: nameValuePair "netsniff-ng@${conf.name}-trim" ({
+        })) cfg.instances) ++ (mapAttrsToList (_: conf:
+          nameValuePair "netsniff-ng@${conf.name}-trim" ({
 
-          description = "Trim netsniff-ng@${conf.name} pcap files";
-          after = [ "multi-user.target" "netsniff-ng@${conf.name}.service" ];
-          requires = [ "netsniff-ng@${conf.name}.service" ];
-          script = trimScript conf;
-          serviceConfig = {
-            User = cfg.user;
-            Group = cfg.group;
-            Type = "oneshot";
-          };
+            description = "Trim netsniff-ng@${conf.name} pcap files";
+            after = [ "multi-user.target" "netsniff-ng@${conf.name}.service" ];
+            requires = [ "netsniff-ng@${conf.name}.service" ];
+            script = trimScript conf;
+            serviceConfig = {
+              User = cfg.user;
+              Group = cfg.group;
+              Type = "oneshot";
+            };
 
-        })) cfg.instances)
-    ));
+          })) cfg.instances)));
 
-    systemd.timers = listToAttrs (filter (x: x.value != null)
-      (mapAttrsToList
-        (_: conf: nameValuePair "netsniff-ng@${conf.name}-trim" ({
+    systemd.timers = listToAttrs (filter (x: x.value != null) (mapAttrsToList
+      (_: conf:
+        nameValuePair "netsniff-ng@${conf.name}-trim" ({
 
           wantedBy = [ "timers.target" ];
           timerConfig = {

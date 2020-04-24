@@ -2,17 +2,17 @@ let
 
   lib = import ../lib;
   inherit (lib) fixedNixpkgs;
-  localPkgs = (import ../.) {};
+  localPkgs = (import ../.) { };
 
-in
-
-{ supportedSystems ? [ "x86_64-linux" "x86_64-darwin"]
-, scrubJobs ? true
+in { supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ], scrubJobs ? true
 , nixpkgsArgs ? {
-    config = { allowUnfree = true; allowBroken = true; inHydra = true; };
-    overlays = lib.singleton localPkgs.overlays.all;
-  }
-}:
+  config = {
+    allowUnfree = true;
+    allowBroken = true;
+    inHydra = true;
+  };
+  overlays = lib.singleton localPkgs.overlays.all;
+} }:
 
 with import (fixedNixpkgs + "/pkgs/top-level/release-lib.nix") {
   inherit supportedSystems scrubJobs nixpkgsArgs;
@@ -22,7 +22,7 @@ let
 
   x86_64 = [ "x86_64-linux" "x86_64-darwin" ];
   x86_64_linux = [ "x86_64-linux" ];
-  linux = [ "x86_64-linux"];
+  linux = [ "x86_64-linux" ];
 
   jobs = (mapTestOn (rec {
     aws-okta = all;
@@ -242,5 +242,4 @@ let
     };
   });
 
-in
-jobs
+in jobs

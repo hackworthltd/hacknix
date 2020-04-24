@@ -1,8 +1,4 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{ config, pkgs, lib, ... }:
 
 let
 
@@ -69,9 +65,7 @@ let
     };
   });
 
-  raddb = import ./conf/raddb.nix {
-    inherit lib pkgs config;
-  };
+  raddb = import ./conf/raddb.nix { inherit lib pkgs config; };
 
 in {
   meta.maintainers = lib.maintainers.dhess;
@@ -103,7 +97,7 @@ in {
     };
 
     clients = lib.mkOption {
-      default = {};
+      default = { };
       type = lib.types.attrsOf radiusClient;
       description = ''
         RADIUS clients that are authorized to connect to this RADIUS
@@ -171,7 +165,7 @@ in {
     users = {
       authorizedMacs = lib.mkOption {
         type = lib.types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         example = [ "00:11:22:33:44:55" "aa:bb:cc:dd:ee:ff" ];
         description = ''
           A list of client MACs that are authorized to join WiFi
@@ -293,13 +287,13 @@ in {
 
       hacknix.assertions.moduleHashes."services/networking/freeradius.nix" =
         "92331a400ab45fb307511a0bda9986b79e58e373bc6d048a1031782c20ae5c5a";
-    
+
       networking.firewall.accept =
-        (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v4) ++
-        (fwRulesPerInterface 1813 cfg.interfaces allowedIPs.v4);
+        (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v4)
+        ++ (fwRulesPerInterface 1813 cfg.interfaces allowedIPs.v4);
       networking.firewall.accept6 =
-        (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v6) ++
-        (fwRulesPerInterface 1813 cfg.interfaces allowedIPs.v6);
+        (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v6)
+        ++ (fwRulesPerInterface 1813 cfg.interfaces allowedIPs.v6);
 
       services.freeradius = {
         enable = true;

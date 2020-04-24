@@ -10,14 +10,14 @@ let
   cfg = config.hacknix.hardware.intel.centerton;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.hardware.intel.centerton = {
     enable = mkEnableOption "a Intel Centerton hardware configuration.";
   };
 
   config = mkIf enabled {
     hacknix.hardware.intel.common.enable = true;
-    boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
+    boot.initrd.availableKernelModules =
+      [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
   };
 }

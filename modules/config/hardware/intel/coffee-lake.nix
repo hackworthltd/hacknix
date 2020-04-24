@@ -9,8 +9,7 @@ let
   cfg = config.hacknix.hardware.intel.coffee-lake;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.hardware.intel.coffee-lake = {
     enable = mkEnableOption "a Intel Coffee Lake hardware configuration.";
   };

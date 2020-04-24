@@ -1,29 +1,33 @@
 let
 
   lib = import ./lib;
-  defaultPkgs = lib.nixpkgs { config = { allowBroken = true; allowUnfree = true; }; };
+  defaultPkgs = lib.nixpkgs {
+    config = {
+      allowBroken = true;
+      allowUnfree = true;
+    };
+  };
 
-in
-
-{ pkgs ? defaultPkgs }:
+in { pkgs ? defaultPkgs }:
 
 let
 
-  overlays = self: super:
-    lib.customisation.composeOverlays lib.overlays super;
+  overlays = self: super: lib.customisation.composeOverlays lib.overlays super;
   self = lib.customisation.composeOverlays (lib.singleton overlays) pkgs;
 
-in
-{
+in {
   inherit (self) aws-okta;
   inherit (self) aws-vault;
 
   inherit (self) badhosts-unified;
-  inherit (self) badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social;
-  inherit (self) badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social;
+  inherit (self)
+    badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social;
+  inherit (self)
+    badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social;
   inherit (self) badhosts-gambling-nsfw badhosts-gambling-social;
   inherit (self) badhosts-nsfw-social;
-  inherit (self) badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social;
+  inherit (self)
+    badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social;
   inherit (self) badhosts-fakenews-nsfw-social;
   inherit (self) badhosts-gambling-nsfw-social;
   inherit (self) badhosts-fakenews-gambling-nsfw-social;

@@ -7,8 +7,7 @@ let
   cfg = config.hacknix.defaults.system;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.defaults.system = {
     enable = mkEnableOption "the hacknix system configuration defaults.";
   };

@@ -1,7 +1,7 @@
 { stdenv, fetchurl
 # TODO: links -lsigsegv but loses the reference for some reason
-, withSigsegv ? (false && stdenv.hostPlatform.system != "x86_64-cygwin"), libsigsegv
-, interactive ? false, readline
+, withSigsegv ? (false && stdenv.hostPlatform.system != "x86_64-cygwin")
+, libsigsegv, interactive ? false, readline
 
 /* Test suite broke on:
        stdenv.isCygwin # XXX: `test-dup2' segfaults on Cygwin 6.1
@@ -9,16 +9,13 @@
     || stdenv.isSunOS  # XXX: `_backsmalls1' fails, locale stuff?
     || stdenv.isFreeBSD
 */
-, doCheck ? (interactive && stdenv.isLinux), glibcLocales ? null
-, locale ? null
+, doCheck ? (interactive && stdenv.isLinux), glibcLocales ? null, locale ? null
 }:
 
 assert (doCheck && stdenv.isLinux) -> glibcLocales != null;
 
-let
-  inherit (stdenv.lib) optional;
-in
-stdenv.mkDerivation rec {
+let inherit (stdenv.lib) optional;
+in stdenv.mkDerivation rec {
   name = "gawk-4.2.1";
 
   src = fetchurl {
@@ -31,14 +28,18 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = optional (doCheck && stdenv.isLinux) glibcLocales;
 
-  buildInputs =
-       optional withSigsegv libsigsegv
-    ++ optional interactive readline
+  buildInputs = optional withSigsegv libsigsegv ++ optional interactive readline
     ++ optional stdenv.isDarwin locale;
 
   configureFlags = [
-    (if withSigsegv then "--with-libsigsegv-prefix=${libsigsegv}" else "--without-libsigsegv")
-    (if interactive then "--with-readline=${readline.dev}" else "--without-readline")
+    (if withSigsegv then
+      "--with-libsigsegv-prefix=${libsigsegv}"
+    else
+      "--without-libsigsegv")
+    (if interactive then
+      "--with-readline=${readline.dev}"
+    else
+      "--without-readline")
   ];
 
   makeFlags = "AR=${stdenv.cc.targetPrefix}ar";
@@ -51,11 +52,12 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    libsigsegv = if withSigsegv then libsigsegv else null; # for stdenv bootstrap
+    libsigsegv =
+      if withSigsegv then libsigsegv else null; # for stdenv bootstrap
   };
 
   meta = with stdenv.lib; {
-    homepage = https://www.gnu.org/software/gawk/;
+    homepage = "https://www.gnu.org/software/gawk/";
     description = "GNU implementation of the Awk programming language";
 
     longDescription = ''

@@ -1,15 +1,10 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
-
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
   # NOTE: these are dummy keys and certs, and they are obviously
   # insecure. Do not use them for any purpose!
-  
+
   exampleCA1Pem = ''
     -----BEGIN CERTIFICATE-----
     MIIHezCCBWOgAwIBAgIJAMtk9IHs+5Q3MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYD
@@ -55,9 +50,7 @@ let
     -----END CERTIFICATE-----
   '';
 
-  extraCerts = {
-    "Example Org CA" = exampleCA1Pem;
-  };
+  extraCerts = { "Example Org CA" = exampleCA1Pem; };
 
   server1Pem = pkgs.writeText "server1.pem" ''
     -----BEGIN CERTIFICATE-----
@@ -129,16 +122,15 @@ let
   makeMkCacertTest = name: clientAttrs:
     makeTest {
       name = "mkCacert-${name}";
-      meta = with pkgs.lib; {
-        maintainers = [ maintainers.dhess ];
-      };
+      meta = with pkgs.lib; { maintainers = [ maintainers.dhess ]; };
 
       nodes = {
 
-        client = { config, ... }: {
-          nixpkgs.localSystem.system = system;
-          imports = pkgs.lib.hacknix.modules;
-        } // clientAttrs;
+        client = { config, ... }:
+          {
+            nixpkgs.localSystem.system = system;
+            imports = pkgs.lib.hacknix.modules;
+          } // clientAttrs;
 
         server1 = { config, ... }: {
           nixpkgs.localSystem.system = system;
@@ -149,7 +141,7 @@ let
               forceSSL = true;
               sslCertificate = server1Pem;
               sslCertificateKey = server1Key;
-              locations."/".root = pkgs.runCommand "docroot" {} ''
+              locations."/".root = pkgs.runCommand "docroot" { } ''
                 mkdir -p "$out"
                 echo "<!DOCTYPE html><title>server1</title>" > "$out/index.html"
               '';
@@ -159,26 +151,23 @@ let
       };
 
       testScript = { nodes, ... }:
-      let
-        custom-cacert = pkgs.mkCacert { inherit extraCerts; };
-      in
-      ''
-        startAll;
-        $server1->waitForUnit("nginx.service");
-        $client->waitForUnit("multi-user.target");
+        let custom-cacert = pkgs.mkCacert { inherit extraCerts; };
+        in ''
+          startAll;
+          $server1->waitForUnit("nginx.service");
+          $client->waitForUnit("multi-user.target");
 
-        subtest "default-cacert-fails", sub {
-          $client->fail("${pkgs.wget}/bin/wget -O server1.html https://server1");
-        };
+          subtest "default-cacert-fails", sub {
+            $client->fail("${pkgs.wget}/bin/wget -O server1.html https://server1");
+          };
 
-        subtest "custom-cacert-succeeds", sub {
-          $client->succeed("${pkgs.wget}/bin/wget -O server1.html --ca-certificate=${custom-cacert}/etc/ssl/certs/ca-bundle.crt https://server1");
-        };
-      '';
+          subtest "custom-cacert-succeeds", sub {
+            $client->succeed("${pkgs.wget}/bin/wget -O server1.html --ca-certificate=${custom-cacert}/etc/ssl/certs/ca-bundle.crt https://server1");
+          };
+        '';
     };
 
-in
-{
+in {
 
   defaultTest = makeMkCacertTest "default" { };
 

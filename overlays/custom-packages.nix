@@ -10,20 +10,20 @@ let
   #
   # https://discourse.nixos.org/t/what-am-i-doing-wrong-here/2517/9
   # https://github.com/NixOS/nixops/pull/1123
-  nixpkgsPath = (import lib.fixedNixpkgs {}).path;
-  nixopsBuild = (import (lib.fixedNixOps + "/release.nix") {  nixpkgs = nixpkgsPath; }).build;
-  nixops      = nixopsBuild.${builtins.currentSystem};
+  nixpkgsPath = (import lib.fixedNixpkgs { }).path;
+  nixopsBuild = (import (lib.fixedNixOps + "/release.nix") {
+    nixpkgs = nixpkgsPath;
+  }).build;
+  nixops = nixopsBuild.${builtins.currentSystem};
 
-  lorri       = (import lib.fixedLorri) { pkgs = super; };
+  lorri = (import lib.fixedLorri) { pkgs = super; };
 
-  ccextractor = callPackage ../pkgs/multimedia/ccextractor {};
+  ccextractor = callPackage ../pkgs/multimedia/ccextractor { };
 
-  gawk_4_2_1 = callPackage ../pkgs/gawk/4.2.1.nix {};
+  gawk_4_2_1 = callPackage ../pkgs/gawk/4.2.1.nix { };
 
-  libprelude = callPackage ../pkgs/development/libraries/libprelude {
-    gawk = gawk_4_2_1;
-  };
-
+  libprelude =
+    callPackage ../pkgs/development/libraries/libprelude { gawk = gawk_4_2_1; };
 
   # When called with an argument `extraCerts` whose value is a set
   # mapping strings containing human-friendly certificate authority
@@ -57,18 +57,20 @@ let
     source = lib.fixedBadhosts;
   };
 
-  trimpcap = callPackage ../pkgs/misc/trimpcap {};
+  trimpcap = callPackage ../pkgs/misc/trimpcap { };
 
-  tsoff = callPackage ../pkgs/networking/tsoff {};
+  tsoff = callPackage ../pkgs/networking/tsoff { };
 
   terraform-provider-okta = callPackage ../pkgs/terraform/providers/okta {
     source = lib.sources.terraform-provider-okta;
   };
 
-  hacknix-source = callPackage ../pkgs/hacknix-source { inherit (super) packageSource; };
+  hacknix-source =
+    callPackage ../pkgs/hacknix-source { inherit (super) packageSource; };
 
   hyperkit = callPackage ../pkgs/hyperkit {
-    inherit (super.darwin.apple_sdk.frameworks) Hypervisor vmnet SystemConfiguration;
+    inherit (super.darwin.apple_sdk.frameworks)
+      Hypervisor vmnet SystemConfiguration;
     inherit (super.darwin.apple_sdk.libs) xpc;
     inherit (super.darwin) libobjc dtrace;
   };
@@ -78,21 +80,23 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
 
-  nmrpflash = callPackage ../pkgs/nmrpflash {};
+  nmrpflash = callPackage ../pkgs/nmrpflash { };
 
   # A helper script for rebuilding nix-darwin systems.
-  macnix-rebuild = callPackage ../pkgs/macnix-rebuild {};
+  macnix-rebuild = callPackage ../pkgs/macnix-rebuild { };
 
   gitignoreSrc = (import lib.fixedGitignoreNix) { inherit (super) lib; };
 
-in
-{
+in {
   inherit (badhosts) badhosts-unified;
-  inherit (badhosts) badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social;
-  inherit (badhosts) badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social;
+  inherit (badhosts)
+    badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social;
+  inherit (badhosts)
+    badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social;
   inherit (badhosts) badhosts-gambling-nsfw badhosts-gambling-social;
   inherit (badhosts) badhosts-nsfw-social;
-  inherit (badhosts) badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social;
+  inherit (badhosts)
+    badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social;
   inherit (badhosts) badhosts-fakenews-nsfw-social;
   inherit (badhosts) badhosts-gambling-nsfw-social;
   inherit (badhosts) badhosts-fakenews-gambling-nsfw-social;

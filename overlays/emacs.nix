@@ -13,76 +13,75 @@ let
   ## Collections of Emacs packages that we use.
 
   # A core set of packages that are useful everywhere.
-  coreEmacsPackages = epkgs: with epkgs; [
-    agda2-mode
-    async
-    auto-compile
-    auto-complete
-    company
-    company-cabal
-    company-coq
-    company-lean
-    company-lsp
-    company-nixos-options
-    company-terraform
-    coq-commenter
-    counsel
-    counsel-projectile
-    dante
-    dap-mode
-    dash
-    deadgrep
-    dhall-mode
-    direnv
-    doom-themes
-    elpy
-    find-file-in-project
-    flx-ido
-    flycheck
-    flycheck-haskell
-    go-mode
-    haskell-mode
-    hasklig-mode
-    hlint-refactor
-    ido-describe-bindings
-    ido-vertical-mode
-    lean-mode
-    lsp-haskell
-    lsp-mode
-    lsp-ui
-    magit
-    magit-popup
-    markdown-mode
-    nix-mode
-    nix-sandbox
-    nixos-options
-    org-journal
-    org-plus-contrib
-    org-ref
-    ormolu
-    paredit
-    popup
-    projectile
-    projectile-ripgrep
-    proof-general
-    reformatter
-    rg
-    ripgrep
-    shm
-    smex
-    solaire-mode
-    terraform-mode
-    use-package
-    web-mode
-    yaml-mode
-    yasnippet
-    znc
-  ];
+  coreEmacsPackages = epkgs:
+    with epkgs; [
+      agda2-mode
+      async
+      auto-compile
+      auto-complete
+      company
+      company-cabal
+      company-coq
+      company-lean
+      company-lsp
+      company-nixos-options
+      company-terraform
+      coq-commenter
+      counsel
+      counsel-projectile
+      dante
+      dap-mode
+      dash
+      deadgrep
+      dhall-mode
+      direnv
+      doom-themes
+      elpy
+      find-file-in-project
+      flx-ido
+      flycheck
+      flycheck-haskell
+      go-mode
+      haskell-mode
+      hasklig-mode
+      hlint-refactor
+      ido-describe-bindings
+      ido-vertical-mode
+      lean-mode
+      lsp-haskell
+      lsp-mode
+      lsp-ui
+      magit
+      magit-popup
+      markdown-mode
+      nix-mode
+      nix-sandbox
+      nixos-options
+      org-journal
+      org-plus-contrib
+      org-ref
+      ormolu
+      paredit
+      popup
+      projectile
+      projectile-ripgrep
+      proof-general
+      reformatter
+      rg
+      ripgrep
+      shm
+      smex
+      solaire-mode
+      terraform-mode
+      use-package
+      web-mode
+      yaml-mode
+      yasnippet
+      znc
+    ];
 
   # The core set, plus a few macOS-specific packages.
-  macOSEmacsPackages = epkgs: (with epkgs; [
-  ]) ++ (coreEmacsPackages epkgs);
-
+  macOSEmacsPackages = epkgs: (with epkgs; [ ]) ++ (coreEmacsPackages epkgs);
 
   ## Package up various Emacs with coreEmacsPackages and the binaries
   ## needed to support them.
@@ -124,8 +123,7 @@ let
     ];
   };
 
-in
-{
+in {
   inherit emacsMelpaPackagesNg;
   inherit emacs-nox emacsNoXMelpaPackagesNg;
   inherit emacsMacportMelpaPackagesNg;

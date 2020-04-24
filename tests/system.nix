@@ -1,24 +1,17 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
-
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
   makeSystemTest = name: machineAttrs:
     makeTest {
       name = "system-${name}";
-      meta = with pkgs.lib.maintainers; {
-        maintainers = [ dhess ];
-      };
-      machine = { config, ... }: {
-        nixpkgs.localSystem.system = system;
-        imports = pkgs.lib.hacknix.modules;
-      } // machineAttrs;
-      testScript = { ... }:
-      ''
+      meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
+      machine = { config, ... }:
+        {
+          nixpkgs.localSystem.system = system;
+          imports = pkgs.lib.hacknix.modules;
+        } // machineAttrs;
+      testScript = { ... }: ''
         $machine->waitForUnit("multi-user.target");
 
         subtest "timezone-is-utc", sub {
@@ -37,10 +30,11 @@ let
       '';
     };
 
-in
-{
+in {
 
-  globalEnableTest = makeSystemTest "global-enable" { hacknix.defaults.enable = true; };
-  systemEnableTest = makeSystemTest "system-enable" { hacknix.defaults.system.enable = true; };
+  globalEnableTest =
+    makeSystemTest "global-enable" { hacknix.defaults.enable = true; };
+  systemEnableTest =
+    makeSystemTest "system-enable" { hacknix.defaults.system.enable = true; };
 
 }

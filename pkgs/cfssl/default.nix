@@ -1,9 +1,4 @@
-{ stdenv
-, lib
-, buildGoModule
-, fetchFromGitHub
-, Security
-}:
+{ stdenv, lib, buildGoModule, fetchFromGitHub, Security }:
 
 buildGoModule rec {
   pname = "cfssl";
@@ -22,7 +17,7 @@ buildGoModule rec {
   buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
-    homepage = https://cfssl.org/;
+    homepage = "https://cfssl.org/";
     description = "Cloudflare's PKI and TLS toolkit";
     license = licenses.bsd2;
     maintainers = lib.singleton lib.maintainers.dhess;

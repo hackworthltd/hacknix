@@ -1,50 +1,34 @@
-{ source
-, stdenv
-, lib  
-, buildGoModule
-, fetchFromGitHub
-, pkgconfig
-, makeWrapper
-, go-bindata
-, bash
-, libvirt
-, qemu
-, gpgme
-, Foundation
-, Security
-, libobjc
-, vmnet
-, xpc
-, hyperkit
-, extraDrivers ? []
-}:
+{ source, stdenv, lib, buildGoModule, fetchFromGitHub, pkgconfig, makeWrapper
+, go-bindata, bash, libvirt, qemu, gpgme, Foundation, Security, libobjc, vmnet
+, xpc, hyperkit, extraDrivers ? [ ] }:
 
 let
 
   drivers = stdenv.lib.filter (d: d != null) extraDrivers;
 
-  binPath = drivers
-            ++ stdenv.lib.optionals stdenv.isLinux ([ libvirt qemu ])
-            ++ stdenv.lib.optionals stdenv.isDarwin ([ hyperkit ]);
+  binPath = drivers ++ stdenv.lib.optionals stdenv.isLinux ([ libvirt qemu ])
+    ++ stdenv.lib.optionals stdenv.isDarwin ([ hyperkit ]);
 
-in
-buildGoModule rec {
-  pname   = "minikube";
+in buildGoModule rec {
+  pname = "minikube";
   version = "1.9.0-beta.2";
 
   goPackagePath = "k8s.io/minikube";
-  subPackages   = [ "cmd/minikube" ]
-                  ++ stdenv.lib.optional stdenv.hostPlatform.isLinux "cmd/drivers/kvm"
-                  ++ stdenv.lib.optional stdenv.hostPlatform.isDarwin "cmd/drivers/hyperkit";
-  modSha256     = "0p8cq43s1k5d5azl24xlli93bfzki41mfpyfh6v1dyakng7a2rd9";
+  subPackages = [ "cmd/minikube" ]
+    ++ stdenv.lib.optional stdenv.hostPlatform.isLinux "cmd/drivers/kvm"
+    ++ stdenv.lib.optional stdenv.hostPlatform.isDarwin "cmd/drivers/hyperkit";
+  modSha256 = "0p8cq43s1k5d5azl24xlli93bfzki41mfpyfh6v1dyakng7a2rd9";
 
-  src = fetchFromGitHub {
-    inherit (source) repo owner sha256 rev;
-  };
+  src = fetchFromGitHub { inherit (source) repo owner sha256 rev; };
 
   nativeBuildInputs = [ pkgconfig go-bindata makeWrapper ];
   buildInputs = [ gpgme ] ++ stdenv.lib.optionals stdenv.isLinux [ libvirt ]
-    ++ stdenv.lib.optionals stdenv.isDarwin [ Foundation Security libobjc vmnet ];
+    ++ stdenv.lib.optionals stdenv.isDarwin [
+      Foundation
+      Security
+      libobjc
+      vmnet
+    ];
 
   postPatch = ''
     substituteInPlace pkg/minikube/command/exec_runner.go \
@@ -72,23 +56,25 @@ buildGoModule rec {
   '';
 
   postInstall = ''
-    wrapProgram $out/bin/${pname} --prefix PATH : $out/bin:${stdenv.lib.makeBinPath binPath}
+    wrapProgram $out/bin/${pname} --prefix PATH : $out/bin:${
+      stdenv.lib.makeBinPath binPath
+    }
     mkdir -p $out/share/bash-completion/completions/
     MINIKUBE_WANTUPDATENOTIFICATION=false MINIKUBE_WANTKUBECTLDOWNLOADMSG=false HOME=$PWD $out/bin/minikube completion bash > $out/share/bash-completion/completions/minikube
 
     mkdir -p $out/share/zsh/site-functions/
     MINIKUBE_WANTUPDATENOTIFICATION=false MINIKUBE_WANTKUBECTLDOWNLOADMSG=false HOME=$PWD $out/bin/minikube completion zsh > $out/share/zsh/site-functions/_minikube
-  ''+ stdenv.lib.optionalString stdenv.hostPlatform.isDarwin ''
+  '' + stdenv.lib.optionalString stdenv.hostPlatform.isDarwin ''
     mv $out/bin/hyperkit $out/bin/docker-machine-driver-hyperkit
-  ''+ stdenv.lib.optionalString stdenv.hostPlatform.isLinux ''
+  '' + stdenv.lib.optionalString stdenv.hostPlatform.isLinux ''
     mv $out/bin/kvm $out/bin/docker-machine-driver-kvm2
   '';
 
   meta = with lib; {
-    homepage    = https://github.com/kubernetes/minikube;
+    homepage = "https://github.com/kubernetes/minikube";
     description = "A tool that makes it easy to run Kubernetes locally";
-    license     = licenses.asl20;
+    license = licenses.asl20;
     maintainers = with maintainers; [ dhess ];
-    platforms   = with platforms; unix;
+    platforms = with platforms; unix;
   };
 }

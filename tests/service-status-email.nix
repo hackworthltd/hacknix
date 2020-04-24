@@ -1,17 +1,11 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
 in makeTest rec {
   name = "service-status-email";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
     machine = { config, ... }: {
@@ -26,14 +20,11 @@ in makeTest rec {
         };
       };
 
-      services.postfix = {
-        enable = true;
-      };
+      services.postfix = { enable = true; };
     };
   };
 
-  testScript = { nodes, ... }:
-  ''
+  testScript = { nodes, ... }: ''
     $machine->waitForUnit("multi-user.target");
     $machine->startJob("status-email-root\@postfix");
   '';

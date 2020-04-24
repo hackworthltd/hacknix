@@ -9,10 +9,10 @@ let
   cfg = config.hacknix.hardware.jetson-tk1;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.hardware.jetson-tk1 = {
-    enable = mkEnableOption "NVIDIA Jetson TK1-specific hardware configuration.";
+    enable =
+      mkEnableOption "NVIDIA Jetson TK1-specific hardware configuration.";
   };
 
   config = mkIf enabled {

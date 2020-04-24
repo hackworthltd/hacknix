@@ -1,8 +1,4 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
@@ -16,50 +12,49 @@ let
     -----END OPENSSH PRIVATE KEY-----
   '';
 
-  remoteBuilderPublicKey = pkgs.writeText "remote-builder.pub" "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH5uUNmlLsJvS2L1FnhX6dDY5KnYPhev88eO2vuUMB5r alice";
+  remoteBuilderPublicKey = pkgs.writeText "remote-builder.pub"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH5uUNmlLsJvS2L1FnhX6dDY5KnYPhev88eO2vuUMB5r alice";
 
-  makeRemoteBuildHostTest = name: machineAttrs: makeTest {
-    name = "remote-builder-test-${name}";
-    meta = with pkgs.lib.maintainers; {
-      maintainers = [ dhess ];
-    };
+  makeRemoteBuildHostTest = name: machineAttrs:
+    makeTest {
+      name = "remote-builder-test-${name}";
+      meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
-    nodes = {
-      server = { config, ... }: {
-          nixpkgs.localSystem.system = system;
-          imports = [
-          ] ++ pkgs.lib.hacknix.modules;
-          hacknix.remote-build-host = {
-            enable = true;
-            user.sshPublicKeyFiles = pkgs.lib.singleton remoteBuilderPublicKey;
-          };
-      } // machineAttrs;
-      client = { config, ... }: {
+      nodes = {
+        server = { config, ... }:
+          {
+            nixpkgs.localSystem.system = system;
+            imports = [ ] ++ pkgs.lib.hacknix.modules;
+            hacknix.remote-build-host = {
+              enable = true;
+              user.sshPublicKeyFiles =
+                pkgs.lib.singleton remoteBuilderPublicKey;
+            };
+          } // machineAttrs;
+        client = { config, ... }: {
           nixpkgs.localSystem.system = system;
           imports = pkgs.lib.hacknix.modules;
+        };
       };
+
+      testScript = { nodes, ... }:
+        let
+        in ''
+          startAll;
+          $server->waitForUnit("sshd.service");
+
+          subtest "remote-builder-ssh", sub {
+            $client->succeed("cat ${remoteBuilderKey} > remote-builder.key");
+            $client->succeed("chmod 0400 remote-builder.key");
+            $client->succeed("ssh -o UserKnownHostsFile=/dev/null" .
+                             " -o StrictHostKeyChecking=no -i remote-builder.key" .
+                             " -l remote-builder server true");
+          };
+        '';
     };
 
-    testScript  = { nodes, ... }:
-    let
-    in
-    ''
-      startAll;
-      $server->waitForUnit("sshd.service");
+in rec {
 
-      subtest "remote-builder-ssh", sub {
-        $client->succeed("cat ${remoteBuilderKey} > remote-builder.key");
-        $client->succeed("chmod 0400 remote-builder.key");
-        $client->succeed("ssh -o UserKnownHostsFile=/dev/null" .
-                         " -o StrictHostKeyChecking=no -i remote-builder.key" .
-                         " -l remote-builder server true");
-      };
-    '';
-  };
-
-in rec
-{
-
-  remoteBuildHostTest = makeRemoteBuildHostTest "" {};
+  remoteBuildHostTest = makeRemoteBuildHostTest "" { };
 
 }

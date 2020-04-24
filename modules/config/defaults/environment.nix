@@ -7,19 +7,15 @@ let
   cfg = config.hacknix.defaults.environment;
   enabled = cfg.enable;
 
-in
-{
+in {
   options.hacknix.defaults.environment = {
-    enable = mkEnableOption "the hacknix shell environment configuration defaults.";
+    enable =
+      mkEnableOption "the hacknix shell environment configuration defaults.";
   };
 
   config = mkIf enabled {
 
-    environment.systemPackages = with pkgs; [
-      emacs26-nox
-      git
-      wget
-    ];
+    environment.systemPackages = with pkgs; [ emacs26-nox git wget ];
 
     environment.shellAliases = {
       l = "ls -F";
@@ -33,10 +29,9 @@ in
     };
 
     # Disable HISTFILE globally.
-    environment.interactiveShellInit =
-      ''
-        unset HISTFILE
-      '';
+    environment.interactiveShellInit = ''
+      unset HISTFILE
+    '';
 
     environment.noXlibs = true;
 

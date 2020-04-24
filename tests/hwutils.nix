@@ -1,17 +1,11 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
 in makeTest rec {
   name = "hwutils";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   machine = { config, ... }: {
     nixpkgs.localSystem.system = system;
@@ -19,8 +13,7 @@ in makeTest rec {
     hacknix.hardware.hwutils.enable = true;
   };
 
-  testScript = { nodes, ... }:
-  ''
+  testScript = { nodes, ... }: ''
     $machine->waitForUnit("multi-user.target");
 
     subtest "check-lspci", sub {

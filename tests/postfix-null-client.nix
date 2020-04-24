@@ -1,8 +1,4 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
@@ -12,21 +8,19 @@ let
   ca-cert = ./testfiles/certs/root.crt;
   bob-cert = ./testfiles/certs/bob-at-acme.com.crt;
   bob-certKey = ./testfiles/keys/bob-at-acme.com.key;
-  bob-certKeyInStore = pkgs.copyPathToStore ./testfiles/keys/bob-at-acme.com.key;
+  bob-certKeyInStore =
+    pkgs.copyPathToStore ./testfiles/keys/bob-at-acme.com.key;
 
 in makeTest rec {
   name = "postfix-null-client";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
     client = { config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports =
-        pkgs.lib.hacknix.modules ++
-        pkgs.lib.hacknix.testing.testModules;
+      imports = pkgs.lib.hacknix.modules
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;
@@ -44,15 +38,13 @@ in makeTest rec {
   };
 
   testScript = { nodes, ... }:
-  let
-    stateDir = nodes.client.config.services.postfix-null-client.stateDir;
-  in
-  ''
-    $client->waitForUnit("multi-user.target");
-    $client->requireActiveUnit("postfix.service");
+    let stateDir = nodes.client.config.services.postfix-null-client.stateDir;
+    in ''
+      $client->waitForUnit("multi-user.target");
+      $client->requireActiveUnit("postfix.service");
 
-    subtest "check-keys", sub {
-      $client->succeed("diff ${bob-certKeyInStore} ${stateDir}/keys/postfix-null-client-cert");
-    };
-  '';
+      subtest "check-keys", sub {
+        $client->succeed("diff ${bob-certKeyInStore} ${stateDir}/keys/postfix-null-client-cert");
+      };
+    '';
 }

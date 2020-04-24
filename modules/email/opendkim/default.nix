@@ -1,4 +1,3 @@
-
 ##
 ## XXX TODO dhess:
 ## - chroot
@@ -89,34 +88,23 @@ let
     };
   };
 
-
   keyFileName = keyName: "opendkim-${keyName}-private";
 
   # Note that this file doesn't contain any key material, only paths
   # to files containing key material.
-  
-  keyTableFile = pkgs.writeText "opendkim.key.table" (
-      concatMapStringsSep "\n" (row:
-        "${row.keyName}    ${row.domain}:${row.selector}:${row.keyFile}")
-      (mapAttrsToList (name: row:
-        let
-          keyFile = config.hacknix.keychain.keys."${keyFileName name}".path;
-        in
-          row // { inherit keyFile; })
-        cfg.keyTable)
-  );
 
+  keyTableFile = pkgs.writeText "opendkim.key.table" (concatMapStringsSep "\n"
+    (row: "${row.keyName}    ${row.domain}:${row.selector}:${row.keyFile}")
+    (mapAttrsToList (name: row:
+      let keyFile = config.hacknix.keychain.keys."${keyFileName name}".path;
+      in row // { inherit keyFile; }) cfg.keyTable));
 
-  signingTableFile = pkgs.writeText "opendkim.signing.table" (
-    concatMapStringsSep "\n" (row:
-      "${row.fromRegex}    ${row.keyName}"
-    ) cfg.signingTable);
+  signingTableFile = pkgs.writeText "opendkim.signing.table"
+    (concatMapStringsSep "\n" (row: "${row.fromRegex}    ${row.keyName}")
+      cfg.signingTable);
 
-
-  internalHostsFile = pkgs.writeText "opendkim.internal.hosts" (
-    concatStringsSep "\n" cfg.internalHosts
-  );
-
+  internalHostsFile = pkgs.writeText "opendkim.internal.hosts"
+    (concatStringsSep "\n" cfg.internalHosts);
 
   # Notes on our configuration:
   #
@@ -148,9 +136,7 @@ let
     SenderHeaders		 Sender,From
   '' + (optionalString (cfg.extraConfig != "") cfg.extraConfig);
 
-
-in
-{
+in {
   meta.maintainers = lib.maintainers.dhess;
 
   # Not evaluating for some reason; I'm getting:
@@ -204,7 +190,7 @@ in
 
     keyTable = mkOption {
       type = types.attrsOf keyTableRow;
-      default = {};
+      default = { };
       description = ''
         A declarative OpenDKIM key table. See
         <citerefentry><refentrytitle>opendkim.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>
@@ -222,12 +208,13 @@ in
 
     signingTable = mkOption {
       type = types.listOf signingTableRow;
-      default = [];
+      default = [ ];
       description = ''
         A declarative OpenDKIM signing table, expressed as a list of
         attributes. See
         <citerefentry><refentrytitle>opendkim.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>
-        for details. ''; };
+        for details. '';
+    };
 
     internalHosts = mkOption {
       type = types.listOf pkgs.lib.types.nonEmptyStr;
@@ -261,11 +248,11 @@ in
     # hacknix.assertions.moduleHashes."services/mail/opendkim.nix" =
     #   "0f20f660b11caa365813f287a0dc1ddfc6410a2d9c5184d6787c1764d0ed20aa";
 
-    assertions = [
-      { assertion = ! opendkimEnabled;
-        message = "Both 'services.opendkim' and 'services.qx-opendkim' cannot be enabled at the same time";
-      }
-    ];
+    assertions = [{
+      assertion = !opendkimEnabled;
+      message =
+        "Both 'services.opendkim' and 'services.qx-opendkim' cannot be enabled at the same time";
+    }];
 
     users.users = optionalAttrs (cfg.user == "opendkim") {
       opendkim = {
@@ -285,20 +272,23 @@ in
 
     environment.systemPackages = [ pkgs.opendkim ];
 
-    hacknix.keychain.keys = mapAttrs' (name: row: nameValuePair (keyFileName name) {
-      destDir = keyDir;
-      text = row.privateKeyLiteral;
-      user = cfg.user;
-      group = cfg.group;
-      permissions = "0400";
-    }) cfg.keyTable;
+    hacknix.keychain.keys = mapAttrs' (name: row:
+      nameValuePair (keyFileName name) {
+        destDir = keyDir;
+        text = row.privateKeyLiteral;
+        user = cfg.user;
+        group = cfg.group;
+        permissions = "0400";
+      }) cfg.keyTable;
 
     systemd.services.opendkim = rec {
       description = "OpenDKIM signing and verification daemon";
-      wants = mapAttrsToList (name: _: "${keyFileName name}-key.service") cfg.keyTable;
+      wants = mapAttrsToList (name: _: "${keyFileName name}-key.service")
+        cfg.keyTable;
       after = [ "network.target" ] ++ wants;
       wantedBy = [ "multi-user.target" ];
-      script = "${pkgs.opendkim}/bin/opendkim -f -l -x ${configFile} -p ${cfg.socket}";
+      script =
+        "${pkgs.opendkim}/bin/opendkim -f -l -x ${configFile} -p ${cfg.socket}";
 
       serviceConfig = {
         User = cfg.user;

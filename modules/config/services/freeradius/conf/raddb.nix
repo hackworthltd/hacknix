@@ -14,65 +14,56 @@ let
 
   clientKeyName = name: "freeradius-client-${name}.secret";
 
-  clientsConf =
-  let
+  clientsConf = let
     clientsList = lib.mapAttrsToList (_: client: client) cfg.clients;
     genClientConf = client:
-    let
-      keys = config.hacknix.keychain.keys;
-      keyName = clientKeyName client.name;
-      keyPath = keys."${keyName}".path;
-    in
-    ''
-      client ${client.name} {
-        ipaddr = ${client.ipv4}
-        proto = *
-        require_message_authenticator = no
-        nas_type = other
-        limit {
-          max_connections = 16
-          lifetime = 0
-          idle_timeout = 30
+      let
+        keys = config.hacknix.keychain.keys;
+        keyName = clientKeyName client.name;
+        keyPath = keys."${keyName}".path;
+      in ''
+        client ${client.name} {
+          ipaddr = ${client.ipv4}
+          proto = *
+          require_message_authenticator = no
+          nas_type = other
+          limit {
+            max_connections = 16
+            lifetime = 0
+            idle_timeout = 30
+          }
+          $INCLUDE ${keyPath}
         }
-        $INCLUDE ${keyPath}
-      }
 
-      client ${client.name}_ipv6 {
-        ipaddr = ${client.ipv6}
-        proto = *
-        require_message_authenticator = no
-        nas_type = other
-        limit {
-          max_connections = 16
-          lifetime = 0
-          idle_timeout = 30
+        client ${client.name}_ipv6 {
+          ipaddr = ${client.ipv6}
+          proto = *
+          require_message_authenticator = no
+          nas_type = other
+          limit {
+            max_connections = 16
+            lifetime = 0
+            idle_timeout = 30
+          }
+          $INCLUDE ${keyPath}
         }
-        $INCLUDE ${keyPath}
-      }
-    '';
-  in
-    pkgs.writeText "clients.conf" (lib.concatMapStringsSep "\n\n" genClientConf clientsList);
+      '';
+  in pkgs.writeText "clients.conf"
+  (lib.concatMapStringsSep "\n\n" genClientConf clientsList);
 
-  files = import ./files.nix {
-    inherit pkgs lib config;
-  };
+  files = import ./files.nix { inherit pkgs lib config; };
 
   siteDefault = import ./site-default.nix {
     inherit pkgs;
     inherit (cfg) postAuthConfig;
   };
 
-  radiusdConf = import ./radiusd.nix {
-    inherit pkgs lib config;
-  };
+  radiusdConf = import ./radiusd.nix { inherit pkgs lib config; };
 
   raddbDir = pkgs.symlinkJoin {
     name = "raddb";
-    paths = [
-      "${pkgs.freeradius}/etc/raddb"
-    ];
-    postBuild =
-    let
+    paths = [ "${pkgs.freeradius}/etc/raddb" ];
+    postBuild = let
       radiusdConfPath = "${radiusdConf}";
       clientsConfPath = "${clientsConf}";
       serverKeyPath = config.hacknix.keychain.keys."${serverKeyName}".path;
@@ -83,8 +74,7 @@ let
       siteDefaultPath = "${siteDefault}";
       filesPath = "${files.files}";
       authorizedMacsPath = "${files.authorizedMacs}";
-    in
-    ''
+    in ''
       rm -f $out/clients.conf
       rm -f $out/radiusd.conf
       ln -s ${radiusdConfPath} $out/radiusd.conf
@@ -111,28 +101,27 @@ let
     '';
   };
 
-in
-lib.mkIf (cfg.enable) {
+in lib.mkIf (cfg.enable) {
   environment.etc."raddb".source = raddbDir;
 
   systemd.services.freeradius = {
     restartTriggers = [ config.environment.etc."raddb".source ];
   };
 
-  hacknix.keychain.keys = (lib.mapAttrs' (_: client: lib.nameValuePair (clientKeyName client.name) {
-    destDir = cfg.secretsDir;
-    text = "secret = ${client.secretLiteral}";
-    user = "radius";
-    group = "wheel";
-    permissions = "0400";
-  }) cfg.clients)
-  // {
-    "${serverKeyName}" = {
+  hacknix.keychain.keys = (lib.mapAttrs' (_: client:
+    lib.nameValuePair (clientKeyName client.name) {
       destDir = cfg.secretsDir;
-      text = cfg.tls.serverCertificateKeyLiteral;
+      text = "secret = ${client.secretLiteral}";
       user = "radius";
       group = "wheel";
       permissions = "0400";
+    }) cfg.clients) // {
+      "${serverKeyName}" = {
+        destDir = cfg.secretsDir;
+        text = cfg.tls.serverCertificateKeyLiteral;
+        user = "radius";
+        group = "wheel";
+        permissions = "0400";
+      };
     };
-  };
 }

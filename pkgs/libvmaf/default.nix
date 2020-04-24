@@ -1,4 +1,5 @@
-{ stdenv, fetchFromGitHub, autoconf, automake, intltool, libtool, pkgconfig, lib }:
+{ stdenv, fetchFromGitHub, autoconf, automake, intltool, libtool, pkgconfig, lib
+}:
 
 stdenv.mkDerivation rec {
   pname = "libvmaf";
@@ -8,7 +9,7 @@ stdenv.mkDerivation rec {
     owner = "netflix";
     repo = "vmaf";
     rev = "d4d48ddd8bdf39ec8e464d36d42e300c7336c061";
-    sha256="0z4sn9ma0dmmikvarsi0zmy07pdv1qhp1c1kd68nlfbkk3v19pz1";
+    sha256 = "0z4sn9ma0dmmikvarsi0zmy07pdv1qhp1c1kd68nlfbkk3v19pz1";
   };
 
   nativeBuildInputs = [ autoconf automake intltool libtool pkgconfig ];
@@ -31,7 +32,8 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     homepage = "https://github.com/Netflix/vmaf";
-    description = "Perceptual video quality assessment based on multi-method fusion (VMAF)";
+    description =
+      "Perceptual video quality assessment based on multi-method fusion (VMAF)";
     platforms = platforms.all;
     license = licenses.asl20;
     maintainers = [ maintainers.dhess ];

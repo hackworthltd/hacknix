@@ -2,15 +2,13 @@ let
 
   sources = import ../nix/sources.nix;
 
-  fixedHacknixLib =
-  let
-    try = builtins.tryEval <hacknix-lib>;
-  in
-    if try.success
-      then builtins.trace "Using <hacknix-lib>" try.value
-      else (import sources.hacknix-lib);
+  fixedHacknixLib = let try = builtins.tryEval <hacknix-lib>;
+  in if try.success then
+    builtins.trace "Using <hacknix-lib>" try.value
+  else
+    (import sources.hacknix-lib);
 
-  hacknix-lib = fixedHacknixLib {};
+  hacknix-lib = fixedHacknixLib { };
   inherit (hacknix-lib) lib;
   inherit (lib.fetchers) fixedNixSrc;
 
@@ -18,7 +16,7 @@ let
   nixpkgs = import fixedNixpkgs;
 
   fixedNixDarwin = lib.fetchers.fixedNixSrc "nix_darwin" sources.nix-darwin;
-  nix-darwin = (import fixedNixDarwin) {};
+  nix-darwin = (import fixedNixDarwin) { };
 
   fixedNixOps = lib.fetchers.fixedNixSrc "nixops" sources.nixops;
 
@@ -28,11 +26,10 @@ let
 
   fixedCachix = lib.fetchers.fixedNixSrc "cachix" sources.cachix;
 
-  fixedGitignoreNix = lib.fetchers.fixedNixSrc "gitignore.nix" sources."gitignore.nix";
+  fixedGitignoreNix =
+    lib.fetchers.fixedNixSrc "gitignore.nix" sources."gitignore.nix";
 
-  overlays = [
-    hacknix-lib.overlays.all
-  ] ++ (map import [
+  overlays = [ hacknix-lib.overlays.all ] ++ (map import [
     ../overlays/custom-packages.nix
     ../overlays/emacs.nix
     ../overlays/haskell-packages.nix
@@ -63,9 +60,7 @@ let
   # expression to your nix-darwin configuration's list of imports.
   nixDarwinModules = import nixDarwinModulesList;
 
-
-in lib //
-{
+in lib // {
   inherit fixedNixpkgs;
   inherit fixedNixDarwin;
   inherit nixpkgs;

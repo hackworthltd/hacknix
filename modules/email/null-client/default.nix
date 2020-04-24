@@ -1,4 +1,4 @@
-## Configuration for what Postfix calls a "null client," i.e., a host
+# # Configuration for what Postfix calls a "null client," i.e., a host
 ## that can only send mail to another host. This configuration
 ## enforces an encrypted transport from the client to the relay host.
 
@@ -23,8 +23,7 @@ let
   user = config.services.postfix.user;
   group = config.services.postfix.group;
 
-in
-{
+in {
   options.services.postfix-null-client = {
 
     enable = mkEnableOption ''

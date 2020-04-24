@@ -10,8 +10,7 @@ let
 
   hydraPkg = config.services.hydra.package;
 
-in
-{
+in {
   options = {
 
     services.hydra-manual-setup = {
@@ -32,12 +31,11 @@ in
         effectively be a no-op from that point on.
       '';
 
-      enable = mkEnableOption
-      ''
+      enable = mkEnableOption ''
         the <literal>hydra-manual-setup</literal> service. Note that
         the service will only actually run if both this option and
         <literal>services.hydra</literal> are <literal>true</literal>.
-        '';
+      '';
 
       adminUser = {
 
@@ -165,8 +163,7 @@ in
       after = [ "hydra-init.service" ] ++ wants;
 
       environment = mkForce config.systemd.services.hydra-init.environment;
-      script =
-      let bcKeyDir = cfg.binaryCacheKey.directory;
+      script = let bcKeyDir = cfg.binaryCacheKey.directory;
       in ''
         if [ ! -e ~hydra/.manual-setup-is-complete-v1 ]; then
           HYDRA_PW=$(cat "${deployed-pw}")

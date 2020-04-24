@@ -1,25 +1,14 @@
-{ stdenv
-, lib
-, cacert
-, blacklist ? []
-, pkgs
-, extraCerts ? {}
-}:
+{ stdenv, lib, cacert, blacklist ? [ ], pkgs, extraCerts ? { } }:
 
 let
 
-  extraCAs = pkgs.writeText "extraCAs"
-  (lib.concatStrings
-    (lib.mapAttrsToList
-      (caName: caPem:
-        ''
-          ${caName}
-          ${caPem}
-        '')
-      extraCerts));
+  extraCAs = pkgs.writeText "extraCAs" (lib.concatStrings (lib.mapAttrsToList
+    (caName: caPem: ''
+      ${caName}
+      ${caPem}
+    '') extraCerts));
 
-in
-cacert.overrideAttrs (oldAttrs: {
+in cacert.overrideAttrs (oldAttrs: {
 
   installPhase = ''
     mkdir -pv $out/etc/ssl/certs

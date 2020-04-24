@@ -1,9 +1,4 @@
-{ stdenv
-, lib
-, source
-, fetchFromGitHub
-, buildGoPackage
-}:
+{ stdenv, lib, source, fetchFromGitHub, buildGoPackage }:
 
 buildGoPackage rec {
   name = "terraform-provider-okta-${version}";

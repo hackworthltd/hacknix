@@ -1,11 +1,11 @@
-## A znc module that, unlike the upstream module, does not write IRC
+# # A znc module that, unlike the upstream module, does not write IRC
 ## secrets to the Nix store. It does this by treating the entire ZNC
 ## config file, which contains cleartext passwords, as a secret.
 ##
 ## This means the ZNC config file must be copied to the host machine
 ## out-of-band, e.g., via NixOps.
 
-{ config, lib, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
@@ -21,13 +21,8 @@ let
   # pw=nixospass
 
   defaultUserName = "znc";
-  defaultPassBlock = "
-        <Pass password>
-                Method = sha256
-                Hash = e2ce303c7ea75c571d80d8540a8699b46535be6a085be3414947d638e48d9e93
-                Salt = l5Xryew4g*!oa(ECfX2o
-        </Pass>
-  ";
+  defaultPassBlock =
+    "\n        <Pass password>\n                Method = sha256\n                Hash = e2ce303c7ea75c571d80d8540a8699b46535be6a085be3414947d638e48d9e93\n                Salt = l5Xryew4g*!oa(ECfX2o\n        </Pass>\n  ";
 
   modules = pkgs.buildEnv {
     name = "znc-modules";
@@ -80,7 +75,7 @@ let
 
       modulePackages = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         example = [ "pkgs.zncModules.push" "pkgs.zncModules.fish" ];
         description = ''
           External ZNC modules to build.
@@ -98,7 +93,7 @@ let
 
       channels = mkOption {
         type = types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         example = [ "nixos" ];
         description = ''
           IRC channels to join.
@@ -132,9 +127,7 @@ let
     };
   };
 
-in
-
-{
+in {
 
   disabledModules = [
     "services/networking/znc/default.nix"
@@ -370,7 +363,8 @@ in
       modulePackages = mkOption {
         type = types.listOf types.package;
         default = [ ];
-        example = literalExample "[ pkgs.zncModules.fish pkgs.zncModules.push ]";
+        example =
+          literalExample "[ pkgs.zncModules.fish pkgs.zncModules.push ]";
         description = ''
           A list of global znc module packages to add to znc.
         '';
@@ -401,7 +395,6 @@ in
     };
   };
 
-
   ###### Implementation
 
   config = mkIf cfg.enable {
@@ -409,13 +402,10 @@ in
     hacknix.assertions.moduleHashes."services/networking/znc/default.nix" =
       "79c9902ec5d893eb5e1cd59b0ef7d2dff05d440981ced4ab9373aa480303ba2a";
 
-    hacknix.keychain.keys.znc-config = {
-      text = cfg.configLiteral;
-    };
+    hacknix.keychain.keys.znc-config = { text = cfg.configLiteral; };
 
-    networking.firewall = mkIf cfg.openFirewall {
-      allowedTCPPorts = [ cfg.confOptions.port ];
-    };
+    networking.firewall =
+      mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.confOptions.port ]; };
 
     systemd.services.znc = rec {
       description = "ZNC Server";
@@ -429,7 +419,7 @@ in
         Group = cfg.group;
         Restart = "always";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
-        ExecStop   = "${pkgs.coreutils}/bin/kill -INT $MAINPID";
+        ExecStop = "${pkgs.coreutils}/bin/kill -INT $MAINPID";
       };
       preStart = ''
         ${pkgs.coreutils}/bin/mkdir -p ${cfg.dataDir}/configs || true
@@ -463,7 +453,9 @@ in
         rm ${cfg.dataDir}/modules || true
         ln -fs ${modules}/lib/znc ${cfg.dataDir}/modules
       '';
-      script = "${pkgs.znc}/bin/znc --foreground --datadir ${cfg.dataDir} ${toString cfg.extraFlags}";
+      script = "${pkgs.znc}/bin/znc --foreground --datadir ${cfg.dataDir} ${
+          toString cfg.extraFlags
+        }";
     };
 
     users.users = optionalAttrs (cfg.user == defaultUser) {

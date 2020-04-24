@@ -5,8 +5,7 @@ let
   cfg = config.hacknix.auto-gc;
   enabled = cfg.enable;
 
-in
-{
+in {
 
   options.hacknix.auto-gc = {
     enable = lib.mkEnableOption ''
@@ -24,7 +23,8 @@ in
     nix.gc = {
       automatic = true;
       dates = "*:15:00";
-      options = ''--max-freed "$((32 * 1024**3 - 1024 * $(df -P -k /nix/store | tail -n 1 | ${pkgs.gawk}/bin/awk '{ print $4 }')))"'';
+      options = ''
+        --max-freed "$((32 * 1024**3 - 1024 * $(df -P -k /nix/store | tail -n 1 | ${pkgs.gawk}/bin/awk '{ print $4 }')))"'';
     };
     systemd.timers.nix-gc.timerConfig.RandomizedDelaySec = "1800";
 

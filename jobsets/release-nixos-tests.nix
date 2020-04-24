@@ -6,22 +6,20 @@
 let
 
   lib = import ../lib;
-  localPkgs = (import ../.) {};
+  localPkgs = (import ../.) { };
 
-in
-
-{ system ? "x86_64-linux"
-, supportedSystems ? [ "x86_64-linux" ]
-, scrubJobs ? true
-, nixpkgsArgs ? {
-    config = { allowUnfree = true; allowBroken = true; inHydra = true; };
-    overlays = lib.singleton localPkgs.overlays.all;
-  }
-}:
+in { system ? "x86_64-linux", supportedSystems ? [ "x86_64-linux" ]
+, scrubJobs ? true, nixpkgsArgs ? {
+  config = {
+    allowUnfree = true;
+    allowBroken = true;
+    inHydra = true;
+  };
+  overlays = lib.singleton localPkgs.overlays.all;
+} }:
 
 let
 
-in
-  lib.collect
-    lib.isDerivation
-    (import ./release-nixos.nix { inherit system supportedSystems scrubJobs nixpkgsArgs; }).tests
+in lib.collect lib.isDerivation (import ./release-nixos.nix {
+  inherit system supportedSystems scrubJobs nixpkgsArgs;
+}).tests

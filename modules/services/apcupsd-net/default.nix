@@ -1,4 +1,4 @@
-## Run apcupsd in a PowerChute Network Shutdown configuration; i.e.,
+# # Run apcupsd in a PowerChute Network Shutdown configuration; i.e.,
 ## with a network-enabled APC Smart-UPS.
 ##
 ## A similar configuration can be created with the NixOS built-in
@@ -83,9 +83,13 @@ let
     chmod a+x "$out/${eventname}"
   '';
 
-  eventToShellCmds = event: if builtins.hasAttr event cfg.hooks then (shellCmdsForEventScript event (builtins.getAttr event cfg.hooks)) else "";
+  eventToShellCmds = event:
+    if builtins.hasAttr event cfg.hooks then
+      (shellCmdsForEventScript event (builtins.getAttr event cfg.hooks))
+    else
+      "";
 
-  scriptDir = pkgs.runCommand "apcupsd-scriptdir" {} (''
+  scriptDir = pkgs.runCommand "apcupsd-scriptdir" { } (''
     mkdir "$out"
     # Copy SCRIPTDIR from apcupsd package
     cp -r ${pkgs.apcupsd}/etc/apcupsd/* "$out"/
@@ -98,13 +102,11 @@ let
     rm "$out/apcupsd.conf"
     # Set the SCRIPTDIR= line in apccontrol to the dir we're creating now
     sed -i -e "s|^SCRIPTDIR=.*|SCRIPTDIR=$out|" "$out/apccontrol"
-    '' + concatStringsSep "\n" (map eventToShellCmds eventList)
+  '' + concatStringsSep "\n" (map eventToShellCmds eventList)
 
   );
 
-in
-
-{
+in {
 
   ###### interface
 
@@ -182,9 +184,10 @@ in
       };
 
       hooks = mkOption {
-        default = {};
+        default = { };
         example = {
-          doshutdown = ''# shell commands to notify that the computer is shutting down'';
+          doshutdown =
+            "# shell commands to notify that the computer is shutting down";
         };
         type = types.attrsOf types.str;
         description = ''
@@ -203,14 +206,14 @@ in
 
   };
 
-
   ###### implementation
 
   config = mkIf cfg.enable {
 
     assertions = [
       {
-        assertion = let hooknames = builtins.attrNames cfg.hooks; in all (x: elem x eventList) hooknames;
+        assertion = let hooknames = builtins.attrNames cfg.hooks;
+        in all (x: elem x eventList) hooknames;
         message = ''
           One (or more) attribute names in services.apcupsd.hooks are invalid.
           Current attribute names: ${toString (builtins.attrNames cfg.hooks)}
@@ -218,7 +221,8 @@ in
         '';
       }
 
-      { assertion = !apcupsdCfg.enable;
+      {
+        assertion = !apcupsdCfg.enable;
         message = ''
           Only one of `services.apcupsd` and `services.apcupsd-net` can be enabled at one time.
         '';

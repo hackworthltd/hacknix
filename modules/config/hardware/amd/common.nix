@@ -10,18 +10,18 @@ let
   enabled = cfg.enable;
   intelEnabled = config.hacknix.hardware.intel.common.enable;
 
-in
-{
+in {
   options.hacknix.hardware.amd.common = {
-    enable = mkEnableOption "AMD hardware configuration common to modern AMD platforms.";
+    enable = mkEnableOption
+      "AMD hardware configuration common to modern AMD platforms.";
   };
 
   config = mkIf enabled {
-    assertions = [
-      { assertion = ! intelEnabled;
-        message = "Both `hacknix.hardware.amd.common` and `hacknix.hardware.intel.common` cannot be enabled";
-      }
-    ];
+    assertions = [{
+      assertion = !intelEnabled;
+      message =
+        "Both `hacknix.hardware.amd.common` and `hacknix.hardware.intel.common` cannot be enabled";
+    }];
 
     nixpkgs.localSystem.system = "x86_64-linux";
 

@@ -1,8 +1,4 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
@@ -16,20 +12,15 @@ let
 in makeTest rec {
   name = "trimpcap";
 
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ dhess ];
-  };
+  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   machine = { config, ... }: {
     nixpkgs.localSystem.system = system;
-    imports = [
-      ./common/users.nix
-    ] ++ pkgs.lib.hacknix.modules;
+    imports = [ ./common/users.nix ] ++ pkgs.lib.hacknix.modules;
 
   };
 
-  testScript = { nodes, ... }:
-  ''
+  testScript = { nodes, ... }: ''
     # Sanity check that the file is what we think it is. Note that
     # ngrep doesn't return proper error codes, so we have to grep its
     # grep.

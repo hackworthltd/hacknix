@@ -35,8 +35,7 @@ let
     MAILEND
   '';
 
-in
-{
+in {
   options = {
     services.tarsnapper = {
       enable = mkEnableOption "periodic tarsnapper backups.";
@@ -136,12 +135,20 @@ in
 
     systemd.services.tarsnapper = rec {
       description = "Tarsnapper backup";
-      requires    = [ "network-online.target" ];
-      wants       = [ "tarsnap-key-key.service" ];
-      after       = [ "network-online.target" ] ++ wants;
-      onFailure   = if cfg.email.enable then [ "tarsnapper-failed.service" ] else [];
+      requires = [ "network-online.target" ];
+      wants = [ "tarsnap-key-key.service" ];
+      after = [ "network-online.target" ] ++ wants;
+      onFailure =
+        if cfg.email.enable then [ "tarsnapper-failed.service" ] else [ ];
 
-      path = with pkgs; [ coreutils iputils nettools tarsnap tarsnapper utillinux ];
+      path = with pkgs; [
+        coreutils
+        iputils
+        nettools
+        tarsnap
+        tarsnapper
+        utillinux
+      ];
 
       script = ''
         set -e
@@ -194,13 +201,9 @@ in
     # an administrator can easily use them to check the status of backups, restore, etc.
 
     environment.etc = {
-      "tarsnap/tarsnapper-tarsnap.conf" = {
-        text = tarsnapConfigFile;
-      };
+      "tarsnap/tarsnapper-tarsnap.conf" = { text = tarsnapConfigFile; };
 
-      "tarsnap/tarsnapper.conf" = {
-        text = cfg.config;
-      };
+      "tarsnap/tarsnapper.conf" = { text = cfg.config; };
     };
 
     environment.systemPackages = [ pkgs.tarsnap pkgs.tarsnapper ];

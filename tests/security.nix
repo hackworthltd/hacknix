@@ -1,9 +1,4 @@
-{ system ? "x86_64-linux"
-, pkgs
-, makeTest
-, ...
-}:
-
+{ system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
 
@@ -12,18 +7,16 @@ let
 
       name = "security-${name}";
 
-      meta = with pkgs.lib.maintainers; {
-        maintainers = [ dhess ];
-      };
+      meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
-      machine = { config, ... }: {
-        nixpkgs.localSystem.system = system;
-        imports = pkgs.lib.hacknix.modules;
+      machine = { config, ... }:
+        {
+          nixpkgs.localSystem.system = system;
+          imports = pkgs.lib.hacknix.modules;
 
-      } // machineAttrs;
+        } // machineAttrs;
 
-      testScript = { ... }:
-      ''
+      testScript = { ... }: ''
         $machine->waitForUnit("multi-user.target");
 
         subtest "clean-tmpdir-on-boot", sub {
@@ -36,10 +29,11 @@ let
 
     };
 
-in
-{
+in {
 
   test1 = makeSecurityTest "global-enable" { hacknix.defaults.enable = true; };
-  test2 = makeSecurityTest "security-enable" { hacknix.defaults.security.enable = true; };
+  test2 = makeSecurityTest "security-enable" {
+    hacknix.defaults.security.enable = true;
+  };
 
 }

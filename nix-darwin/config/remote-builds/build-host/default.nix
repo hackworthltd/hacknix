@@ -1,8 +1,4 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{ config, pkgs, lib, ... }:
 
 let
 
@@ -10,41 +6,39 @@ let
 
   sshKeyName = host: user: "${user}_at_${host}";
 
-  mkBuildMachines = remoteBuildHosts: lib.mapAttrsToList (host: descriptor: with descriptor;
-    {
-      inherit hostName systems maxJobs speedFactor mandatoryFeatures supportedFeatures;
-      sshUser = "ssh://${sshUserName}";
-      sshKey =
-      let
-        keyname = sshKeyName host sshUserName;
-      in
-        "${cfg.sshKeyDir}/${keyname}";
-    }
-  ) remoteBuildHosts;
+  mkBuildMachines = remoteBuildHosts:
+    lib.mapAttrsToList (host: descriptor:
+      with descriptor; {
+        inherit hostName systems maxJobs speedFactor mandatoryFeatures
+          supportedFeatures;
+        sshUser = "ssh://${sshUserName}";
+        sshKey = let keyname = sshKeyName host sshUserName;
+        in "${cfg.sshKeyDir}/${keyname}";
+      }) remoteBuildHosts;
 
-  knownHosts = remoteBuildHosts: lib.mapAttrsToList (host: descriptor:
-    {
-      hostNames = lib.singleton descriptor.hostName ++ descriptor.alternateHostNames;
+  knownHosts = remoteBuildHosts:
+    lib.mapAttrsToList (host: descriptor: {
+      hostNames = lib.singleton descriptor.hostName
+        ++ descriptor.alternateHostNames;
       publicKey = descriptor.hostPublicKeyLiteral;
-    }
-  ) remoteBuildHosts;
+    }) remoteBuildHosts;
 
-  mkHostPortPairs = remoteBuildHosts: lib.mapAttrsToList (_: descriptor: with descriptor;
-    { inherit hostName port; }
-  ) remoteBuildHosts;
+  mkHostPortPairs = remoteBuildHosts:
+    lib.mapAttrsToList
+    (_: descriptor: with descriptor; { inherit hostName port; })
+    remoteBuildHosts;
 
-  sshExtraConfig = remoteBuildHosts: lib.concatMapStrings (pair:
-    lib.optionalString (pair.port != null) ''
+  sshExtraConfig = remoteBuildHosts:
+    lib.concatMapStrings (pair:
+      lib.optionalString (pair.port != null) ''
 
-      Host ${pair.hostName}
-      Port ${toString pair.port}
-    ''
-  ) (mkHostPortPairs remoteBuildHosts);
+        Host ${pair.hostName}
+        Port ${toString pair.port}
+      '') (mkHostPortPairs remoteBuildHosts);
 
   sshConfig = pkgs.writeText "ssh_config" (sshExtraConfig cfg.buildMachines);
 
-in
-{
+in {
   options.hacknix-nix-darwin.build-host = {
     enable = lib.mkEnableOption ''
       build-host support for macOS, i.e., a macOS host from which nixpkgs
@@ -76,7 +70,7 @@ in
     };
 
     buildMachines = lib.mkOption {
-      default = {};
+      default = { };
       description = ''
         An attrset containing remote build host descriptors.
 
@@ -90,11 +84,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    assertions = [
-      {  assertion = cfg.buildMachines != {};
-         message = "`hacknix-nix-darwin.build-host` is enabled, but `hacknix-nix-darwin.build-host.buildMachines` is empty";
-      }
-    ];
+    assertions = [{
+      assertion = cfg.buildMachines != { };
+      message =
+        "`hacknix-nix-darwin.build-host` is enabled, but `hacknix-nix-darwin.build-host.buildMachines` is empty";
+    }];
 
     nix.extraOptions = ''
       keep-derivations = true

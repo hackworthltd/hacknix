@@ -1,16 +1,8 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, Hypervisor
-, vmnet
-, SystemConfiguration
-, xpc
-, libobjc
-, dtrace
-}:
+{ stdenv, lib, fetchFromGitHub, Hypervisor, vmnet, SystemConfiguration, xpc
+, libobjc, dtrace }:
 
 stdenv.mkDerivation rec {
-  pname   = "hyperkit";
+  pname = "hyperkit";
   version = "0.20190802"; # keep in sync with src.rev
 
   src = fetchFromGitHub {
@@ -44,8 +36,9 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with lib; {
-    description = "A toolkit for embedding hypervisor capabilities in your application";
-    homepage = https://github.com/moby/hyperkit;
+    description =
+      "A toolkit for embedding hypervisor capabilities in your application";
+    homepage = "https://github.com/moby/hyperkit";
     maintainers = with maintainers; [ dhess ];
     platforms = platforms.darwin;
     license = licenses.bsd3;
