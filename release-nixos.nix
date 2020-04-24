@@ -49,48 +49,44 @@ let
 
   tests = {
     ## Overlays.
-    custom-cacert = callSubTests ../tests/custom-cacert.nix { };
+    custom-cacert = callSubTests ./tests/custom-cacert.nix { };
     # Disabled until LRU package issue is fixed.
-    #trimpcap = callTest ../tests/trimpcap.nix {};
-    tsoff = callSubTests ../tests/tsoff.nix { };
+    #trimpcap = callTest ./tests/trimpcap.nix {};
+    tsoff = callSubTests ./tests/tsoff.nix { };
 
     ## Modules.
-    accept = callSubTests ../tests/accept.nix { };
-    apcupsd-net = callTest ../tests/apcupsd-net.nix { };
-    build-host = callSubTests ../tests/build-host.nix { };
-    dovecot = callTest ../tests/dovecot.nix { };
-    freeradius = callTest ../tests/freeradius.nix { };
+    accept = callSubTests ./tests/accept.nix { };
+    apcupsd-net = callTest ./tests/apcupsd-net.nix { };
+    build-host = callSubTests ./tests/build-host.nix { };
+    dovecot = callTest ./tests/dovecot.nix { };
+    freeradius = callTest ./tests/freeradius.nix { };
     hydra-manual-setup =
-      callTest ../tests/hydra-manual-setup.nix { system = "x86_64-linux"; };
-    netsniff-ng = callSubTests ../tests/netsniff-ng.nix { };
-    oauth2_proxy = callTest ../tests/oauth2_proxy.nix { };
-    opendkim = callTest ../tests/opendkim.nix { };
-    postfix-null-client = callTest ../tests/postfix-null-client.nix { };
-    postfix-relay-host = callTest ../tests/postfix-relay-host.nix { };
-    remote-build-host = callSubTests ../tests/remote-build-host.nix { };
-    service-status-email = callTest ../tests/service-status-email.nix { };
-    tarsnapper = callTest ../tests/tarsnapper.nix { };
-    tftpd-hpa = callTest ../tests/tftpd-hpa.nix { };
-    unbound-multi-instance = callTest ../tests/unbound-multi-instance.nix { };
-    virtual-ips = callTest ../tests/virtual-ips.nix { };
-    wireguard-dhess = callTest ../tests/wireguard-dhess.nix { };
-    znc = callSubTests ../tests/znc.nix { };
+      callTest ./tests/hydra-manual-setup.nix { system = "x86_64-linux"; };
+    netsniff-ng = callSubTests ./tests/netsniff-ng.nix { };
+    oauth2_proxy = callTest ./tests/oauth2_proxy.nix { };
+    opendkim = callTest ./tests/opendkim.nix { };
+    postfix-null-client = callTest ./tests/postfix-null-client.nix { };
+    postfix-relay-host = callTest ./tests/postfix-relay-host.nix { };
+    remote-build-host = callSubTests ./tests/remote-build-host.nix { };
+    service-status-email = callTest ./tests/service-status-email.nix { };
+    tarsnapper = callTest ./tests/tarsnapper.nix { };
+    tftpd-hpa = callTest ./tests/tftpd-hpa.nix { };
+    unbound-multi-instance = callTest ./tests/unbound-multi-instance.nix { };
+    virtual-ips = callTest ./tests/virtual-ips.nix { };
+    wireguard-dhess = callTest ./tests/wireguard-dhess.nix { };
+    znc = callSubTests ./tests/znc.nix { };
 
     ## Configuration.
 
-    environment = callSubTests ../tests/environment.nix { };
-    fail2ban = callTest ../tests/fail2ban.nix { };
-    hwutils = callTest ../tests/hwutils.nix { };
-    networking = callSubTests ../tests/networking.nix { };
-    security = callSubTests ../tests/security.nix { };
-    sudo = callSubTests ../tests/sudo.nix { };
-    ssh = callSubTests ../tests/ssh.nix { };
-    system = callSubTests ../tests/system.nix { };
-    users = callSubTests ../tests/users.nix { };
+    environment = callSubTests ./tests/environment.nix { };
+    fail2ban = callTest ./tests/fail2ban.nix { };
+    hwutils = callTest ./tests/hwutils.nix { };
+    networking = callSubTests ./tests/networking.nix { };
+    security = callSubTests ./tests/security.nix { };
+    sudo = callSubTests ./tests/sudo.nix { };
+    ssh = callSubTests ./tests/ssh.nix { };
+    system = callSubTests ./tests/system.nix { };
+    users = callSubTests ./tests/users.nix { };
   };
 
-in rec {
-
-  inherit tests;
-
-}
+in tests

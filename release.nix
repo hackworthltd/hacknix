@@ -20,6 +20,11 @@ with import (fixedNixpkgs + "/pkgs/top-level/release-lib.nix") {
 
 let
 
+  nixos-tests = (import ./release-nixos.nix {
+    inherit scrubJobs nixpkgsArgs;
+    supportedSystems = [ "x86_64-linux" ];
+  });
+
   x86_64 = [ "x86_64-linux" "x86_64-darwin" ];
   x86_64_linux = [ "x86_64-linux" ];
   linux = [ "x86_64-linux" ];
@@ -242,4 +247,4 @@ let
     };
   });
 
-in jobs
+in jobs // nixos-tests
