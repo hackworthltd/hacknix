@@ -20,7 +20,7 @@ in {
     ];
   });
 
-  # Hydra fixes from iohk.
+  # Hydra fixes from iohk and other various sources.
   hydra-unstable = super.hydra-unstable.overrideAttrs (drv: {
     patches = [
       (super.fetchpatch {
@@ -37,6 +37,13 @@ in {
         url =
           "https://github.com/input-output-hk/hydra/commit/0768891e3cd3ef067d28742098f1dea8462fca75.patch";
         sha256 = "0m4009pmi4sl0vwq6q98bzp4hpnfr4ww1j27czwcazbda7l8fdzy";
+      })
+
+      # Secure GitHub token handling.
+      (super.fetchpatch {
+        url =
+          "https://raw.githubusercontent.com/Holo-Host/holo-nixpkgs/00da3ac8e1e0dfe900df4a88eb0bced556abe525/overlays/holo-nixpkgs/hydra/secure-github.diff";
+        sha256 = "0prinqi5smjkrc6jv8bs9gmnz3yga8ba9aacpg6cf1v1iq130iws";
       })
       # (super.fetchpatch {
       #   url =
