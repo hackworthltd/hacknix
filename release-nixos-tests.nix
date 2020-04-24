@@ -5,8 +5,8 @@
 
 let
 
-  lib = import ../lib;
-  localPkgs = (import ../.) { };
+  lib = import lib/default.nix;
+  localPkgs = (import ./default.nix) { };
 
 in { system ? "x86_64-linux", supportedSystems ? [ "x86_64-linux" ]
 , scrubJobs ? true, nixpkgsArgs ? {

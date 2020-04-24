@@ -1,8 +1,8 @@
 let
 
-  lib = import ../lib;
+  lib = import lib/default.nix;
   inherit (lib) fixedNixpkgs;
-  localPkgs = (import ../.) { };
+  localPkgs = (import ./default.nix) { };
 
 in { supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ], scrubJobs ? true
 , nixpkgsArgs ? {
