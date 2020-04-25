@@ -87,6 +87,10 @@ let
 
   gitignoreSrc = (import lib.fixedGitignoreNix) { inherit (super) lib; };
 
+  traefik-forward-auth = callPackage ../pkgs/traefik-forward-auth {
+    inherit (super.darwin.apple_sdk.frameworks) Security;
+  };
+
 in {
   inherit (badhosts) badhosts-unified;
   inherit (badhosts)
@@ -116,6 +120,7 @@ in {
   inherit nixops;
   inherit nmrpflash;
   inherit terraform-provider-okta;
+  inherit traefik-forward-auth;
   inherit trimpcap;
   inherit tsoff;
 }

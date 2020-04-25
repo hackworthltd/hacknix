@@ -74,6 +74,7 @@ let
     radare2 = all;
     saml2aws = all;
     terraform-provider-okta = all;
+    traefik-forward-auth = all;
     trimpcap = linux;
     tsoff = linux;
     wpa_supplicant = linux;
@@ -150,6 +151,7 @@ let
         radare2.x86_64-linux
         saml2aws.x86_64-linux
         terraform-provider-okta.x86_64-linux
+        traefik-forward-auth.x86_64-linux
         trimpcap.x86_64-linux
         tsoff.x86_64-linux
         wpa_supplicant.x86_64-linux
@@ -213,6 +215,7 @@ let
         radare2.x86_64-darwin
         saml2aws.x86_64-darwin
         terraform-provider-okta.x86_64-darwin
+        traefik-forward-auth.x86_64-linux
         yubikey-manager.x86_64-darwin
 
         emacs-env.x86_64-darwin
