@@ -16,6 +16,10 @@ buildGoModule rec {
 
   buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
+  postInstall = ''
+    mv $out/bin/cmd $out/bin/traefik-forward-auth
+  '';
+
   meta = with lib; {
     description =
       "An OAuth/OIDC forward authentication service for the traefik reverse proxy.";
