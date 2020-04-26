@@ -85,15 +85,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "minikube": {
-        "branch": "v1.9.0-beta.2",
+        "branch": "v1.9.2",
         "description": "Run Kubernetes locally",
         "homepage": "https://minikube.sigs.k8s.io/",
         "owner": "kubernetes",
         "repo": "minikube",
-        "rev": "559556401554be76eca384b7878e31a7217c4028",
-        "sha256": "0vwg29i1i73qia025y4dzcdnw9kfhzfpkdwkgfx7lscssnpv9yx3",
+        "rev": "93af9c1e43cab9618e301bc9fa720c63d5efa393",
+        "sha256": "025v45427d885qkjjg7ig8fgrvjalnf1lajsj0cnbwbih2m69svg",
         "type": "tarball",
-        "url": "https://github.com/kubernetes/minikube/archive/559556401554be76eca384b7878e31a7217c4028.tar.gz",
+        "url": "https://github.com/kubernetes/minikube/archive/93af9c1e43cab9618e301bc9fa720c63d5efa393.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {

@@ -11,13 +11,13 @@ let
 
 in buildGoModule rec {
   pname = "minikube";
-  version = "1.9.0-beta.2";
+  version = "1.9.2";
 
   goPackagePath = "k8s.io/minikube";
   subPackages = [ "cmd/minikube" ]
     ++ stdenv.lib.optional stdenv.hostPlatform.isLinux "cmd/drivers/kvm"
     ++ stdenv.lib.optional stdenv.hostPlatform.isDarwin "cmd/drivers/hyperkit";
-  modSha256 = "0p8cq43s1k5d5azl24xlli93bfzki41mfpyfh6v1dyakng7a2rd9";
+  modSha256 = "1pxs6myszgma3rzz0nhfjbnylv6m0xzlinvmlg0c4ijvkkzxg3v5";
 
   src = fetchFromGitHub { inherit (source) repo owner sha256 rev; };
 
