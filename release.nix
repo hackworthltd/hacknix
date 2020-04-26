@@ -70,7 +70,6 @@ let
     nixops = x86_64;
     nmrpflash = all;
     ntp = linux;
-    oauth2-proxy = all;
     radare2 = all;
     saml2aws = all;
     terraform-provider-okta = all;
@@ -147,7 +146,6 @@ let
         netsniff-ng.x86_64-linux
         nixops.x86_64-linux
         ntp.x86_64-linux
-        oauth2-proxy.x86_64-linux
         radare2.x86_64-linux
         saml2aws.x86_64-linux
         terraform-provider-okta.x86_64-linux

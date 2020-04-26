@@ -54,7 +54,6 @@ in {
   inherit (self) nixops;
   inherit (self) nmrpflash;
   inherit (self) ntp;
-  inherit (self) oauth2-proxy;
   inherit (self) radare2;
   inherit (self) saml2aws;
   inherit (self) terraform-provider-okta;
