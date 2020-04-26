@@ -69,6 +69,7 @@
   ./services/oauth2_proxy/nginx.nix
   ./services/systemd-digitalocean
   ./services/tarsnapper
+  ./services/traefik-forward-auth
   ./services/tftpd-hpa
   ./services/znc
 ]
