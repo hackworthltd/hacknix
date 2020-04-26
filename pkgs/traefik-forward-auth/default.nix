@@ -23,7 +23,7 @@ buildGoModule rec {
   meta = with lib; {
     description =
       "An OAuth/OIDC forward authentication service for the traefik reverse proxy.";
-    homepage = "https://github.com/oauth2-proxy/oauth2-proxy/";
+    homepage = "https://github.com/thomseddon/traefik-forward-auth";
     license = licenses.mit;
     maintainers = [ maintainers.dhess ];
     platforms = platforms.all;

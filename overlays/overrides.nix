@@ -31,11 +31,6 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
 
-  # Upstream is out of date.
-  oauth2-proxy = callPackage ../pkgs/oauth2-proxy {
-    inherit (super.darwin.apple_sdk.frameworks) Security;
-  };
-
   # Upstream doesn't support macOS, probably due to
   # https://github.com/radareorg/radare2/issues/15197
   radare2 = super.radare2.overrideAttrs (drv: {
@@ -120,7 +115,6 @@ in {
   inherit hydra-unstable;
   inherit libvmaf;
   inherit minikube;
-  inherit oauth2-proxy;
   inherit radare2;
   inherit saml2aws;
   inherit yubikey-manager;

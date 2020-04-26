@@ -65,8 +65,6 @@
   ./services/hydra-manual-setup
   ./services/netsniff-ng
   ./services/ntpd
-  ./services/oauth2_proxy/default.nix
-  ./services/oauth2_proxy/nginx.nix
   ./services/systemd-digitalocean
   ./services/tarsnapper
   ./services/traefik-forward-auth
