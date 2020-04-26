@@ -18,10 +18,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "5b258459335e3d247c7a1f2dba752011d8624150",
-        "sha256": "1h8m4qkj5iy84rk2v1y4gcg2988m1znbpmj7rljxpn091chr45jp",
+        "rev": "68c9d2f6b1053816cc8e2707aa539c9c1d0d6c98",
+        "sha256": "10blh49ywyqx3ghpxznn63q28r7c951kihys6j56r0m1h1040qxm",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/5b258459335e3d247c7a1f2dba752011d8624150.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/68c9d2f6b1053816cc8e2707aa539c9c1d0d6c98.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -66,10 +66,10 @@
         "homepage": null,
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "c93e1b73010af6879fe3194f2083d6bb7abdda91",
-        "sha256": "1v29wpyi60z7wdn1brq73i9dq989gnn7w59qrqfs26gsjkd7ppbm",
+        "rev": "dece2b1c4de6664ceda750702e04ad402a524d27",
+        "sha256": "0z3h42q4kpq7rlzk4izx7pxvaladxx97vsb2sn9q44jgrrxhq9y5",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/c93e1b73010af6879fe3194f2083d6bb7abdda91.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/dece2b1c4de6664ceda750702e04ad402a524d27.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "lorri": {
