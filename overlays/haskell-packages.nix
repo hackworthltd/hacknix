@@ -20,9 +20,6 @@ let
   # The current GHC.
   haskellPackages = mkHaskellPackages super.haskellPackages;
 
-  # cabal-fmt.
-  cabal-fmt = exeOnly haskellPackages.cabal-fmt;
-
   # cachix.
   mkCachixPackages = hp:
     properExtend hp (self: super: { cachix = (import localLib.fixedCachix); });
@@ -49,7 +46,6 @@ let
 
 in {
   inherit haskellPackages;
-  inherit cabal-fmt;
   inherit cachix;
   inherit darcs;
 }

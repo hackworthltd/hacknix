@@ -51,7 +51,6 @@ let
     badhosts-fakenews-gambling-nsfw-social = all;
     badhosts-all = all;
 
-    cabal-fmt = all;
     cachix = all;
     ccextractor = x86_64;
     cfssl = all;
@@ -130,7 +129,6 @@ let
         badhosts-fakenews-gambling-nsfw-social.x86_64-linux
         badhosts-all.x86_64-linux
 
-        cabal-fmt.x86_64-linux
         cachix.x86_64-linux
         ccextractor.x86_64-linux
         chamber.x86_64-linux
@@ -197,7 +195,6 @@ let
         badhosts-fakenews-gambling-nsfw-social.x86_64-darwin
         badhosts-all.x86_64-darwin
 
-        cabal-fmt.x86_64-darwin
         cachix.x86_64-darwin
         ccextractor.x86_64-darwin
         cfssl.x86_64-darwin
