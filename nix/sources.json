@@ -1,16 +1,16 @@
 {
     "aws-okta": {
-        "branch": "d61d1b20b32c8a3bbc4e3b48ee0aee49599cc2a1",
+        "branch": "v1.0.2",
         "description": "aws-vault like tool for Okta authentication",
         "homepage": null,
         "owner": "segmentio",
         "repo": "aws-okta",
-        "rev": "d61d1b20b32c8a3bbc4e3b48ee0aee49599cc2a1",
-        "sha256": "0br3pn3qr8ib0d7yfkbw8l1aj5n8c7qnk26wd929v404522j4h4m",
+        "rev": "9787e7c58ed8e6347da37149bb192f2280011736",
+        "sha256": "0rqkbhprz1j9b9bx3wvl5zi4p02q1qza905wkrvh42f9pbknajww",
         "type": "tarball",
-        "url": "https://github.com/segmentio/aws-okta/archive/d61d1b20b32c8a3bbc4e3b48ee0aee49599cc2a1.tar.gz",
+        "url": "https://github.com/segmentio/aws-okta/archive/9787e7c58ed8e6347da37149bb192f2280011736.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
-        "version": "0.27.0"
+        "version": "v1.0.2"
     },
     "badhosts": {
         "branch": "master",

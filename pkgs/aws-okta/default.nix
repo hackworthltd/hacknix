@@ -5,7 +5,7 @@ buildGoModule rec {
   version = source.version;
 
   goPackagePath = "github.com/segmentio/aws-okta";
-  modSha256 = "1aqhifj8mwhmph3hyvljkdl6gmyyr42aawx9ih0akswz12ypkji7";
+  modSha256 = "01gk5nx1bxssm28gwdh9c311k2fcsp35bhrpfzwv4ln07nbzcwjq";
 
   src = source.outPath;
 
