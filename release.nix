@@ -88,8 +88,6 @@ let
     hyperkit = darwin;
     minikube = all;
 
-    python-env = all;
-
     anki-env = darwin;
     mactools-env = darwin;
     maths-env = x86_64;
@@ -157,8 +155,6 @@ let
 
         minikube.x86_64-linux
 
-        python-env.x86_64-linux
-
         maths-env.x86_64-linux
         minikube-env.x86_64-linux
         nixtools-env.x86_64-linux
@@ -217,8 +213,6 @@ let
 
         hyperkit.x86_64-darwin
         minikube.x86_64-darwin
-
-        python-env.x86_64-darwin
 
         anki-env.x86_64-darwin
         mactools-env.x86_64-darwin

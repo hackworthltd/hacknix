@@ -74,8 +74,6 @@ in {
   inherit (self) hyperkit;
   inherit (self) minikube;
 
-  inherit (self) python-env;
-
   inherit (self) darwin;
 
   # Various buildEnv's that we use, usually only on macOS (though many

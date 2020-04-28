@@ -84,6 +84,8 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
 
+  delete-tweets = super.callPackage ../pkgs/python/delete-tweets { };
+
 in {
   inherit (badhosts) badhosts-unified;
   inherit (badhosts)
@@ -103,6 +105,7 @@ in {
 
   inherit ccextractor;
   inherit chamber;
+  inherit delete-tweets;
   inherit hacknix-source;
   inherit gawk_4_2_1;
   inherit hyperkit;
