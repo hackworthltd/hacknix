@@ -6,15 +6,8 @@ let
 
   inherit (super) callPackage;
 
-  # This is needed to get nixops to evaluate correctly. See:
-  #
-  # https://discourse.nixos.org/t/what-am-i-doing-wrong-here/2517/9
-  # https://github.com/NixOS/nixops/pull/1123
   nixpkgsPath = (import lib.fixedNixpkgs { }).path;
-  nixopsBuild = (import (lib.fixedNixOps + "/release.nix") {
-    nixpkgs = nixpkgsPath;
-  }).build;
-  nixops = nixopsBuild.${builtins.currentSystem};
+  nixops = import lib.fixedNixOps { nixpkgs = nixpkgsPath; };
 
   lorri = (import lib.fixedLorri) { pkgs = super; };
 
