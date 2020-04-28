@@ -49,12 +49,6 @@ let
     meta.platforms = super.lib.platforms.all;
   };
 
-  nixops-env = super.buildEnv {
-    name = "nixops-env";
-    paths = with super; [ nixops terraform ];
-    meta.platforms = super.lib.platforms.all;
-  };
-
   nixtools-env = super.buildEnv {
     name = "nixtools-env";
     paths = with super; [
@@ -108,7 +102,6 @@ in {
   inherit mactools-env;
   inherit maths-env;
   inherit minikube-env;
-  inherit nixops-env;
   inherit nixtools-env;
   inherit opsec-env;
   inherit shell-env;

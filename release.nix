@@ -93,7 +93,6 @@ let
     mactools-env = darwin;
     maths-env = x86_64;
     minikube-env = all;
-    nixops-env = x86_64;
     nixtools-env = all;
     opsec-env = all;
     shell-env = darwin;
@@ -161,7 +160,6 @@ let
 
         maths-env.x86_64-linux
         minikube-env.x86_64-linux
-        nixops-env.x86_64-linux
         nixtools-env.x86_64-linux
         opsec-env.x86_64-linux
 
@@ -225,7 +223,6 @@ let
         mactools-env.x86_64-darwin
         maths-env.x86_64-darwin
         minikube-env.x86_64-darwin
-        nixops-env.x86_64-darwin
         nixtools-env.x86_64-darwin
         opsec-env.x86_64-darwin
         shell-env.x86_64-darwin

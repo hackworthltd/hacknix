@@ -84,7 +84,6 @@ in {
   inherit (self) mactools-env;
   inherit (self) maths-env;
   inherit (self) minikube-env;
-  inherit (self) nixops-env;
   inherit (self) nixtools-env;
   inherit (self) opsec-env;
   inherit (self) shell-env;
