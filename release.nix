@@ -66,7 +66,8 @@ let
     macnix-rebuild = darwin;
     neovim = all;
     netsniff-ng = x86_64_linux;
-    nixops = x86_64;
+    # NixOps doesn't evaluate on Hydra at the moment.
+    #nixops = x86_64;
     nmrpflash = all;
     ntp = linux;
     radare2 = all;
@@ -141,7 +142,7 @@ let
         lorri.x86_64-linux
         neovim.x86_64-linux
         netsniff-ng.x86_64-linux
-        nixops.x86_64-linux
+        #nixops.x86_64-linux
         ntp.x86_64-linux
         radare2.x86_64-linux
         saml2aws.x86_64-linux
@@ -204,7 +205,7 @@ let
         lorri.x86_64-darwin
         macnix-rebuild.x86_64-darwin
         neovim.x86_64-darwin
-        nixops.x86_64-darwin
+        #nixops.x86_64-darwin
         radare2.x86_64-darwin
         saml2aws.x86_64-darwin
         terraform-provider-okta.x86_64-darwin
