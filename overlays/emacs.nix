@@ -57,6 +57,7 @@ let
       nix-mode
       nix-sandbox
       nixos-options
+      nixpkgs-fmt
       org-journal
       org-plus-contrib
       org-ref
