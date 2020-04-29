@@ -59,6 +59,7 @@ let
       lorri
       niv
       nixfmt
+      nixpkgs-fmt
       nix-index
       nix-info
       nox
