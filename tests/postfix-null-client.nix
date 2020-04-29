@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   # Don't do this in production -- it will put the secrets into the
   # Nix store! This is just a convenience for the tests.
 
@@ -10,8 +8,8 @@ let
   bob-certKey = ./testfiles/keys/bob-at-acme.com.key;
   bob-certKeyInStore =
     pkgs.copyPathToStore ./testfiles/keys/bob-at-acme.com.key;
-
-in makeTest rec {
+in
+makeTest rec {
   name = "postfix-null-client";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -20,7 +18,7 @@ in makeTest rec {
     client = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+      ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;
@@ -38,7 +36,8 @@ in makeTest rec {
   };
 
   testScript = { nodes, ... }:
-    let stateDir = nodes.client.config.services.postfix-null-client.stateDir;
+    let
+      stateDir = nodes.client.config.services.postfix-null-client.stateDir;
     in ''
       $client->waitForUnit("multi-user.target");
       $client->requireActiveUnit("postfix.service");

@@ -1,5 +1,17 @@
-{ stdenv, lib, fetchurl, pkgconfig, bison, flex, gawk, gnutls, lua, perl, python
-, ruby, swig }:
+{ stdenv
+, lib
+, fetchurl
+, pkgconfig
+, bison
+, flex
+, gawk
+, gnutls
+, lua
+, perl
+, python
+, ruby
+, swig
+}:
 
 stdenv.mkDerivation rec {
   name = "libprelude-${version}";

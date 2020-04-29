@@ -1,7 +1,6 @@
 { source, stdenv, lib, buildGoModule, fetchFromGitHub, Security }:
 
 let
-
 in buildGoModule rec {
   pname = "chamber";
   version = "2.8.0";

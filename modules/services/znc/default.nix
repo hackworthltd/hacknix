@@ -8,7 +8,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.services.qx-znc;
 
@@ -75,7 +74,7 @@ let
 
       modulePackages = mkOption {
         type = types.listOf types.package;
-        default = [ ];
+        default = [];
         example = [ "pkgs.zncModules.push" "pkgs.zncModules.fish" ];
         description = ''
           External ZNC modules to build.
@@ -93,7 +92,7 @@ let
 
       channels = mkOption {
         type = types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [ ];
+        default = [];
         example = [ "nixos" ];
         description = ''
           IRC channels to join.
@@ -126,8 +125,8 @@ let
       };
     };
   };
-
-in {
+in
+{
 
   disabledModules = [
     "services/networking/znc/default.nix"
@@ -229,7 +228,7 @@ in {
         };
 
         networks = mkOption {
-          default = { };
+          default = {};
           type = with types; attrsOf (submodule networkOpts);
           description = ''
             IRC networks to connect the user to.
@@ -362,7 +361,7 @@ in {
 
       modulePackages = mkOption {
         type = types.listOf types.package;
-        default = [ ];
+        default = [];
         example =
           literalExample "[ pkgs.zncModules.fish pkgs.zncModules.push ]";
         description = ''
@@ -385,7 +384,7 @@ in {
       };
 
       extraFlags = mkOption {
-        default = [ ];
+        default = [];
         example = [ "--debug" ];
         type = types.listOf pkgs.lib.types.nonEmptyStr;
         description = ''
@@ -428,9 +427,9 @@ in {
 
         # If immutable, regenerate conf file every time.
         ${optionalString (!cfg.mutable) ''
-          ${pkgs.coreutils}/bin/echo "znc is set to be system-managed. Now deleting old znc.conf file to be regenerated."
-          ${pkgs.coreutils}/bin/rm -f ${cfg.dataDir}/configs/znc.conf
-        ''}
+        ${pkgs.coreutils}/bin/echo "znc is set to be system-managed. Now deleting old znc.conf file to be regenerated."
+        ${pkgs.coreutils}/bin/rm -f ${cfg.dataDir}/configs/znc.conf
+      ''}
 
         # Ensure essential files exist.
         if [[ ! -e ${cfg.dataDir}/configs/znc.conf ]]; then
@@ -454,8 +453,8 @@ in {
         ln -fs ${modules}/lib/znc ${cfg.dataDir}/modules
       '';
       script = "${pkgs.znc}/bin/znc --foreground --datadir ${cfg.dataDir} ${
-          toString cfg.extraFlags
-        }";
+      toString cfg.extraFlags
+      }";
     };
 
     users.users = optionalAttrs (cfg.user == defaultUser) {

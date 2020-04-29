@@ -1,7 +1,5 @@
 { pkgs, postAuthConfig }:
-
 let
-
   siteDefault = ''
     server default {
 
@@ -118,4 +116,5 @@ let
       }
     }
   '';
-in pkgs.writeText "default" siteDefault
+in
+pkgs.writeText "default" siteDefault

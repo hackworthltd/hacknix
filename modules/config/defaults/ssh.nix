@@ -1,13 +1,11 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.defaults.ssh;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.defaults.ssh = {
     enable = mkEnableOption "the hacknix SSH configuration defaults.";
   };

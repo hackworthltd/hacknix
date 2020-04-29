@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   makeEnvTest = name: machineAttrs:
     makeTest {
       name = "environment-${name}";
@@ -39,8 +37,8 @@ let
         };
       '';
     };
-
-in {
+in
+{
 
   test1 = makeEnvTest "global-enable" { hacknix.defaults.enable = true; };
   test2 =

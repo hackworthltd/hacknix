@@ -1,7 +1,5 @@
 { config, pkgs, lib, ... }:
-
 let
-
   cfg = config.hacknix.freeradius;
   enabled = cfg.enable;
 
@@ -11,63 +9,67 @@ let
   };
 
   fwRulePerIP = port: interface: ips:
-    map (ip: {
-      protocol = "udp";
-      inherit interface;
-      dest.port = port;
-      src.ip = ip;
-    }) ips;
+    map (
+      ip: {
+        protocol = "udp";
+        inherit interface;
+        dest.port = port;
+        src.ip = ip;
+      }
+    ) ips;
 
   fwRulesPerInterface = port: interfaces: ips:
     lib.flatten (map (interface: fwRulePerIP port interface ips) interfaces);
 
-  radiusClient = lib.types.submodule ({ name, ... }: {
-    options = {
+  radiusClient = lib.types.submodule (
+    { name, ... }: {
+      options = {
 
-      name = lib.mkOption {
-        type = pkgs.lib.types.nonEmptyStr;
-        default = "${name}";
-        description = ''
-          A short name for the RADIUS client.
-        '';
+        name = lib.mkOption {
+          type = pkgs.lib.types.nonEmptyStr;
+          default = "${name}";
+          description = ''
+            A short name for the RADIUS client.
+          '';
+        };
+
+        ipv4 = lib.mkOption {
+          type = pkgs.lib.types.ipv4NoCIDR;
+          example = "10.0.0.8";
+          description = ''
+            The IPv4 address from which the RADIUS client will connect
+            to the RADIUS server.
+          '';
+        };
+
+        ipv6 = lib.mkOption {
+          type = pkgs.lib.types.ipv6NoCIDR;
+          example = "2001:db8::8";
+          description = ''
+            The IPv6 address from which the RADIUS client will connect
+            to the RADIUS server.
+          '';
+        };
+
+        secretLiteral = lib.mkOption {
+          type = pkgs.lib.types.nonEmptyStr;
+          example = "s3kr3tk3y";
+          description = ''
+            The client's secret key, as a plaintext literal, used to
+            authenticate with the RADIUS server.
+
+            Note that this secret will not be written to the Nix store.
+            It will be securely copied to the RADIUS host and stored in
+            the RADIUS server's configuration directory.
+          '';
+        };
       };
-
-      ipv4 = lib.mkOption {
-        type = pkgs.lib.types.ipv4NoCIDR;
-        example = "10.0.0.8";
-        description = ''
-          The IPv4 address from which the RADIUS client will connect
-          to the RADIUS server.
-        '';
-      };
-
-      ipv6 = lib.mkOption {
-        type = pkgs.lib.types.ipv6NoCIDR;
-        example = "2001:db8::8";
-        description = ''
-          The IPv6 address from which the RADIUS client will connect
-          to the RADIUS server.
-        '';
-      };
-
-      secretLiteral = lib.mkOption {
-        type = pkgs.lib.types.nonEmptyStr;
-        example = "s3kr3tk3y";
-        description = ''
-          The client's secret key, as a plaintext literal, used to
-          authenticate with the RADIUS server.
-
-          Note that this secret will not be written to the Nix store.
-          It will be securely copied to the RADIUS host and stored in
-          the RADIUS server's configuration directory.
-        '';
-      };
-    };
-  });
+    }
+  );
 
   raddb = import ./conf/raddb.nix { inherit lib pkgs config; };
-
-in {
+in
+{
   meta.maintainers = lib.maintainers.dhess;
 
   options.hacknix.freeradius = {
@@ -97,7 +99,7 @@ in {
     };
 
     clients = lib.mkOption {
-      default = { };
+      default = {};
       type = lib.types.attrsOf radiusClient;
       description = ''
         RADIUS clients that are authorized to connect to this RADIUS
@@ -165,7 +167,7 @@ in {
     users = {
       authorizedMacs = lib.mkOption {
         type = lib.types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [ ];
+        default = [];
         example = [ "00:11:22:33:44:55" "aa:bb:cc:dd:ee:ff" ];
         description = ''
           A list of client MACs that are authorized to join WiFi
@@ -283,43 +285,45 @@ in {
   };
 
   config = lib.mkMerge [
-    (lib.mkIf enabled {
+    (
+      lib.mkIf enabled {
 
-      hacknix.assertions.moduleHashes."services/networking/freeradius.nix" =
-        "92331a400ab45fb307511a0bda9986b79e58e373bc6d048a1031782c20ae5c5a";
+        hacknix.assertions.moduleHashes."services/networking/freeradius.nix" =
+          "92331a400ab45fb307511a0bda9986b79e58e373bc6d048a1031782c20ae5c5a";
 
-      networking.firewall.accept =
-        (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v4)
-        ++ (fwRulesPerInterface 1813 cfg.interfaces allowedIPs.v4);
-      networking.firewall.accept6 =
-        (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v6)
-        ++ (fwRulesPerInterface 1813 cfg.interfaces allowedIPs.v6);
+        networking.firewall.accept =
+          (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v4)
+          ++ (fwRulesPerInterface 1813 cfg.interfaces allowedIPs.v4);
+        networking.firewall.accept6 =
+          (fwRulesPerInterface 1812 cfg.interfaces allowedIPs.v6)
+          ++ (fwRulesPerInterface 1813 cfg.interfaces allowedIPs.v6);
 
-      services.freeradius = {
-        enable = true;
-        configDir = cfg.configDir;
-      };
+        services.freeradius = {
+          enable = true;
+          configDir = cfg.configDir;
+        };
 
-      environment.systemPackages = with pkgs; [
-        freeradius
+        environment.systemPackages = with pkgs; [
+          freeradius
 
-        # For testing EAP functionality
-        wpa_supplicant
-      ];
+          # For testing EAP functionality
+          wpa_supplicant
+        ];
 
-      systemd.services.freeradius = {
-        # XXX dhess TODO - replace with each individual RADIUS key.
-        wants = [ "keys.target" ];
-        after = [ "keys.target" ];
-      };
+        systemd.services.freeradius = {
+          # XXX dhess TODO - replace with each individual RADIUS key.
+          wants = [ "keys.target" ];
+          after = [ "keys.target" ];
+        };
 
-      systemd.tmpfiles.rules = [
-        "d '${cfg.dataDir}' 0750 radius wheel - -"
-        "d '${cfg.logDir}' 0750 radius wheel - -"
-        "d '${cfg.tlsCacheDir}' 0750 radius wheel - -"
-        "d '${cfg.secretsDir}' 0750 radius wheel - -"
-      ];
-    })
+        systemd.tmpfiles.rules = [
+          "d '${cfg.dataDir}' 0750 radius wheel - -"
+          "d '${cfg.logDir}' 0750 radius wheel - -"
+          "d '${cfg.tlsCacheDir}' 0750 radius wheel - -"
+          "d '${cfg.secretsDir}' 0750 radius wheel - -"
+        ];
+      }
+    )
     raddb
   ];
 

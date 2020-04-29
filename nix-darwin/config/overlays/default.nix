@@ -2,9 +2,7 @@
 ## on their functionality.
 
 { ... }:
-
 let
-
   lib = import ../../../lib;
-
-in { nixpkgs.overlays = lib.overlays; }
+in
+{ nixpkgs.overlays = lib.overlays; }

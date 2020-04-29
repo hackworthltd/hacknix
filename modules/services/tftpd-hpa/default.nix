@@ -1,24 +1,23 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   cfg = config.services.tftpd-hpa;
 
   user = "tftp";
   group = "tftp";
 
   # tftp-hpa requires IPv6 addresses to be enclosed in brackets.
-  addressOption = let addr = cfg.listenAddress;
+  addressOption = let
+    addr = cfg.listenAddress;
   in if addr == null then
     ""
   else if pkgs.lib.ipaddr.isIPv4NoCIDR addr then
     "--address ${addr}"
   else
     "--address [${addr}]";
-
-in {
+in
+{
 
   options = {
 
@@ -62,7 +61,7 @@ in {
       };
 
       extraOptions = mkOption {
-        default = [ ];
+        default = [];
         example = literalExample ''
           [ "--blocksize 1468" ]
         '';
@@ -91,8 +90,8 @@ in {
 
       script = ''
         ${pkgs.tftp-hpa}/bin/in.tftpd --user ${user} --listen ${addressOption} ${
-          concatStringsSep " " cfg.extraOptions
-        } --secure ${cfg.root}
+      concatStringsSep " " cfg.extraOptions
+      } --secure ${cfg.root}
       '';
 
       serviceConfig = { Type = "forking"; };

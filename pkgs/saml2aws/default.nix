@@ -1,5 +1,12 @@
-{ source, stdenv, lib, buildGoModule, fetchFromGitHub, libobjc, Foundation
-, IOKit }:
+{ source
+, stdenv
+, lib
+, buildGoModule
+, fetchFromGitHub
+, libobjc
+, Foundation
+, IOKit
+}:
 
 buildGoModule rec {
   pname = "saml2aws";

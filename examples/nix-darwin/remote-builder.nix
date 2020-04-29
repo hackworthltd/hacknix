@@ -1,10 +1,8 @@
 { config, pkgs, lib, ... }:
-
 let
-
   localLib = import ../../lib;
-
-in {
+in
+{
   # For now, setting this is required.
   environment.darwinConfig = "${localLib.path}/examples/remote-builder.nix";
 

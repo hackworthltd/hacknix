@@ -1,7 +1,5 @@
 self: super:
-
 let
-
   inherit (super) callPackage;
 
   # Upstream cfssl is out of date.
@@ -18,7 +16,7 @@ let
   };
 
   # Upstream disables macOS.
-  libvmaf = callPackage ../pkgs/libvmaf { };
+  libvmaf = callPackage ../pkgs/libvmaf {};
 
   # Upstream is out of date.
   aws-okta = callPackage ../pkgs/aws-okta {
@@ -33,17 +31,19 @@ let
 
   # Upstream doesn't support macOS, probably due to
   # https://github.com/radareorg/radare2/issues/15197
-  radare2 = super.radare2.overrideAttrs (drv: {
-    python3 = super.python3;
-    useX11 = false;
-    pythonBindings = true;
-    luaBindings = true;
+  radare2 = super.radare2.overrideAttrs (
+    drv: {
+      python3 = super.python3;
+      useX11 = false;
+      pythonBindings = true;
+      luaBindings = true;
 
-    # XXX dhess - this is a bit of a hack.
-    HOST_CC = if super.stdenv.cc.isClang then "clang" else "gcc";
+      # XXX dhess - this is a bit of a hack.
+      HOST_CC = if super.stdenv.cc.isClang then "clang" else "gcc";
 
-    meta = drv.meta // { platforms = super.lib.platforms.unix; };
-  });
+      meta = drv.meta // { platforms = super.lib.platforms.unix; };
+    }
+  );
 
   # Upstream prevents fsatrace from building on macOS. It should work,
   # more or less, as long as you're using it with binaries built from
@@ -60,36 +60,44 @@ let
 
   # We need YubiKey OpenPGP KDF functionality, which hasn't been
   # released yet.
-  yubikey-manager = super.yubikey-manager.overrideAttrs (drv: {
-    version = "3.1.1";
-    name = "yubikey-manager-3.1.1";
-    srcs = super.fetchFromGitHub {
-      owner = "Yubico";
-      repo = "yubikey-manager";
-      rev = "2bbab3072ea0ec7cdcbaba398ce8dc0105aa27c2";
-      sha256 = "1i4qfmmwiw3pfbhzyivw6qp3zc17qv38sgxvza1lb2hl577za9y1";
-    };
-  });
+  yubikey-manager = super.yubikey-manager.overrideAttrs (
+    drv: {
+      version = "3.1.1";
+      name = "yubikey-manager-3.1.1";
+      srcs = super.fetchFromGitHub {
+        owner = "Yubico";
+        repo = "yubikey-manager";
+        rev = "2bbab3072ea0ec7cdcbaba398ce8dc0105aa27c2";
+        sha256 = "1i4qfmmwiw3pfbhzyivw6qp3zc17qv38sgxvza1lb2hl577za9y1";
+      };
+    }
+  );
 
-  oldNixUnstable = (super.callPackage ../pkgs/nix {
-    storeDir = "/nix/store";
-    stateDir = "/nix/var";
-    boehmgc = super.boehmgc.override { enableLargeConfig = true; };
-  }).nixUnstable;
+  oldNixUnstable = (
+    super.callPackage ../pkgs/nix {
+      storeDir = "/nix/store";
+      stateDir = "/nix/var";
+      boehmgc = super.boehmgc.override { enableLargeConfig = true; };
+    }
+  ).nixUnstable;
 
   # Workaround for broken nixflakes in upstream; doesn't seem to be
   # able to fetch private repos with Hydra.
-  hydra-unstable = (callPackage ../pkgs/hydra {
-    nixUnstable = oldNixUnstable;
-  }).hydra-unstable;
-
-in {
+  hydra-unstable = (
+    callPackage ../pkgs/hydra {
+      nixUnstable = oldNixUnstable;
+    }
+  ).hydra-unstable;
+in
+{
   # Enable TLS v1.2 in wpa_supplicant.
-  wpa_supplicant = super.wpa_supplicant.overrideAttrs (drv: {
-    extraConfig = drv.extraConfig + ''
-      CONFIG_TLSV12=y
-    '';
-  });
+  wpa_supplicant = super.wpa_supplicant.overrideAttrs (
+    drv: {
+      extraConfig = drv.extraConfig + ''
+        CONFIG_TLSV12=y
+      '';
+    }
+  );
 
   # Use fdk_aac in ffmpeg-full.
   #
@@ -103,7 +111,8 @@ in {
       nvenc = false;
       inherit (super.darwin.apple_sdk.frameworks)
         Cocoa CoreServices CoreAudio AVFoundation MediaToolbox
-        VideoDecodeAcceleration;
+        VideoDecodeAcceleration
+        ;
 
       frei0r = if super.stdenv.isDarwin then null else super.frei0r;
     };

@@ -3,13 +3,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.supermicro.mb-x10;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.supermicro.mb-x10 = {
     enable = mkEnableOption ''
       a Supermicro X10 motherboard configuration.

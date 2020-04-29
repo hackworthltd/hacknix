@@ -3,13 +3,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.supermicro.sys-5018d-fn4t;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.supermicro.sys-5018d-fn4t = {
     enable = mkEnableOption "a Supermicro 5018D-FN4T hardware configuration.";
   };

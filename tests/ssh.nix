@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   alicePrivateKey = pkgs.writeText "alice.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
@@ -51,7 +49,7 @@ let
           {
             nixpkgs.localSystem.system = system;
             imports = [ ./common/users.nix ./common/root-user.nix ]
-              ++ pkgs.lib.hacknix.modules;
+            ++ pkgs.lib.hacknix.modules;
             users.users.root.openssh.authorizedKeys.keys = [ rootPublicKey ];
             users.users.alice.openssh.authorizedKeys.keys = [ alicePublicKey ];
             users.users.bob.openssh.authorizedKeys.keys = [ bobPublicKey ];
@@ -125,8 +123,8 @@ let
 
         '';
     };
-
-in rec {
+in
+rec {
 
   globalEnableTest =
     makeSshTest "global-enable" { hacknix.defaults.enable = true; };

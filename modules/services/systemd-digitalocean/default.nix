@@ -1,9 +1,7 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   localLib = import ../../../lib.nix;
 
   cfg = config.services.systemd-digitalocean;
@@ -15,8 +13,8 @@ let
   };
 
   systemd-digitalocean-module = "${systemd-digitalocean}/module.nix";
-
-in {
+in
+{
   options.services.systemd-digitalocean = {
     enable = mkEnableOption "the systemd DigitalOcean networking module.";
   };

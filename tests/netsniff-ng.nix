@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   makeNetsniffNgTest = name: machineAttrs:
     makeTest {
 
@@ -28,7 +26,8 @@ let
       };
 
       testScript = { nodes, ... }:
-        let pingerpkgs = nodes.pinger.pkgs;
+        let
+          pingerpkgs = nodes.pinger.pkgs;
         in ''
           startAll;
           $sniffer->waitForUnit("netsniff-ng\@test.service");
@@ -69,9 +68,9 @@ let
         '';
 
     };
+in
+{
 
-in {
-
-  defaultTest = makeNetsniffNgTest "default" { };
+  defaultTest = makeNetsniffNgTest "default" {};
 
 }

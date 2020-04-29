@@ -1,16 +1,56 @@
-{ stdenv, nix, perlPackages, buildEnv, fetchFromGitHub, makeWrapper, autoconf
-, automake, libtool, unzip, pkgconfig, sqlite, libpqxx, gitAndTools, mercurial
-, darcs, subversion, bazaar, openssl, bzip2, libxslt, guile, perl, postgresql
-, nukeReferences, git, boehmgc, nlohmann_json, docbook_xsl, openssh, gnused
-, coreutils, findutils, gzip, lzma, gnutar, rpm, dpkg, cdrkit, pixz, lib, boost
-, autoreconfHook, src ? null, version ? null, migration ? false }:
+{ stdenv
+, nix
+, perlPackages
+, buildEnv
+, fetchFromGitHub
+, makeWrapper
+, autoconf
+, automake
+, libtool
+, unzip
+, pkgconfig
+, sqlite
+, libpqxx
+, gitAndTools
+, mercurial
+, darcs
+, subversion
+, bazaar
+, openssl
+, bzip2
+, libxslt
+, guile
+, perl
+, postgresql
+, nukeReferences
+, git
+, boehmgc
+, nlohmann_json
+, docbook_xsl
+, openssh
+, gnused
+, coreutils
+, findutils
+, gzip
+, lzma
+, gnutar
+, rpm
+, dpkg
+, cdrkit
+, pixz
+, lib
+, boost
+, autoreconfHook
+, src ? null
+, version ? null
+, migration ? false
+}:
 
 with stdenv;
 
 if lib.versions.major nix.version == "1" then
   throw "This Hydra version doesn't support Nix 1.x"
 else
-
   let
     perlDeps = buildEnv {
       name = "hydra-perl-deps";
@@ -99,25 +139,27 @@ else
       boost
     ];
 
-    hydraPath = lib.makeBinPath ([
-      sqlite
-      subversion
-      openssh
-      nix
-      coreutils
-      findutils
-      pixz
-      gzip
-      bzip2
-      lzma
-      gnutar
-      unzip
-      git
-      gitAndTools.top-git
-      mercurial # darcs
-      gnused
-      bazaar
-    ] ++ lib.optionals stdenv.isLinux [ rpm dpkg cdrkit ]);
+    hydraPath = lib.makeBinPath (
+      [
+        sqlite
+        subversion
+        openssh
+        nix
+        coreutils
+        findutils
+        pixz
+        gzip
+        bzip2
+        lzma
+        gnutar
+        unzip
+        git
+        gitAndTools.top-git
+        mercurial # darcs
+        gnused
+        bazaar
+      ] ++ lib.optionals stdenv.isLinux [ rpm dpkg cdrkit ]
+    );
 
     nativeBuildInputs = [ autoreconfHook pkgconfig ];
 

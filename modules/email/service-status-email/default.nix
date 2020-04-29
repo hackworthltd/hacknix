@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   gcfg = config.services.service-status-email;
 
@@ -21,8 +20,8 @@ let
 
     MAILEND
   '';
-
-in {
+in
+{
   options = {
     services.service-status-email = {
 
@@ -47,20 +46,24 @@ in {
       };
 
       recipients = mkOption {
-        type = types.attrsOf (types.submodule ({
-          options = {
-            address = mkOption {
-              type = pkgs.lib.types.nonEmptyStr;
-              example = "root@example.com";
-              description = ''
-                The actual email address to which the status email
-                will be sent.
-              '';
-            };
-          };
-        }));
+        type = types.attrsOf (
+          types.submodule (
+            {
+              options = {
+                address = mkOption {
+                  type = pkgs.lib.types.nonEmptyStr;
+                  example = "root@example.com";
+                  description = ''
+                    The actual email address to which the status email
+                    will be sent.
+                  '';
+                };
+              };
+            }
+          )
+        );
 
-        default = { };
+        default = {};
 
         example = literalExample ''
           {
@@ -99,17 +102,19 @@ in {
   };
 
   config = mkIf gcfg.enable {
-    systemd.services = mapAttrs' (name: cfg:
-      nameValuePair "status-email-${name}@" {
-        description = "Service status email for %i to ${cfg.address}";
+    systemd.services = mapAttrs' (
+      name: cfg:
+        nameValuePair "status-email-${name}@" {
+          description = "Service status email for %i to ${cfg.address}";
 
-        serviceConfig = {
-          ExecStart = "${emailScript} ${cfg.address} %i";
-          Type = "oneshot";
-          User = "nobody";
-          Group = "systemd-journal";
-        };
-      }) gcfg.recipients;
+          serviceConfig = {
+            ExecStart = "${emailScript} ${cfg.address} %i";
+            Type = "oneshot";
+            User = "nobody";
+            Group = "systemd-journal";
+          };
+        }
+    ) gcfg.recipients;
   };
 
   meta.maintainers = lib.maintainers.dhess;

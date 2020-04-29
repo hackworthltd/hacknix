@@ -1,11 +1,9 @@
 { config, pkgs, lib, ... }:
-
 let
-
   cfg = config.hacknix.providers.linode;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.providers.linode = {
     enable = lib.mkEnableOption "configuration defaults for Linode VPSes.";
   };
@@ -19,8 +17,8 @@ in {
     boot.loader.grub.device = "nodev";
 
     boot.initrd.availableKernelModules = [ "ata_piix" "sd_mod" ];
-    boot.kernelModules = [ ];
-    boot.extraModulePackages = [ ];
+    boot.kernelModules = [];
+    boot.extraModulePackages = [];
 
     # Linode LISH support.
     boot.kernelParams = [ "console=ttyS0,19200n8" ];

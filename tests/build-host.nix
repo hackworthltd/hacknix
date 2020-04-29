@@ -3,9 +3,7 @@
 # correctly.
 
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   expectedMachinesFile = pkgs.writeText "machines" ''
     ssh://bob@bar.example.com x86_64-linux,i686-linux /etc/nix/bob_at_bar 16 2 benchmark,big-parallel,kvm,nixos-test benchmark
     ssh://alice@foo.example.com x86_64-darwin /etc/nix/alice_at_foo 4 1 big-parallel
@@ -102,7 +100,7 @@ let
       machine = { config, ... }: {
         nixpkgs.localSystem.system = system;
         imports = pkgs.lib.hacknix.modules
-          ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
         # Use the test key deployment system.
         deployment.reallyReallyEnable = true;
@@ -151,7 +149,7 @@ let
       machine = { config, ... }: {
         nixpkgs.localSystem.system = system;
         imports = pkgs.lib.hacknix.modules
-          ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
         # Use the test key deployment system.
         deployment.reallyReallyEnable = true;
@@ -208,5 +206,5 @@ let
         };
       '';
   };
-
-in { inherit noExtraBuildHosts extraBuildHosts; }
+in
+{ inherit noExtraBuildHosts extraBuildHosts; }

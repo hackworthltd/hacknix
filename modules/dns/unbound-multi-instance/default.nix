@@ -6,9 +6,7 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   globalCfg = config;
   instances = globalCfg.services.unbound-multi-instance.instances;
 
@@ -41,17 +39,17 @@ let
           num-threads: ${toString cfg.numThreads}
           tls-cert-bundle: ${cfg.tlsCertBundle}
           ${
-            concatMapStringsSep "\n  " (ip: "interface: ${ip}")
-            cfg.listenAddresses
-          }
+      concatMapStringsSep "\n  " (ip: "interface: ${ip}")
+        cfg.listenAddresses
+      }
           ${
-            concatMapStringsSep "\n  " (cidr: "access-control: ${cidr} allow")
-            cfg.allowedAccess
-          }
+      concatMapStringsSep "\n  " (cidr: "access-control: ${cidr} allow")
+        cfg.allowedAccess
+      }
           ${
-            optionalString cfg.enableRootTrustAnchor
-            "auto-trust-anchor-file: ${rootTrustAnchorFile}"
-          }
+      optionalString cfg.enableRootTrustAnchor
+        "auto-trust-anchor-file: ${rootTrustAnchorFile}"
+      }
 
         unwanted-reply-threshold: 10000000
 
@@ -71,12 +69,12 @@ let
 
         ${cfg.extraConfig}
         ${optionalString (any isLocalAddress cfg.forwardAddresses) ''
-          do-not-query-localhost: no
-        '' + optionalString (cfg.forwardAddresses != [ ]) ''
-          forward-zone:
-            name: .
-            ${optionalString cfg.dnsOverTLS "forward-tls-upstream: yes"}
-        '' + concatMapStringsSep "\n" (x: "    forward-addr: ${x}")
+        do-not-query-localhost: no
+      '' + optionalString (cfg.forwardAddresses != []) ''
+        forward-zone:
+          name: .
+          ${optionalString cfg.dnsOverTLS "forward-tls-upstream: yes"}
+      '' + concatMapStringsSep "\n" (x: "    forward-addr: ${x}")
         cfg.forwardAddresses}
       '';
     in nameValuePair (mkServiceName name) {
@@ -90,9 +88,9 @@ let
         mkdir -m 0755 -p ${stateDir}/dev/
         cp ${confFile} ${stateDir}/${confFileName}
         ${optionalString cfg.enableRootTrustAnchor ''
-          ${pkgs.unbound}/bin/unbound-anchor -a ${rootTrustAnchorFile} || echo "Root anchor updated!"
-          chown unbound ${stateDir} ${rootTrustAnchorFile}
-        ''}
+        ${pkgs.unbound}/bin/unbound-anchor -a ${rootTrustAnchorFile} || echo "Root anchor updated!"
+        chown unbound ${stateDir} ${rootTrustAnchorFile}
+      ''}
         touch ${stateDir}/dev/random
         ${pkgs.utillinux}/bin/mount --bind -n /dev/urandom ${stateDir}/dev/random
       '';
@@ -109,8 +107,8 @@ let
         RestartSec = "5s";
       };
     };
-
-in {
+in
+{
 
   options.services.unbound-multi-instance = {
 
@@ -118,7 +116,7 @@ in {
       description = ''
         Zero or more Unbound service instances.
       '';
-      default = { };
+      default = {};
       example = literalExample {
         adblock = {
           allowedAccess = [ "10.0.0.0/8" ];
@@ -127,94 +125,100 @@ in {
             builtins.readFile "${pkgs.badhosts-unified}/unbound.conf";
         };
       };
-      type = types.attrsOf (types.submodule {
-        options = {
-          numThreads = mkOption {
-            type = types.ints.positive;
-            default = 1;
-            example = 2;
-            description = ''
-              How many threads the service should run.
+      type = types.attrsOf (
+        types.submodule {
+          options = {
+            numThreads = mkOption {
+              type = types.ints.positive;
+              default = 1;
+              example = 2;
+              description = ''
+                How many threads the service should run.
+              '';
+            };
+
+            allowedAccess = mkOption {
+              default = [ "127.0.0.0/8" "::1" ];
+              example = [ "192.168.1.0/24" "2001:db8::/64" ];
+              type = types.listOf
+                (types.either pkgs.lib.types.ipv4CIDR pkgs.lib.types.ipv6CIDR);
+              description = ''
+                A list of networks that can use this instance as a
+                resolver, in CIDR notation.
+
+                Note that this setting does not alter any firewall
+                settings; it is only an application-level access list.
+              '';
+            };
+
+            listenAddresses = mkOption {
+              type = types.nonEmptyListOf (
+                types.either pkgs.lib.types.ipv4NoCIDR
+                  pkgs.lib.types.ipv6NoCIDR
+              );
+              example = [ "10.8.8.8" "2001:db8::1" ];
+              description = ''
+                A list of IPv4 and/or IPv6 addresses on which this
+                Unbound instance will listen. Note that no more than one
+                instance can listen on any given unique address.
+
+                At least one address must be provided.
+              '';
+            };
+
+            tlsCertBundle = mkOption {
+              type = types.path;
+              default = "${pkgs.cacert.out}/etc/ssl/certs/ca-bundle.crt";
+              example = "/etc/ssl/certs/ca-bundle.crt";
+              description = ''
+                Unbound's <literal>tls-cert-bundle</literal> setting; used for
+                authenticating connections to outside peers, e.g., for DNS
+                over TLS connections.
+              '';
+            };
+
+            dnsOverTLS = mkEnableOption ''
+              DNS over TLS. Note that this requires the
+              use of forwarding addresses that support DNS over TLS.
             '';
+
+            forwardAddresses = mkOption {
+              example = [ "8.8.8.8" "2001:4860:4860::8888" ];
+              type = types.nonEmptyListOf pkgs.lib.types.nonEmptyStr;
+              description = ''
+                The address(es) of forwarding servers for this Unbound
+                instance. Both IPv4 and IPv6 addresses are supported.
+              '';
+            };
+
+            enableRootTrustAnchor = mkOption {
+              default = true;
+              type = types.bool;
+              description =
+                "Use and update root trust anchor for DNSSEC validation on this Unbound instance.";
+            };
+
+            extraConfig = mkOption {
+              default = "";
+              type = types.lines;
+              description = "Extra Unbound config for this instance.";
+            };
           };
-
-          allowedAccess = mkOption {
-            default = [ "127.0.0.0/8" "::1" ];
-            example = [ "192.168.1.0/24" "2001:db8::/64" ];
-            type = types.listOf
-              (types.either pkgs.lib.types.ipv4CIDR pkgs.lib.types.ipv6CIDR);
-            description = ''
-              A list of networks that can use this instance as a
-              resolver, in CIDR notation.
-
-              Note that this setting does not alter any firewall
-              settings; it is only an application-level access list.
-            '';
-          };
-
-          listenAddresses = mkOption {
-            type = types.nonEmptyListOf (types.either pkgs.lib.types.ipv4NoCIDR
-              pkgs.lib.types.ipv6NoCIDR);
-            example = [ "10.8.8.8" "2001:db8::1" ];
-            description = ''
-              A list of IPv4 and/or IPv6 addresses on which this
-              Unbound instance will listen. Note that no more than one
-              instance can listen on any given unique address.
-
-              At least one address must be provided.
-            '';
-          };
-
-          tlsCertBundle = mkOption {
-            type = types.path;
-            default = "${pkgs.cacert.out}/etc/ssl/certs/ca-bundle.crt";
-            example = "/etc/ssl/certs/ca-bundle.crt";
-            description = ''
-              Unbound's <literal>tls-cert-bundle</literal> setting; used for
-              authenticating connections to outside peers, e.g., for DNS
-              over TLS connections.
-            '';
-          };
-
-          dnsOverTLS = mkEnableOption ''
-            DNS over TLS. Note that this requires the
-            use of forwarding addresses that support DNS over TLS.
-          '';
-
-          forwardAddresses = mkOption {
-            example = [ "8.8.8.8" "2001:4860:4860::8888" ];
-            type = types.nonEmptyListOf pkgs.lib.types.nonEmptyStr;
-            description = ''
-              The address(es) of forwarding servers for this Unbound
-              instance. Both IPv4 and IPv6 addresses are supported.
-            '';
-          };
-
-          enableRootTrustAnchor = mkOption {
-            default = true;
-            type = types.bool;
-            description =
-              "Use and update root trust anchor for DNSSEC validation on this Unbound instance.";
-          };
-
-          extraConfig = mkOption {
-            default = "";
-            type = types.lines;
-            description = "Extra Unbound config for this instance.";
-          };
-        };
-      });
+        }
+      );
     };
 
   };
 
-  config = mkIf (instances != { }) {
+  config = mkIf (instances != {}) {
 
-    assertions = [{
-      assertion = !globalCfg.services.unbound.enable;
-      message =
-        "Only one of `services.unbound` and `services.unbound-multi-instance` can be enabled.";
-    }];
+    assertions = [
+      {
+        assertion = !globalCfg.services.unbound.enable;
+        message =
+          "Only one of `services.unbound` and `services.unbound-multi-instance` can be enabled.";
+      }
+    ];
 
     # Track changes in upstream service, in case we need to reproduce
     # them here.

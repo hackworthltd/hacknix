@@ -34,7 +34,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 { config, lib, modulesPath, ... }:
-
 let
   inherit (lib) types mkOption;
   cfg = config.hacknix.assertions;
@@ -46,7 +45,7 @@ let
     in {
       assertion = hash == expectedHash;
       message = "Hash mismatch for `${path}': "
-        + "Expected `${expectedHash}' but got `${hash}'.";
+      + "Expected `${expectedHash}' but got `${hash}'.";
     };
 
   hashType = lib.mkOptionType {
@@ -56,11 +55,11 @@ let
       lib.isString val && builtins.match "[a-fA-F0-9]{64}" val != null;
     merge = lib.mergeOneOption;
   };
-
-in {
+in
+{
   options.hacknix.assertions.moduleHashes = mkOption {
     type = types.attrsOf hashType;
-    default = { };
+    default = {};
     example."services/mail/opendkim.nix" =
       "a937be8731e6e1a7b7872a2dc72274b4a31364f249bfcf8ef7bcc98753c9a018";
     description = ''

@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   remoteBuilderKey = pkgs.writeText "remote-builder.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
@@ -24,7 +22,7 @@ let
         server = { config, ... }:
           {
             nixpkgs.localSystem.system = system;
-            imports = [ ] ++ pkgs.lib.hacknix.modules;
+            imports = [] ++ pkgs.lib.hacknix.modules;
             hacknix.remote-build-host = {
               enable = true;
               user.sshPublicKeyFiles =
@@ -52,9 +50,9 @@ let
           };
         '';
     };
+in
+rec {
 
-in rec {
-
-  remoteBuildHostTest = makeRemoteBuildHostTest "" { };
+  remoteBuildHostTest = makeRemoteBuildHostTest "" {};
 
 }

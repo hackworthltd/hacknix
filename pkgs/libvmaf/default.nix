@@ -1,4 +1,11 @@
-{ stdenv, fetchFromGitHub, autoconf, automake, intltool, libtool, pkgconfig, lib
+{ stdenv
+, fetchFromGitHub
+, autoconf
+, automake
+, intltool
+, libtool
+, pkgconfig
+, lib
 }:
 
 stdenv.mkDerivation rec {

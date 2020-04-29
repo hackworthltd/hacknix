@@ -1,14 +1,12 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.defaults.nginx;
   enabled = cfg.enable;
   nginx_enabled = config.services.nginx.enable;
-
-in {
+in
+{
   options.hacknix.defaults.nginx = {
 
     enable = mkEnableOption ''

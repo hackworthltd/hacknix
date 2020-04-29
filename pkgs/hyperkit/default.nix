@@ -1,5 +1,13 @@
-{ stdenv, lib, fetchFromGitHub, Hypervisor, vmnet, SystemConfiguration, xpc
-, libobjc, dtrace }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, Hypervisor
+, vmnet
+, SystemConfiguration
+, xpc
+, libobjc
+, dtrace
+}:
 
 stdenv.mkDerivation rec {
   pname = "hyperkit";

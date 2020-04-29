@@ -16,27 +16,31 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.deployment;
   keychain = config.hacknix.keychain;
   enabled = cfg.reallyReallyEnable;
 
-  deployKeys = (concatStrings (mapAttrsToList (name: value:
-    let
-      keyFile = pkgs.writeText name value.text;
-      destDir = toString value.destDir;
-    in ''
-      if test ! -d ${destDir}
-      then
-          mkdir -p ${destDir} -m 0750
-          chown ${value.user}:${value.group} ${destDir}
-      fi
-      install -m ${value.permissions} -o ${value.user} -g ${value.group} ${keyFile} ${destDir}/${name}
-    '') cfg.keys));
-
-in {
+  deployKeys = (
+    concatStrings (
+      mapAttrsToList (
+        name: value:
+          let
+            keyFile = pkgs.writeText name value.text;
+            destDir = toString value.destDir;
+          in ''
+            if test ! -d ${destDir}
+            then
+                mkdir -p ${destDir} -m 0750
+                chown ${value.user}:${value.group} ${destDir}
+            fi
+            install -m ${value.permissions} -o ${value.user} -g ${value.group} ${keyFile} ${destDir}/${name}
+          ''
+      ) cfg.keys
+    )
+  );
+in
+{
   options.deployment = {
     reallyReallyEnable = mkOption {
       default = false;
@@ -72,10 +76,12 @@ in {
   config = mkIf enabled {
 
     warnings = [
-      ("NOTE: The hacknix faux NixOps secret deployment system has been "
+      (
+        "NOTE: The hacknix faux NixOps secret deployment system has been "
         + "enabled. This system is inteded for use ONLY IN TESTING. This "
         + "system WILL copy secrets to the Nix store. Do NOT use this system "
-        + "in production!")
+        + "in production!"
+      )
     ];
 
     deployment.keys = keychain.keys;

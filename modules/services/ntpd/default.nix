@@ -4,9 +4,7 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   inherit (pkgs) ntp;
 
   cfg = config.services.ntp;
@@ -31,8 +29,8 @@ let
 
   ntpFlags =
     "-c ${configFile} -u ${ntpUser}:nogroup ${toString cfg.extraFlags}";
-
-in {
+in
+{
 
   disabledModules = [ "services/networking/ntp/ntpd.nix" ];
 
@@ -90,7 +88,7 @@ in {
         type = types.listOf types.str;
         description = "Extra flags passed to the ntpd command.";
         example = literalExample ''[ "--interface=eth0" ]'';
-        default = [ ];
+        default = [];
       };
 
       extraConfig = mkOption {

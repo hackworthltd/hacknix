@@ -4,7 +4,6 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
-
 in makeTest rec {
   name = "apcupsd-net";
 
@@ -14,7 +13,7 @@ in makeTest rec {
     machine = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+      ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;

@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   makeUsersTest = name: machineAttrs:
     makeTest {
 
@@ -17,7 +15,8 @@ let
         } // machineAttrs;
 
       testScript = { nodes, ... }:
-        let alicePassword = nodes.machine.config.users.users.alice.password;
+        let
+          alicePassword = nodes.machine.config.users.users.alice.password;
         in ''
           $machine->waitForUnit("multi-user.target");
 
@@ -39,8 +38,8 @@ let
           };
         '';
     };
-
-in {
+in
+{
 
   globalEnableTest =
     makeUsersTest "global-enable" { hacknix.defaults.enable = true; };

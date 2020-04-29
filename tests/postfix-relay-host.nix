@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   # Don't do this in production -- it will put the secrets into the
   # Nix store! This is just a convenience for the tests.
 
@@ -11,8 +9,8 @@ let
   bob-certKey = ./testfiles/keys/bob-at-acme.com.key;
   bob-certKeyInStore =
     pkgs.copyPathToStore ./testfiles/keys/bob-at-acme.com.key;
-
-in makeTest rec {
+in
+makeTest rec {
   name = "postfix-relay-host";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -21,18 +19,22 @@ in makeTest rec {
     host = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+      ++ pkgs.lib.hacknix.testing.testModules;
 
       networking.useDHCP = false;
       networking.firewall.allowedTCPPorts = [ 25 587 ];
-      networking.interfaces.eth1.ipv4.addresses = [{
-        address = "192.168.1.1";
-        prefixLength = 24;
-      }];
-      networking.interfaces.eth1.ipv6.addresses = [{
-        address = "fd00:1234:5678::1000";
-        prefixLength = 64;
-      }];
+      networking.interfaces.eth1.ipv4.addresses = [
+        {
+          address = "192.168.1.1";
+          prefixLength = 24;
+        }
+      ];
+      networking.interfaces.eth1.ipv6.addresses = [
+        {
+          address = "fd00:1234:5678::1000";
+          prefixLength = 64;
+        }
+      ];
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;

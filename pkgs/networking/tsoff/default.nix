@@ -1,7 +1,6 @@
 { stdenv, lib, makeWrapper, pkgs, perl, perlPackages, ethtool }:
 
 let
-
 in stdenv.mkDerivation rec {
 
   name = "tsoff";
@@ -11,7 +10,8 @@ in stdenv.mkDerivation rec {
   buildInputs =
     [ makeWrapper perl perlPackages.GetoptLong perlPackages.PodUsage ];
 
-  installPhase = let path = stdenv.lib.makeBinPath [ ethtool ];
+  installPhase = let
+    path = stdenv.lib.makeBinPath [ ethtool ];
   in ''
     mkdir -p $out/bin
     cp tsoff $out/bin

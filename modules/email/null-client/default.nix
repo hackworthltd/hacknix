@@ -12,9 +12,7 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   cfg = config.services.postfix-null-client;
   enabled = cfg.enable;
 
@@ -22,8 +20,8 @@ let
 
   user = config.services.postfix.user;
   group = config.services.postfix.group;
-
-in {
+in
+{
   options.services.postfix-null-client = {
 
     enable = mkEnableOption ''

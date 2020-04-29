@@ -1,7 +1,6 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
-
 in makeTest rec {
   name = "freeradius";
 
@@ -11,7 +10,7 @@ in makeTest rec {
     freeradius = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+      ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;

@@ -1,16 +1,14 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   deployed-pw = config.hacknix.keychain.keys.hydra-manual-setup-initial-pw.path;
   deployed-bckey = config.hacknix.keychain.keys.hydra-manual-setup-bckey.path;
   cfg = config.services.hydra-manual-setup;
 
   hydraPkg = config.services.hydra.package;
-
-in {
+in
+{
   options = {
 
     services.hydra-manual-setup = {
@@ -163,7 +161,8 @@ in {
       after = [ "hydra-init.service" ] ++ wants;
 
       environment = mkForce config.systemd.services.hydra-init.environment;
-      script = let bcKeyDir = cfg.binaryCacheKey.directory;
+      script = let
+        bcKeyDir = cfg.binaryCacheKey.directory;
       in ''
         if [ ! -e ~hydra/.manual-setup-is-complete-v1 ]; then
           HYDRA_PW=$(cat "${deployed-pw}")

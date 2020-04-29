@@ -1,7 +1,6 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
-
 in makeTest rec {
 
   name = "virtual-ips";
@@ -12,7 +11,7 @@ in makeTest rec {
     host = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+      ++ pkgs.lib.hacknix.testing.testModules;
       networking.virtual-ips.v4 = [ "10.0.0.1" "192.168.8.77" ];
       networking.virtual-ips.v6 =
         [ "fd00:1234:5678::1" "fd00:1234:5678::2000:8" ];

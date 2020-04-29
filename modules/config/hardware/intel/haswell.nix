@@ -3,13 +3,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.intel.haswell;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.intel.haswell = {
     enable = mkEnableOption "a Intel Haswell hardware configuration.";
   };

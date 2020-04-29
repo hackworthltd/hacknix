@@ -3,13 +3,11 @@
 { config, lib, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.defaults.sudo;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.defaults.sudo = {
     enable = mkEnableOption "the hacknix sudo configuration defaults.";
   };

@@ -4,13 +4,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.intel.broadwell-de;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.intel.broadwell-de = {
     enable = mkEnableOption "a Intel Broadwell DE hardware configuration.";
   };

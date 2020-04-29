@@ -1,15 +1,13 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   ipv6_prefix = "fd00:1234:5678::/64";
 
   adblock_ipv4 = "192.168.1.251";
   noblock_ipv4 = "192.168.1.252";
   adblock_ipv6 = "fd00:1234:5678::1";
   noblock_ipv6 = "fd00:1234:5678::2";
-
-in makeTest rec {
+in
+makeTest rec {
 
   name = "unbound-multi-instance";
 
@@ -19,14 +17,18 @@ in makeTest rec {
 
     nsd = { config, ... }: {
       nixpkgs.localSystem.system = system;
-      networking.interfaces.eth1.ipv4.addresses = [{
-        address = "192.168.1.250";
-        prefixLength = 24;
-      }];
-      networking.interfaces.eth1.ipv6.addresses = [{
-        address = "fd00:1234:5678::ffff";
-        prefixLength = 64;
-      }];
+      networking.interfaces.eth1.ipv4.addresses = [
+        {
+          address = "192.168.1.250";
+          prefixLength = 24;
+        }
+      ];
+      networking.interfaces.eth1.ipv6.addresses = [
+        {
+          address = "fd00:1234:5678::ffff";
+          prefixLength = 64;
+        }
+      ];
       networking.firewall.allowedUDPPorts = [ 53 ];
       networking.firewall.allowedTCPPorts = [ 53 ];
       services.nsd.enable = true;
@@ -66,14 +68,18 @@ in makeTest rec {
           forwardAddresses = [ "192.168.1.250" ];
         };
       };
-      networking.interfaces.eth1.ipv4.addresses = [{
-        address = "192.168.1.1";
-        prefixLength = 24;
-      }];
-      networking.interfaces.eth1.ipv6.addresses = [{
-        address = "fd00:1234:5678::1000";
-        prefixLength = 64;
-      }];
+      networking.interfaces.eth1.ipv4.addresses = [
+        {
+          address = "192.168.1.1";
+          prefixLength = 24;
+        }
+      ];
+      networking.interfaces.eth1.ipv6.addresses = [
+        {
+          address = "fd00:1234:5678::1000";
+          prefixLength = 64;
+        }
+      ];
       boot.kernelModules = [ "dummy" ];
       networking.interfaces.dummy0.ipv4.addresses = [
         {
@@ -100,27 +106,35 @@ in makeTest rec {
     client = { config, ... }: {
       nixpkgs.localSystem.system = system;
       networking.useDHCP = false;
-      networking.interfaces.eth1.ipv4.addresses = [{
-        address = "192.168.1.2";
-        prefixLength = 24;
-      }];
-      networking.interfaces.eth1.ipv6.addresses = [{
-        address = "fd00:1234:5678::2000";
-        prefixLength = 64;
-      }];
+      networking.interfaces.eth1.ipv4.addresses = [
+        {
+          address = "192.168.1.2";
+          prefixLength = 24;
+        }
+      ];
+      networking.interfaces.eth1.ipv6.addresses = [
+        {
+          address = "fd00:1234:5678::2000";
+          prefixLength = 64;
+        }
+      ];
     };
 
     badclient = { config, ... }: {
       nixpkgs.localSystem.system = system;
       networking.useDHCP = false;
-      networking.interfaces.eth1.ipv4.addresses = [{
-        address = "192.168.1.3";
-        prefixLength = 24;
-      }];
-      networking.interfaces.eth1.ipv6.addresses = [{
-        address = "fd00:1234:5678::3000";
-        prefixLength = 64;
-      }];
+      networking.interfaces.eth1.ipv4.addresses = [
+        {
+          address = "192.168.1.3";
+          prefixLength = 24;
+        }
+      ];
+      networking.interfaces.eth1.ipv6.addresses = [
+        {
+          address = "fd00:1234:5678::3000";
+          prefixLength = 64;
+        }
+      ];
     };
 
   };

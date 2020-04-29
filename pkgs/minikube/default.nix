@@ -1,34 +1,49 @@
-{ source, stdenv, lib, buildGoModule, fetchFromGitHub, pkgconfig, makeWrapper
-, go-bindata, bash, libvirt, qemu, gpgme, Foundation, Security, libobjc, vmnet
-, xpc, hyperkit, extraDrivers ? [ ] }:
-
+{ source
+, stdenv
+, lib
+, buildGoModule
+, fetchFromGitHub
+, pkgconfig
+, makeWrapper
+, go-bindata
+, bash
+, libvirt
+, qemu
+, gpgme
+, Foundation
+, Security
+, libobjc
+, vmnet
+, xpc
+, hyperkit
+, extraDrivers ? []
+}:
 let
-
   drivers = stdenv.lib.filter (d: d != null) extraDrivers;
 
   binPath = drivers ++ stdenv.lib.optionals stdenv.isLinux ([ libvirt qemu ])
-    ++ stdenv.lib.optionals stdenv.isDarwin ([ hyperkit ]);
-
-in buildGoModule rec {
+  ++ stdenv.lib.optionals stdenv.isDarwin ([ hyperkit ]);
+in
+buildGoModule rec {
   pname = "minikube";
   version = "1.9.2";
 
   goPackagePath = "k8s.io/minikube";
   subPackages = [ "cmd/minikube" ]
-    ++ stdenv.lib.optional stdenv.hostPlatform.isLinux "cmd/drivers/kvm"
-    ++ stdenv.lib.optional stdenv.hostPlatform.isDarwin "cmd/drivers/hyperkit";
+  ++ stdenv.lib.optional stdenv.hostPlatform.isLinux "cmd/drivers/kvm"
+  ++ stdenv.lib.optional stdenv.hostPlatform.isDarwin "cmd/drivers/hyperkit";
   modSha256 = "1pxs6myszgma3rzz0nhfjbnylv6m0xzlinvmlg0c4ijvkkzxg3v5";
 
   src = fetchFromGitHub { inherit (source) repo owner sha256 rev; };
 
   nativeBuildInputs = [ pkgconfig go-bindata makeWrapper ];
   buildInputs = [ gpgme ] ++ stdenv.lib.optionals stdenv.isLinux [ libvirt ]
-    ++ stdenv.lib.optionals stdenv.isDarwin [
-      Foundation
-      Security
-      libobjc
-      vmnet
-    ];
+  ++ stdenv.lib.optionals stdenv.isDarwin [
+    Foundation
+    Security
+    libobjc
+    vmnet
+  ];
 
   postPatch = ''
     substituteInPlace pkg/minikube/command/exec_runner.go \
@@ -57,8 +72,8 @@ in buildGoModule rec {
 
   postInstall = ''
     wrapProgram $out/bin/${pname} --prefix PATH : $out/bin:${
-      stdenv.lib.makeBinPath binPath
-    }
+  stdenv.lib.makeBinPath binPath
+  }
     mkdir -p $out/share/bash-completion/completions/
     MINIKUBE_WANTUPDATENOTIFICATION=false MINIKUBE_WANTKUBECTLDOWNLOADMSG=false HOME=$PWD $out/bin/minikube completion bash > $out/share/bash-completion/completions/minikube
 

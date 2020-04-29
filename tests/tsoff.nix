@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   makeTsoffTest = name: machineAttrs:
     makeTest {
       name = "tsoff-${name}";
@@ -34,5 +32,5 @@ let
         };
       '';
     };
-
-in { defaultTest = makeTsoffTest "default" { }; }
+in
+{ defaultTest = makeTsoffTest "default" {}; }

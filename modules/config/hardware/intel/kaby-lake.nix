@@ -3,13 +3,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.intel.kaby-lake;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.intel.kaby-lake = {
     enable = mkEnableOption "a Intel Kaby Lake hardware configuration.";
   };

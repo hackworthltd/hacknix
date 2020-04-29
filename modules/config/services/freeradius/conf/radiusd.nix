@@ -1,7 +1,5 @@
 { config, lib, pkgs, ... }:
-
 let
-
   cfg = config.hacknix.freeradius;
 
   prefix = "${pkgs.freeradius}";
@@ -33,8 +31,8 @@ let
     #
     # Based on:
     #
-    # radiusd.conf	-- FreeRADIUS server configuration file - 3.0.17
-    #	$Id: 59e59f3ac443e75663333a5b7732664b67c5567d $
+    # radiusd.conf  -- FreeRADIUS server configuration file - 3.0.17
+    #  $Id: 59e59f3ac443e75663333a5b7732664b67c5567d $
 
     prefix = ${prefix}
     exec_prefix = ${exec_prefix}
@@ -119,5 +117,5 @@ let
 
     $INCLUDE ${confdir}/sites-enabled/
   '';
-
-in radiusdConf
+in
+radiusdConf

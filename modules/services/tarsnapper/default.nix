@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.services.tarsnapper;
   keychain = config.hacknix.keychain.keys;
@@ -34,8 +33,8 @@ let
 
     MAILEND
   '';
-
-in {
+in
+{
   options = {
     services.tarsnapper = {
       enable = mkEnableOption "periodic tarsnapper backups.";
@@ -139,7 +138,7 @@ in {
       wants = [ "tarsnap-key-key.service" ];
       after = [ "network-online.target" ] ++ wants;
       onFailure =
-        if cfg.email.enable then [ "tarsnapper-failed.service" ] else [ ];
+        if cfg.email.enable then [ "tarsnapper-failed.service" ] else [];
 
       path = with pkgs; [
         coreutils
@@ -158,9 +157,11 @@ in {
         TIMESTAMP=`date +\%Y\%m\%d-\%H\%M\%S`
         HOSTNAME=`hostname -f`
         tarsnapper -o configfile /etc/tarsnap/tarsnapper-tarsnap.conf --config /etc/tarsnap/tarsnapper.conf make
-      '' + (optionalString cfg.email.enable ''
-        ${emailScript} "${cfg.email.toSuccess}" "$HOSTNAME backup successful ($TIMESTAMP)"
-      '');
+      '' + (
+        optionalString cfg.email.enable ''
+          ${emailScript} "${cfg.email.toSuccess}" "$HOSTNAME backup successful ($TIMESTAMP)"
+        ''
+      );
 
       serviceConfig = {
         Type = "oneshot";

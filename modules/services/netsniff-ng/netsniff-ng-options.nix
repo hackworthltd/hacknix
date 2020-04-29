@@ -146,7 +146,7 @@ with lib; rec {
 
     serviceRequires = mkOption {
       type = types.listOf pkgs.lib.types.nonEmptyStr;
-      default = [ ];
+      default = [];
       example = [ "pcap.mount" ];
       description = ''
         An optional list of <literal>systemd</literal> units required
@@ -177,7 +177,7 @@ with lib; rec {
     trim = {
 
       schedule = mkOption {
-        default = [ ];
+        default = [];
         example = [
           {
             size = 100000;

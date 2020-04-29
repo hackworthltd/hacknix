@@ -1,7 +1,6 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
 
 let
-
 in makeTest rec {
   name = "tarsnapper";
 

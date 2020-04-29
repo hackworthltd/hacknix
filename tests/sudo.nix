@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   aliceBashProfile = pkgs.writeText "alice.bash_profile" ''
     export TZ="America/Los_Angeles"
     export TMOUT=300
@@ -23,7 +21,8 @@ let
         } // machineAttrs;
 
       testScript = { nodes, ... }:
-        let alicePassword = nodes.machine.config.users.users.alice.password;
+        let
+          alicePassword = nodes.machine.config.users.users.alice.password;
         in ''
           $machine->waitForUnit("multi-user.target");
 
@@ -110,8 +109,8 @@ let
         '';
 
     };
-
-in {
+in
+{
 
   test1 = makeSudoTest "global-enable" { hacknix.defaults.enable = true; };
   test2 = makeSudoTest "sudo-enable" { hacknix.defaults.sudo.enable = true; };

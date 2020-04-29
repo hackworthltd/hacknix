@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   # NOTE: these are dummy keys and certs, and they are obviously
   # insecure. Do not use them for any purpose!
 
@@ -141,7 +139,7 @@ let
               forceSSL = true;
               sslCertificate = server1Pem;
               sslCertificateKey = server1Key;
-              locations."/".root = pkgs.runCommand "docroot" { } ''
+              locations."/".root = pkgs.runCommand "docroot" {} ''
                 mkdir -p "$out"
                 echo "<!DOCTYPE html><title>server1</title>" > "$out/index.html"
               '';
@@ -151,7 +149,8 @@ let
       };
 
       testScript = { nodes, ... }:
-        let custom-cacert = pkgs.mkCacert { inherit extraCerts; };
+        let
+          custom-cacert = pkgs.mkCacert { inherit extraCerts; };
         in ''
           startAll;
           $server1->waitForUnit("nginx.service");
@@ -166,9 +165,9 @@ let
           };
         '';
     };
+in
+{
 
-in {
-
-  defaultTest = makeMkCacertTest "default" { };
+  defaultTest = makeMkCacertTest "default" {};
 
 }

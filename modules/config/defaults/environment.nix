@@ -1,13 +1,11 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.defaults.environment;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.defaults.environment = {
     enable =
       mkEnableOption "the hacknix shell environment configuration defaults.";

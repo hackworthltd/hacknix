@@ -1,7 +1,5 @@
 { config, lib, pkgs, ... }:
-
 let
-
   cfg = config.hacknix.build-host;
   enabled = cfg.enable;
 
@@ -10,51 +8,62 @@ let
   sshKeyName = host: user: "${user}_at_${host}";
 
   mkBuildMachines = remoteBuildHosts:
-    lib.mapAttrsToList (host: descriptor:
-      with descriptor; {
-        inherit hostName systems maxJobs speedFactor mandatoryFeatures
-          supportedFeatures;
-        sshUser = "ssh://${sshUserName}";
-        sshKey = let keyname = sshKeyName host sshUserName;
-        in config.hacknix.keychain.keys.${keyname}.path;
-      }) remoteBuildHosts;
+    lib.mapAttrsToList (
+      host: descriptor:
+        with descriptor; {
+          inherit hostName systems maxJobs speedFactor mandatoryFeatures
+            supportedFeatures
+            ;
+          sshUser = "ssh://${sshUserName}";
+          sshKey = let
+            keyname = sshKeyName host sshUserName;
+          in config.hacknix.keychain.keys.${keyname}.path;
+        }
+    ) remoteBuildHosts;
 
   buildMachines = mkBuildMachines cfg.buildMachines;
   extraBuildMachines = mkBuildMachines cfg.extraBuildMachines;
 
   mkHostPortPairs = remoteBuildHosts:
     lib.mapAttrsToList
-    (_: descriptor: with descriptor; { inherit hostName port; })
-    remoteBuildHosts;
+      (_: descriptor: with descriptor; { inherit hostName port; })
+      remoteBuildHosts;
 
   sshExtraConfig = remoteBuildHosts:
-    lib.concatMapStrings (pair:
-      lib.optionalString (pair.port != null) ''
+    lib.concatMapStrings (
+      pair:
+        lib.optionalString (pair.port != null) ''
 
         Host ${pair.hostName}
         Port ${toString pair.port}
-      '') (mkHostPortPairs remoteBuildHosts);
+      ''
+    ) (mkHostPortPairs remoteBuildHosts);
 
   knownHosts = remoteBuildHosts:
-    lib.mapAttrs' (host: descriptor:
-      lib.nameValuePair descriptor.hostName {
-        hostNames = lib.singleton descriptor.hostName
+    lib.mapAttrs' (
+      host: descriptor:
+        lib.nameValuePair descriptor.hostName {
+          hostNames = lib.singleton descriptor.hostName
           ++ descriptor.alternateHostNames;
-        publicKey = descriptor.hostPublicKeyLiteral;
-      }) remoteBuildHosts;
+          publicKey = descriptor.hostPublicKeyLiteral;
+        }
+    ) remoteBuildHosts;
 
   genKeys = remoteBuildHosts:
-    lib.mapAttrs' (host: descriptor:
-      let keyName = sshKeyName host descriptor.sshUserName;
-      in lib.nameValuePair keyName {
-        destDir = cfg.sshKeyDir;
-        text = descriptor.sshKeyLiteral;
-        user = cfg.sshKeyFileOwner;
-        group = "root";
-        permissions = "0400";
-      }) remoteBuildHosts;
-
-in {
+    lib.mapAttrs' (
+      host: descriptor:
+        let
+          keyName = sshKeyName host descriptor.sshUserName;
+        in lib.nameValuePair keyName {
+          destDir = cfg.sshKeyDir;
+          text = descriptor.sshKeyLiteral;
+          user = cfg.sshKeyFileOwner;
+          group = "root";
+          permissions = "0400";
+        }
+    ) remoteBuildHosts;
+in
+{
 
   options.hacknix.build-host = {
     enable = lib.mkEnableOption ''
@@ -105,7 +114,7 @@ in {
     };
 
     buildMachines = lib.mkOption {
-      default = { };
+      default = {};
       description = ''
         An attrset containing remote build host descriptors.
 
@@ -118,7 +127,7 @@ in {
     };
 
     extraBuildMachines = lib.mkOption {
-      default = { };
+      default = {};
       description = ''
         An attrset containing remote build host descriptors.
 
@@ -155,25 +164,27 @@ in {
 
   config = lib.mkIf enabled {
 
-    assertions = [{
-      assertion = cfg.buildMachines != { };
-      message =
-        "`hacknix.build-host` is enabled, but `hacknix.build-host.buildMachines` is empty";
-    }];
+    assertions = [
+      {
+        assertion = cfg.buildMachines != {};
+        message =
+          "`hacknix.build-host` is enabled, but `hacknix.build-host.buildMachines` is empty";
+      }
+    ];
 
     nix.distributedBuilds = true;
     nix.buildMachines = buildMachines;
 
     programs.ssh.knownHosts = (knownHosts cfg.buildMachines)
-      // (knownHosts cfg.extraBuildMachines);
+    // (knownHosts cfg.extraBuildMachines);
     programs.ssh.extraConfig = (sshExtraConfig cfg.buildMachines)
-      + (sshExtraConfig cfg.extraBuildMachines);
+    + (sshExtraConfig cfg.extraBuildMachines);
 
     hacknix.keychain.keys = (genKeys cfg.buildMachines)
-      // (genKeys cfg.extraBuildMachines);
+    // (genKeys cfg.extraBuildMachines);
 
     users.users."${cfg.sshKeyFileOwner}".extraGroups =
-      if cfg.sshKeyFileOwner == "root" then [ ] else [ "keys" ];
+      if cfg.sshKeyFileOwner == "root" then [] else [ "keys" ];
 
     # We need to generate our own machines file for the extra
     # machines. Unfortunately, this functionality is not exported from
@@ -181,16 +192,18 @@ in {
     # (nixos/modules/services/misc/nix-daemon.nix):
 
     environment.etc."${extraMachinesPath}" = {
-      text = lib.concatMapStrings (machine:
-        "${
+      text = lib.concatMapStrings (
+        machine:
+          "${
           if machine ? sshUser then "${machine.sshUser}@" else ""
-        }${machine.hostName} "
-        + machine.system or (lib.concatStringsSep "," machine.systems)
-        + " ${machine.sshKey or "-"} ${toString machine.maxJobs or 1} "
-        + toString (machine.speedFactor or 1) + " " + lib.concatStringsSep ","
-        (machine.mandatoryFeatures or [ ] ++ machine.supportedFeatures or [ ])
-        + " " + lib.concatStringsSep "," machine.mandatoryFeatures or [ ]
-        + "\n") extraBuildMachines;
+          }${machine.hostName} "
+          + machine.system or (lib.concatStringsSep "," machine.systems)
+          + " ${machine.sshKey or "-"} ${toString machine.maxJobs or 1} "
+          + toString (machine.speedFactor or 1) + " " + lib.concatStringsSep ","
+            (machine.mandatoryFeatures or [] ++ machine.supportedFeatures or [])
+          + " " + lib.concatStringsSep "," machine.mandatoryFeatures or []
+          + "\n"
+      ) extraBuildMachines;
     };
 
   };

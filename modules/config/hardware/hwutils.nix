@@ -4,13 +4,11 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.hwutils;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.hwutils = {
     enable = mkEnableOption ''
       packages that are useful for managing physical hardware.

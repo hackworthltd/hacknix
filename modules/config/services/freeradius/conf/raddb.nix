@@ -1,7 +1,5 @@
 { config, lib, pkgs, ... }:
-
 let
-
   cfg = config.hacknix.freeradius;
 
   # Module overrides.
@@ -49,7 +47,7 @@ let
         }
       '';
   in pkgs.writeText "clients.conf"
-  (lib.concatMapStringsSep "\n\n" genClientConf clientsList);
+    (lib.concatMapStringsSep "\n\n" genClientConf clientsList);
 
   files = import ./files.nix { inherit pkgs lib config; };
 
@@ -100,28 +98,32 @@ let
       ln -s ${siteDefaultPath} $out/sites-enabled/default
     '';
   };
-
-in lib.mkIf (cfg.enable) {
+in
+lib.mkIf (cfg.enable) {
   environment.etc."raddb".source = raddbDir;
 
   systemd.services.freeradius = {
     restartTriggers = [ config.environment.etc."raddb".source ];
   };
 
-  hacknix.keychain.keys = (lib.mapAttrs' (_: client:
-    lib.nameValuePair (clientKeyName client.name) {
+  hacknix.keychain.keys = (
+    lib.mapAttrs' (
+      _: client:
+        lib.nameValuePair (clientKeyName client.name) {
+          destDir = cfg.secretsDir;
+          text = "secret = ${client.secretLiteral}";
+          user = "radius";
+          group = "wheel";
+          permissions = "0400";
+        }
+    ) cfg.clients
+  ) // {
+    "${serverKeyName}" = {
       destDir = cfg.secretsDir;
-      text = "secret = ${client.secretLiteral}";
+      text = cfg.tls.serverCertificateKeyLiteral;
       user = "radius";
       group = "wheel";
       permissions = "0400";
-    }) cfg.clients) // {
-      "${serverKeyName}" = {
-        destDir = cfg.secretsDir;
-        text = cfg.tls.serverCertificateKeyLiteral;
-        user = "radius";
-        group = "wheel";
-        permissions = "0400";
-      };
     };
+  };
 }

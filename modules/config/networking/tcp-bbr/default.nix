@@ -3,13 +3,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.networking.tcp-bbr;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.networking.tcp-bbr = {
     enable = mkEnableOption "TCP BBR congestion control.";
   };

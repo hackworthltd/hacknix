@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   makeNetworkingTest = name: machineAttrs:
     makeTest {
 
@@ -32,8 +30,8 @@ let
       '';
 
     };
-
-in {
+in
+{
 
   test1 =
     makeNetworkingTest "global-enable" { hacknix.defaults.enable = true; };

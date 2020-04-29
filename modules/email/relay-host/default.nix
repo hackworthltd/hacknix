@@ -15,9 +15,7 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   globalCfg = config;
   cfg = config.services.postfix-relay-host;
   enabled = cfg.enable;
@@ -31,8 +29,8 @@ let
   group = config.services.postfix.group;
 
   dhParamsFile = "${stateDir}/dh.pem";
-
-in {
+in
+{
   options.services.postfix-relay-host = {
 
     enable = mkEnableOption ''
@@ -99,7 +97,7 @@ in {
 
     relayDomains = mkOption {
       type = types.listOf pkgs.lib.types.nonEmptyStr;
-      default = [ ];
+      default = [];
       example = [ "example.com" "example.net" ];
       description = ''
         A list of domains for which this Postfix service will accept
@@ -203,11 +201,13 @@ in {
       text = cfg.smtpTlsKeyLiteral;
     };
 
-    assertions = [{
-      assertion = !globalCfg.services.postfix-null-client.enable;
-      message =
-        "Only one of `services.postfix-null-client` and `services.postfix-relay-host` can be set";
-    }];
+    assertions = [
+      {
+        assertion = !globalCfg.services.postfix-null-client.enable;
+        message =
+          "Only one of `services.postfix-null-client` and `services.postfix-relay-host` can be set";
+      }
+    ];
 
     services.postfix = {
       enable = true;
@@ -218,49 +218,57 @@ in {
       # "submission" master.cf line manually.
 
       enableSubmission = false;
-      masterConfig = listToAttrs (map (ip: {
-        name = "[${ip}]:submission";
-        value = {
-          type = "inet";
-          private = false;
-          command = "smtpd";
-          args = [
-            "-o"
-            "milter_macro_daemon_name=ORIGINATING"
-            "-o"
-            "smtpd_client_restrictions=permit_tls_clientcerts,reject"
-            "-o"
-            "smtpd_reject_unlisted_recipient=no"
-            "-o"
-            "smtpd_tls_dh1024_param_file=${dhParamsFile}"
-            "-o"
-            "smtpd_tls_security_level=encrypt"
-            "-o"
-            "syslog_name=postfix/submission"
-            "-o"
-            "tls_preempt_cipherlist=yes"
-          ];
-        };
-      }) cfg.listenAddresses)
+      masterConfig = listToAttrs (
+        map (
+          ip: {
+            name = "[${ip}]:submission";
+            value = {
+              type = "inet";
+              private = false;
+              command = "smtpd";
+              args = [
+                "-o"
+                "milter_macro_daemon_name=ORIGINATING"
+                "-o"
+                "smtpd_client_restrictions=permit_tls_clientcerts,reject"
+                "-o"
+                "smtpd_reject_unlisted_recipient=no"
+                "-o"
+                "smtpd_tls_dh1024_param_file=${dhParamsFile}"
+                "-o"
+                "smtpd_tls_security_level=encrypt"
+                "-o"
+                "syslog_name=postfix/submission"
+                "-o"
+                "tls_preempt_cipherlist=yes"
+              ];
+            };
+          }
+        ) cfg.listenAddresses
+      )
 
-        // listToAttrs (map (ip: {
-          name = "[${ip}]:smtp";
-          value = {
-            type = "inet";
-            private = false;
-            command = "smtpd";
-          };
-        }) cfg.listenAddresses)
+      // listToAttrs (
+        map (
+          ip: {
+            name = "[${ip}]:smtp";
+            value = {
+              type = "inet";
+              private = false;
+              command = "smtpd";
+            };
+          }
+        ) cfg.listenAddresses
+      )
 
-        // {
-          # Nixpkgs postfix module always enables smtp inet; we have to
-          # override it here.
-          #
-          # Note: this is a bit of a hack. It works because the name of
-          # the service is at the beginning of the line and we can
-          # change its name to be a comment.
-          smtp_inet = { name = mkForce "#smtp"; };
-        };
+      // {
+        # Nixpkgs postfix module always enables smtp inet; we have to
+        # override it here.
+        #
+        # Note: this is a bit of a hack. It works because the name of
+        # the service is at the beginning of the line and we can
+        # change its name to be a comment.
+        smtp_inet = { name = mkForce "#smtp"; };
+      };
 
       domain = cfg.myDomain;
       origin = cfg.myOrigin;
@@ -293,9 +301,9 @@ in {
         local_transport = error:local delivery is disabled
 
         ${optionalString (cfg.masqueradeDomains != null) ''
-          masquerade_domains = ${concatStringsSep " " cfg.masqueradeDomains}
-          masquerade_classes = envelope_sender, envelope_recipient, header_sender, header_recipient
-        ''}
+        masquerade_domains = ${concatStringsSep " " cfg.masqueradeDomains}
+        masquerade_classes = envelope_sender, envelope_recipient, header_sender, header_recipient
+      ''}
 
         smtpd_tls_security_level = may
         smtpd_tls_session_cache_database = btree:${stateDir}/smtpd_scache

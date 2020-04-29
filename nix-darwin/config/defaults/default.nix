@@ -1,11 +1,9 @@
 { config, pkgs, lib, ... }:
-
 let
-
   localLib = import ../../../lib;
   cfg = config.hacknix-nix-darwin.defaults;
-
-in {
+in
+{
   options.hacknix-nix-darwin.defaults = {
     enable = lib.mkOption {
       type = lib.types.bool;

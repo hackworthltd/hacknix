@@ -4,13 +4,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.intel.centerton;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.intel.centerton = {
     enable = mkEnableOption "a Intel Centerton hardware configuration.";
   };

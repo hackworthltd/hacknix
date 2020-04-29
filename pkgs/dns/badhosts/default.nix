@@ -1,7 +1,5 @@
 { stdenv, lib, fetchFromGitHub, source }:
-
 let
-
   version = lib.misc.shortRev source.rev;
 
   generic = { subname, hostsFile, ... }:
@@ -58,12 +56,13 @@ let
     alternate "fakenews-gambling-porn-social";
 
   badhosts-all = badhosts-fakenews-gambling-nsfw-social;
-
-in {
+in
+{
   inherit badhosts-unified;
   inherit badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social;
   inherit badhosts-fakenews-gambling badhosts-fakenews-nsfw
-    badhosts-fakenews-social;
+    badhosts-fakenews-social
+    ;
   inherit badhosts-gambling-nsfw badhosts-gambling-social;
   inherit badhosts-nsfw-social;
   inherit badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social;

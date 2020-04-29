@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   index = pkgs.writeText "index.html" ''
     Not really HTML.
   '';
@@ -161,7 +159,7 @@ let
                   port = 8089;
                 }
               ];
-              locations."/".root = pkgs.runCommand "docroot" { } ''
+              locations."/".root = pkgs.runCommand "docroot" {} ''
                 mkdir -p "$out/"
                 cp "${index}" "$out/index.html"
               '';
@@ -171,34 +169,46 @@ let
           # server lives on both networks.
           virtualisation.vlans = [ 1 2 ];
           networking.interfaces.eth1 = {
-            ipv4.addresses = pkgs.lib.mkOverride 0 [{
-              address = "192.168.1.1";
-              prefixLength = 24;
-            }];
-            ipv6.addresses = pkgs.lib.mkOverride 0 [{
-              address = "fd00:1234:0:5678::1000";
-              prefixLength = 64;
-            }];
+            ipv4.addresses = pkgs.lib.mkOverride 0 [
+              {
+                address = "192.168.1.1";
+                prefixLength = 24;
+              }
+            ];
+            ipv6.addresses = pkgs.lib.mkOverride 0 [
+              {
+                address = "fd00:1234:0:5678::1000";
+                prefixLength = 64;
+              }
+            ];
           };
           networking.interfaces.eth2 = {
-            ipv4.addresses = pkgs.lib.mkOverride 0 [{
-              address = "192.168.2.1";
-              prefixLength = 24;
-            }];
-            ipv6.addresses = pkgs.lib.mkOverride 0 [{
-              address = "fd00:1234:0:5679::1000";
-              prefixLength = 64;
-            }];
+            ipv4.addresses = pkgs.lib.mkOverride 0 [
+              {
+                address = "192.168.2.1";
+                prefixLength = 24;
+              }
+            ];
+            ipv6.addresses = pkgs.lib.mkOverride 0 [
+              {
+                address = "fd00:1234:0:5679::1000";
+                prefixLength = 64;
+              }
+            ];
           };
           boot.kernelModules = [ "dummy" ];
-          networking.interfaces.dummy0.ipv4.addresses = [{
-            address = "10.0.0.8";
-            prefixLength = 32;
-          }];
-          networking.interfaces.dummy0.ipv6.addresses = [{
-            address = "fd00:1234:0:567a::1000";
-            prefixLength = 128;
-          }];
+          networking.interfaces.dummy0.ipv4.addresses = [
+            {
+              address = "10.0.0.8";
+              prefixLength = 32;
+            }
+          ];
+          networking.interfaces.dummy0.ipv6.addresses = [
+            {
+              address = "fd00:1234:0:567a::1000";
+              prefixLength = 128;
+            }
+          ];
         };
 
         client1 = { config, ... }: {
@@ -207,14 +217,18 @@ let
           networking.extraHosts = extraHosts;
           networking.defaultGateway = "192.168.1.1";
           networking.defaultGateway6 = "fd00:1234:0:5678::1000";
-          networking.interfaces.eth1.ipv4.addresses = pkgs.lib.mkOverride 0 [{
-            address = "192.168.1.2";
-            prefixLength = 24;
-          }];
-          networking.interfaces.eth1.ipv6.addresses = pkgs.lib.mkOverride 0 [{
-            address = "fd00:1234:0:5678::2000";
-            prefixLength = 64;
-          }];
+          networking.interfaces.eth1.ipv4.addresses = pkgs.lib.mkOverride 0 [
+            {
+              address = "192.168.1.2";
+              prefixLength = 24;
+            }
+          ];
+          networking.interfaces.eth1.ipv6.addresses = pkgs.lib.mkOverride 0 [
+            {
+              address = "fd00:1234:0:5678::2000";
+              prefixLength = 64;
+            }
+          ];
         };
 
         client2 = { config, ... }: {
@@ -223,14 +237,18 @@ let
           networking.defaultGateway = "192.168.1.1";
           networking.defaultGateway6 = "fd00:1234:0:5678::1000";
           networking.extraHosts = extraHosts;
-          networking.interfaces.eth1.ipv4.addresses = pkgs.lib.mkOverride 0 [{
-            address = "192.168.1.3";
-            prefixLength = 24;
-          }];
-          networking.interfaces.eth1.ipv6.addresses = pkgs.lib.mkOverride 0 [{
-            address = "fd00:1234:0:5678::3000";
-            prefixLength = 64;
-          }];
+          networking.interfaces.eth1.ipv4.addresses = pkgs.lib.mkOverride 0 [
+            {
+              address = "192.168.1.3";
+              prefixLength = 24;
+            }
+          ];
+          networking.interfaces.eth1.ipv6.addresses = pkgs.lib.mkOverride 0 [
+            {
+              address = "fd00:1234:0:5678::3000";
+              prefixLength = 64;
+            }
+          ];
         };
 
         # client3 lives on vlan 2.
@@ -242,14 +260,18 @@ let
           networking.defaultGateway6 = "fd00:1234:0:5679::1000";
           networking.extraHosts = extraHosts;
           virtualisation.vlans = [ 2 ];
-          networking.interfaces.eth1.ipv4.addresses = pkgs.lib.mkOverride 0 [{
-            address = "192.168.2.2";
-            prefixLength = 24;
-          }];
-          networking.interfaces.eth1.ipv6.addresses = pkgs.lib.mkOverride 0 [{
-            address = "fd00:1234:0:5679::2000";
-            prefixLength = 64;
-          }];
+          networking.interfaces.eth1.ipv4.addresses = pkgs.lib.mkOverride 0 [
+            {
+              address = "192.168.2.2";
+              prefixLength = 24;
+            }
+          ];
+          networking.interfaces.eth1.ipv6.addresses = pkgs.lib.mkOverride 0 [
+            {
+              address = "fd00:1234:0:5679::2000";
+              prefixLength = 64;
+            }
+          ];
         };
 
       };
@@ -346,5 +368,5 @@ let
         };
       '';
     };
-
-in { accept = makeAllowedIPsTest "accept"; }
+in
+{ accept = makeAllowedIPsTest "accept"; }

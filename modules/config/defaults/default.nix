@@ -1,13 +1,11 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.defaults;
   enabled = cfg.enable;
-
-in {
+in
+{
 
   options.hacknix.defaults = {
     enable = mkEnableOption ''

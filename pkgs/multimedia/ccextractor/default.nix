@@ -1,5 +1,14 @@
-{ stdenv, lib, libiconv, fetchgit, cmake, pkgconfig, tesseract, leptonica
-, ffmpeg, zlib }:
+{ stdenv
+, lib
+, libiconv
+, fetchgit
+, cmake
+, pkgconfig
+, tesseract
+, leptonica
+, ffmpeg
+, zlib
+}:
 
 with stdenv.lib;
 

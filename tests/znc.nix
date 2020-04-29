@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   makeZncTest = name: machineAttrs:
     makeTest {
       name = "znc-${name}";
@@ -12,7 +10,7 @@ let
         localhostServer = { config, ... }: {
           nixpkgs.localSystem.system = system;
           imports = pkgs.lib.hacknix.modules
-            ++ pkgs.lib.hacknix.testing.testModules;
+          ++ pkgs.lib.hacknix.testing.testModules;
 
           # Use the test key deployment system.
           deployment.reallyReallyEnable = true;
@@ -38,7 +36,7 @@ let
         server = { config, ... }: {
           nixpkgs.localSystem.system = system;
           imports = pkgs.lib.hacknix.modules
-            ++ pkgs.lib.hacknix.testing.testModules;
+          ++ pkgs.lib.hacknix.testing.testModules;
 
           # Use the test key deployment system.
           deployment.reallyReallyEnable = true;
@@ -72,30 +70,30 @@ let
 
         subtest "no-remote-connections", sub {
           $client->fail("${pkgs.netcat}/bin/nc -w 5 localhostServer ${
-            builtins.toString
-            nodes.localhostServer.config.services.qx-znc.confOptions.port
-          }");
+      builtins.toString
+        nodes.localhostServer.config.services.qx-znc.confOptions.port
+      }");
         };
 
         subtest "localhost-connections", sub {
           $localhostServer->succeed("${pkgs.netcat}/bin/nc -w 5 localhost ${
-            builtins.toString
-            nodes.localhostServer.config.services.qx-znc.confOptions.port
-          }");
+      builtins.toString
+        nodes.localhostServer.config.services.qx-znc.confOptions.port
+      }");
         };
 
         subtest "allow-remote-connections", sub {
           $client->succeed("${pkgs.netcat}/bin/nc -w 5 server ${
-            builtins.toString
-            nodes.server.config.services.qx-znc.confOptions.port
-          }");
+      builtins.toString
+        nodes.server.config.services.qx-znc.confOptions.port
+      }");
         };
       '';
 
     };
+in
+{
 
-in {
-
-  defaultTest = makeZncTest "default" { };
+  defaultTest = makeZncTest "default" {};
 
 }

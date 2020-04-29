@@ -1,11 +1,9 @@
 { config, lib, pkgs, ... }:
-
 let
-
   cfg = config.hacknix.auto-gc;
   enabled = cfg.enable;
-
-in {
+in
+{
 
   options.hacknix.auto-gc = {
     enable = lib.mkEnableOption ''

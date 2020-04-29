@@ -1,7 +1,5 @@
 self: super:
-
 let
-
   localLib = import ../../lib;
 
   # Create the text of a znc config file, so that it can be securely
@@ -31,10 +29,10 @@ let
       system = "x86_64-darwin";
       inherit configuration;
     };
-
-in {
-  lib = (super.lib or { }) // {
-    hacknix = (super.lib.hacknix or { }) // {
+in
+{
+  lib = (super.lib or {}) // {
+    hacknix = (super.lib.hacknix or {}) // {
       inherit mkZncConfig;
 
       inherit (localLib) modules modulesList;
@@ -50,12 +48,12 @@ in {
       # Provide access to our nix-darwin, if anyone downstream wants to use it.
       inherit (localLib) nix-darwin;
 
-      testing = (super.lib.hacknix.testing or { }) // {
+      testing = (super.lib.hacknix.testing or {}) // {
         inherit testModules testModulesList;
       };
     };
 
-    fetchers = (super.lib.fetchers or { }) // {
+    fetchers = (super.lib.fetchers or {}) // {
       inherit (localLib) fixedNixpkgs fixedNixOps;
       inherit (localLib) fixedNixDarwin;
     };

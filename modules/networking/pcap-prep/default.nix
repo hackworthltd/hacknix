@@ -15,20 +15,22 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.services.pcap-prep;
   interfacesList = mapAttrsToList (_: config: config) cfg.interfaces;
-
-in {
+in
+{
   options = {
     services.pcap-prep = {
 
       interfaces = mkOption {
-        type = types.attrsOf (types.submodule ({ name, ... }:
-          (import ./interface-options.nix { inherit name config lib pkgs; })));
-        default = { };
+        type = types.attrsOf (
+          types.submodule (
+            { name, ... }:
+              (import ./interface-options.nix { inherit name config lib pkgs; })
+          )
+        );
+        default = {};
         example = literalExample ''
           eno3 = {
             rxRingEntries = 512;
@@ -56,42 +58,62 @@ in {
 
   };
 
-  config = mkIf (cfg.interfaces != { }) {
+  config = mkIf (cfg.interfaces != {}) {
 
-    networking.interfaces = listToAttrs (filter (x: x.value != null)
-      ((mapAttrsToList (_: conf:
-        nameValuePair "${conf.name}" ({
+    networking.interfaces = listToAttrs (
+      filter (x: x.value != null)
+        (
+          (
+            mapAttrsToList (
+              _: conf:
+                nameValuePair "${conf.name}" (
+                  {
 
-          useDHCP = false;
+                    useDHCP = false;
 
-        })) cfg.interfaces)));
+                  }
+                )
+            ) cfg.interfaces
+          )
+        )
+    );
 
-    systemd.services = listToAttrs (filter (x: x.value != null) ((mapAttrsToList
-      (_: conf:
-        nameValuePair "pcap-prep-${conf.name}" ({
+    systemd.services = listToAttrs (
+      filter (x: x.value != null) (
+        (
+          mapAttrsToList
+            (
+              _: conf:
+                nameValuePair "pcap-prep-${conf.name}" (
+                  {
 
-          description = "Configure ${conf.name} for packet capture";
-          wantedBy = [ "network.target" ];
-          before = [ "network.target" ];
-          script = ''
-            ${pkgs.iproute}/bin/ip link set ${conf.name} arp off
+                    description = "Configure ${conf.name} for packet capture";
+                    wantedBy = [ "network.target" ];
+                    before = [ "network.target" ];
+                    script = ''
+                      ${pkgs.iproute}/bin/ip link set ${conf.name} arp off
 
-            ${pkgs.tsoff}/bin/tsoff ${conf.name}
+                      ${pkgs.tsoff}/bin/tsoff ${conf.name}
 
-            # The following command will fail if no changes are made,
-            # so we must accept failure.
-            ${pkgs.ethtool}/bin/ethtool -G ${conf.name} rx ${
-              toString conf.rxRingEntries
-            } || true
+                      # The following command will fail if no changes are made,
+                      # so we must accept failure.
+                      ${pkgs.ethtool}/bin/ethtool -G ${conf.name} rx ${
+                    toString conf.rxRingEntries
+                    } || true
 
-            ${pkgs.ethtool}/bin/ethtool -L ${conf.name} combined 1
-            ${pkgs.ethtool}/bin/ethtool -A ${conf.name} rx off tx off
-            ${pkgs.ethtool}/bin/ethtool -C ${conf.name} adaptive-rx on rx-usecs ${
-              toString conf.usecBetweenRxInterrupts
-            }
-            echo 1 > /proc/sys/net/ipv6/conf/${conf.name}/disable_ipv6
-          '';
-        })) cfg.interfaces)));
+                      ${pkgs.ethtool}/bin/ethtool -L ${conf.name} combined 1
+                      ${pkgs.ethtool}/bin/ethtool -A ${conf.name} rx off tx off
+                      ${pkgs.ethtool}/bin/ethtool -C ${conf.name} adaptive-rx on rx-usecs ${
+                    toString conf.usecBetweenRxInterrupts
+                    }
+                      echo 1 > /proc/sys/net/ipv6/conf/${conf.name}/disable_ipv6
+                    '';
+                  }
+                )
+            ) cfg.interfaces
+        )
+      )
+    );
 
   };
 }

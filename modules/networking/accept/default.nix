@@ -3,11 +3,9 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.networking.firewall;
-  enable = cfg.accept != [ ] && cfg.enable;
+  enable = cfg.accept != [] && cfg.enable;
 
   ipt = cmd: protocol: interface: src: dest:
     let
@@ -29,12 +27,12 @@ let
     ${concatMapStrings (r: ipt "ip6tables" r.protocol r.interface r.src r.dest)
     cfg.accept6}
   '';
-
-in {
+in
+{
 
   options.networking.firewall.accept = mkOption {
     type = pkgs.lib.types.fwRule;
-    default = [ ];
+    default = [];
     example = [
       {
         protocol = "tcp";
@@ -59,7 +57,7 @@ in {
 
   options.networking.firewall.accept6 = mkOption {
     type = pkgs.lib.types.fwRule6;
-    default = [ ];
+    default = [];
     example = [
       {
         protocol = "tcp";

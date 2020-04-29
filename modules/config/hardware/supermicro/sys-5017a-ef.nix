@@ -3,13 +3,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.supermicro.sys-5017a-ef;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.supermicro.sys-5017a-ef = {
     enable = mkEnableOption "a Supermicro 5017A-EF hardware configuration.";
   };

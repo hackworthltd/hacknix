@@ -1,7 +1,5 @@
 self: pkgs:
-
 let
-
   emacs-nox = pkgs.emacs26-nox;
 
   emacsMelpaPackagesNg = pkgs.melpaPackagesNgFor pkgs.emacs;
@@ -82,7 +80,7 @@ let
     ];
 
   # The core set, plus a few macOS-specific packages.
-  macOSEmacsPackages = epkgs: (with epkgs; [ ]) ++ (coreEmacsPackages epkgs);
+  macOSEmacsPackages = epkgs: (with epkgs; []) ++ (coreEmacsPackages epkgs);
 
   ## Package up various Emacs with coreEmacsPackages and the binaries
   ## needed to support them.
@@ -123,8 +121,8 @@ let
       pkgs.ripgrep
     ];
   };
-
-in {
+in
+{
   inherit emacsMelpaPackagesNg;
   inherit emacs-nox emacsNoXMelpaPackagesNg;
   inherit emacsMacportMelpaPackagesNg;

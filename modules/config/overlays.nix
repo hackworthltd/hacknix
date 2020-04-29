@@ -2,9 +2,7 @@
 ## rely on them.
 
 { ... }:
-
 let
-
   localLib = import ../../lib;
-
-in { nixpkgs.overlays = localLib.overlays; }
+in
+{ nixpkgs.overlays = localLib.overlays; }

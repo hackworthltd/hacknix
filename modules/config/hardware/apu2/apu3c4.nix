@@ -3,13 +3,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.apu2.apu3c4;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.apu2.apu3c4 = {
     enable = mkEnableOption "PC Engines apu3c4 hardware configuration.";
   };

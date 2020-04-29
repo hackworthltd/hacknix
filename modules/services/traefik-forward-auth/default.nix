@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.services.traefik-forward-auth;
 
@@ -13,13 +12,15 @@ let
 
   keyDir = "/var/lib/traefik-forward-auth";
 
-  configFile = pkgs.writeText "traefik-forward-auth.conf" (cfg.literalConfig
+  configFile = pkgs.writeText "traefik-forward-auth.conf" (
+    cfg.literalConfig
     + ''
       providers.oidc.issuer-url = ${cfg.oidc.issuerURL}
       providers.oidc.client-id = ${cfg.oidc.clientID}
-    '');
-
-in {
+    ''
+  );
+in
+{
   meta.maintainers = lib.maintainers.dhess;
 
   options.services.traefik-forward-auth = {
@@ -140,6 +141,6 @@ in {
       isSystemUser = true;
     };
 
-    users.groups.${group} = { };
+    users.groups.${group} = {};
   };
 }

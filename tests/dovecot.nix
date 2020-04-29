@@ -1,7 +1,5 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-
   exampleCA1Pem = pkgs.writeText "exampleCA1.pem" ''
     -----BEGIN CERTIFICATE-----
     MIIDsDCCApigAwIBAgIUb+J+7668MGVbc3oqgGTOml/pJbQwDQYJKoZIhvcNAQEL
@@ -83,15 +81,15 @@ let
     gnK6FH1Gxkquo9AnV8KGXJQ9AOllUkgv+Zg2G1bIEcgqbGIfuOo79g==
     -----END RSA PRIVATE KEY-----
   '';
-
-in makeTest rec {
+in
+makeTest rec {
   name = "dovecot";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   machine = { config, ... }: {
     imports = [ ./common/user-account.nix ] ++ pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
+    ++ pkgs.lib.hacknix.testing.testModules;
 
     # Use the test key deployment system.
     deployment.reallyReallyEnable = true;
@@ -148,7 +146,6 @@ in makeTest rec {
           assert status == 'OK'
           assert msg[0][1].strip() == b'Hello world!'
       '';
-
     in [ sendTestMail sendTestMailViaDeliveryAgent testImap ];
   };
 

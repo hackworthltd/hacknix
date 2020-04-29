@@ -1,7 +1,5 @@
 self: super:
-
 let
-
   myPass = super.pass.withExtensions
     (ext: [ ext.pass-audit ext.pass-genphrase ext.pass-update ]);
 
@@ -97,8 +95,8 @@ let
     ];
     meta.platforms = super.lib.platforms.all;
   };
-
-in {
+in
+{
   inherit anki-env;
   inherit mactools-env;
   inherit maths-env;

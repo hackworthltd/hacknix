@@ -3,13 +3,11 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.hacknix.hardware.amd.jaguar;
   enabled = cfg.enable;
-
-in {
+in
+{
   options.hacknix.hardware.amd.jaguar = {
     enable = mkEnableOption "AMD Jaguar (G-series) hardware configuration.";
   };
