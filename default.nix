@@ -59,6 +59,7 @@ in
   inherit (self) traefik-forward-auth;
   inherit (self) trimpcap;
   inherit (self) tsoff;
+  inherit (self) unison-ucm;
   inherit (self) wpa_supplicant;
   inherit (self) yubikey-manager;
 

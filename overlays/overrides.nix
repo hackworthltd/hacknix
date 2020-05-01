@@ -88,6 +88,9 @@ let
       nixUnstable = oldNixUnstable;
     }
   ).hydra-unstable;
+
+  # Upstream is out of date.
+  unison-ucm = super.callPackage ../pkgs/unison {};
 in
 {
   # Enable TLS v1.2 in wpa_supplicant.
@@ -126,5 +129,6 @@ in
   inherit minikube;
   inherit radare2;
   inherit saml2aws;
+  inherit unison-ucm;
   inherit yubikey-manager;
 }
