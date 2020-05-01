@@ -79,6 +79,7 @@ let
         traefik-forward-auth = all;
         trimpcap = linux;
         tsoff = linux;
+        unison-ucm = x86_64;
         wpa_supplicant = linux;
         yubikey-manager = all;
 
@@ -154,6 +155,7 @@ let
           traefik-forward-auth.x86_64-linux
           trimpcap.x86_64-linux
           tsoff.x86_64-linux
+          unison-ucm.x86_64-linux
           wpa_supplicant.x86_64-linux
           yubikey-manager.x86_64-linux
 
@@ -211,6 +213,7 @@ let
           radare2.x86_64-darwin
           saml2aws.x86_64-darwin
           terraform-provider-okta.x86_64-darwin
+          unison-ucm.x86_64-darwin
           yubikey-manager.x86_64-darwin
 
           emacs-env.x86_64-darwin
