@@ -91,8 +91,7 @@ let
 
   # Upstream is out of date.
   unison-ucm = super.callPackage ../pkgs/unison {};
-in
-{
+
   # Enable TLS v1.2 in wpa_supplicant.
   wpa_supplicant = super.wpa_supplicant.overrideAttrs (
     drv: {
@@ -102,6 +101,28 @@ in
     }
   );
 
+  hostapd = super.hostapd.overrideAttrs (
+    drv: {
+      extraConfig = drv.extraConfig + ''
+        CONFIG_DRIVER_NL80211_QCA=y
+        CONFIG_SAE=y
+        CONFIG_IEEE80211AX=y
+        CONFIG_DEBUG_LINUX_TRACING=y
+        CONFIG_FST=y
+        CONFIG_FST_TEST=y
+        CONFIG_MBO=y
+        CONFIG_TAXONOMY=y
+        CONFIG_FILS=y
+        CONFIG_FILS_SK_PFS=y
+        CONFIG_WPA_CLI_EDIT=y
+        CONFIG_OWE=y
+        CONFIG_AIRTIME_POLICY=y
+        CONFIG_NO_TKIP=y
+      '';
+    }
+  );
+in
+{
   # Use fdk_aac in ffmpeg-full.
   #
   # Don't override super; it disables a bunch of things on macOS.
@@ -124,11 +145,13 @@ in
   inherit aws-vault;
   inherit cfssl;
   inherit fsatrace;
+  inherit hostapd;
   inherit hydra-unstable;
   inherit libvmaf;
   inherit minikube;
   inherit radare2;
   inherit saml2aws;
   inherit unison-ucm;
+  inherit wpa_supplicant;
   inherit yubikey-manager;
 }

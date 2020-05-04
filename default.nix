@@ -43,6 +43,7 @@ in
   inherit (self) fsatrace;
   inherit (self) gawk_4_2_1;
   inherit (self) gitignoreSource gitignoreFilter;
+  inherit (self) hostapd;
   inherit (self) hydra-unstable;
   inherit (self) libprelude;
   inherit (self) libvmaf;
