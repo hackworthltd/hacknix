@@ -12,7 +12,7 @@ let
   inherit (hacknix-lib) lib;
   inherit (lib.fetchers) fixedNixSrc;
 
-  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
+  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs;
   nixpkgs = import fixedNixpkgs;
 
   fixedNixDarwin = lib.fetchers.fixedNixSrc "nix_darwin" sources.nix-darwin;
