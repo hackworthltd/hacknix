@@ -88,5 +88,21 @@ let
     system = callSubTests ./tests/system.nix {};
     users = callSubTests ./tests/users.nix {};
   };
+
+  # Python-flavored tests go here.
+  makeTestPython = import (fixedNixpkgs + "/nixos/tests/make-test-python.nix");
+  discoverTests = val:
+    if !lib.isAttrs val then val
+    else if lib.hasAttr "test" val then callTest val
+    else lib.mapAttrs (n: s: discoverTests s) val;
+  handleTest = path: args:
+    discoverTests (import path ({ inherit system pkgs makeTestPython; } // args));
+  handleTestOn = systems: path: args:
+    if elem system systems then handleTest path args
+    else {};
+
+  newTests = {
+    postfix-mta = handleTest ./tests/postfix-mta.nix {};
+  };
 in
-tests
+tests // newTests

@@ -633,7 +633,7 @@ in
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
       "31f7cb2ed3e8a8bb6b4e5797a3ee96a1ebda80f296c6a67066cfb3bdd111017c";
     hacknix.assertions.moduleHashes."security/acme.nix" =
-      "b5f26e2f27d6459650f7e84b59a89f55ecf95cd7e89dea5779e0227ca3b821ec";
+      "71912f3d9fbb57fe57960a78589629b4a543b4f43d7126a503c3725dba9b6853";
 
     hacknix.keychain.keys."sasl-tls-key" = {
       destDir = "/var/lib/postfix/keys";
@@ -642,6 +642,8 @@ in
       group = config.services.postfix.group;
       permissions = "0400";
     };
+
+    hacknix.defaults.acme.enable = true;
 
     # This Nginx vhost exists only to provision ACME certs for the
     # Postfix MTA.
