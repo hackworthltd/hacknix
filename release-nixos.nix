@@ -102,6 +102,7 @@ let
     else {};
 
   newTests = {
+    ntpd = handleTest ./tests/ntpd.nix {};
     postfix-mta = handleTest ./tests/postfix-mta.nix {};
   };
 in

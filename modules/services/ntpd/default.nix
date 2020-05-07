@@ -107,7 +107,7 @@ in
   config = mkIf config.services.ntp.enable {
 
     hacknix.assertions.moduleHashes."services/networking/ntp/ntpd.nix" =
-      "061e646ed969be0fa2002f382348f3ad59cbc3ca983a8d76a83787452394b810";
+      "f7435ed1be86353c51b3edba4301528208bba02c4e2e9cc960e8cfa537fbcced";
 
     # Make tools such as ntpq available in the system path.
     environment.systemPackages = [ pkgs.ntp ];
