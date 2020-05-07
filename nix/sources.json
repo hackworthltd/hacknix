@@ -18,10 +18,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "2b272766298fd6524524516d0c219553914b2750",
-        "sha256": "0kd4an8xmhvc4zmw69gsk0kyvimvf512kr05hml3h436ydbxcw87",
+        "rev": "ea73c698ad6fcdb2dde0554a9e07648b6f627c9c",
+        "sha256": "0i45pjakj141rflpxd97sacla4vaqn7aysjbn87jk8y9vbkz6fyb",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/2b272766298fd6524524516d0c219553914b2750.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/ea73c698ad6fcdb2dde0554a9e07648b6f627c9c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -78,10 +78,10 @@
         "homepage": "",
         "owner": "target",
         "repo": "lorri",
-        "rev": "94cd0f7809825035cfac066fe587e1d03cc5ec81",
-        "sha256": "0rhm65dfa8kwr612hsdk1d8kgvdh9g3a7kzj4xy5p08vz5lkd90h",
+        "rev": "8752c4530ca4bc9f47c97954fcc05c2312770846",
+        "sha256": "1v0sigh5sha6dssldbj8m7mi84zcp59afxb7p51bqgbi8fbgfs4p",
         "type": "tarball",
-        "url": "https://github.com/target/lorri/archive/94cd0f7809825035cfac066fe587e1d03cc5ec81.tar.gz",
+        "url": "https://github.com/target/lorri/archive/8752c4530ca4bc9f47c97954fcc05c2312770846.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "minikube": {
@@ -132,28 +132,16 @@
         "url": "https://github.com/dhess/nixops/archive/0490063980cd71fdc88bb0a4b10926a55454f6b3.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
-    "nixpkgs": {
-        "branch": "master",
-        "description": "Nix Packages collection",
-        "homepage": null,
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "ed755a6557052d7d74fe8cd7a308302dc56d84b3",
-        "sha256": "0i9ljz70dlkrrrmhwiynvs4qiv5jk92gaj1iscah3gr9wr32iv8d",
-        "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/ed755a6557052d7d74fe8cd7a308302dc56d84b3.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
     "nixpkgs-unstable": {
         "branch": "nixpkgs-unstable",
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "nixos",
         "repo": "nixpkgs-channels",
-        "rev": "10100a97c8964e82b30f180fda41ade8e6f69e41",
-        "sha256": "011f36kr3c1ria7rag7px26bh73d1b0xpqadd149bysf4hg17rln",
+        "rev": "5f14d99efed32721172a819b6e78a5520bab4bc6",
+        "sha256": "1nxqbcsc8bfmwy450pv6s12nbvzqxai5mr6v41y478pya26lb108",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs-channels/archive/10100a97c8964e82b30f180fda41ade8e6f69e41.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/5f14d99efed32721172a819b6e78a5520bab4bc6.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "saml2aws": {
