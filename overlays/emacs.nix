@@ -1,11 +1,9 @@
 self: pkgs:
 let
   emacs-nox = pkgs.emacs26-nox;
-
   emacsMelpaPackagesNg = pkgs.melpaPackagesNgFor pkgs.emacs;
   emacsMacportMelpaPackagesNg = pkgs.melpaPackagesNgFor pkgs.emacsMacport;
   emacsNoXMelpaPackagesNg = pkgs.melpaPackagesNgFor emacs-nox;
-
   myAspell = pkgs.aspellWithDicts (dicts: with dicts; [ en ]);
 
   ## Collections of Emacs packages that we use.
@@ -50,6 +48,7 @@ let
       lsp-mode
       lsp-ui
       magit
+      magit-lfs
       magit-popup
       markdown-mode
       nix-mode
@@ -80,7 +79,7 @@ let
     ];
 
   # The core set, plus a few macOS-specific packages.
-  macOSEmacsPackages = epkgs: (with epkgs; []) ++ (coreEmacsPackages epkgs);
+  macOSEmacsPackages = epkgs: (with epkgs; [ ]) ++ (coreEmacsPackages epkgs);
 
   ## Package up various Emacs with coreEmacsPackages and the binaries
   ## needed to support them.
