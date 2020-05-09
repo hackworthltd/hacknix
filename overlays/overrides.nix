@@ -108,6 +108,7 @@ let
         extraConfig = drv.extraConfig + ''
           CONFIG_DRIVER_NL80211_QCA=y
           CONFIG_SAE=y
+          CONFIG_SUITEB192=y
           CONFIG_IEEE80211AX=y
           CONFIG_DEBUG_LINUX_TRACING=y
           CONFIG_FST=y
