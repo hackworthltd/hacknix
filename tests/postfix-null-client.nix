@@ -2,7 +2,6 @@
 let
   # Don't do this in production -- it will put the secrets into the
   # Nix store! This is just a convenience for the tests.
-
   ca-cert = ./testfiles/certs/root.crt;
   bob-cert = ./testfiles/certs/bob-at-acme.com.crt;
   bob-certKey = ./testfiles/keys/bob-at-acme.com.key;
@@ -18,7 +17,7 @@ makeTest rec {
     client = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;
@@ -38,7 +37,8 @@ makeTest rec {
   testScript = { nodes, ... }:
     let
       stateDir = nodes.client.config.services.postfix-null-client.stateDir;
-    in ''
+    in
+    ''
       $client->waitForUnit("multi-user.target");
       $client->requireActiveUnit("postfix.service");
 

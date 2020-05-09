@@ -2,9 +2,9 @@
 # It's mainly here just to make sure that the service starts up.
 
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-in makeTest rec {
+in
+makeTest rec {
   name = "apcupsd-net";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -13,7 +13,7 @@ in makeTest rec {
     machine = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;

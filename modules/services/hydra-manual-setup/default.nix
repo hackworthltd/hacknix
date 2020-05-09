@@ -5,7 +5,6 @@ let
   deployed-pw = config.hacknix.keychain.keys.hydra-manual-setup-initial-pw.path;
   deployed-bckey = config.hacknix.keychain.keys.hydra-manual-setup-bckey.path;
   cfg = config.services.hydra-manual-setup;
-
   hydraPkg = config.services.hydra.package;
 in
 {
@@ -161,23 +160,25 @@ in
       after = [ "hydra-init.service" ] ++ wants;
 
       environment = mkForce config.systemd.services.hydra-init.environment;
-      script = let
-        bcKeyDir = cfg.binaryCacheKey.directory;
-      in ''
-        if [ ! -e ~hydra/.manual-setup-is-complete-v1 ]; then
-          HYDRA_PW=$(cat "${deployed-pw}")
-          ${hydraPkg}/bin/hydra-create-user ${cfg.adminUser.userName} --full-name "${cfg.adminUser.fullName}" --email-address ${cfg.adminUser.email} --role admin --password $HYDRA_PW
+      script =
+        let
+          bcKeyDir = cfg.binaryCacheKey.directory;
+        in
+        ''
+          if [ ! -e ~hydra/.manual-setup-is-complete-v1 ]; then
+            HYDRA_PW=$(cat "${deployed-pw}")
+            ${hydraPkg}/bin/hydra-create-user ${cfg.adminUser.userName} --full-name "${cfg.adminUser.fullName}" --email-address ${cfg.adminUser.email} --role admin --password $HYDRA_PW
 
-          install -d -m 551 "${bcKeyDir}"
-          cp "${deployed-bckey}" "${bcKeyDir}/secret"
-          chmod 0440 "${bcKeyDir}/secret"
-          cp "${cfg.binaryCacheKey.publicKeyFile}" "${bcKeyDir}/public"
-          chmod 0444 "${bcKeyDir}/public"
-          chown -R hydra:hydra "${bcKeyDir}"
+            install -d -m 551 "${bcKeyDir}"
+            cp "${deployed-bckey}" "${bcKeyDir}/secret"
+            chmod 0440 "${bcKeyDir}/secret"
+            cp "${cfg.binaryCacheKey.publicKeyFile}" "${bcKeyDir}/public"
+            chmod 0444 "${bcKeyDir}/public"
+            chown -R hydra:hydra "${bcKeyDir}"
 
-          touch ~hydra/.manual-setup-is-complete-v1
-        fi
-      '';
+            touch ~hydra/.manual-setup-is-complete-v1
+          fi
+        '';
 
       serviceConfig = {
         Type = "oneshot";

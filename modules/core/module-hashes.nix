@@ -37,17 +37,16 @@
 let
   inherit (lib) types mkOption;
   cfg = config.hacknix.assertions;
-
   mkAssertion = path: expectedHash:
     let
       contents = builtins.readFile "${toString modulesPath}/${toString path}";
       hash = builtins.hashString "sha256" contents;
-    in {
+    in
+    {
       assertion = hash == expectedHash;
       message = "Hash mismatch for `${path}': "
-      + "Expected `${expectedHash}' but got `${hash}'.";
+        + "Expected `${expectedHash}' but got `${hash}'.";
     };
-
   hashType = lib.mkOptionType {
     name = "sha256";
     description = "base-16 SHA-256 hash";
@@ -59,7 +58,7 @@ in
 {
   options.hacknix.assertions.moduleHashes = mkOption {
     type = types.attrsOf hashType;
-    default = {};
+    default = { };
     example."services/mail/opendkim.nix" =
       "a937be8731e6e1a7b7872a2dc72274b4a31364f249bfcf8ef7bcc98753c9a018";
     description = ''

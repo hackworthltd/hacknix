@@ -4,10 +4,8 @@ with lib;
 let
   cfg = config.hacknix.services.fail2ban;
   fail2ban-enabled = config.services.fail2ban.enable;
-
   ignoreip =
     concatStringsSep " " ([ "127.0.0.0/8" "::1/128" ] ++ cfg.whitelist);
-
   note = ''
 
     Note: this option will only take effect if the
@@ -21,7 +19,7 @@ in
     whitelist = mkOption {
       type =
         types.listOf (types.either pkgs.lib.types.ipv4 pkgs.lib.types.ipv6);
-      default = [];
+      default = [ ];
       example =
         [ "192.0.2.0/24" "198.51.100.1" "2001:db8::/64" "2001:db8:1::1" ];
       description = ''

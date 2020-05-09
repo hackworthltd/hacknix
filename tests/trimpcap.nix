@@ -1,7 +1,6 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
 let
   pcapFile = ./testfiles/DHCPv6.pcap;
-
   testSize = pkgs.writeScript "testSize" ''
     #!${pkgs.stdenv.shell} -e
     [[ `(stat -c%s "$1")` -gt `(stat -c%s "$2")` ]]

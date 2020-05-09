@@ -1,7 +1,6 @@
 { stdenv, lib, fetchFromGitHub, source }:
 let
   version = lib.misc.shortRev source.rev;
-
   generic = { subname, hostsFile, ... }:
     stdenv.mkDerivation {
       name = "badhosts-${subname}-${version}";
@@ -26,18 +25,15 @@ let
         platforms = stdenv.lib.platforms.all;
       };
     };
-
   alternate = subname:
     generic {
       inherit subname;
       hostsFile = "alternates/${subname}/hosts";
     };
-
   badhosts-unified = generic {
     subname = "unified";
     hostsFile = "hosts";
   };
-
   badhosts-fakenews = alternate "fakenews";
   badhosts-gambling = alternate "gambling";
   badhosts-nsfw = alternate "porn";
@@ -54,7 +50,6 @@ let
   badhosts-gambling-nsfw-social = alternate "gambling-porn-social";
   badhosts-fakenews-gambling-nsfw-social =
     alternate "fakenews-gambling-porn-social";
-
   badhosts-all = badhosts-fakenews-gambling-nsfw-social;
 in
 {

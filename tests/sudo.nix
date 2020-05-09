@@ -5,7 +5,6 @@ let
     export TMOUT=300
     export HISTFILE=~/.bash_history
   '';
-
   makeSudoTest = name: machineAttrs:
     makeTest {
 
@@ -23,7 +22,8 @@ let
       testScript = { nodes, ... }:
         let
           alicePassword = nodes.machine.config.users.users.alice.password;
-        in ''
+        in
+        ''
           $machine->waitForUnit("multi-user.target");
 
           subtest "sudo-succeeds", sub {

@@ -8,59 +8,56 @@
 with lib;
 let
   opendkimEnabled = config.services.opendkim.enable;
-
   cfg = config.services.qx-opendkim;
-
   keyDir = "/var/lib/opendkim/keys";
+  keyTableRow = types.submodule
+    (
+      { name, ... }: {
+        options = {
+          keyName = mkOption {
+            type = pkgs.lib.types.nonEmptyStr;
+            example = "drewhess.com";
+            default = "${name}";
+            description = ''
+              The logical name of the key; to be used in a signing table.
 
-  keyTableRow = types.submodule (
-    { name, ... }: {
-      options = {
-        keyName = mkOption {
-          type = pkgs.lib.types.nonEmptyStr;
-          example = "drewhess.com";
-          default = "${name}";
-          description = ''
-            The logical name of the key; to be used in a signing table.
+              The default value is the name of the attrset.
+            '';
+          };
 
-            The default value is the name of the attrset.
-          '';
+          domain = mkOption {
+            type = pkgs.lib.types.nonEmptyStr;
+            example = "drewhess.com";
+            description = ''
+              The domain name to use in the signature's
+              <literal>d=</literal> value.
+            '';
+          };
+
+          selector = mkOption {
+            type = pkgs.lib.types.nonEmptyStr;
+            example = "2018.10.27";
+            description = ''
+              The name of the selector to use in the signature's
+              <literal>s=</literal> value.
+            '';
+          };
+
+          privateKeyLiteral = mkOption {
+            type = pkgs.lib.types.nonEmptyStr;
+            example = "<privatekey>";
+            description = ''
+              The private key used to sign the signature, represented as a
+              literal string.
+
+              A file containing the contents of this key will be securely
+              deployed to the host in a persistent storage location. It
+              will not be copied to the Nix store.
+            '';
+          };
         };
-
-        domain = mkOption {
-          type = pkgs.lib.types.nonEmptyStr;
-          example = "drewhess.com";
-          description = ''
-            The domain name to use in the signature's
-            <literal>d=</literal> value.
-          '';
-        };
-
-        selector = mkOption {
-          type = pkgs.lib.types.nonEmptyStr;
-          example = "2018.10.27";
-          description = ''
-            The name of the selector to use in the signature's
-            <literal>s=</literal> value.
-          '';
-        };
-
-        privateKeyLiteral = mkOption {
-          type = pkgs.lib.types.nonEmptyStr;
-          example = "<privatekey>";
-          description = ''
-            The private key used to sign the signature, represented as a
-            literal string.
-
-            A file containing the contents of this key will be securely
-            deployed to the host in a persistent storage location. It
-            will not be copied to the Nix store.
-          '';
-        };
-      };
-    }
-  );
-
+      }
+    );
   signingTableRow = types.submodule {
     options = {
       fromRegex = mkOption {
@@ -87,31 +84,30 @@ let
       };
     };
   };
-
   keyFileName = keyName: "opendkim-${keyName}-private";
 
   # Note that this file doesn't contain any key material, only paths
   # to files containing key material.
-
-  keyTableFile = pkgs.writeText "opendkim.key.table" (
-    concatMapStringsSep "\n"
-      (row: "${row.keyName}    ${row.domain}:${row.selector}:${row.keyFile}")
-      (
-        mapAttrsToList (
-          name: row:
-            let
-              keyFile = config.hacknix.keychain.keys."${keyFileName name}".path;
-            in row // { inherit keyFile; }
-        ) cfg.keyTable
-      )
-  );
-
+  keyTableFile = pkgs.writeText "opendkim.key.table"
+    (
+      concatMapStringsSep "\n"
+        (row: "${row.keyName}    ${row.domain}:${row.selector}:${row.keyFile}")
+        (
+          mapAttrsToList
+            (
+              name: row:
+                let
+                  keyFile = config.hacknix.keychain.keys."${keyFileName name}".path;
+                in
+                row // { inherit keyFile; }
+            ) cfg.keyTable
+        )
+    );
   signingTableFile = pkgs.writeText "opendkim.signing.table"
     (
       concatMapStringsSep "\n" (row: "${row.fromRegex}    ${row.keyName}")
         cfg.signingTable
     );
-
   internalHostsFile = pkgs.writeText "opendkim.internal.hosts"
     (concatStringsSep "\n" cfg.internalHosts);
 
@@ -132,7 +128,6 @@ let
   #
   # Add Sender to SenderHeaders so that local mailing list messages
   # are signed.
-
   configFile = pkgs.writeText "opendkim.conf" ''
     UMask            002
     OversignHeaders  From
@@ -199,7 +194,7 @@ in
 
     keyTable = mkOption {
       type = types.attrsOf keyTableRow;
-      default = {};
+      default = { };
       description = ''
         A declarative OpenDKIM key table. See
         <citerefentry><refentrytitle>opendkim.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>
@@ -217,7 +212,7 @@ in
 
     signingTable = mkOption {
       type = types.listOf signingTableRow;
-      default = [];
+      default = [ ];
       description = ''
         A declarative OpenDKIM signing table, expressed as a list of
         attributes. See
@@ -283,16 +278,17 @@ in
 
     environment.systemPackages = [ pkgs.opendkim ];
 
-    hacknix.keychain.keys = mapAttrs' (
-      name: row:
-        nameValuePair (keyFileName name) {
-          destDir = keyDir;
-          text = row.privateKeyLiteral;
-          user = cfg.user;
-          group = cfg.group;
-          permissions = "0400";
-        }
-    ) cfg.keyTable;
+    hacknix.keychain.keys = mapAttrs'
+      (
+        name: row:
+          nameValuePair (keyFileName name) {
+            destDir = keyDir;
+            text = row.privateKeyLiteral;
+            user = cfg.user;
+            group = cfg.group;
+            permissions = "0400";
+          }
+      ) cfg.keyTable;
 
     systemd.services.opendkim = rec {
       description = "OpenDKIM signing and verification daemon";

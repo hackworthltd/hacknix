@@ -3,25 +3,21 @@ let
   #
   # The fetchers. fetch_<type> fetches specs of type <type>.
   #
-
   fetch_file = pkgs: spec:
     if spec.builtin or true then
       builtins_fetchurl { inherit (spec) url sha256; }
     else
       pkgs.fetchurl { inherit (spec) url sha256; };
-
   fetch_tarball = pkgs: spec:
     if spec.builtin or true then
       builtins_fetchTarball { inherit (spec) url sha256; }
     else
       pkgs.fetchzip { inherit (spec) url sha256; };
-
   fetch_git = spec:
     builtins.fetchGit {
       url = spec.repo;
       inherit (spec) rev ref;
     };
-
   fetch_builtin-tarball = spec:
     builtins.trace ''
       WARNING:
@@ -30,7 +26,6 @@ let
 
         $ niv modify <package> -a type=tarball -a builtin=true
     '' builtins_fetchTarball { inherit (spec) url sha256; };
-
   fetch_builtin-url = spec:
     builtins.trace ''
       WARNING:
@@ -49,13 +44,14 @@ let
     let
       sourcesNixpkgs =
         import (builtins_fetchTarball { inherit (sources.nixpkgs) url sha256; })
-          {};
+          { };
       hasNixpkgsPath = builtins.any (x: x.prefix == "nixpkgs") builtins.nixPath;
       hasThisAsNixpkgsPath = <nixpkgs> == ./.;
-    in if builtins.hasAttr "nixpkgs" sources then
+    in
+    if builtins.hasAttr "nixpkgs" sources then
       sourcesNixpkgs
     else if hasNixpkgsPath && !hasThisAsNixpkgsPath then
-      import <nixpkgs> {}
+      import <nixpkgs> { }
     else
       abort ''
         Please specify either <nixpkgs> (through -I or NIX_PATH=nixpkgs=...) or
@@ -87,21 +83,24 @@ let
   mapAttrs = builtins.mapAttrs or (
     f: set:
       with builtins;
-      listToAttrs (
-        map (
-          attr: {
-            name = attr;
-            value = f attr set.${attr};
-          }
-        ) (attrNames set)
-      )
+      listToAttrs
+        (
+          map
+            (
+              attr: {
+                name = attr;
+                value = f attr set.${attr};
+              }
+            ) (attrNames set)
+        )
   );
 
   # fetchTarball version that is compatible between all the versions of Nix
   builtins_fetchTarball = { url, sha256 }@attrs:
     let
       inherit (builtins) lessThan nixVersion fetchTarball;
-    in if lessThan nixVersion "1.12" then
+    in
+    if lessThan nixVersion "1.12" then
       fetchTarball { inherit url; }
     else
       fetchTarball attrs;
@@ -110,21 +109,23 @@ let
   builtins_fetchurl = { url, sha256 }@attrs:
     let
       inherit (builtins) lessThan nixVersion fetchurl;
-    in if lessThan nixVersion "1.12" then
+    in
+    if lessThan nixVersion "1.12" then
       fetchurl { inherit url; }
     else
       fetchurl attrs;
 
   # Create the final "sources" from the config
   mkSources = config:
-    mapAttrs (
-      name: spec:
-        if builtins.hasAttr "outPath" spec then
-          abort
-            "The values in sources.json should not have an 'outPath' attribute"
-        else
-          spec // { outPath = fetch config.pkgs name spec; }
-    ) config.sources;
+    mapAttrs
+      (
+        name: spec:
+          if builtins.hasAttr "outPath" spec then
+            abort
+              "The values in sources.json should not have an 'outPath' attribute"
+          else
+            spec // { outPath = fetch config.pkgs name spec; }
+      ) config.sources;
 
   # The "config" used by the fetchers
   mkConfig =
@@ -139,6 +140,6 @@ let
       inherit pkgs;
     };
 in
-mkSources (mkConfig {}) // {
+mkSources (mkConfig { }) // {
   __functor = _: settings: mkSources (mkConfig settings);
 }

@@ -10,24 +10,19 @@
 with lib;
 let
   cfg = config.services.qx-znc;
-
   deployed-config = config.hacknix.keychain.keys.znc-config.path;
-
   defaultUser = "znc"; # Default user to own process.
 
   # Default user and pass:
   # un=znc
   # pw=nixospass
-
   defaultUserName = "znc";
   defaultPassBlock =
     "\n        <Pass password>\n                Method = sha256\n                Hash = e2ce303c7ea75c571d80d8540a8699b46535be6a085be3414947d638e48d9e93\n                Salt = l5Xryew4g*!oa(ECfX2o\n        </Pass>\n  ";
-
   modules = pkgs.buildEnv {
     name = "znc-modules";
     paths = cfg.modulePackages;
   };
-
   networkOpts = { ... }: {
     options = {
       server = mkOption {
@@ -74,7 +69,7 @@ let
 
       modulePackages = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         example = [ "pkgs.zncModules.push" "pkgs.zncModules.fish" ];
         description = ''
           External ZNC modules to build.
@@ -92,7 +87,7 @@ let
 
       channels = mkOption {
         type = types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         example = [ "nixos" ];
         description = ''
           IRC channels to join.
@@ -228,7 +223,7 @@ in
         };
 
         networks = mkOption {
-          default = {};
+          default = { };
           type = with types; attrsOf (submodule networkOpts);
           description = ''
             IRC networks to connect the user to.
@@ -361,7 +356,7 @@ in
 
       modulePackages = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         example =
           literalExample "[ pkgs.zncModules.fish pkgs.zncModules.push ]";
         description = ''
@@ -384,7 +379,7 @@ in
       };
 
       extraFlags = mkOption {
-        default = [];
+        default = [ ];
         example = [ "--debug" ];
         type = types.listOf pkgs.lib.types.nonEmptyStr;
         description = ''
@@ -427,9 +422,9 @@ in
 
         # If immutable, regenerate conf file every time.
         ${optionalString (!cfg.mutable) ''
-        ${pkgs.coreutils}/bin/echo "znc is set to be system-managed. Now deleting old znc.conf file to be regenerated."
-        ${pkgs.coreutils}/bin/rm -f ${cfg.dataDir}/configs/znc.conf
-      ''}
+          ${pkgs.coreutils}/bin/echo "znc is set to be system-managed. Now deleting old znc.conf file to be regenerated."
+          ${pkgs.coreutils}/bin/rm -f ${cfg.dataDir}/configs/znc.conf
+        ''}
 
         # Ensure essential files exist.
         if [[ ! -e ${cfg.dataDir}/configs/znc.conf ]]; then
@@ -453,8 +448,8 @@ in
         ln -fs ${modules}/lib/znc ${cfg.dataDir}/modules
       '';
       script = "${pkgs.znc}/bin/znc --foreground --datadir ${cfg.dataDir} ${
-      toString cfg.extraFlags
-      }";
+          toString cfg.extraFlags
+        }";
     };
 
     users.users = optionalAttrs (cfg.user == defaultUser) {

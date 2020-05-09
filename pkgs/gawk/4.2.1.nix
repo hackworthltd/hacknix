@@ -35,7 +35,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = optional (doCheck && stdenv.isLinux) glibcLocales;
 
   buildInputs = optional withSigsegv libsigsegv ++ optional interactive readline
-  ++ optional stdenv.isDarwin locale;
+    ++ optional stdenv.isDarwin locale;
 
   configureFlags = [
     (
@@ -62,8 +62,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    libsigsegv =
-      if withSigsegv then libsigsegv else null; # for stdenv bootstrap
+    libsigsegv = if withSigsegv then libsigsegv else null; # for stdenv bootstrap
   };
 
   meta = with stdenv.lib; {
@@ -88,6 +87,6 @@ stdenv.mkDerivation rec {
 
     platforms = platforms.unix ++ platforms.windows;
 
-    maintainers = [];
+    maintainers = [ ];
   };
 }

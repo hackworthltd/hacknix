@@ -3,22 +3,19 @@
 with lib;
 let
   cfg = config.services.traefik-forward-auth;
-
   user = "traefik-forward-auth";
   group = "traefik-forward-auth";
-
   secretsFile =
     config.hacknix.keychain.keys."traefik-forward-auth-secrets".path;
-
   keyDir = "/var/lib/traefik-forward-auth";
-
-  configFile = pkgs.writeText "traefik-forward-auth.conf" (
-    cfg.literalConfig
-    + ''
-      providers.oidc.issuer-url = ${cfg.oidc.issuerURL}
-      providers.oidc.client-id = ${cfg.oidc.clientID}
-    ''
-  );
+  configFile = pkgs.writeText "traefik-forward-auth.conf"
+    (
+      cfg.literalConfig
+      + ''
+        providers.oidc.issuer-url = ${cfg.oidc.issuerURL}
+        providers.oidc.client-id = ${cfg.oidc.clientID}
+      ''
+    );
 in
 {
   meta.maintainers = lib.maintainers.dhess;
@@ -141,6 +138,6 @@ in
       isSystemUser = true;
     };
 
-    users.groups.${group} = {};
+    users.groups.${group} = { };
   };
 }

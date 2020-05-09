@@ -5,8 +5,7 @@
 with lib;
 let
   cfg = config.networking.firewall;
-  enable = cfg.accept != [] && cfg.enable;
-
+  enable = cfg.accept != [ ] && cfg.enable;
   ipt = cmd: protocol: interface: src: dest:
     let
       sourcePortFilter =
@@ -17,22 +16,22 @@ let
       destIPFilter =
         optionalString (dest.ip != null) "--destination ${dest.ip}";
       ifFilter = optionalString (interface != null) "-i ${interface}";
-    in ''
+    in
+    ''
       ${cmd} -A nixos-fw -p ${protocol} ${ifFilter} ${sourceIPFilter} ${sourcePortFilter} ${destIPFilter} ${destPortFilter} -j nixos-fw-accept
     '';
-
   extraCommands = ''
     ${concatMapStrings (r: ipt "iptables" r.protocol r.interface r.src r.dest)
-    cfg.accept}
+      cfg.accept}
     ${concatMapStrings (r: ipt "ip6tables" r.protocol r.interface r.src r.dest)
-    cfg.accept6}
+      cfg.accept6}
   '';
 in
 {
 
   options.networking.firewall.accept = mkOption {
     type = pkgs.lib.types.fwRule;
-    default = [];
+    default = [ ];
     example = [
       {
         protocol = "tcp";
@@ -57,7 +56,7 @@ in
 
   options.networking.firewall.accept6 = mkOption {
     type = pkgs.lib.types.fwRule6;
-    default = [];
+    default = [ ];
     example = [
       {
         protocol = "tcp";

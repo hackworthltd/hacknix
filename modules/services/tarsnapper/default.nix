@@ -4,11 +4,8 @@ with lib;
 let
   cfg = config.services.tarsnapper;
   keychain = config.hacknix.keychain.keys;
-
   key = config.hacknix.keychain.keys.tarsnap-key;
-
   cacheDir = "/var/cache/tarsnap/tarsnapper";
-
   tarsnapConfigFile = ''
     keyfile ${key.path}
     cachedir ${cacheDir}
@@ -18,7 +15,6 @@ let
     exclude */tmp/*
     exclude *.core
   '';
-
   emailScript = pkgs.writeScript "tarsnapper-mail" ''
     #!${pkgs.stdenv.shell}
 
@@ -137,8 +133,7 @@ in
       requires = [ "network-online.target" ];
       wants = [ "tarsnap-key-key.service" ];
       after = [ "network-online.target" ] ++ wants;
-      onFailure =
-        if cfg.email.enable then [ "tarsnapper-failed.service" ] else [];
+      onFailure = if cfg.email.enable then [ "tarsnapper-failed.service" ] else [ ];
 
       path = with pkgs; [
         coreutils

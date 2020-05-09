@@ -21,12 +21,9 @@ with lib;
 let
   cfg = config.services.apcupsd-net;
   apcupsdCfg = config.services.apcupsd;
-
   keyName = "apcupsd-net";
   stateDir = "/var/lib/apcupsd-net";
-
   configFile = config.hacknix.keychain.keys."${keyName}";
-
   configText = ''
     ## apcupsd.conf v1.1 ##
     # apcupsd complains if the first line is not like above.
@@ -74,36 +71,33 @@ let
     "startselftest"
     "endselftest"
   ];
-
   shellCmdsForEventScript = eventname: commands: ''
     echo "#!${pkgs.runtimeShell}" > "$out/${eventname}"
     echo '${commands}' >> "$out/${eventname}"
     chmod a+x "$out/${eventname}"
   '';
-
   eventToShellCmds = event:
     if builtins.hasAttr event cfg.hooks then
       (shellCmdsForEventScript event (builtins.getAttr event cfg.hooks))
     else
       "";
-
-  scriptDir = pkgs.runCommand "apcupsd-scriptdir" {} (
-    ''
-      mkdir "$out"
-      # Copy SCRIPTDIR from apcupsd package
-      cp -r ${pkgs.apcupsd}/etc/apcupsd/* "$out"/
-      # Make the files writeable (nix will unset the write bits afterwards)
-      chmod u+w "$out"/*
-      # Remove the sample event notification scripts, because they don't work
-      # anyways (they try to send mail to "root" with the "mail" command)
-      (cd "$out" && rm changeme commok commfailure onbattery offbattery)
-      # Remove the sample apcupsd.conf file (we're generating our own)
-      rm "$out/apcupsd.conf"
-      # Set the SCRIPTDIR= line in apccontrol to the dir we're creating now
-      sed -i -e "s|^SCRIPTDIR=.*|SCRIPTDIR=$out|" "$out/apccontrol"
-    '' + concatStringsSep "\n" (map eventToShellCmds eventList)
-
-  );
+  scriptDir = pkgs.runCommand "apcupsd-scriptdir" { }
+    (
+      ''
+        mkdir "$out"
+        # Copy SCRIPTDIR from apcupsd package
+        cp -r ${pkgs.apcupsd}/etc/apcupsd/* "$out"/
+        # Make the files writeable (nix will unset the write bits afterwards)
+        chmod u+w "$out"/*
+        # Remove the sample event notification scripts, because they don't work
+        # anyways (they try to send mail to "root" with the "mail" command)
+        (cd "$out" && rm changeme commok commfailure onbattery offbattery)
+        # Remove the sample apcupsd.conf file (we're generating our own)
+        rm "$out/apcupsd.conf"
+        # Set the SCRIPTDIR= line in apccontrol to the dir we're creating now
+        sed -i -e "s|^SCRIPTDIR=.*|SCRIPTDIR=$out|" "$out/apccontrol"
+      '' + concatStringsSep "\n" (map eventToShellCmds eventList)
+    );
 in
 {
 
@@ -183,7 +177,7 @@ in
       };
 
       hooks = mkOption {
-        default = {};
+        default = { };
         example = {
           doshutdown =
             "# shell commands to notify that the computer is shutting down";
@@ -211,9 +205,11 @@ in
 
     assertions = [
       {
-        assertion = let
-          hooknames = builtins.attrNames cfg.hooks;
-        in all (x: elem x eventList) hooknames;
+        assertion =
+          let
+            hooknames = builtins.attrNames cfg.hooks;
+          in
+          all (x: elem x eventList) hooknames;
         message = ''
           One (or more) attribute names in services.apcupsd.hooks are invalid.
           Current attribute names: ${toString (builtins.attrNames cfg.hooks)}

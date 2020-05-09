@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.hacknix.freeradius;
-
   prefix = "${pkgs.freeradius}";
   exec_prefix = prefix;
   sysconfdir = "/etc";
@@ -10,23 +9,16 @@ let
   logdir = cfg.logDir;
   raddbdir = cfg.configDir;
   radacctdir = "${logdir}/radacct";
-
   name = "radiusd";
-
   confdir = "${raddbdir}";
   modconfdir = "${confdir}/mods-config";
   certdir = "${confdir}/certs";
   cadir = cfg.tls.caPath;
   run_dir = "${localstatedir}/run/${name}";
-
   db_dir = cfg.dataDir;
-
   libdir = "${prefix}/lib";
-
   pidfile = "${run_dir}/${name}.pid";
-
   checkrad = "${sbindir}/checkrad";
-
   radiusdConf = pkgs.writeText "radiusd.conf" ''
     #
     # Based on:

@@ -19,15 +19,12 @@ let
   globalCfg = config;
   cfg = config.services.postfix-relay-host;
   enabled = cfg.enable;
-
   key = config.hacknix.keychain.keys.postfix-relay-host-cert;
 
   # NOTE - must be the same as upstream.
   stateDir = "/var/lib/postfix/data";
-
   user = config.services.postfix.user;
   group = config.services.postfix.group;
-
   dhParamsFile = "${stateDir}/dh.pem";
 in
 {
@@ -97,7 +94,7 @@ in
 
     relayDomains = mkOption {
       type = types.listOf pkgs.lib.types.nonEmptyStr;
-      default = [];
+      default = [ ];
       example = [ "example.com" "example.net" ];
       description = ''
         A list of domains for which this Postfix service will accept
@@ -218,47 +215,51 @@ in
       # "submission" master.cf line manually.
 
       enableSubmission = false;
-      masterConfig = listToAttrs (
-        map (
-          ip: {
-            name = "[${ip}]:submission";
-            value = {
-              type = "inet";
-              private = false;
-              command = "smtpd";
-              args = [
-                "-o"
-                "milter_macro_daemon_name=ORIGINATING"
-                "-o"
-                "smtpd_client_restrictions=permit_tls_clientcerts,reject"
-                "-o"
-                "smtpd_reject_unlisted_recipient=no"
-                "-o"
-                "smtpd_tls_dh1024_param_file=${dhParamsFile}"
-                "-o"
-                "smtpd_tls_security_level=encrypt"
-                "-o"
-                "syslog_name=postfix/submission"
-                "-o"
-                "tls_preempt_cipherlist=yes"
-              ];
-            };
-          }
-        ) cfg.listenAddresses
-      )
+      masterConfig = listToAttrs
+        (
+          map
+            (
+              ip: {
+                name = "[${ip}]:submission";
+                value = {
+                  type = "inet";
+                  private = false;
+                  command = "smtpd";
+                  args = [
+                    "-o"
+                    "milter_macro_daemon_name=ORIGINATING"
+                    "-o"
+                    "smtpd_client_restrictions=permit_tls_clientcerts,reject"
+                    "-o"
+                    "smtpd_reject_unlisted_recipient=no"
+                    "-o"
+                    "smtpd_tls_dh1024_param_file=${dhParamsFile}"
+                    "-o"
+                    "smtpd_tls_security_level=encrypt"
+                    "-o"
+                    "syslog_name=postfix/submission"
+                    "-o"
+                    "tls_preempt_cipherlist=yes"
+                  ];
+                };
+              }
+            ) cfg.listenAddresses
+        )
 
-      // listToAttrs (
-        map (
-          ip: {
-            name = "[${ip}]:smtp";
-            value = {
-              type = "inet";
-              private = false;
-              command = "smtpd";
-            };
-          }
-        ) cfg.listenAddresses
-      )
+      // listToAttrs
+        (
+          map
+            (
+              ip: {
+                name = "[${ip}]:smtp";
+                value = {
+                  type = "inet";
+                  private = false;
+                  command = "smtpd";
+                };
+              }
+            ) cfg.listenAddresses
+        )
 
       // {
         # Nixpkgs postfix module always enables smtp inet; we have to
@@ -301,9 +302,9 @@ in
         local_transport = error:local delivery is disabled
 
         ${optionalString (cfg.masqueradeDomains != null) ''
-        masquerade_domains = ${concatStringsSep " " cfg.masqueradeDomains}
-        masquerade_classes = envelope_sender, envelope_recipient, header_sender, header_recipient
-      ''}
+          masquerade_domains = ${concatStringsSep " " cfg.masqueradeDomains}
+          masquerade_classes = envelope_sender, envelope_recipient, header_sender, header_recipient
+        ''}
 
         smtpd_tls_security_level = may
         smtpd_tls_session_cache_database = btree:${stateDir}/smtpd_scache

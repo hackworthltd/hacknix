@@ -1,7 +1,6 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
 let
   ipv6_prefix = "fd00:1234:5678::/64";
-
   adblock_ipv4 = "192.168.1.251";
   noblock_ipv4 = "192.168.1.252";
   adblock_ipv6 = "fd00:1234:5678::1";

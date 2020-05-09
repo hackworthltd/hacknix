@@ -33,4 +33,4 @@ let
       '';
     };
 in
-{ defaultTest = makeTsoffTest "default" {}; }
+{ defaultTest = makeTsoffTest "default" { }; }

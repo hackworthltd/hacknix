@@ -1,7 +1,7 @@
 let
   lib = import lib/default.nix;
   inherit (lib) fixedNixpkgs;
-  localPkgs = (import ./default.nix) {};
+  localPkgs = (import ./default.nix) { };
 in
 { supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ]
 , scrubJobs ? true
@@ -25,88 +25,87 @@ let
       supportedSystems = [ "x86_64-linux" ];
     }
   );
-
   x86_64 = [ "x86_64-linux" "x86_64-darwin" ];
   x86_64_linux = [ "x86_64-linux" ];
   linux = [ "x86_64-linux" ];
-
   jobs = (
-    mapTestOn (
-      rec {
-        aws-okta = all;
-        aws-vault = all;
+    mapTestOn
+      (
+        rec {
+          aws-okta = all;
+          aws-vault = all;
 
-        badhosts-unified = all;
-        badhosts-fakenews = all;
-        badhosts-gambling = all;
-        badhosts-nsfw = all;
-        badhosts-social = all;
-        badhosts-fakenews-gambling = all;
-        badhosts-fakenews-nsfw = all;
-        badhosts-fakenews-social = all;
-        badhosts-gambling-nsfw = all;
-        badhosts-gambling-social = all;
-        badhosts-nsfw-social = all;
-        badhosts-fakenews-gambling-nsfw = all;
-        badhosts-fakenews-gambling-social = all;
-        badhosts-fakenews-nsfw-social = all;
-        badhosts-gambling-nsfw-social = all;
-        badhosts-fakenews-gambling-nsfw-social = all;
-        badhosts-all = all;
+          badhosts-unified = all;
+          badhosts-fakenews = all;
+          badhosts-gambling = all;
+          badhosts-nsfw = all;
+          badhosts-social = all;
+          badhosts-fakenews-gambling = all;
+          badhosts-fakenews-nsfw = all;
+          badhosts-fakenews-social = all;
+          badhosts-gambling-nsfw = all;
+          badhosts-gambling-social = all;
+          badhosts-nsfw-social = all;
+          badhosts-fakenews-gambling-nsfw = all;
+          badhosts-fakenews-gambling-social = all;
+          badhosts-fakenews-nsfw-social = all;
+          badhosts-gambling-nsfw-social = all;
+          badhosts-fakenews-gambling-nsfw-social = all;
+          badhosts-all = all;
 
-        cachix = all;
-        ccextractor = x86_64;
-        cfssl = all;
-        chamber = all;
-        delete-tweets = all;
-        ffmpeg-full = x86_64;
-        fsatrace = all;
-        gawk_4_2_1 = all;
-        hostapd = linux;
-        hydra-unstable = x86_64_linux;
-        libprelude = x86_64_linux;
-        libvmaf = x86_64;
-        lorri = all;
-        macnix-rebuild = darwin;
-        neovim = all;
-        netsniff-ng = x86_64_linux;
-        # NixOps doesn't evaluate on Hydra at the moment.
-        #nixops = x86_64;
-        nmrpflash = all;
-        ntp = linux;
-        radare2 = all;
-        saml2aws = all;
-        terraform-provider-okta = all;
-        traefik-forward-auth = all;
-        trimpcap = linux;
-        tsoff = linux;
-        unison-ucm = x86_64;
-        wpa_supplicant = linux;
-        yubikey-manager = all;
+          cachix = all;
+          ccextractor = x86_64;
+          cfssl = all;
+          chamber = all;
+          delete-tweets = all;
+          ffmpeg-full = x86_64;
+          fsatrace = all;
+          gawk_4_2_1 = all;
+          hostapd = linux;
+          hydra-unstable = x86_64_linux;
+          libprelude = x86_64_linux;
+          libvmaf = x86_64;
+          lorri = all;
+          macnix-rebuild = darwin;
+          neovim = all;
+          netsniff-ng = x86_64_linux;
+          # NixOps doesn't evaluate on Hydra at the moment.
+          #nixops = x86_64;
+          nmrpflash = all;
+          ntp = linux;
+          radare2 = all;
+          saml2aws = all;
+          terraform-provider-okta = all;
+          traefik-forward-auth = all;
+          trimpcap = linux;
+          tsoff = linux;
+          unison-ucm = x86_64;
+          wpa_supplicant = linux;
+          yubikey-manager = all;
 
-        emacs = darwin;
-        emacs-env = darwin;
-        emacs-nox = linux;
-        emacs-nox-env = linux;
-        emacs-macport-env = darwin;
+          emacs = darwin;
+          emacs-env = darwin;
+          emacs-nox = linux;
+          emacs-nox-env = linux;
+          emacs-macport-env = darwin;
 
-        hyperkit = darwin;
-        minikube = all;
+          hyperkit = darwin;
+          minikube = all;
 
-        anki-env = darwin;
-        mactools-env = darwin;
-        maths-env = x86_64;
-        minikube-env = all;
-        nixtools-env = all;
-        opsec-env = all;
-        shell-env = darwin;
+          anki-env = darwin;
+          mactools-env = darwin;
+          maths-env = x86_64;
+          minikube-env = all;
+          nixtools-env = all;
+          opsec-env = all;
+          shell-env = darwin;
 
-        hacknix-source = all;
+          hacknix-source = all;
 
-        examples.nix-darwin.build-host.system = darwin;
-        examples.nix-darwin.remote-builder.system = darwin;
-      }
-    )
+          examples.nix-darwin.build-host.system = darwin;
+          examples.nix-darwin.remote-builder.system = darwin;
+        }
+      )
   ) // (
     rec {
       x86_64-linux = pkgs.releaseTools.aggregate {

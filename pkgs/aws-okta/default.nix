@@ -13,7 +13,7 @@ buildGoModule rec {
 
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [ libusb1 libiconv ]
-  ++ stdenv.lib.optionals stdenv.isDarwin [ Security ];
+    ++ stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = "aws-vault like tool for Okta authentication";

@@ -15,9 +15,7 @@ with lib;
 let
   cfg = config.services.postfix-null-client;
   enabled = cfg.enable;
-
   key = config.hacknix.keychain.keys.postfix-null-client-cert;
-
   user = config.services.postfix.user;
   group = config.services.postfix.group;
 in

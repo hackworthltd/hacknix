@@ -6,8 +6,8 @@ let
     ../examples/nix-darwin/remote-builder.nix;
 in
 {
-  examples = (super.examples or {}) // {
-    nix-darwin = (super.examples.nix-darwin or {}) // {
+  examples = (super.examples or { }) // {
+    nix-darwin = (super.examples.nix-darwin or { }) // {
       inherit build-host;
       inherit remote-builder;
     };

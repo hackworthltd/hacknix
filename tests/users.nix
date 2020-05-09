@@ -17,7 +17,8 @@ let
       testScript = { nodes, ... }:
         let
           alicePassword = nodes.machine.config.users.users.alice.password;
-        in ''
+        in
+        ''
           $machine->waitForUnit("multi-user.target");
 
           subtest "immutable-users", sub {

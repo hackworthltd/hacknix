@@ -1,34 +1,26 @@
 let
   sources = import ../nix/sources.nix;
-
-  fixedHacknixLib = let
-    try = builtins.tryEval <hacknix-lib>;
-  in if try.success then
-    builtins.trace "Using <hacknix-lib>" try.value
-  else
-    (import sources.hacknix-lib);
-
-  hacknix-lib = fixedHacknixLib {};
+  fixedHacknixLib =
+    let
+      try = builtins.tryEval <hacknix-lib>;
+    in
+    if try.success then
+      builtins.trace "Using <hacknix-lib>" try.value
+    else
+      (import sources.hacknix-lib);
+  hacknix-lib = fixedHacknixLib { };
   inherit (hacknix-lib) lib;
   inherit (lib.fetchers) fixedNixSrc;
-
   fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
   nixpkgs = import fixedNixpkgs;
-
   fixedNixDarwin = lib.fetchers.fixedNixSrc "nix_darwin" sources.nix-darwin;
-  nix-darwin = (import fixedNixDarwin) {};
-
+  nix-darwin = (import fixedNixDarwin) { };
   fixedNixOps = lib.fetchers.fixedNixSrc "nixops" sources.nixops;
-
   fixedLorri = lib.fetchers.fixedNixSrc "lorri" sources.lorri;
-
   fixedBadhosts = lib.fetchers.fixedNixSrc "badhosts" sources.badhosts;
-
   fixedCachix = lib.fetchers.fixedNixSrc "cachix" sources.cachix;
-
   fixedGitignoreNix =
     lib.fetchers.fixedNixSrc "gitignore.nix" sources."gitignore.nix";
-
   overlays = [ hacknix-lib.overlays.all ] ++ (
     map import [
       ../overlays/custom-packages.nix

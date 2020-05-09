@@ -20,24 +20,26 @@ let
   cfg = config.deployment;
   keychain = config.hacknix.keychain;
   enabled = cfg.reallyReallyEnable;
-
   deployKeys = (
-    concatStrings (
-      mapAttrsToList (
-        name: value:
-          let
-            keyFile = pkgs.writeText name value.text;
-            destDir = toString value.destDir;
-          in ''
-            if test ! -d ${destDir}
-            then
-                mkdir -p ${destDir} -m 0750
-                chown ${value.user}:${value.group} ${destDir}
-            fi
-            install -m ${value.permissions} -o ${value.user} -g ${value.group} ${keyFile} ${destDir}/${name}
-          ''
-      ) cfg.keys
-    )
+    concatStrings
+      (
+        mapAttrsToList
+          (
+            name: value:
+              let
+                keyFile = pkgs.writeText name value.text;
+                destDir = toString value.destDir;
+              in
+              ''
+                if test ! -d ${destDir}
+                then
+                    mkdir -p ${destDir} -m 0750
+                    chown ${value.user}:${value.group} ${destDir}
+                fi
+                install -m ${value.permissions} -o ${value.user} -g ${value.group} ${keyFile} ${destDir}/${name}
+              ''
+          ) cfg.keys
+      )
   );
 in
 {

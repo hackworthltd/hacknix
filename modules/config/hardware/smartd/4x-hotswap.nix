@@ -75,33 +75,34 @@ in
     '';
   };
 
-  config = mkIf enabled (
-    {
-      services.smartd = {
-        autodetect = false;
-        devices = [
-          {
-            device = "/dev/sda";
-            options =
-              "-a -d removable -n standby,7 -o on -S on -s (S/../../(2|3|4|5|6|7)/02|L/../../1/02)";
-          }
-          {
-            device = "/dev/sdb";
-            options =
-              "-a -d removable -n standby,7 -o on -S on -s (S/../../(1|3|4|5|6|7)/03|L/../../2/03)";
-          }
-          {
-            device = "/dev/sdc";
-            options =
-              "-a -d removable -n standby,7 -o on -S on -s (S/../../(1|2|4|5|6|7)/04|L/../../3/04)";
-          }
-          {
-            device = "/dev/sdd";
-            options =
-              "-a -d removable -n standby,7 -o on -S on -s (S/../../(1|2|3|5|6|7)/05|L/../../4/05)";
-          }
-        ];
-      };
-    } // commonConfig
-  );
+  config = mkIf enabled
+    (
+      {
+        services.smartd = {
+          autodetect = false;
+          devices = [
+            {
+              device = "/dev/sda";
+              options =
+                "-a -d removable -n standby,7 -o on -S on -s (S/../../(2|3|4|5|6|7)/02|L/../../1/02)";
+            }
+            {
+              device = "/dev/sdb";
+              options =
+                "-a -d removable -n standby,7 -o on -S on -s (S/../../(1|3|4|5|6|7)/03|L/../../2/03)";
+            }
+            {
+              device = "/dev/sdc";
+              options =
+                "-a -d removable -n standby,7 -o on -S on -s (S/../../(1|2|4|5|6|7)/04|L/../../3/04)";
+            }
+            {
+              device = "/dev/sdd";
+              options =
+                "-a -d removable -n standby,7 -o on -S on -s (S/../../(1|2|3|5|6|7)/05|L/../../4/05)";
+            }
+          ];
+        };
+      } // commonConfig
+    );
 }

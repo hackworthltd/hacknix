@@ -9,10 +9,8 @@ let
     5KnYPhev88eO2vuUMB5rAAAACHNuYWtlb2lsAQIDBAU=
     -----END OPENSSH PRIVATE KEY-----
   '';
-
   alicePublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH5uUNmlLsJvS2L1FnhX6dDY5KnYPhev88eO2vuUMB5r alice";
-
   bobPrivateKey = pkgs.writeText "bob.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
@@ -22,10 +20,8 @@ let
     vcBU8gyvtER0PqQ+FZ1/AAAAA2JvYgEC
     -----END OPENSSH PRIVATE KEY-----
   '';
-
   bobPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICTf6HT3UNh0zKBmfj/JBV/EvcBU8gyvtER0PqQ+FZ1/ bob";
-
   rootPrivateKey = pkgs.writeText "root.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
@@ -35,10 +31,8 @@ let
     +cUzU8o6JJVgqQJ2zZ4FAAAABHJvb3QB
     -----END OPENSSH PRIVATE KEY-----
   '';
-
   rootPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPnpwChRRru8LDlpDuNeBR9S+cUzU8o6JJVgqQJ2zZ4F root";
-
   makeSshTest = name: machineAttrs:
     makeTest {
       name = "ssh-${name}";
@@ -75,7 +69,8 @@ let
           alice = nodes.server.config.users.users.alice;
           bob = nodes.server.config.users.users.bob;
           root = nodes.server.config.users.users.root;
-        in ''
+        in
+        ''
           startAll;
           $server->waitForUnit("sshd.service");
 

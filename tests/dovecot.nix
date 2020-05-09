@@ -24,7 +24,6 @@ let
     CIu9OpGQEqT2npTMX2echilaFjlKB3D3X91sgJ7Z0v2KrDz8
     -----END CERTIFICATE-----
   '';
-
   server1Pem = pkgs.writeText "server1.pem" ''
     -----BEGIN CERTIFICATE-----
     MIID8TCCAtmgAwIBAgIUdj0L3zecvezJnwb6BxuKdzhHgtwwDQYJKoZIhvcNAQEL
@@ -51,7 +50,6 @@ let
     dN6RX7s=
     -----END CERTIFICATE-----
   '';
-
   server1Key = pkgs.writeText "server1.key" ''
     -----BEGIN RSA PRIVATE KEY-----
     MIIEpAIBAAKCAQEAkotMpTcQebrUs80wuL6APdnDIQpNn0FPLGYFd6/kw3RmQ4ME
@@ -89,7 +87,7 @@ makeTest rec {
 
   machine = { config, ... }: {
     imports = [ ./common/user-account.nix ] ++ pkgs.lib.hacknix.modules
-    ++ pkgs.lib.hacknix.testing.testModules;
+      ++ pkgs.lib.hacknix.testing.testModules;
 
     # Use the test key deployment system.
     deployment.reallyReallyEnable = true;
@@ -108,45 +106,45 @@ makeTest rec {
       };
     };
 
-    environment.systemPackages = let
-      sendTestMail = pkgs.writeScriptBin "send-testmail" ''
-        #!${pkgs.stdenv.shell}
-        exec sendmail -vt <<MAIL
-        From: root@localhost
-        To: alice@localhost
-        Subject: Very important!
+    environment.systemPackages =
+      let
+        sendTestMail = pkgs.writeScriptBin "send-testmail" ''
+          #!${pkgs.stdenv.shell}
+          exec sendmail -vt <<MAIL
+          From: root@localhost
+          To: alice@localhost
+          Subject: Very important!
 
-        Hello world!
-        MAIL
-      '';
+          Hello world!
+          MAIL
+        '';
+        sendTestMailViaDeliveryAgent = pkgs.writeScriptBin "send-lda" ''
+          #!${pkgs.stdenv.shell}
 
-      sendTestMailViaDeliveryAgent = pkgs.writeScriptBin "send-lda" ''
-        #!${pkgs.stdenv.shell}
+          exec ${pkgs.dovecot}/libexec/dovecot/deliver -d bob <<MAIL
+          From: root@localhost
+          To: bob@localhost
+          Subject: Something else...
 
-        exec ${pkgs.dovecot}/libexec/dovecot/deliver -d bob <<MAIL
-        From: root@localhost
-        To: bob@localhost
-        Subject: Something else...
+          I'm running short of ideas!
+          MAIL
+        '';
+        testImap = pkgs.writeScriptBin "test-imap" ''
+          #!${pkgs.python3.interpreter}
+          import imaplib
 
-        I'm running short of ideas!
-        MAIL
-      '';
-
-      testImap = pkgs.writeScriptBin "test-imap" ''
-        #!${pkgs.python3.interpreter}
-        import imaplib
-
-        with imaplib.IMAP4('localhost') as imap:
-          imap.login('alice', 'foobar')
-          imap.select()
-          status, refs = imap.search(None, 'ALL')
-          assert status == 'OK'
-          assert len(refs) == 1
-          status, msg = imap.fetch(refs[0], 'BODY[TEXT]')
-          assert status == 'OK'
-          assert msg[0][1].strip() == b'Hello world!'
-      '';
-    in [ sendTestMail sendTestMailViaDeliveryAgent testImap ];
+          with imaplib.IMAP4('localhost') as imap:
+            imap.login('alice', 'foobar')
+            imap.select()
+            status, refs = imap.search(None, 'ALL')
+            assert status == 'OK'
+            assert len(refs) == 1
+            status, msg = imap.fetch(refs[0], 'BODY[TEXT]')
+            assert status == 'OK'
+            assert msg[0][1].strip() == b'Hello world!'
+        '';
+      in
+      [ sendTestMail sendTestMailViaDeliveryAgent testImap ];
   };
 
   testScript = ''

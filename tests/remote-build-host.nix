@@ -9,10 +9,8 @@ let
     5KnYPhev88eO2vuUMB5rAAAACHNuYWtlb2lsAQIDBAU=
     -----END OPENSSH PRIVATE KEY-----
   '';
-
   remoteBuilderPublicKey = pkgs.writeText "remote-builder.pub"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH5uUNmlLsJvS2L1FnhX6dDY5KnYPhev88eO2vuUMB5r alice";
-
   makeRemoteBuildHostTest = name: machineAttrs:
     makeTest {
       name = "remote-builder-test-${name}";
@@ -22,7 +20,7 @@ let
         server = { config, ... }:
           {
             nixpkgs.localSystem.system = system;
-            imports = [] ++ pkgs.lib.hacknix.modules;
+            imports = [ ] ++ pkgs.lib.hacknix.modules;
             hacknix.remote-build-host = {
               enable = true;
               user.sshPublicKeyFiles =
@@ -37,7 +35,8 @@ let
 
       testScript = { nodes, ... }:
         let
-        in ''
+        in
+        ''
           startAll;
           $server->waitForUnit("sshd.service");
 
@@ -53,6 +52,6 @@ let
 in
 rec {
 
-  remoteBuildHostTest = makeRemoteBuildHostTest "" {};
+  remoteBuildHostTest = makeRemoteBuildHostTest "" { };
 
 }

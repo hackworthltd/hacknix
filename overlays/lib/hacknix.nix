@@ -31,8 +31,8 @@ let
     };
 in
 {
-  lib = (super.lib or {}) // {
-    hacknix = (super.lib.hacknix or {}) // {
+  lib = (super.lib or { }) // {
+    hacknix = (super.lib.hacknix or { }) // {
       inherit mkZncConfig;
 
       inherit (localLib) modules modulesList;
@@ -48,12 +48,12 @@ in
       # Provide access to our nix-darwin, if anyone downstream wants to use it.
       inherit (localLib) nix-darwin;
 
-      testing = (super.lib.hacknix.testing or {}) // {
+      testing = (super.lib.hacknix.testing or { }) // {
         inherit testModules testModulesList;
       };
     };
 
-    fetchers = (super.lib.fetchers or {}) // {
+    fetchers = (super.lib.fetchers or { }) // {
       inherit (localLib) fixedNixpkgs fixedNixOps;
       inherit (localLib) fixedNixDarwin;
     };

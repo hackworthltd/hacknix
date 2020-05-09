@@ -7,7 +7,7 @@ in
 {
   options.hacknix.keychain = {
     keys = mkOption {
-      default = {};
+      default = { };
       example = { secret-key.text = "passw0rd"; };
       type = types.attrsOf pkgs.lib.types.key;
       description = ''

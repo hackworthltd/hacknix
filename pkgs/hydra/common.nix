@@ -110,7 +110,8 @@ else
           boehmgc
         ];
     };
-  in stdenv.mkDerivation rec {
+  in
+  stdenv.mkDerivation rec {
     pname = "hydra";
 
     inherit stdenv src version;
@@ -139,27 +140,28 @@ else
       boost
     ];
 
-    hydraPath = lib.makeBinPath (
-      [
-        sqlite
-        subversion
-        openssh
-        nix
-        coreutils
-        findutils
-        pixz
-        gzip
-        bzip2
-        lzma
-        gnutar
-        unzip
-        git
-        gitAndTools.top-git
-        mercurial # darcs
-        gnused
-        bazaar
-      ] ++ lib.optionals stdenv.isLinux [ rpm dpkg cdrkit ]
-    );
+    hydraPath = lib.makeBinPath
+      (
+        [
+          sqlite
+          subversion
+          openssh
+          nix
+          coreutils
+          findutils
+          pixz
+          gzip
+          bzip2
+          lzma
+          gnutar
+          unzip
+          git
+          gitAndTools.top-git
+          mercurial # darcs
+          gnused
+          bazaar
+        ] ++ lib.optionals stdenv.isLinux [ rpm dpkg cdrkit ]
+      );
 
     nativeBuildInputs = [ autoreconfHook pkgconfig ];
 

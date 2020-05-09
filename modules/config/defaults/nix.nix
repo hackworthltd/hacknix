@@ -27,7 +27,8 @@ in
               assert builtins.trace "This server is managed by NixOps; do not run `nixos-rebuild` here." false;
               {}
             '';
-          in "nixos-config=${cfg}"
+          in
+          "nixos-config=${cfg}"
         )
 
         # Copy the channel version from the deploy host to the target

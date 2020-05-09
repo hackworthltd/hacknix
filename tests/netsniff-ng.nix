@@ -28,7 +28,8 @@ let
       testScript = { nodes, ... }:
         let
           pingerpkgs = nodes.pinger.pkgs;
-        in ''
+        in
+        ''
           startAll;
           $sniffer->waitForUnit("netsniff-ng\@test.service");
           $pinger->waitForUnit("network.target");
@@ -71,6 +72,6 @@ let
 in
 {
 
-  defaultTest = makeNetsniffNgTest "default" {};
+  defaultTest = makeNetsniffNgTest "default" { };
 
 }

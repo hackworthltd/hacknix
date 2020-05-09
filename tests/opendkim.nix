@@ -5,7 +5,6 @@ let
         "p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwaDVihIfc1DN70JoeS6ohWZfEJG5tMhlBOSfH4FhA49grY8rAFlFqyCfvf1K5aNhtrq1oJRhjbdL0TaLpDMAkY7V5nQ8de53IpTHIyvy+Ik0kotY3GXLIqRhEfm9W3R8lfuiIkWyzTG25XIaqM/VhuMwGWziuVF7pMO5ii5hWyToIW7G+l9zckpOv/pf4cQahXEb9f/iegVusL"
         "pnYRGDtS6kUyZo2rYdqVCPZGcg3joG2fUhQ42ZoJN8k63+ujdXRBn+2SuM7U0X7rzt5kPnWmDRh/C79F38IYzsqOZdEo9Kg+aSP3C5NY3ulsX5VOCaTkwm4AQ80qRy+SBe/En/UwIDAQAB" )  ; ----- DKIM key 2018.10.27 for example.com
   '';
-
   justAnExampleKey = ''
     -----BEGIN RSA PRIVATE KEY-----
     MIIEogIBAAKCAQEAwaDVihIfc1DN70JoeS6ohWZfEJG5tMhlBOSfH4FhA49grY8r
@@ -35,7 +34,6 @@ let
     KVVFchvliGeTAqSJg3WjQ0QYaePizZ5CqcJprdB6UO1o+WKAOns=
     -----END RSA PRIVATE KEY-----
   '';
-
   justAnExampleKeyFile = pkgs.writeText "example.com.key" justAnExampleKey;
 in
 makeTest rec {
@@ -48,7 +46,7 @@ makeTest rec {
     machine = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;
@@ -79,7 +77,8 @@ makeTest rec {
     let
       exampleKeyPath = "/var/lib/opendkim/keys/opendkim-example-private";
       socket = "/run/opendkim/opendkim.sock";
-    in ''
+    in
+    ''
       startAll;
 
       $machine->waitForUnit("opendkim.service");

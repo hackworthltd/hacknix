@@ -3,7 +3,6 @@ let
   index = pkgs.writeText "index.html" ''
     Not really HTML.
   '';
-
   extraHosts = ''
     192.168.1.1 server
     fd00:1234:0:5678::1000 server
@@ -20,7 +19,6 @@ let
     10.0.0.8 virtual_server
     fd00:1234:0:567a::1000 virtual_server
   '';
-
   makeAllowedIPsTest = name:
     makeTest rec {
 
@@ -159,7 +157,7 @@ let
                   port = 8089;
                 }
               ];
-              locations."/".root = pkgs.runCommand "docroot" {} ''
+              locations."/".root = pkgs.runCommand "docroot" { } ''
                 mkdir -p "$out/"
                 cp "${index}" "$out/index.html"
               '';

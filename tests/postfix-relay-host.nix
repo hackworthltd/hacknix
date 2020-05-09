@@ -2,7 +2,6 @@
 let
   # Don't do this in production -- it will put the secrets into the
   # Nix store! This is just a convenience for the tests.
-
   ca-cert = ./testfiles/certs/root.crt;
   bob-cert = ./testfiles/certs/bob-at-acme.com.crt;
   bob-sha1 = ./testfiles/certs/bob-at-acme.com.sha1;
@@ -19,7 +18,7 @@ makeTest rec {
     host = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       networking.useDHCP = false;
       networking.firewall.allowedTCPPorts = [ 25 587 ];

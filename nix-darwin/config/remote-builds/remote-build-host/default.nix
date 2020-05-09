@@ -2,18 +2,20 @@
 let
   cfg = config.hacknix-nix-darwin.remote-build-host;
   enabled = cfg.enable;
-
-  authorizedKeys = let
-    userEnvironment = lib.concatStringsSep " " [
-      "NIX_REMOTE=daemon"
-      "NIX_SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
-    ];
-  in map (
-    keyLiteral:
-      ''
-        command="${userEnvironment} ${config.nix.package}/bin/nix-store --serve --write" ${keyLiteral}''
-  )
-    (map builtins.readFile cfg.user.sshPublicKeyFiles);
+  authorizedKeys =
+    let
+      userEnvironment = lib.concatStringsSep " " [
+        "NIX_REMOTE=daemon"
+        "NIX_SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+      ];
+    in
+    map
+      (
+        keyLiteral:
+        ''
+          command="${userEnvironment} ${config.nix.package}/bin/nix-store --serve --write" ${keyLiteral}''
+      )
+      (map builtins.readFile cfg.user.sshPublicKeyFiles);
 in
 {
   options.hacknix-nix-darwin.remote-build-host = {

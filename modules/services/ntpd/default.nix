@@ -6,13 +6,9 @@
 with lib;
 let
   inherit (pkgs) ntp;
-
   cfg = config.services.ntp;
-
   stateDir = "/var/lib/ntp";
-
   ntpUser = "ntp";
-
   configFile = pkgs.writeText "ntp.conf" ''
     driftfile ${stateDir}/ntp.drift
 
@@ -26,7 +22,6 @@ let
     ${toString (map (server: "server " + server + " iburst\n") cfg.servers)}
     ${cfg.extraConfig}
   '';
-
   ntpFlags =
     "-c ${configFile} -u ${ntpUser}:nogroup ${toString cfg.extraFlags}";
 in
@@ -88,7 +83,7 @@ in
         type = types.listOf types.str;
         description = "Extra flags passed to the ntpd command.";
         example = literalExample ''[ "--interface=eth0" ]'';
-        default = [];
+        default = [ ];
       };
 
       extraConfig = mkOption {

@@ -2,7 +2,6 @@
 let
   # NOTE: these are dummy keys and certs, and they are obviously
   # insecure. Do not use them for any purpose!
-
   exampleCA1Pem = ''
     -----BEGIN CERTIFICATE-----
     MIIHezCCBWOgAwIBAgIJAMtk9IHs+5Q3MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYD
@@ -47,9 +46,7 @@ let
     0oWimIVIbbSTozs3ZfAMOxcsJlbtIU3Rl7JBlUjmLWDDjxmQhfTtm1yoSSGQQ+w=
     -----END CERTIFICATE-----
   '';
-
   extraCerts = { "Example Org CA" = exampleCA1Pem; };
-
   server1Pem = pkgs.writeText "server1.pem" ''
     -----BEGIN CERTIFICATE-----
     MIIF5TCCA82gAwIBAgIBATANBgkqhkiG9w0BAQsFADCBljELMAkGA1UEBhMCVVMx
@@ -86,7 +83,6 @@ let
     QETbqJ/y5PkjiHZhX9gAg3QWyANtgu6swg==
     -----END CERTIFICATE-----
   '';
-
   server1Key = pkgs.writeText "server1.key" ''
     -----BEGIN RSA PRIVATE KEY-----
     MIIEpQIBAAKCAQEAq7zvQQjcW6YPkNVmNjAgc9o4bLFBzJ/07NTcCc9PPehql/8c
@@ -116,7 +112,6 @@ let
     5qSgSFtQGfvUH6bYfEiJIMGyhBU029MgGoVJ4ILe0z1nWsR2gEwX/w4=
     -----END RSA PRIVATE KEY-----
   '';
-
   makeMkCacertTest = name: clientAttrs:
     makeTest {
       name = "mkCacert-${name}";
@@ -139,7 +134,7 @@ let
               forceSSL = true;
               sslCertificate = server1Pem;
               sslCertificateKey = server1Key;
-              locations."/".root = pkgs.runCommand "docroot" {} ''
+              locations."/".root = pkgs.runCommand "docroot" { } ''
                 mkdir -p "$out"
                 echo "<!DOCTYPE html><title>server1</title>" > "$out/index.html"
               '';
@@ -151,7 +146,8 @@ let
       testScript = { nodes, ... }:
         let
           custom-cacert = pkgs.mkCacert { inherit extraCerts; };
-        in ''
+        in
+        ''
           startAll;
           $server1->waitForUnit("nginx.service");
           $client->waitForUnit("multi-user.target");
@@ -168,6 +164,6 @@ let
 in
 {
 
-  defaultTest = makeMkCacertTest "default" {};
+  defaultTest = makeMkCacertTest "default" { };
 
 }

@@ -3,7 +3,6 @@ let
   # Don't do this in production -- it will put the secret into the Nix
   # store! This is just a convenience for the tests.
   bckey = pkgs.copyPathToStore ./testfiles/hydra-1/secret;
-
   bcpubkey = pkgs.copyPathToStore ./testfiles/hydra-1/public;
   bcKeyDir = "/etc/nix/hydra-1";
 in
@@ -20,7 +19,7 @@ makeTest rec {
       virtualisation.memorySize = 2048;
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;
@@ -54,7 +53,8 @@ makeTest rec {
 
   testScript = { nodes, ... }:
     let
-    in ''
+    in
+    ''
       startAll;
 
       $client->waitForUnit("multi-user.target");

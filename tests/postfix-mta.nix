@@ -4,7 +4,6 @@
 let
   # Don't do this in production -- it will put the secrets into the
   # Nix store! This is just a convenience for the tests.
-
   cert-chain = ./testfiles/certs/bob-at-acme.com-chain.crt;
   bob-certKey = ./testfiles/keys/bob-at-acme.com.key;
 in
@@ -16,7 +15,7 @@ makeTestPython {
   machine = { ... }: {
     nixpkgs.localSystem.system = system;
     imports = pkgs.lib.hacknix.modules
-    ++ pkgs.lib.hacknix.testing.testModules;
+      ++ pkgs.lib.hacknix.testing.testModules;
     services.postfix-mta = {
       enable = true;
       myDomain = "acme.com";

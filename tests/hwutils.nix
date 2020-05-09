@@ -1,7 +1,7 @@
 { system ? "x86_64-linux", pkgs, makeTest, ... }:
-
 let
-in makeTest rec {
+in
+makeTest rec {
   name = "hwutils";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };

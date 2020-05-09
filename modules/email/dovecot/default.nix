@@ -4,19 +4,17 @@ with lib;
 let
   cfg = config.services.dovecot2;
   dovecotPkg = pkgs.dovecot;
-
   baseDir = "/run/dovecot2";
   stateDir = "/var/lib/dovecot";
-
   antiSpamSieveScripts = {
     imapsieve_mailbox1_before = ./report-spam.sieve;
     imapsieve_mailbox2_before = ./report-ham.sieve;
   };
-
   dovecotConf =
     let
       imapPlugins = optionalString (cfg.antispam.enable) "imap_sieve";
-    in concatStrings [
+    in
+    concatStrings [
       ''
         base_dir = ${baseDir}
         protocols = ${concatStringsSep " " cfg.protocols}
@@ -48,17 +46,17 @@ let
         namespace inbox {
           inbox = yes
           ${
-      optionalString (cfg.separator != null)
-        "separator = ${cfg.separator}"
-      }
+          optionalString (cfg.separator != null)
+              "separator = ${cfg.separator}"
+        }
           ${concatStringsSep "\n" (map mailboxConfig cfg.mailboxes)}
         }
 
         protocol imap {
           mail_plugins = $mail_plugins imap_zlib ${imapPlugins}
           mail_max_userip_connections = ${
-      toString cfg.imap.maxUserIPConnections
-      }
+          toString cfg.imap.maxUserIPConnections
+        }
         }
 
         service imap {
@@ -71,40 +69,43 @@ let
       ''
 
       (
-        optionalString cfg.lmtp.inet.enable (
-          let
-            userString =
-              if cfg.mailUser != null then "user = ${cfg.mailUser}" else "";
-            ipv4Addresses = concatStringsSep " " cfg.lmtp.inet.ipv4Addresses;
-            ipv6Addresses = concatStringsSep " " cfg.lmtp.inet.ipv6Addresses;
-            mailPlugins = if cfg.sieveScripts != {} then
-              "mail_plugins = $mail_plugins sieve"
-            else
-              "";
-            saveToDetailMailbox = if cfg.lmtp.saveToDetailMailbox then
-              "lmtp_save_to_detail_mailbox = yes"
-            else
-              "";
-          in ''
-            ${saveToDetailMailbox}
+        optionalString cfg.lmtp.inet.enable
+          (
+            let
+              userString = if cfg.mailUser != null then "user = ${cfg.mailUser}" else "";
+              ipv4Addresses = concatStringsSep " " cfg.lmtp.inet.ipv4Addresses;
+              ipv6Addresses = concatStringsSep " " cfg.lmtp.inet.ipv6Addresses;
+              mailPlugins =
+                if cfg.sieveScripts != { } then
+                  "mail_plugins = $mail_plugins sieve"
+                else
+                  "";
+              saveToDetailMailbox =
+                if cfg.lmtp.saveToDetailMailbox then
+                  "lmtp_save_to_detail_mailbox = yes"
+                else
+                  "";
+            in
+            ''
+              ${saveToDetailMailbox}
 
-            protocol lmtp {
-              ${mailPlugins}
-              postmaster_address = ${cfg.lmtp.postmasterAddress}
-            }
-
-            service lmtp {
-              ${userString}
-
-              process_min_avail = 5
-
-              inet_listener lmtp {
-                address = 127.0.0.1 ::1 ${ipv6Addresses} ${ipv4Addresses}
-                port = ${toString cfg.lmtp.inet.port}
+              protocol lmtp {
+                ${mailPlugins}
+                postmaster_address = ${cfg.lmtp.postmasterAddress}
               }
-            }
-          ''
-        )
+
+              service lmtp {
+                ${userString}
+
+                process_min_avail = 5
+
+                inet_listener lmtp {
+                  address = 127.0.0.1 ::1 ${ipv6Addresses} ${ipv4Addresses}
+                  port = ${toString cfg.lmtp.inet.port}
+                }
+              }
+            ''
+          )
       )
 
       (
@@ -116,8 +117,8 @@ let
           passdb {
             driver = pam
             args = ${
-        optionalString cfg.showPAMFailure "failure_show_msg=yes"
-        } dovecot2
+            optionalString cfg.showPAMFailure "failure_show_msg=yes"
+          } dovecot2
           }
         '' else ''
           service auth-worker {
@@ -127,15 +128,15 @@ let
       )
 
       (
-        optionalString (cfg.sieveScripts != {}) ''
+        optionalString (cfg.sieveScripts != { }) ''
           plugin {
             ${
-        concatStringsSep "\n"
-          (
-            mapAttrsToList (to: from: "sieve_${to} = ${stateDir}/sieve/${to}")
-              cfg.sieveScripts
-          )
-        }
+            concatStringsSep "\n"
+                (
+                    mapAttrsToList (to: from: "sieve_${to} = ${stateDir}/sieve/${to}")
+                        cfg.sieveScripts
+                  )
+          }
           }
         ''
       )
@@ -187,15 +188,14 @@ let
 
       cfg.extraConfig
     ];
-
   modulesDir = pkgs.symlinkJoin {
     name = "dovecot-modules";
-    paths = map (pkg: "${pkg}/lib/dovecot") (
-      [ dovecotPkg ]
-      ++ map (module: module.override { dovecot = dovecotPkg; }) cfg.modules
-    );
+    paths = map (pkg: "${pkg}/lib/dovecot")
+      (
+        [ dovecotPkg ]
+        ++ map (module: module.override { dovecot = dovecotPkg; }) cfg.modules
+      );
   };
-
   mailboxConfig = mailbox:
     ''
       mailbox "${mailbox.name}" {
@@ -203,7 +203,6 @@ let
     '' + optionalString (mailbox.specialUse != null) ''
       special_use = \${toString mailbox.specialUse}
     '' + "}";
-
   mailboxes = { ... }: {
     options = {
       name = mkOption {
@@ -219,17 +218,18 @@ let
           "Whether to automatically create or create and subscribe to the mailbox or not.";
       };
       specialUse = mkOption {
-        type = types.nullOr (
-          types.enum [
-            "All"
-            "Archive"
-            "Drafts"
-            "Flagged"
-            "Junk"
-            "Sent"
-            "Trash"
-          ]
-        );
+        type = types.nullOr
+          (
+            types.enum [
+              "All"
+              "Archive"
+              "Drafts"
+              "Flagged"
+              "Junk"
+              "Sent"
+              "Trash"
+            ]
+          );
         default = null;
         example = "Junk";
         description =
@@ -247,7 +247,7 @@ in
 
     protocols = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "Additional listeners to start when Dovecot is enabled.";
     };
 
@@ -354,7 +354,7 @@ in
 
         ipv4Addresses = mkOption {
           type = types.listOf pkgs.lib.types.ipv4NoCIDR;
-          default = [];
+          default = [ ];
           example = [ "192.0.2.1" ];
           description = ''
             A list of IPv4 addresses on which the LMTP service will listen.
@@ -366,7 +366,7 @@ in
 
         ipv6Addresses = mkOption {
           type = types.listOf pkgs.lib.types.ipv6NoCIDR;
-          default = [];
+          default = [ ];
           example = [ "2001:db8::1" ];
           description = ''
             A list of IPv6 addresses on which the LMTP service will listen.
@@ -456,8 +456,7 @@ in
       type = types.nullOr types.str;
       default = null;
       description = "Config file used for the whole dovecot configuration.";
-      apply = v:
-        if v != null then v else pkgs.writeText "dovecot.conf" dovecotConf;
+      apply = v: if v != null then v else pkgs.writeText "dovecot.conf" dovecotConf;
     };
 
     mailLocation = mkOption {
@@ -492,7 +491,7 @@ in
 
     modules = mkOption {
       type = types.listOf types.package;
-      default = [];
+      default = [ ];
       example = literalExample "[ pkgs.dovecot_pigeonhole ]";
       description = ''
         Symlinks the contents of lib/dovecot of every given package into
@@ -540,7 +539,7 @@ in
 
     sieveScripts = mkOption {
       type = types.attrsOf types.path;
-      default = {};
+      default = { };
       description =
         "Sieve scripts to be executed. Key is a sequence, e.g. 'before2', 'after' etc.";
     };
@@ -554,7 +553,7 @@ in
 
     mailboxes = mkOption {
       type = types.listOf (types.submodule mailboxes);
-      default = [];
+      default = [ ];
       example = [
         {
           name = "Spam";
@@ -634,10 +633,10 @@ in
     hacknix.assertions.moduleHashes."services/mail/dovecot.nix" =
       "95fb85fd51c6c09898f44499bde5ce1fd1e3c167b4e6f6529d5cf9d2cb3ffd10";
 
-    security.pam.services.dovecot2 = mkIf cfg.enablePAM {};
+    security.pam.services.dovecot2 = mkIf cfg.enablePAM { };
 
     services.dovecot2.protocols = optional cfg.imap.enable "imap"
-    ++ optional cfg.lmtp.inet.enable "lmtp";
+      ++ optional cfg.lmtp.inet.enable "lmtp";
 
     users.users = {
       dovenull = {
@@ -698,37 +697,41 @@ in
       # the source file and Dovecot won't try to compile it.
       preStart = ''
         rm -rf ${stateDir}/sieve
-      '' + optionalString (cfg.sieveScripts != {}) ''
+      '' + optionalString (cfg.sieveScripts != { }) ''
         mkdir -p ${stateDir}/sieve
-        ${concatStringsSep "\n" (
-        mapAttrsToList (
-          to: from: ''
-            if [ -d '${from}' ]; then
-              mkdir '${stateDir}/sieve/${to}'
-              cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
-            else
-              cp -p '${from}' '${stateDir}/sieve/${to}'
-            fi
-            ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
-          ''
-        ) cfg.sieveScripts
-      )}
+        ${concatStringsSep "\n"
+          (
+              mapAttrsToList
+                  (
+                      to: from: ''
+                          if [ -d '${from}' ]; then
+                            mkdir '${stateDir}/sieve/${to}'
+                            cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
+                          else
+                            cp -p '${from}' '${stateDir}/sieve/${to}'
+                          fi
+                          ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
+                        ''
+                    ) cfg.sieveScripts
+            )}
         chown -R '${cfg.mailUser}:${cfg.mailGroup}' '${stateDir}/sieve'
       '' + optionalString cfg.antispam.enable ''
         mkdir -p ${stateDir}/sieve
-        ${concatStringsSep "\n" (
-        mapAttrsToList (
-          to: from: ''
-            if [ -d '${from}' ]; then
-              mkdir '${stateDir}/sieve/${to}'
-              cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
-            else
-              cp -p '${from}' '${stateDir}/sieve/${to}'
-            fi
-            ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
-          ''
-        ) antiSpamSieveScripts
-      )}
+        ${concatStringsSep "\n"
+          (
+              mapAttrsToList
+                  (
+                      to: from: ''
+                          if [ -d '${from}' ]; then
+                            mkdir '${stateDir}/sieve/${to}'
+                            cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
+                          else
+                            cp -p '${from}' '${stateDir}/sieve/${to}'
+                          fi
+                          ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
+                        ''
+                    ) antiSpamSieveScripts
+            )}
         cp ${cfg.antispam.scripts.learnSpam} ${stateDir}/sieve/learn-spam.sh
         chmod +x ${stateDir}/sieve/learn-spam.sh
         cp ${cfg.antispam.scripts.learnHam} ${stateDir}/sieve/learn-ham.sh
@@ -742,9 +745,9 @@ in
     assertions = [
       {
         assertion = (cfg.sslServerCert == null) == (cfg.sslServerKey == null)
-        && (
+          && (
           cfg.sslCACert != null
-          -> !(cfg.sslServerCert == null || cfg.sslServerKey == null)
+            -> !(cfg.sslServerCert == null || cfg.sslServerKey == null)
         );
         message =
           "dovecot needs both sslServerCert and sslServerKey defined for working crypto";
@@ -755,8 +758,8 @@ in
           "dovecot is configured with showPAMFailure while enablePAM is disabled";
       }
       {
-        assertion = cfg.sieveScripts != {}
-        -> (cfg.mailUser != null && cfg.mailGroup != null);
+        assertion = cfg.sieveScripts != { }
+          -> (cfg.mailUser != null && cfg.mailGroup != null);
         message =
           "dovecot requires mailUser and mailGroup to be set when sieveScripts is set";
       }

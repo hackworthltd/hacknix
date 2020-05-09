@@ -26,7 +26,7 @@ in
     nixpkgs.localSystem.system = "x86_64-linux";
 
     boot.kernelModules = [ "kvm-amd" ];
-    boot.extraModulePackages = [];
+    boot.extraModulePackages = [ ];
 
     hardware.cpu.amd.updateMicrocode = true;
 

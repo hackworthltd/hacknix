@@ -15,23 +15,20 @@ with lib;
 let
   cfg = config.networking.wireguard-dhess;
   keys = config.hacknix.keychain.keys;
-
   kernel = config.boot.kernelPackages;
-
   stateDir = "/var/lib/wireguard";
   keyPath = name: "${stateDir}/wireguard-${name}-key";
   pubKeyPath = name: "${keyPath name}.pub";
   pskName = name: peer: "wireguard-${name}-${peer}-psk";
 
   # interface options
-
   interfaceOpts = { name, ... }: {
 
     options = {
 
       ips = mkOption {
         example = [ "192.168.2.1/24" "2001:DB8::1:0/112" ];
-        default = [];
+        default = [ ];
         type = types.listOf
           (types.either pkgs.lib.types.ipv4CIDR pkgs.lib.types.ipv6CIDR);
         description = "The IP addresses of the interface.";
@@ -75,14 +72,13 @@ let
       };
 
       peers = mkOption {
-        default = {};
+        default = { };
         description = "Peers linked to the interface.";
         type = types.attrsOf pkgs.lib.types.wgPeer;
       };
     };
 
   };
-
   generatePathUnit = name: values:
     nameValuePair "wireguard-${name}" {
       description = "WireGuard Tunnel - ${name} - Private Key";
@@ -90,7 +86,6 @@ let
       before = [ "wireguard-${name}.service" ];
       pathConfig.PathExists = keyPath name;
     };
-
   generateKeyServiceUnit = name: values:
     nameValuePair "wireguard-${name}-key" {
       description = "WireGuard Tunnel - ${name} - Key Generator";
@@ -104,26 +99,28 @@ let
         RemainAfterExit = true;
       };
 
-      script = let
-        keyFile = keyPath name;
-        pubKeyFile = pubKeyPath name;
-      in ''
-        if [ ! -f "${keyFile}" ]; then
-          touch "${keyFile}"
-          chmod 0600 "${keyFile}"
-          wg genkey > "${keyFile}"
-          chmod 0400 "${keyFile}"
-          touch "${pubKeyFile}"
-          chmod 644 "${pubKeyFile}"
-          cat "${keyFile}" | wg pubkey > "${pubKeyFile}"
-        fi
-      '';
+      script =
+        let
+          keyFile = keyPath name;
+          pubKeyFile = pubKeyPath name;
+        in
+        ''
+          if [ ! -f "${keyFile}" ]; then
+            touch "${keyFile}"
+            chmod 0600 "${keyFile}"
+            wg genkey > "${keyFile}"
+            chmod 0400 "${keyFile}"
+            touch "${pubKeyFile}"
+            chmod 644 "${pubKeyFile}"
+            cat "${keyFile}" | wg pubkey > "${pubKeyFile}"
+          fi
+        '';
     };
-
   generateSetupServiceUnit = name: values:
     let
       peers = mapAttrsToList (_: peer: peer) values.peers;
-    in nameValuePair "wireguard-${name}" rec {
+    in
+    nameValuePair "wireguard-${name}" rec {
       description = "WireGuard Tunnel - ${name}";
       wants = map (peer: "${pskName name peer.name}-key.service") peers;
       requires = [ "network-online.target" ];
@@ -140,63 +137,69 @@ let
         RemainAfterExit = true;
       };
 
-      script = let
-        keyFile = keyPath name;
-      in ''
-        ${
-      optionalString (!config.boot.isContainer)
-        "modprobe wireguard || true"
-      }
+      script =
+        let
+          keyFile = keyPath name;
+        in
+        ''
+          ${
+            optionalString (!config.boot.isContainer)
+                "modprobe wireguard || true"
+          }
 
-        ${values.preSetup}
+          ${values.preSetup}
 
-        ip link add dev ${name} type wireguard
+          ip link add dev ${name} type wireguard
 
-        ${
-      concatMapStringsSep "\n"
-        (ip: "ip address add ${ip} dev ${name}") values.ips
-      }
+          ${
+            concatMapStringsSep "\n"
+                (ip: "ip address add ${ip} dev ${name}") values.ips
+          }
 
-        wg set ${name} private-key ${keyFile} ${
-      optionalString (values.listenPort != null)
-        " listen-port ${toString values.listenPort}"
-      }
+          wg set ${name} private-key ${keyFile} ${
+            optionalString (values.listenPort != null)
+                " listen-port ${toString values.listenPort}"
+          }
 
-        ${
-      concatMapStringsSep "\n" (
-        peer:
-          let
-            pskPath = keys."${pskName name peer.name}".path;
-            allowedIPs =
-              map (allowedIP: allowedIP.ip) peer.allowedIPs;
-          in "wg set ${name} peer ${peer.publicKey}"
-          + " preshared-key ${pskPath}"
-          + optionalString (peer.endpoint != null)
-            " endpoint ${peer.endpoint}"
-          + optionalString (peer.persistentKeepalive != null)
-            " persistent-keepalive ${
-            toString peer.persistentKeepalive
-            }" + optionalString (allowedIPs != [])
-            " allowed-ips ${concatStringsSep "," allowedIPs}"
-      ) peers
-      }
+          ${
+            concatMapStringsSep "\n"
+                (
+                    peer:
+                        let
+                            pskPath = keys."${pskName name peer.name}".path;
+                            allowedIPs =
+                                map (allowedIP: allowedIP.ip) peer.allowedIPs;
+                          in
+                            "wg set ${name} peer ${peer.publicKey}"
+                              + " preshared-key ${pskPath}"
+                              + optionalString (peer.endpoint != null)
+                                " endpoint ${peer.endpoint}"
+                              + optionalString (peer.persistentKeepalive != null)
+                                " persistent-keepalive ${
+                                    toString peer.persistentKeepalive
+                                  }" + optionalString (allowedIPs != [ ])
+                                " allowed-ips ${concatStringsSep "," allowedIPs}"
+                  ) peers
+          }
 
-        ip link set up dev ${name}
+          ip link set up dev ${name}
 
-        ${
-      concatMapStringsSep "\n" (
-        peer:
-          concatMapStringsSep "\n" (
-            allowedIP:
-              optionalString allowedIP.route.enable
-                "ip route replace ${allowedIP.ip} dev ${name} table ${allowedIP.route.table}"
-          )
-            peer.allowedIPs
-      ) peers
-      }
+          ${
+            concatMapStringsSep "\n"
+                (
+                    peer:
+                        concatMapStringsSep "\n"
+                            (
+                                allowedIP:
+                                    optionalString allowedIP.route.enable
+                                        "ip route replace ${allowedIP.ip} dev ${name} table ${allowedIP.route.table}"
+                              )
+                            peer.allowedIPs
+                  ) peers
+          }
 
-        ${values.postSetup}
-      '';
+          ${values.postSetup}
+        '';
 
       postStop = ''
         ip link del dev ${name}
@@ -214,7 +217,7 @@ in
 
       interfaces = mkOption {
         description = "Wireguard interfaces.";
-        default = {};
+        default = { };
         example = {
           wg0 = {
             ips = [ "192.168.20.4/24" ];
@@ -236,7 +239,7 @@ in
 
   ###### implementation
 
-  config = mkIf (cfg.interfaces != {}) {
+  config = mkIf (cfg.interfaces != { }) {
 
     hacknix.assertions.moduleHashes."services/networking/wireguard.nix" =
       "f7c76defbdf729bbd6c9d46349eea81904cf02ddf1d5dde637bf032b591904f3";
@@ -247,29 +250,34 @@ in
     systemd.tmpfiles.rules = [ "d '${stateDir}' 0750 root keys - -" ];
 
     systemd.services = (mapAttrs' generateSetupServiceUnit cfg.interfaces)
-    // (mapAttrs' generateKeyServiceUnit cfg.interfaces);
+      // (mapAttrs' generateKeyServiceUnit cfg.interfaces);
 
     systemd.paths = mapAttrs' generatePathUnit cfg.interfaces;
 
-    hacknix.keychain.keys = listToAttrs (
-      filter (x: x.value != null)
-        (
-          lib.flatten (
-            mapAttrsToList (
-              ifname: values:
-                mapAttrsToList (
-                  peer: values:
-                    nameValuePair (pskName ifname peer) (
-                      {
-                        destDir = stateDir;
-                        text = values.presharedKeyLiteral;
-                      }
-                    )
-                ) values.peers
-            ) cfg.interfaces
+    hacknix.keychain.keys = listToAttrs
+      (
+        filter (x: x.value != null)
+          (
+            lib.flatten
+              (
+                mapAttrsToList
+                  (
+                    ifname: values:
+                      mapAttrsToList
+                        (
+                          peer: values:
+                            nameValuePair (pskName ifname peer)
+                              (
+                                {
+                                  destDir = stateDir;
+                                  text = values.presharedKeyLiteral;
+                                }
+                              )
+                        ) values.peers
+                  ) cfg.interfaces
+              )
           )
-        )
-    );
+      );
 
   };
 

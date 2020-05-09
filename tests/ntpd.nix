@@ -10,7 +10,7 @@ makeTestPython {
   machine = { ... }: {
     nixpkgs.localSystem.system = system;
     imports = pkgs.lib.hacknix.modules
-    ++ pkgs.lib.hacknix.testing.testModules;
+      ++ pkgs.lib.hacknix.testing.testModules;
     services.ntp = {
       enable = true;
       servers = [

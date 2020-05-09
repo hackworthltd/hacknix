@@ -31,7 +31,7 @@ in
 
       sshPublicKeyFiles = lib.mkOption {
         type = lib.types.listOf lib.types.path;
-        default = [];
+        default = [ ];
         example = lib.literalExample [ ./remote-builder.pub ];
         description = ''
           The public SSH key files used to identify the remote builder
@@ -42,7 +42,7 @@ in
 
       sshPublicKeys = lib.mkOption {
         type = lib.types.listOf pkgs.lib.types.nonEmptyStr;
-        default = [];
+        default = [ ];
         example = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINyxBrYrpql9WJ4m+1Hex+OT5Bxd1HPZZmUwa6MIvZ+E aarch64-build-box (20171217)"
         ];
@@ -61,8 +61,8 @@ in
 
     assertions = [
       {
-        assertion = cfg.user.sshPublicKeyFiles != [] || cfg.user.sshPublicKeys
-        != [];
+        assertion = cfg.user.sshPublicKeyFiles != [ ] || cfg.user.sshPublicKeys
+          != [ ];
         message =
           "Either `hacknix.remote-build-host.sshPublicKeyFiles` or `hacknix.remote-build-host.sshPublicKeys` must be non-empty";
       }

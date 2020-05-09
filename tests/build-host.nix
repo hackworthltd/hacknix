@@ -8,11 +8,9 @@ let
     ssh://bob@bar.example.com x86_64-linux,i686-linux /etc/nix/bob_at_bar 16 2 benchmark,big-parallel,kvm,nixos-test benchmark
     ssh://alice@foo.example.com x86_64-darwin /etc/nix/alice_at_foo 4 1 big-parallel
   '';
-
   expectedExtraMachinesFile = pkgs.writeText "extra-machines" ''
     ssh://alice@baz.example.com aarch64-linux /etc/nix/alice_at_baz 6 2 big-parallel,nixos-test
   '';
-
   alicePrivateKey = ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
@@ -22,12 +20,9 @@ let
     5KnYPhev88eO2vuUMB5rAAAACHNuYWtlb2lsAQIDBAU=
     -----END OPENSSH PRIVATE KEY-----
   '';
-
   alicePrivateKeyFile = pkgs.writeText "alice.key" alicePrivateKey;
-
   alicePublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH5uUNmlLsJvS2L1FnhX6dDY5KnYPhev88eO2vuUMB5r alice";
-
   bobPrivateKey = ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
@@ -37,19 +32,15 @@ let
     vcBU8gyvtER0PqQ+FZ1/AAAAA2JvYgEC
     -----END OPENSSH PRIVATE KEY-----
   '';
-
   bobPrivateKeyFile = pkgs.writeText "bob.key" bobPrivateKey;
-
   bobPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICTf6HT3UNh0zKBmfj/JBV/EvcBU8gyvtER0PqQ+FZ1/ bob";
-
   fooPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsvvICWc8HDQkkIwIaHQ2xuHieJyLULqe1Z/xeJQRzi";
   barPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAEBze0BfSijN9vRgvLOyJacAo7rCgr9u96hGWNkyPL";
   bazPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
-
   remoteBuildHosts = {
     foo = {
       hostName = "foo.example.com";
@@ -76,7 +67,6 @@ let
       sshKeyLiteral = bobPrivateKey;
     };
   };
-
   extraRemoteBuildHosts = {
     baz = {
       hostName = "baz.example.com";
@@ -90,7 +80,6 @@ let
       sshKeyLiteral = alicePrivateKey;
     };
   };
-
   noExtraBuildHosts = makeTest rec {
 
     name = "build-host";
@@ -100,7 +89,7 @@ let
       machine = { config, ... }: {
         nixpkgs.localSystem.system = system;
         imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+          ++ pkgs.lib.hacknix.testing.testModules;
 
         # Use the test key deployment system.
         deployment.reallyReallyEnable = true;
@@ -114,7 +103,8 @@ let
 
     testScript = { nodes, ... }:
       let
-      in ''
+      in
+      ''
         startAll;
 
         subtest "check-ssh-keys", sub {
@@ -139,7 +129,6 @@ let
         };
       '';
   };
-
   extraBuildHosts = makeTest rec {
 
     name = "build-host-extra-build-hosts";
@@ -149,7 +138,7 @@ let
       machine = { config, ... }: {
         nixpkgs.localSystem.system = system;
         imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+          ++ pkgs.lib.hacknix.testing.testModules;
 
         # Use the test key deployment system.
         deployment.reallyReallyEnable = true;
@@ -164,7 +153,8 @@ let
 
     testScript = { nodes, ... }:
       let
-      in ''
+      in
+      ''
         startAll;
 
         subtest "check-ssh-keys", sub {

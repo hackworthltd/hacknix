@@ -13,7 +13,7 @@ makeTest rec {
     server1 = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       networking.firewall.allowedUDPPorts = [ 69 ];
       services.tftpd-hpa.enable = true;
@@ -27,12 +27,14 @@ makeTest rec {
 
       systemd.services.make-tftp-root = {
         wantedBy = [ "multi-user.target" ];
-        script = let
-          root = config.services.tftpd-hpa.root;
-        in ''
-          mkdir -p ${root}
-          cp ${canary1} ${root}/canary1
-        '';
+        script =
+          let
+            root = config.services.tftpd-hpa.root;
+          in
+          ''
+            mkdir -p ${root}
+            cp ${canary1} ${root}/canary1
+          '';
       };
     };
 
@@ -42,7 +44,7 @@ makeTest rec {
     server2 = { config, ... }: {
       nixpkgs.localSystem.system = system;
       imports = pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
+        ++ pkgs.lib.hacknix.testing.testModules;
 
       networking.firewall.allowedUDPPorts = [ 69 ];
       boot.kernelModules = [ "dummy" ];
@@ -66,12 +68,14 @@ makeTest rec {
 
       systemd.services.make-tftp-root = {
         wantedBy = [ "multi-user.target" ];
-        script = let
-          root = config.services.tftpd-hpa.root;
-        in ''
-          mkdir -p ${root}
-          cp ${canary2} ${root}/canary2
-        '';
+        script =
+          let
+            root = config.services.tftpd-hpa.root;
+          in
+          ''
+            mkdir -p ${root}
+            cp ${canary2} ${root}/canary2
+          '';
       };
     };
 

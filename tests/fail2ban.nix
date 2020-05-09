@@ -28,7 +28,8 @@ makeTest {
 
   testScript = { nodes, ... }:
     let
-    in ''
+    in
+    ''
       startAll;
 
       $client->waitForUnit("multi-user.target");
