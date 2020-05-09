@@ -47,6 +47,8 @@ in
   inherit (self) hydra-unstable;
   inherit (self) libprelude;
   inherit (self) libvmaf;
+  inherit (self) linux_ct;
+  inherit (self) linuxPackages_ct;
   inherit (self) lorri;
   inherit (self) macnix-rebuild;
   inherit (self) mkCacert;
