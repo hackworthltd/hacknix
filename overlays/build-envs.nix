@@ -51,7 +51,6 @@ let
       hydra-cli
       lorri
       niv
-      nixfmt
       nixpkgs-fmt
       nix-index
       nix-info
