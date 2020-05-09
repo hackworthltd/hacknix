@@ -68,6 +68,13 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
   delete-tweets = super.callPackage ../pkgs/python/delete-tweets { };
+  linux_ct = super.callPackage ../pkgs/linux-ct {
+    kernelPatches = with super.kernelPatches; [
+      bridge_stp_helper
+      request_key_helper
+      export_kernel_fpu_functions."5.3"
+    ];
+  };
 in
 {
   inherit (badhosts) badhosts-unified;
@@ -96,6 +103,7 @@ in
   inherit gawk_4_2_1;
   inherit hyperkit;
   inherit libprelude;
+  inherit linux_ct;
   inherit lorri;
   inherit macnix-rebuild;
   inherit mkCacert;
