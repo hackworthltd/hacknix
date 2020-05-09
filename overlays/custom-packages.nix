@@ -68,13 +68,54 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
   delete-tweets = super.callPackage ../pkgs/python/delete-tweets { };
+
+  # linux-ct kernel, for Candela Technologies Atheros kernels.
   linux_ct = super.callPackage ../pkgs/linux-ct {
     kernelPatches = with super.kernelPatches; [
       bridge_stp_helper
       request_key_helper
       export_kernel_fpu_functions."5.3"
     ];
+    structuredExtraConfig = with super.stdenv.lib.kernel; {
+      EXPERT = yes;
+      EVENT_TRACING = yes;
+      DEBUG_FS = yes;
+      DEBUG_FTRACE = yes;
+      DEBUG_ENABLE_DEFAULT_TRACERS = yes;
+
+      MAC80211_DEBUGFS = yes;
+      MAC80211_LEDS = yes;
+      MAC80211_RC_MINSTREL = yes;
+      MAC80211_RC_MINSTREL_HT = yes;
+      MAC80211_RC_MINSTREL_VHT = yes;
+      MAC80211_RC_DEFAULT_MINSTREL = yes;
+
+      NL80211_TESTMODE = yes;
+
+      CFG80211_DEBUGFS = yes;
+      CFG80211_WEXT = yes;
+      CFG80211_CERTIFICATION_ONUS = yes;
+      CFG80211_REG_RELAX_NO_IR = yes;
+      CFG80211_DEFAULT_PS = no;
+      CFG80211_REQUIRE_SIGNED_REGDB = no;
+
+      # ath-specific.
+      ATH_DEBUG = yes;
+      ATH_REG_DYNAMIC_USER_REG_HINTS = yes;
+      ATH_REG_DYNAMIC_USER_CERT_TESTING = yes;
+      ATH_TRACEPOINTS = yes;
+
+      # ath10k-specific.
+      ATH10K_DEBUG = yes;
+      ATH10K_DFS_CERTIFIED = yes;
+      ATH10K_SPECTRAL = yes;
+      ATH10K_LEDS = yes;
+      ATH10K_THERMAL = yes;
+      ATH10K_DEBUGFS = yes;
+      ATH10K_TRACING = yes;
+    };
   };
+  linuxPackages_ct = super.recurseIntoAttrs (super.linuxPackagesFor linux_ct);
 in
 {
   inherit (badhosts) badhosts-unified;
@@ -104,6 +145,7 @@ in
   inherit hyperkit;
   inherit libprelude;
   inherit linux_ct;
+  inherit linuxPackages_ct;
   inherit lorri;
   inherit macnix-rebuild;
   inherit mkCacert;
