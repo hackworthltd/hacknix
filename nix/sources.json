@@ -18,10 +18,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "ea73c698ad6fcdb2dde0554a9e07648b6f627c9c",
-        "sha256": "0i45pjakj141rflpxd97sacla4vaqn7aysjbn87jk8y9vbkz6fyb",
+        "rev": "8dcbf8a3c251742306bfab0b1cd86c5b0d4578c0",
+        "sha256": "1q6i73c2nafwhvwbmcxhrydch8dfy0lq26ri6vf5q1cdz0dh2fkw",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/ea73c698ad6fcdb2dde0554a9e07648b6f627c9c.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/8dcbf8a3c251742306bfab0b1cd86c5b0d4578c0.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -78,10 +78,10 @@
         "homepage": "",
         "owner": "target",
         "repo": "lorri",
-        "rev": "8752c4530ca4bc9f47c97954fcc05c2312770846",
-        "sha256": "1v0sigh5sha6dssldbj8m7mi84zcp59afxb7p51bqgbi8fbgfs4p",
+        "rev": "896391ed257e6f3cd5bf7a2e802d2761c3be1ff5",
+        "sha256": "143ds2cdvxf1sj8g4aw6jaglg719sqb278j6kfclb7q0ykdhirr3",
         "type": "tarball",
-        "url": "https://github.com/target/lorri/archive/8752c4530ca4bc9f47c97954fcc05c2312770846.tar.gz",
+        "url": "https://github.com/target/lorri/archive/896391ed257e6f3cd5bf7a2e802d2761c3be1ff5.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "minikube": {
@@ -138,10 +138,10 @@
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "nixos",
         "repo": "nixpkgs-channels",
-        "rev": "5f14d99efed32721172a819b6e78a5520bab4bc6",
-        "sha256": "1nxqbcsc8bfmwy450pv6s12nbvzqxai5mr6v41y478pya26lb108",
+        "rev": "cfe68f2b68b7a7c2e5347c496b6963af30d18d3f",
+        "sha256": "1m202ifx2iy06dqmgih84a1gzf1vj5kw17dqzv3sc2ikwz1d7rnp",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs-channels/archive/5f14d99efed32721172a819b6e78a5520bab4bc6.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/cfe68f2b68b7a7c2e5347c496b6963af30d18d3f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "saml2aws": {
