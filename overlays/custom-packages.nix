@@ -115,6 +115,16 @@ let
   linuxPackages_ath10k = super.recurseIntoAttrs (ath10kPackagesFor super.linux);
   linux_ath10k = linuxPackages_ath10k.kernel;
 
+  linuxPackages_ath10k_ct = super.recurseIntoAttrs (ath10kPackagesFor (super.linux.override {
+    kernelPatches = super.linux.kernelPatches ++ [
+      {
+        name = "ath10k-ct";
+        patch = ../patches/linux-5.4-ct/999-ath10k.patch;
+      }
+    ];
+  }));
+  linux_ath10k_ct = linuxPackages_ath10k_ct.kernel;
+
 in
 {
   inherit (badhosts) badhosts-unified;
@@ -144,6 +154,7 @@ in
   inherit hyperkit;
   inherit libprelude;
   inherit linux_ath10k linuxPackages_ath10k;
+  inherit linux_ath10k_ct linuxPackages_ath10k_ct;
   inherit lorri;
   inherit macnix-rebuild;
   inherit mkCacert;

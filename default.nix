@@ -48,6 +48,7 @@ in
   inherit (self) libprelude;
   inherit (self) libvmaf;
   inherit (self) linux_ath10k linuxPackages_ath10k;
+  inherit (self) linux_ath10k_ct linuxPackages_ath10k_ct;
   inherit (self) lorri;
   inherit (self) macnix-rebuild;
   inherit (self) mkCacert;
