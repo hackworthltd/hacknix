@@ -65,8 +65,7 @@ let
           hydra-unstable = x86_64_linux;
           libprelude = x86_64_linux;
           libvmaf = x86_64;
-          linux_ct = linux;
-          linuxPackages_ct = linux;
+          linux_ath10k = linux;
           lorri = all;
           macnix-rebuild = darwin;
           neovim = all;
@@ -147,8 +146,7 @@ let
           hostapd.x86_64-linux
           libprelude.x86_64-linux
           libvmaf.x86_64-linux
-          linux_ct.x86_64-linux
-          linuxPackages_ct.x86_64-linux
+          linux_ath10k.x86_64-linux
           lorri.x86_64-linux
           neovim.x86_64-linux
           netsniff-ng.x86_64-linux
