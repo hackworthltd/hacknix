@@ -116,7 +116,7 @@ let
     kernelPatches = super.linux.kernelPatches ++ [
       {
         name = "ath10k-ct";
-        patch = ../patches/linux-5.4-ct/999-ath10k.patch;
+        patch = ../patches/linux-5.4-ct/999-ath10k-hack.patch;
       }
     ];
   }));
