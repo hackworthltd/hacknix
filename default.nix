@@ -14,6 +14,8 @@ let
 in
 {
   inherit (self) awscli_2_0;
+  inherit (self) aws-sso-credential-process;
+  inherit (self) aws-export-credentials;
   inherit (self) aws-okta;
   inherit (self) aws-vault;
 
