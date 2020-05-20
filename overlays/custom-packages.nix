@@ -128,6 +128,13 @@ let
   # awscli 2.0.
   awscli_2_0 = callPackage ../pkgs/awscli/2.0 { };
 
+  aws-sso-credential-process = callPackage ../pkgs/aws-sso-credential-process {
+    src = self.lib.hacknix.sources.aws-sso-credential-process;
+  };
+  aws-export-credentials = callPackage ../pkgs/aws-export-credentials {
+    src = self.lib.hacknix.sources.aws-export-credentials;
+  };
+
 in
 {
   inherit (badhosts) badhosts-unified;
@@ -150,6 +157,8 @@ in
   inherit (gitignoreSrc) gitignoreSource gitignoreFilter;
 
   inherit awscli_2_0;
+  inherit aws-export-credentials;
+  inherit aws-sso-credential-process;
   inherit ccextractor;
   inherit chamber;
   inherit delete-tweets;

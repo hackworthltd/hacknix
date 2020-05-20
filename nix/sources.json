@@ -1,4 +1,16 @@
 {
+    "aws-export-credentials": {
+        "branch": "master",
+        "description": "Get AWS credentials from a profile to inject into other programs",
+        "homepage": null,
+        "owner": "benkehoe",
+        "repo": "aws-export-credentials",
+        "rev": "cc41c07f33b9682eab898272e699309c45d2226d",
+        "sha256": "10h4vd37klqwib8jxdczlzlfh5h82zmvj9aja3k590a9g1ickcv7",
+        "type": "tarball",
+        "url": "https://github.com/benkehoe/aws-export-credentials/archive/cc41c07f33b9682eab898272e699309c45d2226d.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "aws-okta": {
         "branch": "v1.0.2",
         "description": "aws-vault like tool for Okta authentication",
@@ -11,6 +23,18 @@
         "url": "https://github.com/segmentio/aws-okta/archive/9787e7c58ed8e6347da37149bb192f2280011736.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
         "version": "v1.0.2"
+    },
+    "aws-sso-credential-process": {
+        "branch": "master",
+        "description": "Bring AWS SSO-based credentials to the AWS SDKs until they have proper support",
+        "homepage": null,
+        "owner": "benkehoe",
+        "repo": "aws-sso-credential-process",
+        "rev": "d5ecc105faaa1b9d2bca7c0e1cd31581fd443746",
+        "sha256": "0qsl29k40iihhf1am95l80lnv9j3n5m3hsy62zpd352gcsvzvfqr",
+        "type": "tarball",
+        "url": "https://github.com/benkehoe/aws-sso-credential-process/archive/d5ecc105faaa1b9d2bca7c0e1cd31581fd443746.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "badhosts": {
         "branch": "master",

@@ -33,6 +33,8 @@ let
       (
         rec {
           awscli_2_0 = all;
+          aws-sso-credential-process = all;
+          aws-export-credentials = all;
           aws-okta = all;
           aws-vault = all;
 
@@ -117,6 +119,8 @@ let
         meta.maintainer = lib.maintainers.dhess;
         constituents = with jobs; [
           awscli_2_0.x86_64-linux
+          aws-sso-credential-process.x86_64-linux
+          aws-export-credentials.x86_64-linux
           aws-okta.x86_64-linux
           aws-vault.x86_64-linux
 
@@ -185,6 +189,8 @@ let
         meta.maintainer = lib.maintainers.dhess;
         constituents = with jobs; [
           awscli_2_0.x86_64-darwin
+          aws-sso-credential-process.x86_64-darwin
+          aws-export-credentials.x86_64-darwin
           aws-okta.x86_64-darwin
           aws-vault.x86_64-darwin
 
