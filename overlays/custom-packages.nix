@@ -125,6 +125,9 @@ let
   }));
   linux_ath10k_ct = linuxPackages_ath10k_ct.kernel;
 
+  # awscli 2.0.
+  awscli_2_0 = callPackage ../pkgs/awscli/2.0 { };
+
 in
 {
   inherit (badhosts) badhosts-unified;
@@ -146,6 +149,7 @@ in
 
   inherit (gitignoreSrc) gitignoreSource gitignoreFilter;
 
+  inherit awscli_2_0;
   inherit ccextractor;
   inherit chamber;
   inherit delete-tweets;

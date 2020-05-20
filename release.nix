@@ -32,6 +32,7 @@ let
     mapTestOn
       (
         rec {
+          awscli_2_0 = all;
           aws-okta = all;
           aws-vault = all;
 
@@ -115,6 +116,7 @@ let
         meta.description = "hacknix overlay packages (x86_64-linux)";
         meta.maintainer = lib.maintainers.dhess;
         constituents = with jobs; [
+          awscli_2_0.x86_64-linux
           aws-okta.x86_64-linux
           aws-vault.x86_64-linux
 
@@ -182,6 +184,7 @@ let
         meta.description = "hacknix overlay packages (x86_64-darwin)";
         meta.maintainer = lib.maintainers.dhess;
         constituents = with jobs; [
+          awscli_2_0.x86_64-darwin
           aws-okta.x86_64-darwin
           aws-vault.x86_64-darwin
 

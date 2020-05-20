@@ -13,6 +13,7 @@ let
   self = lib.customisation.composeOverlays (lib.singleton overlays) pkgs;
 in
 {
+  inherit (self) awscli_2_0;
   inherit (self) aws-okta;
   inherit (self) aws-vault;
 
