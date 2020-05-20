@@ -61,7 +61,6 @@ in
   inherit (self) ntp;
   inherit (self) radare2;
   inherit (self) saml2aws;
-  inherit (self) terraform-provider-okta;
   inherit (self) traefik-forward-auth;
   inherit (self) trimpcap;
   inherit (self) tsoff;

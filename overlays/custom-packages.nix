@@ -43,9 +43,6 @@ let
   };
   trimpcap = callPackage ../pkgs/misc/trimpcap { };
   tsoff = callPackage ../pkgs/networking/tsoff { };
-  terraform-provider-okta = callPackage ../pkgs/terraform/providers/okta {
-    source = lib.sources.terraform-provider-okta;
-  };
   hacknix-source =
     callPackage ../pkgs/hacknix-source { inherit (super) packageSource; };
   hyperkit = callPackage ../pkgs/hyperkit {
@@ -173,7 +170,6 @@ in
   inherit mkCacert;
   inherit nixops;
   inherit nmrpflash;
-  inherit terraform-provider-okta;
   inherit traefik-forward-auth;
   inherit trimpcap;
   inherit tsoff;

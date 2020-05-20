@@ -80,7 +80,6 @@ let
           ntp = linux;
           radare2 = all;
           saml2aws = all;
-          terraform-provider-okta = all;
           traefik-forward-auth = all;
           trimpcap = linux;
           tsoff = linux;
@@ -162,7 +161,6 @@ let
           ntp.x86_64-linux
           radare2.x86_64-linux
           saml2aws.x86_64-linux
-          terraform-provider-okta.x86_64-linux
           traefik-forward-auth.x86_64-linux
           trimpcap.x86_64-linux
           tsoff.x86_64-linux
@@ -226,7 +224,6 @@ let
           #nixops.x86_64-darwin
           radare2.x86_64-darwin
           saml2aws.x86_64-darwin
-          terraform-provider-okta.x86_64-darwin
           unison-ucm.x86_64-darwin
           yubikey-manager.x86_64-darwin
 

@@ -179,18 +179,5 @@
         "type": "tarball",
         "url": "https://github.com/Versent/saml2aws/archive/96998410abc0c1b0454b47dee3b703b104480575.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
-    "terraform-provider-okta": {
-        "branch": "master",
-        "description": "terraform provider for okta authentication service",
-        "homepage": null,
-        "owner": "articulate",
-        "repo": "terraform-provider-okta",
-        "rev": "0e12accff2cf79f742048cb5dc6aa5c26b1a3d6a",
-        "sha256": "00lp3n2s74la20rly4b0ajr7hryjgrkxlaz6qbcw5wl610qvha8x",
-        "type": "tarball",
-        "url": "https://github.com/articulate/terraform-provider-okta/archive/0e12accff2cf79f742048cb5dc6aa5c26b1a3d6a.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
-        "version": "3.0.38"
     }
 }
