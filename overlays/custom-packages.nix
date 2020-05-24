@@ -109,7 +109,7 @@ let
     }
   );
 
-  linuxPackages_ath10k = super.recurseIntoAttrs (ath10kPackagesFor super.linux);
+  linuxPackages_ath10k = super.recurseIntoAttrs (ath10kPackagesFor super.linux_testing);
   linux_ath10k = linuxPackages_ath10k.kernel;
 
   linuxPackages_ath10k_ct = super.recurseIntoAttrs (ath10kPackagesFor (super.linux.override {
