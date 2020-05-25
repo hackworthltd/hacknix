@@ -16,7 +16,6 @@ in
   inherit (self) awscli_2_0;
   inherit (self) aws-sso-credential-process;
   inherit (self) aws-export-credentials;
-  inherit (self) aws-okta;
   inherit (self) aws-vault;
 
   inherit (self) badhosts-unified;
@@ -60,7 +59,6 @@ in
   inherit (self) nmrpflash;
   inherit (self) ntp;
   inherit (self) radare2;
-  inherit (self) saml2aws;
   inherit (self) traefik-forward-auth;
   inherit (self) trimpcap;
   inherit (self) tsoff;

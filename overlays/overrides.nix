@@ -18,12 +18,6 @@ let
   # Upstream disables macOS.
   libvmaf = callPackage ../pkgs/libvmaf { };
 
-  # Upstream is out of date.
-  aws-okta = callPackage ../pkgs/aws-okta {
-    source = super.lib.hacknix.sources.aws-okta;
-    inherit (super.darwin.apple_sdk.frameworks) Security;
-  };
-
   # Upstream is broken on macOS.
   aws-vault = callPackage ../pkgs/aws-vault {
     inherit (super.darwin.apple_sdk.frameworks) Security;
@@ -51,13 +45,6 @@ let
   # Nixpkgs and not pulling in Apple frameworks.
   fsatrace = super.fsatrace.overrideAttrs
     (drv: { meta = drv.meta // { platforms = super.lib.platforms.unix; }; });
-
-  # Upstream is out of date.
-  saml2aws = callPackage ../pkgs/saml2aws {
-    source = super.lib.hacknix.sources.saml2aws;
-    inherit (super.darwin) libobjc;
-    inherit (super.darwin.apple_sdk.frameworks) Foundation IOKit;
-  };
 
   # We need YubiKey OpenPGP KDF functionality, which hasn't been
   # released yet.
@@ -144,7 +131,6 @@ in
       frei0r = if super.stdenv.isDarwin then null else super.frei0r;
     };
 
-  inherit aws-okta;
   inherit aws-vault;
   inherit cfssl;
   inherit fsatrace;
@@ -153,7 +139,6 @@ in
   inherit libvmaf;
   inherit minikube;
   inherit radare2;
-  inherit saml2aws;
   inherit unison-ucm;
   inherit wpa_supplicant;
   inherit yubikey-manager;

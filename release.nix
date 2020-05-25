@@ -35,7 +35,6 @@ let
           awscli_2_0 = all;
           aws-sso-credential-process = all;
           aws-export-credentials = all;
-          aws-okta = all;
           aws-vault = all;
 
           badhosts-unified = all;
@@ -79,7 +78,6 @@ let
           nmrpflash = all;
           ntp = linux;
           radare2 = all;
-          saml2aws = all;
           traefik-forward-auth = all;
           trimpcap = linux;
           tsoff = linux;
@@ -120,7 +118,6 @@ let
           awscli_2_0.x86_64-linux
           aws-sso-credential-process.x86_64-linux
           aws-export-credentials.x86_64-linux
-          aws-okta.x86_64-linux
           aws-vault.x86_64-linux
 
           badhosts-unified.x86_64-linux
@@ -160,7 +157,6 @@ let
           #nixops.x86_64-linux
           ntp.x86_64-linux
           radare2.x86_64-linux
-          saml2aws.x86_64-linux
           traefik-forward-auth.x86_64-linux
           trimpcap.x86_64-linux
           tsoff.x86_64-linux
@@ -189,7 +185,6 @@ let
           awscli_2_0.x86_64-darwin
           aws-sso-credential-process.x86_64-darwin
           aws-export-credentials.x86_64-darwin
-          aws-okta.x86_64-darwin
           aws-vault.x86_64-darwin
 
           badhosts-unified.x86_64-darwin
@@ -223,7 +218,6 @@ let
           neovim.x86_64-darwin
           #nixops.x86_64-darwin
           radare2.x86_64-darwin
-          saml2aws.x86_64-darwin
           unison-ucm.x86_64-darwin
           yubikey-manager.x86_64-darwin
 

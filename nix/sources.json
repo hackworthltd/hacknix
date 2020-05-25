@@ -11,19 +11,6 @@
         "url": "https://github.com/benkehoe/aws-export-credentials/archive/cc41c07f33b9682eab898272e699309c45d2226d.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
-    "aws-okta": {
-        "branch": "v1.0.2",
-        "description": "aws-vault like tool for Okta authentication",
-        "homepage": null,
-        "owner": "segmentio",
-        "repo": "aws-okta",
-        "rev": "9787e7c58ed8e6347da37149bb192f2280011736",
-        "sha256": "0rqkbhprz1j9b9bx3wvl5zi4p02q1qza905wkrvh42f9pbknajww",
-        "type": "tarball",
-        "url": "https://github.com/segmentio/aws-okta/archive/9787e7c58ed8e6347da37149bb192f2280011736.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
-        "version": "v1.0.2"
-    },
     "aws-sso-credential-process": {
         "branch": "master",
         "description": "Bring AWS SSO-based credentials to the AWS SDKs until they have proper support",
@@ -178,18 +165,6 @@
         "sha256": "0ncsh5rkjbcdaksngmn7apiq1qhm5z1z6xa1x70svxq91znibp4f",
         "type": "tarball",
         "url": "https://github.com/nixos/nixpkgs-channels/archive/571212eb839d482992adb05479b86eeb6a9c7b2f.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
-    "saml2aws": {
-        "branch": "v2.25.0",
-        "description": "CLI tool which enables you to login and retrieve AWS temporary credentials using a SAML IDP",
-        "homepage": "https://github.com/Versent/saml2aws",
-        "owner": "Versent",
-        "repo": "saml2aws",
-        "rev": "96998410abc0c1b0454b47dee3b703b104480575",
-        "sha256": "12aidylamrq4rvy2cfdz669lr1p20yqrshigcc5x1hrlhh9y64xc",
-        "type": "tarball",
-        "url": "https://github.com/Versent/saml2aws/archive/96998410abc0c1b0454b47dee3b703b104480575.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
