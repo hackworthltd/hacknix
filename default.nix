@@ -11,6 +11,7 @@ in
 let
   overlays = self: super: lib.customisation.composeOverlays lib.overlays super;
   self = lib.customisation.composeOverlays (lib.singleton overlays) pkgs;
+
 in
 {
   inherit (self) awscli_2_0;
@@ -63,6 +64,7 @@ in
   inherit (self) trimpcap;
   inherit (self) tsoff;
   inherit (self) unison-ucm;
+  inherit (self) vscode vscode-with-extensions vscode-extensions vscode-with-python;
   inherit (self) wpa_supplicant;
   inherit (self) yubikey-manager;
 
