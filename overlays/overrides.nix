@@ -58,21 +58,6 @@ let
       };
     }
   );
-  oldNixUnstable = (
-    super.callPackage ../pkgs/nix {
-      storeDir = "/nix/store";
-      stateDir = "/nix/var";
-      boehmgc = super.boehmgc.override { enableLargeConfig = true; };
-    }
-  ).nixUnstable;
-
-  # Workaround for broken nixflakes in upstream; doesn't seem to be
-  # able to fetch private repos with Hydra.
-  hydra-unstable = (
-    callPackage ../pkgs/hydra {
-      nixUnstable = oldNixUnstable;
-    }
-  ).hydra-unstable;
 
   # Upstream is out of date.
   unison-ucm = super.callPackage ../pkgs/unison { };
@@ -149,7 +134,6 @@ in
   inherit cfssl;
   inherit fsatrace;
   inherit hostapd;
-  inherit hydra-unstable;
   inherit libvmaf;
   inherit minikube;
   inherit radare2;
