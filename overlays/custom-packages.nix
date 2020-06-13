@@ -109,17 +109,21 @@ let
     }
   );
 
-  linuxPackages_ath10k = super.recurseIntoAttrs (ath10kPackagesFor super.linux_testing);
+  # Don't recurseIntoAttrs here, as we don't want to build all these
+  # out-of-tree modules for ath10k kernels.
+  linuxPackages_ath10k = ath10kPackagesFor super.linux_testing;
   linux_ath10k = linuxPackages_ath10k.kernel;
 
-  linuxPackages_ath10k_ct = super.recurseIntoAttrs (ath10kPackagesFor (super.linux.override {
+  # Don't recurseIntoAttrs here, as we don't want to build all these
+  # out-of-tree modules for ath10k kernels.
+  linuxPackages_ath10k_ct = ath10kPackagesFor (super.linux.override {
     kernelPatches = super.linux.kernelPatches ++ [
       {
         name = "ath10k-ct";
         patch = ../patches/linux-5.4-ct/999-ath10k.patch;
       }
     ];
-  }));
+  });
   linux_ath10k_ct = linuxPackages_ath10k_ct.kernel;
 
   # awscli 2.0.
