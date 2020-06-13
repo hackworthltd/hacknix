@@ -91,7 +91,6 @@ let
         wpa_supplicant = linux;
         yubikey-manager = all;
 
-        emacs = darwin;
         emacs-env = darwin;
         emacs-nox = linux;
         emacs-nox-env = linux;
