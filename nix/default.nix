@@ -1,5 +1,11 @@
+{ system ? builtins.currentSystem
+, crossSystem ? null
+, config ? { }
+, sourcesOverride ? { }
+}:
 let
-  sources = import ../nix/sources.nix;
+  sources = import ./sources.nix // sourcesOverride;
+
   fixedHacknixLib =
     let
       try = builtins.tryEval <hacknix-lib>;
@@ -22,6 +28,7 @@ let
   fixedCachix = lib.fetchers.fixedNixSrc "cachix" sources.cachix;
   fixedGitignoreNix =
     lib.fetchers.fixedNixSrc "gitignore.nix" sources."gitignore.nix";
+
   overlays = [ hacknix-lib.overlays.all ] ++ (
     map import [
       ../overlays/custom-packages.nix
@@ -36,6 +43,12 @@ let
       ../overlays/examples.nix
     ]
   );
+
+  pkgs = nixpkgs {
+    inherit overlays;
+    inherit system crossSystem;
+    inherit config;
+  };
 
   # Provide access to the whole package, if needed.
   path = ../.;
@@ -67,6 +80,8 @@ lib // {
   inherit fixedGitignoreNix;
 
   inherit sources;
+
+  inherit pkgs;
 
   inherit path;
   inherit modulesList modules;

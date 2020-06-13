@@ -3,6 +3,6 @@
 
 { ... }:
 let
-  localLib = import ../../lib;
+  localLib = import ../../nix { };
 in
 { nixpkgs.overlays = localLib.overlays; }

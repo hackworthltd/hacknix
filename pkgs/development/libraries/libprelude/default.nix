@@ -44,7 +44,7 @@ stdenv.mkDerivation rec {
     homepage = "https://www.prelude-siem.org/projects/libprelude";
     description = "IDMEF transport library used by all Prelude agents";
     license = licenses.gpl2Plus;
-    platforms = platforms.unix;
+    platforms = platforms.linux;
     maintainers = [ maintainers.dhess ];
   };
 }

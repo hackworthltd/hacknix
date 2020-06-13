@@ -2,7 +2,6 @@
 
 with lib;
 let
-  localLib = import ../../../lib.nix;
   cfg = config.services.systemd-digitalocean;
   systemd-digitalocean = builtins.fetchTarball {
     url =
@@ -16,6 +15,8 @@ in
     enable = mkEnableOption "the systemd DigitalOcean networking module.";
   };
 
-  config = mkIf cfg.enable
-    (import systemd-digitalocean-module { inherit pkgs config; });
+  config =
+    mkIf
+      cfg.enable
+      (import systemd-digitalocean-module { inherit pkgs config; });
 }
