@@ -40,6 +40,9 @@ let
   x86_64 = [ "x86_64-linux" "x86_64-darwin" ];
   x86_64_linux = [ "x86_64-linux" ];
   linux = [ "x86_64-linux" ];
-  jobs = { native = mapTestOn (packagePlatforms pkgs); };
+  jobs = {
+    native = mapTestOn (packagePlatforms pkgs);
+    inherit nixos-tests;
+  };
 in
-jobs // nixos-tests
+jobs
