@@ -1,6 +1,6 @@
 self: super:
 let
-  localLib = import ../lib;
+  localLib = import ../nix { };
 
   inherit (super) stdenv fetchpatch;
   inherit (super.haskell.lib)
@@ -24,7 +24,8 @@ let
 
   # Darcs won't build with GHC 8.8.x.
   mkDarcsPackages = hp:
-    properExtend hp
+    properExtend
+      hp
       (
         self: super: {
           darcs = doJailbreak super.darcs;
@@ -32,18 +33,19 @@ let
         }
       );
   darcsHaskellPackages = mkDarcsPackages super.haskell.packages.ghc865;
-  darcs = super.haskell.lib.overrideCabal
-    (super.haskell.lib.justStaticExecutables darcsHaskellPackages.darcs)
-    (
-      drv: {
-        configureFlags = (stdenv.lib.remove "-flibrary" drv.configureFlags or [ ])
+  darcs =
+    super.haskell.lib.overrideCabal
+      (super.haskell.lib.justStaticExecutables darcsHaskellPackages.darcs)
+      (
+        drv: {
+          configureFlags = (stdenv.lib.remove "-flibrary" drv.configureFlags or [ ])
           ++ [ "-f-library" ];
-        hydraPlatforms = darcsHaskellPackages.ghc.meta.platforms;
-        broken = false;
-      }
-    ) // {
-    meta.platforms = darcsHaskellPackages.ghc.meta.platforms;
-  };
+          hydraPlatforms = darcsHaskellPackages.ghc.meta.platforms;
+          broken = false;
+        }
+      ) // {
+      meta.platforms = darcsHaskellPackages.ghc.meta.platforms;
+    };
 in
 {
   inherit haskellPackages;

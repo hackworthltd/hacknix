@@ -1,7 +1,6 @@
 let
-  lib = import lib/default.nix;
-  inherit (lib) fixedNixpkgs;
-  localPkgs = (import ./default.nix) { };
+  lib = import nix/default.nix { };
+  inherit (lib) fixedNixpkgs pkgs;
 in
 { system ? "x86_64-linux"
 , supportedSystems ? [ "x86_64-linux" ]
@@ -12,7 +11,7 @@ in
       allowBroken = true;
       inHydra = true;
     };
-    overlays = lib.singleton localPkgs.overlays.all;
+    overlays = lib.singleton pkgs.overlays.all;
   }
 }:
 
@@ -35,7 +34,8 @@ let
         in
         lib.mapAttrs (lib.const (t: lib.hydraJob t.test)) subTests;
       discoverForSystem = system:
-        lib.mapAttrs (_: test: { ${system} = test; })
+        lib.mapAttrs
+          (_: test: { ${system} = test; })
           (discover (importTest fn args system));
 
       # If the test is only for a particular system, use only the specified

@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  localLib = import ../../lib;
+  localLib = import ../../nix { };
 in
 {
   # For now, setting this is required.

@@ -1,6 +1,6 @@
 self: super:
 let
-  localLib = import ../../lib;
+  localLib = import ../../nix { };
 
   # Create the text of a znc config file, so that it can be securely
   # deployed to a NixOS host without putting it in the Nix store.

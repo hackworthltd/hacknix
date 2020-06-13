@@ -3,6 +3,6 @@
 
 { ... }:
 let
-  lib = import ../../../lib;
+  lib = import ../../../nix { };
 in
 { nixpkgs.overlays = lib.overlays; }

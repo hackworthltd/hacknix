@@ -1,6 +1,6 @@
 self: super:
 let
-  lib = import ../lib;
+  lib = import ../nix { };
 
   inherit (super) callPackage;
   nixpkgsPath = (import lib.fixedNixpkgs { }).path;

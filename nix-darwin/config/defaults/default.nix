@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  localLib = import ../../../lib;
+  localLib = import ../../../nix { };
   cfg = config.hacknix-nix-darwin.defaults;
 in
 {

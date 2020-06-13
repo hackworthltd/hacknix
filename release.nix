@@ -1,27 +1,34 @@
-let
-  lib = import lib/default.nix;
-  inherit (lib) fixedNixpkgs;
-  localPkgs = (import ./default.nix) { };
-in
-{ supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ]
-, scrubJobs ? true
-, nixpkgsArgs ? {
-    config = {
-      allowUnfree = true;
-      allowBroken = true;
-      inHydra = true;
-    };
-    overlays = lib.singleton localPkgs.overlays.all;
+{ projectSrc ? {
+    outPath = ./.;
+    rev = "abcdef";
   }
+, config ? {
+    allowUnfree = true;
+    allowBroken = true;
+    inHydra = true;
+  }
+, supportedSystems ? [ "x86_64-darwin" "x86_64-linux" ]
+, scrubJobs ? true
+, sourcesOverride ? { }
 }:
+let
+  localLib = import nix/default.nix { inherit sourcesOverride; };
+in
+with import (localLib.fixedNixpkgs + "/pkgs/top-level/release-lib.nix") {
+  inherit supportedSystems scrubJobs;
+  packageSet = import projectSrc;
+  nixpkgsArgs = {
+    inherit config;
 
-with import (fixedNixpkgs + "/pkgs/top-level/release-lib.nix") {
-  inherit supportedSystems scrubJobs nixpkgsArgs;
+    # Do not pass overlays here; if you do, release-lib.nix will try
+    # to pass them to our project's default.nix, which doesn't take an
+    # argument for that.
+  };
 };
 let
   nixos-tests = (
     import ./release-nixos.nix {
-      inherit scrubJobs nixpkgsArgs;
+      inherit scrubJobs;
       supportedSystems = [ "x86_64-linux" ];
     }
   );

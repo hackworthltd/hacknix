@@ -1,102 +1,101 @@
-let
-  lib = import ./lib;
-  defaultPkgs = lib.nixpkgs {
-    config = {
-      allowBroken = true;
-      allowUnfree = true;
-    };
-  };
-in
-{ pkgs ? defaultPkgs }:
-let
-  overlays = self: super: lib.customisation.composeOverlays lib.overlays super;
-  self = lib.customisation.composeOverlays (lib.singleton overlays) pkgs;
-
-in
+{ system ? builtins.currentSystem
+, crossSystem ? null
+, config ? {
+    allowBroken = true;
+    allowUnfree = true;
+  }
+, sourcesOverride ? { }
+, localLib ? (
+    import nix/default.nix {
+      inherit system crossSystem config sourcesOverride;
+    }
+  )
+, pkgs ? localLib.pkgs
+}:
 {
-  inherit (self) awscli_2_0;
-  inherit (self) aws-sso-credential-process;
-  inherit (self) aws-export-credentials;
-  inherit (self) aws-vault;
+  inherit (pkgs) awscli_2_0;
+  inherit (pkgs) aws-sso-credential-process;
+  inherit (pkgs) aws-export-credentials;
+  inherit (pkgs) aws-vault;
 
-  inherit (self) badhosts-unified;
-  inherit (self)
+  inherit (pkgs) badhosts-unified;
+  inherit (pkgs)
     badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social
     ;
-  inherit (self)
+  inherit (pkgs)
     badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social
     ;
-  inherit (self) badhosts-gambling-nsfw badhosts-gambling-social;
-  inherit (self) badhosts-nsfw-social;
-  inherit (self)
+  inherit (pkgs) badhosts-gambling-nsfw badhosts-gambling-social;
+  inherit (pkgs) badhosts-nsfw-social;
+  inherit (pkgs)
     badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social
     ;
-  inherit (self) badhosts-fakenews-nsfw-social;
-  inherit (self) badhosts-gambling-nsfw-social;
-  inherit (self) badhosts-fakenews-gambling-nsfw-social;
-  inherit (self) badhosts-all;
+  inherit (pkgs) badhosts-fakenews-nsfw-social;
+  inherit (pkgs) badhosts-gambling-nsfw-social;
+  inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
+  inherit (pkgs) badhosts-all;
 
-  inherit (self) cachix;
-  inherit (self) ccextractor;
-  inherit (self) cfssl;
-  inherit (self) chamber;
-  inherit (self) darcs;
-  inherit (self) delete-tweets;
-  inherit (self) ffmpeg-full;
-  inherit (self) fsatrace;
-  inherit (self) gawk_4_2_1;
-  inherit (self) gitignoreSource gitignoreFilter;
-  inherit (self) hostapd;
-  inherit (self) hydra-unstable;
-  inherit (self) libprelude;
-  inherit (self) libvmaf;
-  inherit (self) linux_ath10k linuxPackages_ath10k;
-  inherit (self) linux_ath10k_ct linuxPackages_ath10k_ct;
-  inherit (self) lorri;
-  inherit (self) macnix-rebuild;
-  inherit (self) mkCacert;
-  inherit (self) neovim;
-  inherit (self) nixops;
-  inherit (self) nmrpflash;
-  inherit (self) ntp;
-  inherit (self) radare2;
-  inherit (self) traefik-forward-auth;
-  inherit (self) trimpcap;
-  inherit (self) tsoff;
-  inherit (self) unison-ucm;
-  inherit (self) vscode vscode-with-extensions vscode-extensions vscode-with-python;
-  inherit (self) wpa_supplicant;
-  inherit (self) yubikey-manager;
+  inherit (pkgs) cachix;
+  inherit (pkgs) ccextractor;
+  inherit (pkgs) cfssl;
+  inherit (pkgs) chamber;
+  inherit (pkgs) darcs;
+  inherit (pkgs) delete-tweets;
+  inherit (pkgs) ffmpeg-full;
+  inherit (pkgs) fsatrace;
+  inherit (pkgs) gawk_4_2_1;
+  inherit (pkgs) gitignoreSource gitignoreFilter;
+  inherit (pkgs) hostapd;
+  inherit (pkgs) hydra-unstable;
+  inherit (pkgs) libprelude;
+  inherit (pkgs) libvmaf;
+  inherit (pkgs) linux_ath10k linuxPackages_ath10k;
+  inherit (pkgs) linux_ath10k_ct linuxPackages_ath10k_ct;
+  inherit (pkgs) lorri;
+  inherit (pkgs) macnix-rebuild;
+  inherit (pkgs) mkCacert;
+  inherit (pkgs) neovim;
+  inherit (pkgs) nixops;
+  inherit (pkgs) nmrpflash;
+  inherit (pkgs) ntp;
+  inherit (pkgs) radare2;
+  inherit (pkgs) traefik-forward-auth;
+  inherit (pkgs) trimpcap;
+  inherit (pkgs) tsoff;
+  inherit (pkgs) unison-ucm;
+  inherit (pkgs) vscode vscode-with-extensions vscode-extensions vscode-with-python;
+  inherit (pkgs) wpa_supplicant;
+  inherit (pkgs) yubikey-manager;
 
-  inherit (self) hashedCertDir;
+  inherit (pkgs) hashedCertDir;
 
-  inherit (self) emacsMelpaPackagesNg;
-  inherit (self) emacs-nox emacsNoXMelpaPackagesNg;
-  inherit (self) emacsMacportMelpaPackagesNg;
-  inherit (self) emacs-env emacs-nox-env emacs-macport-env;
+  inherit (pkgs) emacsMelpaPackagesNg;
+  inherit (pkgs) emacs-nox emacsNoXMelpaPackagesNg;
+  inherit (pkgs) emacsMacportMelpaPackagesNg;
+  inherit (pkgs) emacs-env emacs-nox-env emacs-macport-env;
 
-  inherit (self) haskellPackages;
+  inherit (pkgs) haskellPackages;
 
-  inherit (self) hyperkit;
-  inherit (self) minikube;
+  inherit (pkgs) hyperkit;
+  inherit (pkgs) minikube;
 
-  inherit (self) darwin;
+  inherit (pkgs) darwin;
 
   # Various buildEnv's that we use, usually only on macOS (though many
   # of them should work on any pltform).
-  inherit (self) anki-env;
-  inherit (self) mactools-env;
-  inherit (self) maths-env;
-  inherit (self) minikube-env;
-  inherit (self) nixtools-env;
-  inherit (self) opsec-env;
-  inherit (self) shell-env;
+  inherit (pkgs) anki-env;
+  inherit (pkgs) mactools-env;
+  inherit (pkgs) maths-env;
+  inherit (pkgs) minikube-env;
+  inherit (pkgs) nixtools-env;
+  inherit (pkgs) opsec-env;
+  inherit (pkgs) shell-env;
 
-  inherit (self) hacknix-source;
+  inherit (pkgs) hacknix-source;
 
-  inherit (self) lib;
+  inherit (pkgs) lib;
 
-  inherit (self) examples;
+  inherit (pkgs) examples;
 
-  overlays.all = overlays;
+  overlays.all = localLib.overlays;
 }
