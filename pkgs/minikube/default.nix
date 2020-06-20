@@ -31,7 +31,7 @@ buildGoModule rec {
   subPackages = [ "cmd/minikube" ]
     ++ stdenv.lib.optional stdenv.hostPlatform.isLinux "cmd/drivers/kvm"
     ++ stdenv.lib.optional stdenv.hostPlatform.isDarwin "cmd/drivers/hyperkit";
-  modSha256 = "1pxs6myszgma3rzz0nhfjbnylv6m0xzlinvmlg0c4ijvkkzxg3v5";
+  vendorSha256 = "1pxs6myszgma3rzz0nhfjbnylv6m0xzlinvmlg0c4ijvkkzxg3v5";
 
   src = fetchFromGitHub { inherit (source) repo owner sha256 rev; };
 

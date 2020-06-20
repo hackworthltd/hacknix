@@ -6,7 +6,7 @@ buildGoModule rec {
   version = "2.8.0";
 
   goPackagePath = "github.com/${source.owner}/${source.repo}";
-  modSha256 = "0l9wjvlkkqyjjh949av041iwxsni4d3ypp2kf9iqfpi9l7kwf3nn";
+  vendorSha256 = "0l9wjvlkkqyjjh949av041iwxsni4d3ypp2kf9iqfpi9l7kwf3nn";
 
   src = fetchFromGitHub { inherit (source) repo owner sha256 rev; };
 

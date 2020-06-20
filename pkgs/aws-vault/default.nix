@@ -11,7 +11,7 @@ buildGoModule rec {
     sha256 = "04dyibcaijv5011laycf39m4gvprvvsn5zkxslyih1kqd170w3wg";
   };
 
-  modSha256 = "1d3hjfmfmlpw2scfyn597zkzz864w97p0wrsxjp49m9mi0pgmhq9";
+  vendorSha256 = "1d3hjfmfmlpw2scfyn597zkzz864w97p0wrsxjp49m9mi0pgmhq9";
   subPackages = [ "." ];
 
   buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
