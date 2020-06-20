@@ -36,7 +36,6 @@
   inherit (pkgs) badhosts-all;
 
   inherit (pkgs) cachix;
-  inherit (pkgs) ccextractor;
   inherit (pkgs) cfssl;
   inherit (pkgs) chamber;
   inherit (pkgs) darcs;

@@ -6,7 +6,6 @@ let
   nixpkgsPath = (import lib.fixedNixpkgs { }).path;
   nixops = import lib.fixedNixOps { nixpkgs = nixpkgsPath; };
   lorri = (import lib.fixedLorri) { pkgs = super; };
-  ccextractor = callPackage ../pkgs/multimedia/ccextractor { };
   gawk_4_2_1 = callPackage ../pkgs/gawk/4.2.1.nix { };
   libprelude =
     callPackage ../pkgs/development/libraries/libprelude { gawk = gawk_4_2_1; };
@@ -160,7 +159,6 @@ in
   inherit awscli_2_0;
   inherit aws-export-credentials;
   inherit aws-sso-credential-process;
-  inherit ccextractor;
   inherit chamber;
   inherit delete-tweets;
   inherit hacknix-source;
