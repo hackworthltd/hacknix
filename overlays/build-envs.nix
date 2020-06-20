@@ -1,7 +1,6 @@
 self: super:
 let
-  myPass = super.pass.withExtensions
-    (ext: [ ext.pass-audit ext.pass-genphrase ext.pass-update ]);
+  myPass = super.pass.withExtensions (ext: [ ext.pass-genphrase ext.pass-update ]);
   anki-env = super.buildEnv {
     name = "anki-env";
     paths = with super;
