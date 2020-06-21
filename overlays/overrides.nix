@@ -7,21 +7,8 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
 
-  # More recent version than upstream.
-  minikube = callPackage ../pkgs/minikube {
-    source = super.lib.hacknix.sources.minikube;
-    inherit (super.darwin) libobjc;
-    inherit (super.darwin.apple_sdk.frameworks) Foundation Security vmnet xpc;
-    inherit (super) hyperkit;
-  };
-
   # Upstream disables macOS.
   libvmaf = callPackage ../pkgs/libvmaf { };
-
-  # Upstream is broken on macOS.
-  aws-vault = callPackage ../pkgs/aws-vault {
-    inherit (super.darwin.apple_sdk.frameworks) Security;
-  };
 
   # Upstream doesn't support macOS, probably due to
   # https://github.com/radareorg/radare2/issues/15197
@@ -130,12 +117,10 @@ in
       frei0r = if super.stdenv.isDarwin then null else super.frei0r;
     };
 
-  inherit aws-vault;
   inherit cfssl;
   inherit fsatrace;
   inherit hostapd;
   inherit libvmaf;
-  inherit minikube;
   inherit radare2;
   inherit unison-ucm;
   inherit vscode vscode-with-extensions vscode-extensions vscode-with-python;

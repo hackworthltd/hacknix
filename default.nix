@@ -16,7 +16,6 @@
   inherit (pkgs) awscli_2_0;
   inherit (pkgs) aws-sso-credential-process;
   inherit (pkgs) aws-export-credentials;
-  inherit (pkgs) aws-vault;
 
   inherit (pkgs) badhosts-unified;
   inherit (pkgs)
@@ -74,9 +73,6 @@
   inherit (pkgs) emacs-env emacs-nox-env emacs-macport-env;
 
   inherit (pkgs) haskellPackages;
-
-  inherit (pkgs) hyperkit;
-  inherit (pkgs) minikube;
 
   inherit (pkgs) darwin;
 

@@ -44,13 +44,6 @@ let
   tsoff = callPackage ../pkgs/networking/tsoff { };
   hacknix-source =
     callPackage ../pkgs/hacknix-source { inherit (super) packageSource; };
-  hyperkit = callPackage ../pkgs/hyperkit {
-    inherit (super.darwin.apple_sdk.frameworks)
-      Hypervisor vmnet SystemConfiguration
-      ;
-    inherit (super.darwin.apple_sdk.libs) xpc;
-    inherit (super.darwin) libobjc dtrace;
-  };
   chamber = callPackage ../pkgs/chamber {
     source = lib.sources.chamber;
     inherit (super.darwin.apple_sdk.frameworks) Security;
@@ -163,7 +156,6 @@ in
   inherit delete-tweets;
   inherit hacknix-source;
   inherit gawk_4_2_1;
-  inherit hyperkit;
   inherit libprelude;
   inherit linux_ath10k linuxPackages_ath10k;
   inherit linux_ath10k_ct linuxPackages_ath10k_ct;
