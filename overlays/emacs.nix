@@ -64,6 +64,8 @@ let
       projectile
       projectile-ripgrep
       proof-general
+      psc-ide
+      purescript-mode
       reformatter
       rg
       ripgrep
