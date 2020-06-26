@@ -37,7 +37,6 @@
   inherit (pkgs) cachix;
   inherit (pkgs) cfssl;
   inherit (pkgs) chamber;
-  inherit (pkgs) darcs;
   inherit (pkgs) delete-tweets;
   inherit (pkgs) ffmpeg-full;
   inherit (pkgs) fsatrace;
