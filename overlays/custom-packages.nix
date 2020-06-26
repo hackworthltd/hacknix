@@ -64,14 +64,10 @@ let
         EXPERT = yes;
         EVENT_TRACING = yes;
         DEBUG_FS = yes;
-        DEBUG_FTRACE = yes;
-        DEBUG_ENABLE_DEFAULT_TRACERS = yes;
 
         MAC80211_DEBUGFS = yes;
         MAC80211_LEDS = yes;
         MAC80211_RC_MINSTREL = yes;
-        MAC80211_RC_MINSTREL_HT = yes;
-        MAC80211_RC_MINSTREL_VHT = yes;
         MAC80211_RC_DEFAULT_MINSTREL = yes;
 
         NL80211_TESTMODE = yes;
@@ -93,8 +89,6 @@ let
         ATH10K_DEBUG = yes;
         ATH10K_DFS_CERTIFIED = yes;
         ATH10K_SPECTRAL = yes;
-        ATH10K_LEDS = yes;
-        ATH10K_THERMAL = yes;
         ATH10K_DEBUGFS = yes;
         ATH10K_TRACING = yes;
       };
