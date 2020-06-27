@@ -27,10 +27,6 @@ in
   hydra-unstable = super.hydra-unstable.overrideAttrs (
     drv: {
       patches = [
-        (super.fetchpatch {
-          url = "https://github.com/NixOS/hydra/commit/15a45f1a8a867369bb58991fbcf58366b10cc62d.patch";
-          sha256 = "1zmrym2wx6q4bvqxz319xnc16l484bmkqbwah5gh18q4204xdssc";
-        })
         (
           super.fetchpatch {
             url =

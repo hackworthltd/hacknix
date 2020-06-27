@@ -6,7 +6,6 @@ let
   nixpkgsPath = (import lib.fixedNixpkgs { }).path;
   nixops = import lib.fixedNixOps { nixpkgs = nixpkgsPath; };
   lorri = (import lib.fixedLorri) { pkgs = super; };
-  ccextractor = callPackage ../pkgs/multimedia/ccextractor { };
   gawk_4_2_1 = callPackage ../pkgs/gawk/4.2.1.nix { };
   libprelude =
     callPackage ../pkgs/development/libraries/libprelude { gawk = gawk_4_2_1; };
@@ -45,13 +44,6 @@ let
   tsoff = callPackage ../pkgs/networking/tsoff { };
   hacknix-source =
     callPackage ../pkgs/hacknix-source { inherit (super) packageSource; };
-  hyperkit = callPackage ../pkgs/hyperkit {
-    inherit (super.darwin.apple_sdk.frameworks)
-      Hypervisor vmnet SystemConfiguration
-      ;
-    inherit (super.darwin.apple_sdk.libs) xpc;
-    inherit (super.darwin) libobjc dtrace;
-  };
   chamber = callPackage ../pkgs/chamber {
     source = lib.sources.chamber;
     inherit (super.darwin.apple_sdk.frameworks) Security;
@@ -72,14 +64,10 @@ let
         EXPERT = yes;
         EVENT_TRACING = yes;
         DEBUG_FS = yes;
-        DEBUG_FTRACE = yes;
-        DEBUG_ENABLE_DEFAULT_TRACERS = yes;
 
         MAC80211_DEBUGFS = yes;
         MAC80211_LEDS = yes;
         MAC80211_RC_MINSTREL = yes;
-        MAC80211_RC_MINSTREL_HT = yes;
-        MAC80211_RC_MINSTREL_VHT = yes;
         MAC80211_RC_DEFAULT_MINSTREL = yes;
 
         NL80211_TESTMODE = yes;
@@ -101,8 +89,6 @@ let
         ATH10K_DEBUG = yes;
         ATH10K_DFS_CERTIFIED = yes;
         ATH10K_SPECTRAL = yes;
-        ATH10K_LEDS = yes;
-        ATH10K_THERMAL = yes;
         ATH10K_DEBUGFS = yes;
         ATH10K_TRACING = yes;
       };
@@ -160,12 +146,10 @@ in
   inherit awscli_2_0;
   inherit aws-export-credentials;
   inherit aws-sso-credential-process;
-  inherit ccextractor;
   inherit chamber;
   inherit delete-tweets;
   inherit hacknix-source;
   inherit gawk_4_2_1;
-  inherit hyperkit;
   inherit libprelude;
   inherit linux_ath10k linuxPackages_ath10k;
   inherit linux_ath10k_ct linuxPackages_ath10k_ct;

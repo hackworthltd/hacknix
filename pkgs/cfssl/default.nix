@@ -5,7 +5,8 @@ buildGoModule rec {
   version = "1.4.1";
 
   goPackagePath = "github.com/cloudflare/cfssl";
-  modSha256 = "0mqrll5dgz6i8hpk4v2i0picyc8pns39sp2l7wvm0kf3syarch01";
+  deleteVendor = true;
+  vendorSha256 = "0b9j94snxywajn56q8j7z5zmidcx8njc36vc5fydn93g34vk18wy";
 
   src = fetchFromGitHub {
     owner = "cloudflare";

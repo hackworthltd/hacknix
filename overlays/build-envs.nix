@@ -1,7 +1,6 @@
 self: super:
 let
-  myPass = super.pass.withExtensions
-    (ext: [ ext.pass-audit ext.pass-genphrase ext.pass-update ]);
+  myPass = super.pass.withExtensions (ext: [ ext.pass-genphrase ext.pass-update ]);
   anki-env = super.buildEnv {
     name = "anki-env";
     paths = with super;
@@ -39,7 +38,15 @@ let
   };
   minikube-env = super.buildEnv {
     name = "minikube-env";
-    paths = with super; [ kubectl linuxkit minikube ];
+    paths = with super; [
+      kubectl
+      linuxkit
+      minikube
+    ] ++ super.lib.optional super.stdenv.isLinux [
+      docker-machine-kvm2
+    ] ++ super.lib.optional super.stdenv.isDarwin [
+      docker-machine-hyperkit
+    ];
     meta.platforms = super.lib.platforms.all;
   };
   nixtools-env = super.buildEnv {

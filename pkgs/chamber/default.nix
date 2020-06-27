@@ -3,10 +3,11 @@ let
 in
 buildGoModule rec {
   pname = "chamber";
-  version = "2.8.0";
+  version = "2.8.2";
 
   goPackagePath = "github.com/${source.owner}/${source.repo}";
-  modSha256 = "0l9wjvlkkqyjjh949av041iwxsni4d3ypp2kf9iqfpi9l7kwf3nn";
+  deleteVendor = true;
+  vendorSha256 = "01h6mbv6s9qz613b1699mmqxy9204szli90axg1rh9l4pd2sjlm2";
 
   src = fetchFromGitHub { inherit (source) repo owner sha256 rev; };
 

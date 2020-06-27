@@ -1,6 +1,6 @@
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/ahb.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/ahb.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/ahb.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/ahb.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/ahb.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/ahb.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/ahb.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/ahb.c	2020-06-27 00:11:12.000000000 +0100
 @@ -627,6 +627,8 @@
  	ath10k_dbg(ar, ATH10K_DBG_BOOT, "boot ahb hif start\n");
  
@@ -24,9 +24,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/ahb.c linux-5.4.39-ct/dri
  
  	ath10k_pci_flush(ar);
  }
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/core.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/core.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/core.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/core.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/core.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/core.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/core.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/core.c	2020-06-27 00:11:12.000000000 +0100
 @@ -12,6 +12,7 @@
  #include <linux/dmi.h>
  #include <linux/ctype.h>
@@ -1198,9 +1198,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/core.c linux-5.4.39-ct/dr
  
  	init_dummy_netdev(&ar->napi_dev);
  
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/core.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/core.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/core.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/core.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/core.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/core.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/core.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/core.h	2020-06-27 00:11:12.000000000 +0100
 @@ -43,12 +43,18 @@
  /* Antenna noise floor */
  #define ATH10K_DEFAULT_NOISE_FLOOR -95
@@ -1770,9 +1770,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/core.h linux-5.4.39-ct/dr
 +int ath10k_sum_sigs(int p20, int e20, int e40, int e80);
  
  #endif /* _CORE_H_ */
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/coredump.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/coredump.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/coredump.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/coredump.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/coredump.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/coredump.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/coredump.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/coredump.c	2020-06-27 00:11:12.000000000 +0100
 @@ -1121,9 +1121,16 @@
  	struct ath10k_ce_crash_hdr *ce_hdr;
  	struct ath10k_dump_file_data *dump_data;
@@ -1888,9 +1888,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/coredump.c linux-5.4.39-c
  	mutex_unlock(&ar->dump_mutex);
  
  	return dump_data;
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/coredump.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/coredump.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/coredump.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/coredump.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/coredump.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/coredump.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/coredump.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/coredump.h	2020-06-27 00:11:12.000000000 +0100
 @@ -8,11 +8,16 @@
  
  #include "core.h"
@@ -1937,9 +1937,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/coredump.h linux-5.4.39-c
  
  	/* struct ath10k_tlv_dump_data + more */
  	u8 data[0];
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/debug.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/debug.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/debug.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/debug.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/debug.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/debug.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/debug.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/debug.c	2020-06-27 00:11:12.000000000 +0100
 @@ -15,12 +15,15 @@
  #include "debug.h"
  #include "hif.h"
@@ -4343,9 +4343,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/debug.c linux-5.4.39-ct/d
 +	dev_printk(lvl, ar->dev, "ATH10K_END\n");
 +}
 +EXPORT_SYMBOL(ath10k_dbg_print_fw_dbg_buffer);
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/debug.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/debug.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/debug.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/debug.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/debug.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/debug.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/debug.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/debug.h	2020-06-27 00:11:12.000000000 +0100
 @@ -11,6 +11,10 @@
  #include <linux/types.h>
  #include "trace.h"
@@ -4428,9 +4428,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/debug.h linux-5.4.39-ct/d
 +				    int len, const char* lvl);
 +
  #endif /* _DEBUG_H_ */
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/hif.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/hif.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/hif.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/hif.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/hif.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/hif.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/hif.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/hif.h	2020-06-27 00:11:12.000000000 +0100
 @@ -77,6 +77,9 @@
  
  	void (*write32)(struct ath10k *ar, u32 address, u32 value);
@@ -4475,9 +4475,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/hif.h linux-5.4.39-ct/dri
  static inline void ath10k_hif_write32(struct ath10k *ar,
  				      u32 address, u32 data)
  {
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htc.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htc.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/htc.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htc.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/htc.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htc.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/htc.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htc.c	2020-06-27 00:11:12.000000000 +0100
 @@ -120,9 +120,18 @@
  			goto err_pull;
  		}
@@ -4500,9 +4500,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htc.c linux-5.4.39-ct/dri
  		spin_unlock_bh(&htc->tx_lock);
  	}
  
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htt.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htt.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/htt.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htt.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/htt.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htt.c	2020-06-27 00:11:12.000000000 +0100
 @@ -261,8 +261,8 @@
  					     htt->max_num_ampdu,
  					     htt->max_num_amsdu);
@@ -4514,9 +4514,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.c linux-5.4.39-ct/dri
  		return status;
  	}
  
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htt.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htt.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/htt.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htt.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/htt.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htt.h	2020-06-27 00:11:12.000000000 +0100
 @@ -150,7 +150,7 @@
  	HTT_DATA_TX_DESC_FLAGS1_MORE_IN_BATCH    = 1 << 12,
  	HTT_DATA_TX_DESC_FLAGS1_CKSUM_L3_OFFLOAD = 1 << 13,
@@ -4673,7 +4673,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.h linux-5.4.39-ct/dri
  	struct completion target_version_received;
  	u8 max_num_amsdu;
  	u8 max_num_ampdu;
-@@ -2026,7 +2097,8 @@
+@@ -2026,14 +2097,14 @@
  	int (*htt_send_frag_desc_bank_cfg)(struct ath10k_htt *htt);
  	int (*htt_alloc_frag_desc)(struct ath10k_htt *htt);
  	void (*htt_free_frag_desc)(struct ath10k_htt *htt);
@@ -4683,7 +4683,14 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.h linux-5.4.39-ct/dri
  		      struct sk_buff *msdu);
  	int (*htt_alloc_txbuff)(struct ath10k_htt *htt);
  	void (*htt_free_txbuff)(struct ath10k_htt *htt);
-@@ -2066,10 +2138,11 @@
+ 	int (*htt_h2t_aggr_cfg_msg)(struct ath10k_htt *htt,
+ 				    u8 max_subfrms_ampdu,
+ 				    u8 max_subfrms_amsdu);
+-	void (*htt_flush_tx)(struct ath10k_htt *htt);
+ };
+ 
+ static inline int ath10k_htt_send_rx_ring_cfg(struct ath10k_htt *htt)
+@@ -2067,16 +2138,11 @@
  }
  
  static inline int ath10k_htt_tx(struct ath10k_htt *htt,
@@ -4692,11 +4699,17 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.h linux-5.4.39-ct/dri
  				struct sk_buff *msdu)
  {
 -	return htt->tx_ops->htt_tx(htt, txmode, msdu);
+-}
+-
+-static inline void ath10k_htt_flush_tx(struct ath10k_htt *htt)
+-{
+-	if (htt->tx_ops->htt_flush_tx)
+-		htt->tx_ops->htt_flush_tx(htt);
 +	return htt->tx_ops->htt_tx(htt, vif, txmode, msdu);
  }
  
  static inline int ath10k_htt_alloc_txbuff(struct ath10k_htt *htt)
-@@ -2218,7 +2291,7 @@
+@@ -2225,7 +2291,7 @@
   * Should be: sizeof(struct htt_host_rx_desc) + max rx MSDU size,
   * rounded up to a cache line size.
   */
@@ -4705,9 +4718,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt.h linux-5.4.39-ct/dri
  #define HTT_RX_MSDU_SIZE (HTT_RX_BUF_SIZE - (int)sizeof(struct htt_rx_desc))
  
  /* Refill a bunch of RX buffers for each refill round so that FW/HW can handle
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_rx.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htt_rx.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_rx.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htt_rx.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/htt_rx.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htt_rx.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/htt_rx.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htt_rx.c	2020-06-27 00:11:12.000000000 +0100
 @@ -284,17 +284,25 @@
  	ath10k_htt_rx_ring_free(htt);
  	spin_unlock_bh(&htt->rx_ring.lock);
@@ -5410,9 +5423,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_rx.c linux-5.4.39-ct/
  	struct sk_buff_head tx_ind_q;
  	struct sk_buff *skb;
  	unsigned long flags;
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htt_tx.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/htt_tx.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htt_tx.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/htt_tx.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/htt_tx.c	2020-06-27 00:11:12.000000000 +0100
 @@ -145,8 +145,10 @@
  	lockdep_assert_held(&htt->tx_lock);
  
@@ -5437,15 +5450,24 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  
  	return 0;
  }
-@@ -531,6 +535,7 @@
+@@ -529,14 +533,10 @@
+ 	htt->tx_mem_allocated = false;
+ }
  
+-static void ath10k_htt_flush_tx_queue(struct ath10k_htt *htt)
+-{
+-	idr_for_each(&htt->pending_tx, ath10k_htt_tx_clean_up_pending, htt->ar);
+-}
+-
  void ath10k_htt_tx_stop(struct ath10k_htt *htt)
  {
+-	ath10k_htt_flush_tx_queue(htt);
 +
- 	idr_for_each(&htt->pending_tx, ath10k_htt_tx_clean_up_pending, htt->ar);
++	idr_for_each(&htt->pending_tx, ath10k_htt_tx_clean_up_pending, htt->ar);
  	idr_destroy(&htt->pending_tx);
  }
-@@ -1146,12 +1151,53 @@
+ 
+@@ -1151,12 +1151,53 @@
  
  	if (!is_eth && ieee80211_is_mgmt(hdr->frame_control))
  		return HTT_DATA_TX_EXT_TID_MGMT;
@@ -5499,7 +5521,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  int ath10k_htt_mgmt_tx(struct ath10k_htt *htt, struct sk_buff *msdu)
  {
  	struct ath10k *ar = htt->ar;
-@@ -1163,6 +1209,7 @@
+@@ -1168,6 +1209,7 @@
  	int len = 0;
  	int msdu_id = -1;
  	int res;
@@ -5507,7 +5529,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)msdu->data;
  
  	len += sizeof(cmd->hdr);
-@@ -1187,7 +1234,8 @@
+@@ -1192,7 +1234,8 @@
  		goto err_free_msdu_id;
  	}
  
@@ -5517,7 +5539,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  				       DMA_TO_DEVICE);
  	res = dma_mapping_error(dev, skb_cb->paddr);
  	if (res) {
-@@ -1201,16 +1249,20 @@
+@@ -1206,16 +1249,20 @@
  
  	cmd->hdr.msg_type         = HTT_H2T_MSG_TYPE_MGMT_TX;
  	cmd->mgmt_tx.msdu_paddr = __cpu_to_le32(ATH10K_SKB_CB(msdu)->paddr);
@@ -5540,7 +5562,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  	return 0;
  
  err_unmap_msdu:
-@@ -1231,7 +1283,8 @@
+@@ -1236,7 +1283,8 @@
  	sizeof(struct htt_data_tx_desc) + \
  	sizeof(struct ath10k_htc_hdr))
  
@@ -5550,7 +5572,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  			    struct sk_buff *msdu)
  {
  	struct ath10k *ar = htt->ar;
-@@ -1341,6 +1394,7 @@
+@@ -1346,6 +1394,7 @@
  }
  
  static int ath10k_htt_tx_32(struct ath10k_htt *htt,
@@ -5558,7 +5580,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  			    enum ath10k_hw_txrx_mode txmode,
  			    struct sk_buff *msdu)
  {
-@@ -1360,10 +1414,147 @@
+@@ -1365,10 +1414,147 @@
  	u8 flags0 = 0;
  	u16 msdu_id, flags1 = 0;
  	u16 freq = 0;
@@ -5706,7 +5728,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  
  	res = ath10k_htt_tx_alloc_msdu_id(htt, msdu);
  	if (res < 0)
-@@ -1378,17 +1569,25 @@
+@@ -1383,17 +1569,25 @@
  	txbuf_paddr = htt->txbuf.paddr +
  		      (sizeof(struct ath10k_htt_txbuf_32) * msdu_id);
  
@@ -5725,8 +5747,8 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
 +			    ieee80211_is_action(hdr->frame_control), ieee80211_is_deauth(hdr->frame_control),
 +			    ieee80211_is_disassoc(hdr->frame_control), ieee80211_has_protected(hdr->frame_control),
 +			    skb_cb->flags & ATH10K_SKB_F_NO_HWCRYPT, txmode, ieee80211_is_data_qos(hdr->frame_control));
-+	}
-+
+ 	}
+ 
 +	if (!(skb_cb->flags & ATH10K_SKB_F_NO_HWCRYPT)) {
 +		if (ieee80211_is_robust_mgmt_frame_tx(hdr) &&
 +		    ieee80211_has_protected(hdr->frame_control)) {
@@ -5735,13 +5757,13 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
 +			   ieee80211_has_protected(hdr->frame_control)) {
 +			skb_put(msdu, IEEE80211_CCMP_MIC_LEN);
 +		}
- 	}
- 
++	}
++
 +	/* NOTE:  This writes over info->control.rates[0], at least. */
  	skb_cb->paddr = dma_map_single(dev, msdu->data, msdu->len,
  				       DMA_TO_DEVICE);
  	res = dma_mapping_error(dev, skb_cb->paddr);
-@@ -1397,9 +1596,6 @@
+@@ -1402,9 +1596,6 @@
  		goto err_free_msdu_id;
  	}
  
@@ -5751,7 +5773,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  	switch (txmode) {
  	case ATH10K_HW_TXRX_RAW:
  	case ATH10K_HW_TXRX_NATIVE_WIFI:
-@@ -1495,17 +1691,32 @@
+@@ -1500,17 +1691,32 @@
  		txbuf->cmd_tx.offchan_tx.freq =
  				__cpu_to_le16(freq);
  	} else {
@@ -5792,7 +5814,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  	trace_ath10k_tx_hdr(ar, msdu->data, msdu->len);
  	trace_ath10k_tx_payload(ar, msdu->data, msdu->len);
  
-@@ -1530,6 +1741,10 @@
+@@ -1535,6 +1741,10 @@
  	if (res)
  		goto err_unmap_msdu;
  
@@ -5803,7 +5825,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  	return 0;
  
  err_unmap_msdu:
-@@ -1541,6 +1756,7 @@
+@@ -1546,6 +1756,7 @@
  }
  
  static int ath10k_htt_tx_64(struct ath10k_htt *htt,
@@ -5811,7 +5833,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  			    enum ath10k_hw_txrx_mode txmode,
  			    struct sk_buff *msdu)
  {
-@@ -1565,6 +1781,18 @@
+@@ -1570,6 +1781,18 @@
  	struct htt_msdu_ext_desc_64 *ext_desc = NULL;
  	struct htt_msdu_ext_desc_64 *ext_desc_t = NULL;
  
@@ -5830,9 +5852,17 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/htt_tx.c linux-5.4.39-ct/
  	res = ath10k_htt_tx_alloc_msdu_id(htt, msdu);
  	if (res < 0)
  		goto err;
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/hw.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/hw.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/hw.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/hw.c	2020-05-12 23:23:34.000000000 +0100
+@@ -1779,7 +2002,6 @@
+ 	.htt_send_frag_desc_bank_cfg = ath10k_htt_send_frag_desc_bank_cfg_32,
+ 	.htt_tx = ath10k_htt_tx_hl,
+ 	.htt_h2t_aggr_cfg_msg = ath10k_htt_h2t_aggr_cfg_msg_32,
+-	.htt_flush_tx = ath10k_htt_flush_tx_queue,
+ };
+ 
+ void ath10k_htt_set_tx_ops(struct ath10k_htt *htt)
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/hw.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/hw.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/hw.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/hw.c	2020-06-27 00:11:12.000000000 +0100
 @@ -581,7 +581,7 @@
  	survey->time_busy = CCNT_TO_MSEC(ar, rcc);
  }
@@ -5881,9 +5911,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/hw.c linux-5.4.39-ct/driv
  	/* Ensure we have a debug level of WARN set for the case that the
  	 * coverage class is larger than 0. This is important as we need to
  	 * set the registers again if the firmware does an internal reset and
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/hw.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/hw.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/hw.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/hw.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/hw.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/hw.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/hw.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/hw.h	2020-06-27 00:11:12.000000000 +0100
 @@ -162,6 +162,8 @@
  
  #define REG_DUMP_COUNT_QCA988X 60
@@ -5974,9 +6004,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/hw.h linux-5.4.39-ct/driv
 +} __packed;
 +
  #endif /* _HW_H_ */
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/mac.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/mac.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/mac.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/mac.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/mac.c	2020-06-27 00:11:12.000000000 +0100
 @@ -12,6 +12,7 @@
  #include <linux/etherdevice.h>
  #include <linux/acpi.h>
@@ -7194,7 +7224,17 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	if (ret) {
  		ath10k_warn(ar, "failed to submit frame: %d\n", ret);
  		return ret;
-@@ -3946,6 +4712,25 @@
+@@ -3911,9 +4677,6 @@
+ 			if (ret) {
+ 				ath10k_warn(ar, "failed to transmit management frame by ref via WMI: %d\n",
+ 					    ret);
+-				/* remove this msdu from idr tracking */
+-				ath10k_wmi_cleanup_mgmt_tx_send(ar, skb);
+-
+ 				dma_unmap_single(ar->dev, paddr, skb->len,
+ 						 DMA_TO_DEVICE);
+ 				ieee80211_free_txskb(ar->hw, skb);
+@@ -3949,6 +4712,25 @@
  	if (!txq)
  		return;
  
@@ -7220,7 +7260,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	spin_lock_bh(&ar->htt.tx_lock);
  	idr_for_each_entry(&ar->htt.pending_tx, msdu, msdu_id) {
  		cb = ATH10K_SKB_CB(msdu);
-@@ -3978,6 +4763,38 @@
+@@ -3981,6 +4763,38 @@
  		return NULL;
  }
  
@@ -7259,7 +7299,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  static bool ath10k_mac_tx_can_push(struct ieee80211_hw *hw,
  				   struct ieee80211_txq *txq)
  {
-@@ -4067,7 +4884,36 @@
+@@ -4070,7 +4884,36 @@
  	if (ret)
  		return ret;
  
@@ -7296,7 +7336,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	if (!skb) {
  		spin_lock_bh(&ar->htt.tx_lock);
  		ath10k_htt_tx_dec_pending(htt);
-@@ -4296,6 +5142,8 @@
+@@ -4299,6 +5142,8 @@
  
  	lockdep_assert_held(&ar->conf_mutex);
  
@@ -7305,7 +7345,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	ret = ath10k_wmi_start_scan(ar, arg);
  	if (ret)
  		return ret;
-@@ -4320,12 +5168,39 @@
+@@ -4323,12 +5168,39 @@
  	}
  	spin_unlock_bh(&ar->data_lock);
  
@@ -7350,7 +7390,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  
  static void ath10k_mac_op_tx(struct ieee80211_hw *hw,
  			     struct ieee80211_tx_control *control,
-@@ -4355,6 +5230,12 @@
+@@ -4358,6 +5230,12 @@
  		  txpath == ATH10K_MAC_TX_HTT_MGMT);
  	is_mgmt = (txpath == ATH10K_MAC_TX_HTT_MGMT);
  
@@ -7363,7 +7403,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	if (is_htt) {
  		spin_lock_bh(&ar->htt.tx_lock);
  		is_presp = ieee80211_is_probe_resp(hdr->frame_control);
-@@ -4667,6 +5548,9 @@
+@@ -4670,6 +5548,9 @@
  	if (ar->phy_capability & WHAL_WLAN_11G_CAPABILITY) {
  		band = &ar->mac.sbands[NL80211_BAND_2GHZ];
  		band->ht_cap = ht_cap;
@@ -7373,7 +7413,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	}
  	if (ar->phy_capability & WHAL_WLAN_11A_CAPABILITY) {
  		band = &ar->mac.sbands[NL80211_BAND_5GHZ];
-@@ -4990,6 +5874,36 @@
+@@ -4993,6 +5874,36 @@
  	return ret;
  }
  
@@ -7410,7 +7450,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  static int ath10k_mac_txpower_setup(struct ath10k *ar, int txpower)
  {
  	int ret;
-@@ -5026,7 +5940,8 @@
+@@ -5029,7 +5940,8 @@
  	lockdep_assert_held(&ar->conf_mutex);
  
  	list_for_each_entry(arvif, &ar->arvifs, list) {
@@ -7420,7 +7460,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  			continue;
  
  		if (txpower == -1)
-@@ -5066,25 +5981,18 @@
+@@ -5069,25 +5981,18 @@
  			ath10k_warn(ar, "failed to recalc monitor: %d\n", ret);
  	}
  
@@ -7450,7 +7490,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	int nsts;
  	int sound_dim;
  
-@@ -5104,20 +6012,26 @@
+@@ -5107,20 +6012,26 @@
  	if (!value)
  		return 0;
  
@@ -7481,7 +7521,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	return ath10k_wmi_vdev_set_param(ar, arvif->vdev_id,
  					 ar->wmi.vdev_param->txbf, value);
  }
-@@ -5149,9 +6063,17 @@
+@@ -5152,9 +6063,17 @@
  	memset(arvif, 0, sizeof(*arvif));
  	ath10k_mac_txq_init(vif->txq);
  
@@ -7499,7 +7539,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	INIT_LIST_HEAD(&arvif->list);
  	INIT_WORK(&arvif->ap_csa_work, ath10k_mac_vif_ap_csa_work);
  	INIT_DELAYED_WORK(&arvif->connection_loss_work,
-@@ -5371,6 +6293,10 @@
+@@ -5374,6 +6293,10 @@
  		arvif->peer_id = HTT_INVALID_PEERID;
  	}
  
@@ -7510,7 +7550,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	if (arvif->vdev_type == WMI_VDEV_TYPE_AP) {
  		ret = ath10k_mac_set_kickout(arvif);
  		if (ret) {
-@@ -5510,6 +6436,16 @@
+@@ -5513,6 +6436,16 @@
  		ath10k_warn(ar, "failed to stop spectral for vdev %i: %d\n",
  			    arvif->vdev_id, ret);
  
@@ -7527,7 +7567,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	ar->free_vdev_map |= 1LL << arvif->vdev_id;
  	spin_lock_bh(&ar->data_lock);
  	list_del(&arvif->list);
-@@ -5568,8 +6504,8 @@
+@@ -5571,8 +6504,8 @@
  			continue;
  
  		if (peer->vif == vif) {
@@ -7538,7 +7578,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  			peer->vif = NULL;
  		}
  	}
-@@ -5912,6 +6848,12 @@
+@@ -5915,6 +6848,12 @@
  		WARN_ON_ONCE(1);
  		return;
  	}
@@ -7551,7 +7591,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	ar->hw_params.hw_ops->set_coverage_class(ar, value);
  }
  
-@@ -5944,6 +6886,30 @@
+@@ -5947,6 +6886,30 @@
  	return data.num_tdls_stations;
  }
  
@@ -7582,7 +7622,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  static int ath10k_hw_scan(struct ieee80211_hw *hw,
  			  struct ieee80211_vif *vif,
  			  struct ieee80211_scan_request *hw_req)
-@@ -5955,6 +6921,7 @@
+@@ -5958,6 +6921,7 @@
  	int ret = 0;
  	int i;
  	u32 scan_timeout;
@@ -7590,7 +7630,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  
  	mutex_lock(&ar->conf_mutex);
  
-@@ -5964,6 +6931,9 @@
+@@ -5967,6 +6931,9 @@
  	}
  
  	spin_lock_bh(&ar->data_lock);
@@ -7600,7 +7640,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	switch (ar->scan.state) {
  	case ATH10K_SCAN_IDLE:
  		reinit_completion(&ar->scan.started);
-@@ -5977,6 +6947,7 @@
+@@ -5980,6 +6947,7 @@
  	case ATH10K_SCAN_RUNNING:
  	case ATH10K_SCAN_ABORTING:
  		ret = -EBUSY;
@@ -7608,7 +7648,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  		break;
  	}
  	spin_unlock_bh(&ar->data_lock);
-@@ -5989,6 +6960,24 @@
+@@ -5992,6 +6960,24 @@
  	arg.vdev_id = arvif->vdev_id;
  	arg.scan_id = ATH10K_SCAN_ID;
  
@@ -7633,7 +7673,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	if (req->ie_len) {
  		arg.ie_len = req->ie_len;
  		memcpy(arg.ie, req->ie, arg.ie_len);
-@@ -6053,6 +7042,8 @@
+@@ -6056,6 +7042,8 @@
  {
  	struct ath10k *ar = hw->priv;
  
@@ -7642,7 +7682,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	mutex_lock(&ar->conf_mutex);
  	ath10k_scan_abort(ar);
  	mutex_unlock(&ar->conf_mutex);
-@@ -6127,8 +7118,12 @@
+@@ -6130,8 +7118,12 @@
  	if (arvif->nohwcrypt)
  		return 1;
  
@@ -7656,7 +7696,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  
  	mutex_lock(&ar->conf_mutex);
  
-@@ -6369,8 +7364,8 @@
+@@ -6372,8 +7364,8 @@
  	}
  
  	if (changed & IEEE80211_RC_SUPP_RATES_CHANGED) {
@@ -7667,7 +7707,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  
  		err = ath10k_station_assoc(ar, arvif->vif, sta, true);
  		if (err)
-@@ -6658,8 +7653,8 @@
+@@ -6661,8 +7653,8 @@
  		/*
  		 * New association.
  		 */
@@ -7678,7 +7718,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  
  		ret = ath10k_station_assoc(ar, vif, sta, false);
  		if (ret)
-@@ -6671,8 +7666,8 @@
+@@ -6674,8 +7666,8 @@
  		/*
  		 * Tdls station authorized.
  		 */
@@ -7689,7 +7729,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  
  		ret = ath10k_station_assoc(ar, vif, sta, false);
  		if (ret) {
-@@ -6943,6 +7938,14 @@
+@@ -6946,6 +7938,14 @@
  	arg.scan_ctrl_flags |= WMI_SCAN_FILTER_PROBE_REQ;
  	arg.burst_duration_ms = duration;
  
@@ -7704,7 +7744,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	ret = ath10k_start_scan(ar, &arg);
  	if (ret) {
  		ath10k_warn(ar, "failed to start roc scan: %d\n", ret);
-@@ -7040,19 +8043,14 @@
+@@ -7043,19 +8043,14 @@
  {
  	bool skip;
  	long time_left;
@@ -7727,7 +7767,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  			spin_unlock_bh(&ar->htt.tx_lock);
  
  			skip = (ar->state == ATH10K_STATE_WEDGED) ||
-@@ -7063,18 +8061,74 @@
+@@ -7066,18 +8061,74 @@
  		}), ATH10K_FLUSH_TIMEOUT_HZ);
  
  	if (time_left == 0 || skip)
@@ -7806,9 +7846,11 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  		if (vif && vif->type == NL80211_IFTYPE_STATION) {
  			bitmap = ~(1 << WMI_MGMT_TID);
  			list_for_each_entry(arvif, &ar->arvifs, list) {
-@@ -7083,11 +8137,13 @@
+@@ -7085,13 +8136,14 @@
+ 					ath10k_wmi_peer_flush(ar, arvif->vdev_id,
  							      arvif->bssid, bitmap);
  			}
+-			ath10k_htt_flush_tx(&ar->htt);
  		}
 -		return;
 +		goto skip;
@@ -7822,7 +7864,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	mutex_unlock(&ar->conf_mutex);
  }
  
-@@ -7144,7 +8200,8 @@
+@@ -7148,7 +8200,8 @@
  
  	ret = ath10k_wmi_pdev_bss_chan_info_request(ar, type);
  	if (ret) {
@@ -7832,7 +7874,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  		return;
  	}
  
-@@ -7332,7 +8389,8 @@
+@@ -7336,7 +8389,8 @@
  }
  
  static int ath10k_mac_set_fixed_rate_params(struct ath10k_vif *arvif,
@@ -7842,7 +7884,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  {
  	struct ath10k *ar = arvif->ar;
  	u32 vdev_param;
-@@ -7344,10 +8402,11 @@
+@@ -7348,10 +8402,11 @@
  		   arvif->vdev_id, rate, nss, sgi);
  
  	vdev_param = ar->wmi.vdev_param->fixed_rate;
@@ -7856,7 +7898,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  		return ret;
  	}
  
-@@ -7384,6 +8443,13 @@
+@@ -7388,6 +8443,13 @@
  	int i;
  	u16 vht_mcs;
  
@@ -7870,7 +7912,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	/* Due to firmware limitation in WMI_PEER_ASSOC_CMDID it is impossible
  	 * to express all VHT MCS rate masks. Effectively only the following
  	 * ranges can be used: none, 0-7, 0-8 and 0-9.
-@@ -7467,6 +8533,27 @@
+@@ -7471,6 +8533,27 @@
  			    sta->addr, err);
  }
  
@@ -7898,7 +7940,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  static int ath10k_mac_op_set_bitrate_mask(struct ieee80211_hw *hw,
  					  struct ieee80211_vif *vif,
  					  const struct cfg80211_bitrate_mask *mask)
-@@ -7487,10 +8574,22 @@
+@@ -7491,10 +8574,22 @@
  	u8 vht_pfr;
  	bool update_bitrate_mask = true;
  
@@ -7924,7 +7966,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	ht_mcs_mask = mask->control[band].ht_mcs;
  	vht_mcs_mask = mask->control[band].vht_mcs;
  	ldpc = !!(ar->ht_cap_info & WMI_HT_CAP_LDPC);
-@@ -7519,10 +8618,12 @@
+@@ -7523,10 +8618,12 @@
  				    arvif->vdev_id, ret);
  			return ret;
  		}
@@ -7937,7 +7979,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	} else {
  		rate = WMI_FIXED_RATE_NONE;
  		nss = min(ar->num_rf_chains,
-@@ -7564,13 +8665,19 @@
+@@ -7568,13 +8665,19 @@
  
  	mutex_lock(&ar->conf_mutex);
  
@@ -7958,7 +8000,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  exit:
  	mutex_unlock(&ar->conf_mutex);
  
-@@ -7663,6 +8770,49 @@
+@@ -7667,6 +8770,49 @@
  	ieee80211_queue_work(hw, &arsta->update_wk);
  }
  
@@ -8008,7 +8050,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  static void ath10k_offset_tsf(struct ieee80211_hw *hw,
  			      struct ieee80211_vif *vif, s64 tsf_offset)
  {
-@@ -8166,6 +9316,15 @@
+@@ -8170,6 +9316,15 @@
  	sinfo->rx_duration = arsta->rx_duration;
  	sinfo->filled |= BIT_ULL(NL80211_STA_INFO_RX_DURATION);
  
@@ -8024,7 +8066,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	if (!arsta->txrate.legacy && !arsta->txrate.nss)
  		return;
  
-@@ -8211,9 +9370,13 @@
+@@ -8215,9 +9370,13 @@
  	.set_bitrate_mask		= ath10k_mac_op_set_bitrate_mask,
  	.sta_rc_update			= ath10k_sta_rc_update,
  	.offset_tsf			= ath10k_offset_tsf,
@@ -8038,7 +8080,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	.get_et_strings			= ath10k_debug_get_et_strings,
  	.add_chanctx			= ath10k_mac_op_add_chanctx,
  	.remove_chanctx			= ath10k_mac_op_remove_chanctx,
-@@ -8234,6 +9397,9 @@
+@@ -8238,6 +9397,9 @@
  #ifdef CONFIG_MAC80211_DEBUGFS
  	.sta_add_debugfs		= ath10k_sta_add_debugfs,
  #endif
@@ -8048,7 +8090,16 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  };
  
  #define CHAN2G(_channel, _freq, _flags) { \
-@@ -8371,7 +9537,27 @@
+@@ -8323,6 +9485,8 @@
+ 		return NULL;
+ 	}
+ 
++	pr_err("ath10k_mac_create, priv_size: %lu  hw: %p  hw->priv: %p\n",
++	       (unsigned long)(priv_size), hw, hw->priv);
+ 	ar = hw->priv;
+ 	ar->hw = hw;
+ 	ar->ops = ops;
+@@ -8375,7 +9539,27 @@
  	},
  };
  
@@ -8077,7 +8128,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	{
  		.limits = ath10k_if_limits,
  		.n_limits = ARRAY_SIZE(ath10k_if_limits),
-@@ -8381,7 +9567,7 @@
+@@ -8385,7 +9569,7 @@
  	},
  };
  
@@ -8086,7 +8137,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	{
  		.limits = ath10k_10x_if_limits,
  		.n_limits = ARRAY_SIZE(ath10k_10x_if_limits),
-@@ -8452,6 +9638,23 @@
+@@ -8456,6 +9640,23 @@
  	},
  };
  
@@ -8110,7 +8161,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  /* FIXME: This is not thouroughly tested. These combinations may over- or
   * underestimate hw/fw capabilities.
   */
-@@ -8517,6 +9720,8 @@
+@@ -8521,6 +9722,8 @@
  		.radar_detect_widths =	BIT(NL80211_CHAN_WIDTH_20_NOHT) |
  					BIT(NL80211_CHAN_WIDTH_20) |
  					BIT(NL80211_CHAN_WIDTH_40) |
@@ -8119,7 +8170,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  					BIT(NL80211_CHAN_WIDTH_80),
  #endif
  	},
-@@ -8535,6 +9740,44 @@
+@@ -8539,6 +9742,44 @@
  		.radar_detect_widths =  BIT(NL80211_CHAN_WIDTH_20_NOHT) |
  					BIT(NL80211_CHAN_WIDTH_20) |
  					BIT(NL80211_CHAN_WIDTH_40) |
@@ -8164,7 +8215,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  					BIT(NL80211_CHAN_WIDTH_80),
  #endif
  	},
-@@ -8669,10 +9912,72 @@
+@@ -8673,10 +9914,72 @@
  		rd = ar->hw_eeprom_rd;
  	}
  
@@ -8238,7 +8289,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  int ath10k_mac_register(struct ath10k *ar)
  {
  	static const u32 cipher_suites[] = {
-@@ -8785,7 +10090,8 @@
+@@ -8789,7 +10092,8 @@
  	ieee80211_hw_set(ar->hw, AP_LINK_PS);
  	ieee80211_hw_set(ar->hw, SPECTRUM_MGMT);
  	ieee80211_hw_set(ar->hw, SUPPORT_FAST_XMIT);
@@ -8248,7 +8299,15 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	ieee80211_hw_set(ar->hw, SUPPORTS_PER_STA_GTK);
  	ieee80211_hw_set(ar->hw, WANT_MONITOR_VIF);
  	ieee80211_hw_set(ar->hw, CHANCTX_STA_CSA);
-@@ -8902,41 +10208,108 @@
+@@ -8815,6 +10119,7 @@
+ 	ar->hw->wiphy->max_scan_ie_len = WLAN_SCAN_PARAMS_MAX_IE_LEN;
+ 
+ 	if (test_bit(WMI_SERVICE_NLO, ar->wmi.svc_map)) {
++		ar->hw->wiphy->max_sched_scan_reqs = 1;
+ 		ar->hw->wiphy->max_sched_scan_ssids = WMI_PNO_MAX_SUPP_NETWORKS;
+ 		ar->hw->wiphy->max_match_sets = WMI_PNO_MAX_SUPP_NETWORKS;
+ 		ar->hw->wiphy->max_sched_scan_ie_len = WMI_PNO_MAX_IE_LENGTH;
+@@ -8905,41 +10210,108 @@
  
  	switch (ar->running_fw->fw_file.wmi_op_version) {
  	case ATH10K_FW_WMI_OP_VERSION_MAIN:
@@ -8378,7 +8437,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  		}
  		break;
  	case ATH10K_FW_WMI_OP_VERSION_UNSET:
-@@ -8946,6 +10319,9 @@
+@@ -8949,6 +10321,9 @@
  		goto err_free;
  	}
  
@@ -8388,7 +8447,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	if (!test_bit(ATH10K_FLAG_RAW_MODE, &ar->dev_flags))
  		ar->hw->netdev_features = NETIF_F_HW_CSUM;
  
-@@ -8969,6 +10345,7 @@
+@@ -8972,6 +10347,7 @@
  	if (!ar->hw_params.hw_ops->set_coverage_class)
  		ar->ops->set_coverage_class = NULL;
  
@@ -8396,7 +8455,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  	ret = ath_regd_init(&ar->ath_common.regulatory, ar->hw->wiphy,
  			    ath10k_reg_notifier);
  	if (ret) {
-@@ -8999,13 +10376,22 @@
+@@ -9002,13 +10378,22 @@
  
  	ar->hw->weight_multiplier = ATH10K_AIRTIME_WEIGHT_MULTIPLIER;
  
@@ -8420,9 +8479,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.c linux-5.4.39-ct/dri
  		ar->hw->wiphy->interface_modes |= BIT(NL80211_IFTYPE_AP_VLAN);
  		ar->hw->wiphy->software_iftypes |= BIT(NL80211_IFTYPE_AP_VLAN);
  	}
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/mac.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/mac.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/mac.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/mac.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/mac.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/mac.h	2020-06-27 00:11:12.000000000 +0100
 @@ -15,6 +15,15 @@
  enum wmi_tlv_tx_pause_id;
  enum wmi_tlv_tx_pause_action;
@@ -8472,9 +8531,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/mac.h linux-5.4.39-ct/dri
 +int ath10k_mac_set_pdev_kickout(struct ath10k *ar);
 +
  #endif /* _MAC_H_ */
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/pci.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/pci.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/pci.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/pci.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/pci.c	2020-06-27 00:11:12.000000000 +0100
 @@ -1016,6 +1016,22 @@
  	return ret;
  }
@@ -8838,12 +8897,13 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  
  	ath10k_pci_irq_enable(ar);
  	ath10k_pci_rx_post(ar);
-@@ -2072,8 +2383,28 @@
+@@ -2072,9 +2383,28 @@
  
  	ath10k_pci_irq_disable(ar);
  	ath10k_pci_irq_sync(ar);
 -	napi_synchronize(&ar->napi);
 -	napi_disable(&ar->napi);
+-	cancel_work_sync(&ar_pci->dump_work);
 +
 +	/* Calling napi_disable twice in a row (w/out starting it and/or without
 +	 * having NAPI active leads to deadlock because napi_disable sets
@@ -8869,7 +8929,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  
  	/* Most likely the device has HTT Rx ring configured. The only way to
  	 * prevent the device from accessing (and possible corrupting) host
-@@ -2811,14 +3142,25 @@
+@@ -2812,14 +3142,25 @@
  				   enum ath10k_firmware_mode fw_mode)
  {
  	struct ath10k_pci *ar_pci = ath10k_pci_priv(ar);
@@ -8897,7 +8957,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  
  	/*
  	 * Bring the target up cleanly.
-@@ -2834,6 +3176,8 @@
+@@ -2835,6 +3176,8 @@
  	if (ret) {
  		if (ath10k_pci_has_fw_crashed(ar)) {
  			ath10k_warn(ar, "firmware crashed during chip reset\n");
@@ -8906,7 +8966,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  			ath10k_pci_fw_crashed_clear(ar);
  			ath10k_pci_fw_crashed_dump(ar);
  		}
-@@ -2860,10 +3204,13 @@
+@@ -2861,10 +3204,13 @@
  		goto err_ce;
  	}
  
@@ -8920,7 +8980,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  
  err_sleep:
  	return ret;
-@@ -3080,6 +3427,7 @@
+@@ -3081,6 +3427,7 @@
  	.power_down		= ath10k_pci_hif_power_down,
  	.read32			= ath10k_pci_read32,
  	.write32		= ath10k_pci_write32,
@@ -8928,7 +8988,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  	.suspend		= ath10k_pci_hif_suspend,
  	.resume			= ath10k_pci_hif_resume,
  	.fetch_cal_eeprom	= ath10k_pci_hif_fetch_cal_eeprom,
-@@ -3099,6 +3447,9 @@
+@@ -3100,6 +3447,9 @@
  	if (ath10k_pci_has_device_gone(ar))
  		return IRQ_NONE;
  
@@ -8938,7 +8998,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  	ret = ath10k_pci_force_wake(ar);
  	if (ret) {
  		ath10k_warn(ar, "failed to wake device up on irq: %d\n", ret);
-@@ -3122,6 +3473,8 @@
+@@ -3123,6 +3473,8 @@
  	int done = 0;
  
  	if (ath10k_pci_has_fw_crashed(ar)) {
@@ -8947,7 +9007,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  		ath10k_pci_fw_crashed_clear(ar);
  		ath10k_pci_fw_crashed_dump(ar);
  		napi_complete(ctx);
-@@ -3497,8 +3850,8 @@
+@@ -3498,8 +3850,8 @@
  	.get_num_banks	= ath10k_pci_get_num_banks,
  };
  
@@ -8958,17 +9018,17 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  {
  	int ret = 0;
  	struct ath10k *ar;
-@@ -3510,6 +3863,9 @@
+@@ -3511,6 +3863,9 @@
  	int (*pci_hard_reset)(struct ath10k *ar);
  	u32 (*targ_cpu_to_ce_addr)(struct ath10k *ar, u32 addr);
  
-+	printk(KERN_INFO "ath10k 5.1 driver, optimized for CT firmware, probing pci device: 0x%x.\n",
++	printk(KERN_INFO "ath10k 5.4 driver, optimized for CT firmware, probing pci device: 0x%x.\n",
 +	       pci_dev->device);
 +
  	switch (pci_dev->device) {
  	case QCA988X_2_0_DEVICE_ID_UBNT:
  	case QCA988X_2_0_DEVICE_ID:
-@@ -3696,6 +4052,22 @@
+@@ -3697,6 +4052,22 @@
  	return ret;
  }
  
@@ -8991,9 +9051,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/pci.c linux-5.4.39-ct/dri
  static void ath10k_pci_remove(struct pci_dev *pdev)
  {
  	struct ath10k *ar = pci_get_drvdata(pdev);
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/rx_desc.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/rx_desc.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/rx_desc.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/rx_desc.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/rx_desc.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/rx_desc.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/rx_desc.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/rx_desc.h	2020-06-27 00:11:12.000000000 +0100
 @@ -726,7 +726,8 @@
  		u8 ext80_mhz;
  	} rssi_chains[4];
@@ -9004,9 +9064,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/rx_desc.h linux-5.4.39-ct
  	u8 info0; /* %RX_PPDU_START_INFO0_ */
  	__le32 info1; /* %RX_PPDU_START_INFO1_ */
  	__le32 info2; /* %RX_PPDU_START_INFO2_ */
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/targaddrs.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/targaddrs.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/targaddrs.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/targaddrs.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/targaddrs.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/targaddrs.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/targaddrs.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/targaddrs.h	2020-06-27 00:11:12.000000000 +0100
 @@ -98,6 +98,12 @@
  	u32 hi_desired_baud_rate;			/* 0x60 */
  	u32 hi_dbglog_config;				/* 0x64 */
@@ -9020,9 +9080,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/targaddrs.h linux-5.4.39-
  	u32 hi_mbox_io_block_sz;			/* 0x6c */
  
  	u32 hi_num_bpatch_streams;			/* 0x70 -- unused */
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/txrx.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/txrx.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/txrx.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/txrx.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/txrx.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/txrx.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/txrx.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/txrx.c	2020-06-27 00:11:12.000000000 +0100
 @@ -40,6 +40,122 @@
  	spin_unlock_bh(&ar->data_lock);
  }
@@ -9172,7 +9232,19 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/txrx.c linux-5.4.39-ct/dr
  	skb_cb = ATH10K_SKB_CB(msdu);
  	txq = skb_cb->txq;
  
-@@ -99,11 +227,23 @@
+@@ -84,11 +212,9 @@
+ 		wake_up(&htt->empty_tx_wq);
+ 	spin_unlock_bh(&htt->tx_lock);
+ 
+-	rcu_read_lock();
+ 	if (txq && txq->sta && skb_cb->airtime_est)
+ 		ieee80211_sta_register_airtime(txq->sta, txq->tid,
+ 					       skb_cb->airtime_est, 0);
+-	rcu_read_unlock();
+ 
+ 	if (ar->bus_param.dev_type != ATH10K_DEV_TYPE_HL)
+ 		dma_unmap_single(dev, skb_cb->paddr, msdu->len, DMA_TO_DEVICE);
+@@ -101,11 +227,23 @@
  
  	trace_ath10k_txrx_tx_unref(ar, tx_done->msdu_id);
  
@@ -9197,7 +9269,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/txrx.c linux-5.4.39-ct/dr
  
  	if ((tx_done->status == HTT_TX_COMPL_STATE_ACK) &&
  	    (info->flags & IEEE80211_TX_CTL_NO_ACK))
-@@ -118,11 +258,67 @@
+@@ -120,11 +258,67 @@
  
  	if (tx_done->status == HTT_TX_COMPL_STATE_ACK &&
  	    tx_done->ack_rssi != ATH10K_INVALID_RSSI) {
@@ -9267,7 +9339,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/txrx.c linux-5.4.39-ct/dr
  	ieee80211_tx_status(htt->ar->hw, msdu);
  	/* we do not own the msdu anymore */
  
-@@ -178,7 +374,7 @@
+@@ -180,7 +374,7 @@
  
  			(mapped == expect_mapped ||
  			 test_bit(ATH10K_FLAG_CRASH_FLUSH, &ar->dev_flags));
@@ -9276,7 +9348,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/txrx.c linux-5.4.39-ct/dr
  
  	if (time_left == 0)
  		return -ETIMEDOUT;
-@@ -250,10 +446,11 @@
+@@ -252,10 +446,11 @@
  	if (!peer) {
  		ath10k_warn(ar, "peer-unmap-event: unknown peer id %d\n",
  			    ev->peer_id);
@@ -9289,9 +9361,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/txrx.c linux-5.4.39-ct/dr
  		   peer->vdev_id, peer->addr, ev->peer_id);
  
  	ar->peer_map[ev->peer_id] = NULL;
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-ops.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/wmi-ops.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-ops.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/wmi-ops.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/wmi-ops.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/wmi-ops.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/wmi-ops.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/wmi-ops.h	2020-06-27 00:11:12.000000000 +0100
 @@ -65,6 +65,8 @@
  					   enum wmi_dfs_region dfs_reg);
  	struct sk_buff *(*gen_pdev_set_param)(struct ath10k *ar, u32 id,
@@ -9310,7 +9382,31 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-ops.h linux-5.4.39-ct
  	struct sk_buff *(*gen_force_fw_hang)(struct ath10k *ar,
  					     enum wmi_force_fw_hang_type type,
  					     u32 delay_ms);
-@@ -572,6 +574,21 @@
+@@ -133,7 +135,6 @@
+ 	struct sk_buff *(*gen_mgmt_tx_send)(struct ath10k *ar,
+ 					    struct sk_buff *skb,
+ 					    dma_addr_t paddr);
+-	int (*cleanup_mgmt_tx_send)(struct ath10k *ar, struct sk_buff *msdu);
+ 	struct sk_buff *(*gen_dbglog_cfg)(struct ath10k *ar, u64 module_enable,
+ 					  u32 log_level);
+ 	struct sk_buff *(*gen_pktlog_enable)(struct ath10k *ar, u32 filter);
+@@ -443,15 +444,6 @@
+ }
+ 
+ static inline int
+-ath10k_wmi_cleanup_mgmt_tx_send(struct ath10k *ar, struct sk_buff *msdu)
+-{
+-	if (!ar->wmi.ops->cleanup_mgmt_tx_send)
+-		return -EOPNOTSUPP;
+-
+-	return ar->wmi.ops->cleanup_mgmt_tx_send(ar, msdu);
+-}
+-
+-static inline int
+ ath10k_wmi_mgmt_tx_send(struct ath10k *ar, struct sk_buff *msdu,
+ 			dma_addr_t paddr)
+ {
+@@ -582,6 +574,21 @@
  }
  
  static inline int
@@ -9332,7 +9428,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-ops.h linux-5.4.39-ct
  ath10k_wmi_cmd_init(struct ath10k *ar)
  {
  	struct sk_buff *skb;
-@@ -1006,25 +1023,33 @@
+@@ -1016,25 +1023,33 @@
  }
  
  static inline int
@@ -9368,7 +9464,7 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-ops.h linux-5.4.39-ct
  		dev_kfree_skb(skb);
  		return ret;
  	}
-@@ -1050,14 +1075,14 @@
+@@ -1060,14 +1075,14 @@
  }
  
  static inline int
@@ -9385,9 +9481,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-ops.h linux-5.4.39-ct
  	if (IS_ERR(skb))
  		return PTR_ERR(skb);
  
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-tlv.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/wmi-tlv.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-tlv.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/wmi-tlv.c	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/wmi-tlv.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/wmi-tlv.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/wmi-tlv.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/wmi-tlv.c	2020-06-27 00:11:12.000000000 +0100
 @@ -2063,7 +2063,7 @@
  	tlv->tag = __cpu_to_le16(WMI_TLV_TAG_STRUCT_CHANNEL);
  	tlv->len = __cpu_to_le16(sizeof(*ch));
@@ -9415,7 +9511,35 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-tlv.c linux-5.4.39-ct
  {
  	struct wmi_request_stats_cmd *cmd;
  	struct wmi_tlv *tlv;
-@@ -3390,7 +3390,7 @@
+@@ -2838,18 +2838,6 @@
+ }
+ 
+ static int
+-ath10k_wmi_tlv_op_cleanup_mgmt_tx_send(struct ath10k *ar,
+-				       struct sk_buff *msdu)
+-{
+-	struct ath10k_skb_cb *cb = ATH10K_SKB_CB(msdu);
+-	struct ath10k_wmi *wmi = &ar->wmi;
+-
+-	idr_remove(&wmi->mgmt_pending_tx, cb->msdu_id);
+-
+-	return 0;
+-}
+-
+-static int
+ ath10k_wmi_mgmt_tx_alloc_msdu_id(struct ath10k *ar, struct sk_buff *skb,
+ 				 dma_addr_t paddr)
+ {
+@@ -2923,8 +2911,6 @@
+ 	if (desc_id < 0)
+ 		goto err_free_skb;
+ 
+-	cb->msdu_id = desc_id;
+-
+ 	ptr = (void *)skb->data;
+ 	tlv = ptr;
+ 	tlv->tag = __cpu_to_le16(WMI_TLV_TAG_STRUCT_MGMT_TX_CMD);
+@@ -3404,7 +3390,7 @@
  		tlv->tag = __cpu_to_le16(WMI_TLV_TAG_STRUCT_CHANNEL);
  		tlv->len = __cpu_to_le16(sizeof(*chan));
  		chan = (void *)tlv->value;
@@ -9424,9 +9548,17 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi-tlv.c linux-5.4.39-ct
  
  		ptr += sizeof(*tlv);
  		ptr += sizeof(*chan);
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi.c linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/wmi.c
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/wmi.c	2020-05-12 23:23:34.000000000 +0100
+@@ -4353,7 +4339,6 @@
+ 	.gen_force_fw_hang = ath10k_wmi_tlv_op_gen_force_fw_hang,
+ 	/* .gen_mgmt_tx = not implemented; HTT is used */
+ 	.gen_mgmt_tx_send = ath10k_wmi_tlv_op_gen_mgmt_tx_send,
+-	.cleanup_mgmt_tx_send = ath10k_wmi_tlv_op_cleanup_mgmt_tx_send,
+ 	.gen_dbglog_cfg = ath10k_wmi_tlv_op_gen_dbglog_cfg,
+ 	.gen_pktlog_enable = ath10k_wmi_tlv_op_gen_pktlog_enable,
+ 	.gen_pktlog_disable = ath10k_wmi_tlv_op_gen_pktlog_disable,
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/wmi.c linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/wmi.c
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/wmi.c	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/wmi.c	2020-06-27 00:11:12.000000000 +0100
 @@ -7,6 +7,7 @@
  
  #include <linux/skbuff.h>
@@ -11504,9 +11636,9 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi.c linux-5.4.39-ct/dri
  	.gen_set_psmode = ath10k_wmi_op_gen_set_psmode,
  	.gen_set_sta_ps = ath10k_wmi_op_gen_set_sta_ps,
  	.gen_set_ap_ps = ath10k_wmi_op_gen_set_ap_ps,
-diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi.h linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/wmi.h
---- linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi.h	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/drivers/net/wireless/ath/ath10k/wmi.h	2020-05-12 23:23:34.000000000 +0100
+diff -Nur linux-5.4.49/drivers/net/wireless/ath/ath10k/wmi.h linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/wmi.h
+--- linux-5.4.49/drivers/net/wireless/ath/ath10k/wmi.h	2020-06-24 16:50:53.000000000 +0100
++++ linux-5.4.49-ct/drivers/net/wireless/ath/ath10k/wmi.h	2020-06-27 00:11:12.000000000 +0100
 @@ -944,6 +944,7 @@
  	u32 sta_keepalive_cmd;
  	u32 echo_cmdid;
@@ -12400,1532 +12532,3 @@ diff -Nur linux-5.4.39/drivers/net/wireless/ath/ath10k/wmi.h linux-5.4.39-ct/dri
 +#endif
  
  #endif /* _WMI_H_ */
-diff -Nur linux-5.4.39/net/wireless/core.c linux-5.4.39-ct/net/wireless/core.c
---- linux-5.4.39/net/wireless/core.c	2020-05-06 07:15:17.000000000 +0100
-+++ linux-5.4.39-ct/net/wireless/core.c	2020-05-12 23:24:35.000000000 +0100
-@@ -616,10 +616,11 @@
- 			 * some drivers support that, possibly only with fixed
- 			 * beacon intervals for IBSS.
- 			 */
--			if (WARN_ON(types & BIT(NL80211_IFTYPE_ADHOC) &&
--				    c->beacon_int_min_gcd)) {
--				return -EINVAL;
--			}
-+			// Give users more rope. -Ben
-+			//if (WARN_ON(types & BIT(NL80211_IFTYPE_ADHOC) &&
-+			//	    c->beacon_int_min_gcd)) {
-+			//	return -EINVAL;
-+			//}
- 
- 			cnt += c->limits[j].max;
- 			/*
-diff -Nur linux-5.4.39/net/wireless/core.c.orig linux-5.4.39-ct/net/wireless/core.c.orig
---- linux-5.4.39/net/wireless/core.c.orig	1970-01-01 01:00:00.000000000 +0100
-+++ linux-5.4.39-ct/net/wireless/core.c.orig	2020-05-06 07:15:17.000000000 +0100
-@@ -0,0 +1,1506 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * This is the linux wireless configuration interface.
-+ *
-+ * Copyright 2006-2010		Johannes Berg <johannes@sipsolutions.net>
-+ * Copyright 2013-2014  Intel Mobile Communications GmbH
-+ * Copyright 2015-2017	Intel Deutschland GmbH
-+ * Copyright (C) 2018-2019 Intel Corporation
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/if.h>
-+#include <linux/module.h>
-+#include <linux/err.h>
-+#include <linux/list.h>
-+#include <linux/slab.h>
-+#include <linux/nl80211.h>
-+#include <linux/debugfs.h>
-+#include <linux/notifier.h>
-+#include <linux/device.h>
-+#include <linux/etherdevice.h>
-+#include <linux/rtnetlink.h>
-+#include <linux/sched.h>
-+#include <net/genetlink.h>
-+#include <net/cfg80211.h>
-+#include "nl80211.h"
-+#include "core.h"
-+#include "sysfs.h"
-+#include "debugfs.h"
-+#include "wext-compat.h"
-+#include "rdev-ops.h"
-+
-+/* name for sysfs, %d is appended */
-+#define PHY_NAME "phy"
-+
-+MODULE_AUTHOR("Johannes Berg");
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("wireless configuration support");
-+MODULE_ALIAS_GENL_FAMILY(NL80211_GENL_NAME);
-+
-+/* RCU-protected (and RTNL for writers) */
-+LIST_HEAD(cfg80211_rdev_list);
-+int cfg80211_rdev_list_generation;
-+
-+/* for debugfs */
-+static struct dentry *ieee80211_debugfs_dir;
-+
-+/* for the cleanup, scan and event works */
-+struct workqueue_struct *cfg80211_wq;
-+
-+static bool cfg80211_disable_40mhz_24ghz;
-+module_param(cfg80211_disable_40mhz_24ghz, bool, 0644);
-+MODULE_PARM_DESC(cfg80211_disable_40mhz_24ghz,
-+		 "Disable 40MHz support in the 2.4GHz band");
-+
-+struct cfg80211_registered_device *cfg80211_rdev_by_wiphy_idx(int wiphy_idx)
-+{
-+	struct cfg80211_registered_device *result = NULL, *rdev;
-+
-+	ASSERT_RTNL();
-+
-+	list_for_each_entry(rdev, &cfg80211_rdev_list, list) {
-+		if (rdev->wiphy_idx == wiphy_idx) {
-+			result = rdev;
-+			break;
-+		}
-+	}
-+
-+	return result;
-+}
-+
-+int get_wiphy_idx(struct wiphy *wiphy)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
-+
-+	return rdev->wiphy_idx;
-+}
-+
-+struct wiphy *wiphy_idx_to_wiphy(int wiphy_idx)
-+{
-+	struct cfg80211_registered_device *rdev;
-+
-+	ASSERT_RTNL();
-+
-+	rdev = cfg80211_rdev_by_wiphy_idx(wiphy_idx);
-+	if (!rdev)
-+		return NULL;
-+	return &rdev->wiphy;
-+}
-+
-+static int cfg80211_dev_check_name(struct cfg80211_registered_device *rdev,
-+				   const char *newname)
-+{
-+	struct cfg80211_registered_device *rdev2;
-+	int wiphy_idx, taken = -1, digits;
-+
-+	ASSERT_RTNL();
-+
-+	if (strlen(newname) > NL80211_WIPHY_NAME_MAXLEN)
-+		return -EINVAL;
-+
-+	/* prohibit calling the thing phy%d when %d is not its number */
-+	sscanf(newname, PHY_NAME "%d%n", &wiphy_idx, &taken);
-+	if (taken == strlen(newname) && wiphy_idx != rdev->wiphy_idx) {
-+		/* count number of places needed to print wiphy_idx */
-+		digits = 1;
-+		while (wiphy_idx /= 10)
-+			digits++;
-+		/*
-+		 * deny the name if it is phy<idx> where <idx> is printed
-+		 * without leading zeroes. taken == strlen(newname) here
-+		 */
-+		if (taken == strlen(PHY_NAME) + digits)
-+			return -EINVAL;
-+	}
-+
-+	/* Ensure another device does not already have this name. */
-+	list_for_each_entry(rdev2, &cfg80211_rdev_list, list)
-+		if (strcmp(newname, wiphy_name(&rdev2->wiphy)) == 0)
-+			return -EINVAL;
-+
-+	return 0;
-+}
-+
-+int cfg80211_dev_rename(struct cfg80211_registered_device *rdev,
-+			char *newname)
-+{
-+	int result;
-+
-+	ASSERT_RTNL();
-+
-+	/* Ignore nop renames */
-+	if (strcmp(newname, wiphy_name(&rdev->wiphy)) == 0)
-+		return 0;
-+
-+	result = cfg80211_dev_check_name(rdev, newname);
-+	if (result < 0)
-+		return result;
-+
-+	result = device_rename(&rdev->wiphy.dev, newname);
-+	if (result)
-+		return result;
-+
-+	if (rdev->wiphy.debugfsdir)
-+		debugfs_rename(rdev->wiphy.debugfsdir->d_parent,
-+			       rdev->wiphy.debugfsdir,
-+			       rdev->wiphy.debugfsdir->d_parent, newname);
-+
-+	nl80211_notify_wiphy(rdev, NL80211_CMD_NEW_WIPHY);
-+
-+	return 0;
-+}
-+
-+int cfg80211_switch_netns(struct cfg80211_registered_device *rdev,
-+			  struct net *net)
-+{
-+	struct wireless_dev *wdev;
-+	int err = 0;
-+
-+	if (!(rdev->wiphy.flags & WIPHY_FLAG_NETNS_OK))
-+		return -EOPNOTSUPP;
-+
-+	list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list) {
-+		if (!wdev->netdev)
-+			continue;
-+		wdev->netdev->features &= ~NETIF_F_NETNS_LOCAL;
-+		err = dev_change_net_namespace(wdev->netdev, net, "wlan%d");
-+		if (err)
-+			break;
-+		wdev->netdev->features |= NETIF_F_NETNS_LOCAL;
-+	}
-+
-+	if (err) {
-+		/* failed -- clean up to old netns */
-+		net = wiphy_net(&rdev->wiphy);
-+
-+		list_for_each_entry_continue_reverse(wdev,
-+						     &rdev->wiphy.wdev_list,
-+						     list) {
-+			if (!wdev->netdev)
-+				continue;
-+			wdev->netdev->features &= ~NETIF_F_NETNS_LOCAL;
-+			err = dev_change_net_namespace(wdev->netdev, net,
-+							"wlan%d");
-+			WARN_ON(err);
-+			wdev->netdev->features |= NETIF_F_NETNS_LOCAL;
-+		}
-+
-+		return err;
-+	}
-+
-+	list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list) {
-+		if (!wdev->netdev)
-+			continue;
-+		nl80211_notify_iface(rdev, wdev, NL80211_CMD_DEL_INTERFACE);
-+	}
-+	nl80211_notify_wiphy(rdev, NL80211_CMD_DEL_WIPHY);
-+
-+	wiphy_net_set(&rdev->wiphy, net);
-+
-+	err = device_rename(&rdev->wiphy.dev, dev_name(&rdev->wiphy.dev));
-+	WARN_ON(err);
-+
-+	nl80211_notify_wiphy(rdev, NL80211_CMD_NEW_WIPHY);
-+	list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list) {
-+		if (!wdev->netdev)
-+			continue;
-+		nl80211_notify_iface(rdev, wdev, NL80211_CMD_NEW_INTERFACE);
-+	}
-+
-+	return 0;
-+}
-+
-+static void cfg80211_rfkill_poll(struct rfkill *rfkill, void *data)
-+{
-+	struct cfg80211_registered_device *rdev = data;
-+
-+	rdev_rfkill_poll(rdev);
-+}
-+
-+void cfg80211_stop_p2p_device(struct cfg80211_registered_device *rdev,
-+			      struct wireless_dev *wdev)
-+{
-+	ASSERT_RTNL();
-+
-+	if (WARN_ON(wdev->iftype != NL80211_IFTYPE_P2P_DEVICE))
-+		return;
-+
-+	if (!wdev_running(wdev))
-+		return;
-+
-+	rdev_stop_p2p_device(rdev, wdev);
-+	wdev->is_running = false;
-+
-+	rdev->opencount--;
-+
-+	if (rdev->scan_req && rdev->scan_req->wdev == wdev) {
-+		if (WARN_ON(!rdev->scan_req->notified))
-+			rdev->scan_req->info.aborted = true;
-+		___cfg80211_scan_done(rdev, false);
-+	}
-+}
-+
-+void cfg80211_stop_nan(struct cfg80211_registered_device *rdev,
-+		       struct wireless_dev *wdev)
-+{
-+	ASSERT_RTNL();
-+
-+	if (WARN_ON(wdev->iftype != NL80211_IFTYPE_NAN))
-+		return;
-+
-+	if (!wdev_running(wdev))
-+		return;
-+
-+	rdev_stop_nan(rdev, wdev);
-+	wdev->is_running = false;
-+
-+	rdev->opencount--;
-+}
-+
-+void cfg80211_shutdown_all_interfaces(struct wiphy *wiphy)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
-+	struct wireless_dev *wdev;
-+
-+	ASSERT_RTNL();
-+
-+	list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list) {
-+		if (wdev->netdev) {
-+			dev_close(wdev->netdev);
-+			continue;
-+		}
-+		/* otherwise, check iftype */
-+		switch (wdev->iftype) {
-+		case NL80211_IFTYPE_P2P_DEVICE:
-+			cfg80211_stop_p2p_device(rdev, wdev);
-+			break;
-+		case NL80211_IFTYPE_NAN:
-+			cfg80211_stop_nan(rdev, wdev);
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+}
-+EXPORT_SYMBOL_GPL(cfg80211_shutdown_all_interfaces);
-+
-+static int cfg80211_rfkill_set_block(void *data, bool blocked)
-+{
-+	struct cfg80211_registered_device *rdev = data;
-+
-+	if (!blocked)
-+		return 0;
-+
-+	rtnl_lock();
-+	cfg80211_shutdown_all_interfaces(&rdev->wiphy);
-+	rtnl_unlock();
-+
-+	return 0;
-+}
-+
-+static void cfg80211_rfkill_block_work(struct work_struct *work)
-+{
-+	struct cfg80211_registered_device *rdev;
-+
-+	rdev = container_of(work, struct cfg80211_registered_device,
-+			    rfkill_block);
-+	cfg80211_rfkill_set_block(rdev, true);
-+}
-+
-+static void cfg80211_event_work(struct work_struct *work)
-+{
-+	struct cfg80211_registered_device *rdev;
-+
-+	rdev = container_of(work, struct cfg80211_registered_device,
-+			    event_work);
-+
-+	rtnl_lock();
-+	cfg80211_process_rdev_events(rdev);
-+	rtnl_unlock();
-+}
-+
-+void cfg80211_destroy_ifaces(struct cfg80211_registered_device *rdev)
-+{
-+	struct wireless_dev *wdev, *tmp;
-+
-+	ASSERT_RTNL();
-+
-+	list_for_each_entry_safe(wdev, tmp, &rdev->wiphy.wdev_list, list) {
-+		if (wdev->nl_owner_dead)
-+			rdev_del_virtual_intf(rdev, wdev);
-+	}
-+}
-+
-+static void cfg80211_destroy_iface_wk(struct work_struct *work)
-+{
-+	struct cfg80211_registered_device *rdev;
-+
-+	rdev = container_of(work, struct cfg80211_registered_device,
-+			    destroy_work);
-+
-+	rtnl_lock();
-+	cfg80211_destroy_ifaces(rdev);
-+	rtnl_unlock();
-+}
-+
-+static void cfg80211_sched_scan_stop_wk(struct work_struct *work)
-+{
-+	struct cfg80211_registered_device *rdev;
-+	struct cfg80211_sched_scan_request *req, *tmp;
-+
-+	rdev = container_of(work, struct cfg80211_registered_device,
-+			   sched_scan_stop_wk);
-+
-+	rtnl_lock();
-+	list_for_each_entry_safe(req, tmp, &rdev->sched_scan_req_list, list) {
-+		if (req->nl_owner_dead)
-+			cfg80211_stop_sched_scan_req(rdev, req, false);
-+	}
-+	rtnl_unlock();
-+}
-+
-+static void cfg80211_propagate_radar_detect_wk(struct work_struct *work)
-+{
-+	struct cfg80211_registered_device *rdev;
-+
-+	rdev = container_of(work, struct cfg80211_registered_device,
-+			    propagate_radar_detect_wk);
-+
-+	rtnl_lock();
-+
-+	regulatory_propagate_dfs_state(&rdev->wiphy, &rdev->radar_chandef,
-+				       NL80211_DFS_UNAVAILABLE,
-+				       NL80211_RADAR_DETECTED);
-+
-+	rtnl_unlock();
-+}
-+
-+static void cfg80211_propagate_cac_done_wk(struct work_struct *work)
-+{
-+	struct cfg80211_registered_device *rdev;
-+
-+	rdev = container_of(work, struct cfg80211_registered_device,
-+			    propagate_cac_done_wk);
-+
-+	rtnl_lock();
-+
-+	regulatory_propagate_dfs_state(&rdev->wiphy, &rdev->cac_done_chandef,
-+				       NL80211_DFS_AVAILABLE,
-+				       NL80211_RADAR_CAC_FINISHED);
-+
-+	rtnl_unlock();
-+}
-+
-+/* exported functions */
-+
-+struct wiphy *wiphy_new_nm(const struct cfg80211_ops *ops, int sizeof_priv,
-+			   const char *requested_name)
-+{
-+	static atomic_t wiphy_counter = ATOMIC_INIT(0);
-+
-+	struct cfg80211_registered_device *rdev;
-+	int alloc_size;
-+
-+	WARN_ON(ops->add_key && (!ops->del_key || !ops->set_default_key));
-+	WARN_ON(ops->auth && (!ops->assoc || !ops->deauth || !ops->disassoc));
-+	WARN_ON(ops->connect && !ops->disconnect);
-+	WARN_ON(ops->join_ibss && !ops->leave_ibss);
-+	WARN_ON(ops->add_virtual_intf && !ops->del_virtual_intf);
-+	WARN_ON(ops->add_station && !ops->del_station);
-+	WARN_ON(ops->add_mpath && !ops->del_mpath);
-+	WARN_ON(ops->join_mesh && !ops->leave_mesh);
-+	WARN_ON(ops->start_p2p_device && !ops->stop_p2p_device);
-+	WARN_ON(ops->start_ap && !ops->stop_ap);
-+	WARN_ON(ops->join_ocb && !ops->leave_ocb);
-+	WARN_ON(ops->suspend && !ops->resume);
-+	WARN_ON(ops->sched_scan_start && !ops->sched_scan_stop);
-+	WARN_ON(ops->remain_on_channel && !ops->cancel_remain_on_channel);
-+	WARN_ON(ops->tdls_channel_switch && !ops->tdls_cancel_channel_switch);
-+	WARN_ON(ops->add_tx_ts && !ops->del_tx_ts);
-+
-+	alloc_size = sizeof(*rdev) + sizeof_priv;
-+
-+	rdev = kzalloc(alloc_size, GFP_KERNEL);
-+	if (!rdev)
-+		return NULL;
-+
-+	rdev->ops = ops;
-+
-+	rdev->wiphy_idx = atomic_inc_return(&wiphy_counter);
-+
-+	if (unlikely(rdev->wiphy_idx < 0)) {
-+		/* ugh, wrapped! */
-+		atomic_dec(&wiphy_counter);
-+		kfree(rdev);
-+		return NULL;
-+	}
-+
-+	/* atomic_inc_return makes it start at 1, make it start at 0 */
-+	rdev->wiphy_idx--;
-+
-+	/* give it a proper name */
-+	if (requested_name && requested_name[0]) {
-+		int rv;
-+
-+		rtnl_lock();
-+		rv = cfg80211_dev_check_name(rdev, requested_name);
-+
-+		if (rv < 0) {
-+			rtnl_unlock();
-+			goto use_default_name;
-+		}
-+
-+		rv = dev_set_name(&rdev->wiphy.dev, "%s", requested_name);
-+		rtnl_unlock();
-+		if (rv)
-+			goto use_default_name;
-+	} else {
-+		int rv;
-+
-+use_default_name:
-+		/* NOTE:  This is *probably* safe w/out holding rtnl because of
-+		 * the restrictions on phy names.  Probably this call could
-+		 * fail if some other part of the kernel (re)named a device
-+		 * phyX.  But, might should add some locking and check return
-+		 * value, and use a different name if this one exists?
-+		 */
-+		rv = dev_set_name(&rdev->wiphy.dev, PHY_NAME "%d", rdev->wiphy_idx);
-+		if (rv < 0) {
-+			kfree(rdev);
-+			return NULL;
-+		}
-+	}
-+
-+	INIT_LIST_HEAD(&rdev->wiphy.wdev_list);
-+	INIT_LIST_HEAD(&rdev->beacon_registrations);
-+	spin_lock_init(&rdev->beacon_registrations_lock);
-+	spin_lock_init(&rdev->bss_lock);
-+	INIT_LIST_HEAD(&rdev->bss_list);
-+	INIT_LIST_HEAD(&rdev->sched_scan_req_list);
-+	INIT_WORK(&rdev->scan_done_wk, __cfg80211_scan_done);
-+	INIT_LIST_HEAD(&rdev->mlme_unreg);
-+	spin_lock_init(&rdev->mlme_unreg_lock);
-+	INIT_WORK(&rdev->mlme_unreg_wk, cfg80211_mlme_unreg_wk);
-+	INIT_DELAYED_WORK(&rdev->dfs_update_channels_wk,
-+			  cfg80211_dfs_channels_update_work);
-+#ifdef CONFIG_CFG80211_WEXT
-+	rdev->wiphy.wext = &cfg80211_wext_handler;
-+#endif
-+
-+	device_initialize(&rdev->wiphy.dev);
-+	rdev->wiphy.dev.class = &ieee80211_class;
-+	rdev->wiphy.dev.platform_data = rdev;
-+	device_enable_async_suspend(&rdev->wiphy.dev);
-+
-+	INIT_WORK(&rdev->destroy_work, cfg80211_destroy_iface_wk);
-+	INIT_WORK(&rdev->sched_scan_stop_wk, cfg80211_sched_scan_stop_wk);
-+	INIT_WORK(&rdev->sched_scan_res_wk, cfg80211_sched_scan_results_wk);
-+	INIT_WORK(&rdev->propagate_radar_detect_wk,
-+		  cfg80211_propagate_radar_detect_wk);
-+	INIT_WORK(&rdev->propagate_cac_done_wk, cfg80211_propagate_cac_done_wk);
-+
-+#ifdef CONFIG_CFG80211_DEFAULT_PS
-+	rdev->wiphy.flags |= WIPHY_FLAG_PS_ON_BY_DEFAULT;
-+#endif
-+
-+	wiphy_net_set(&rdev->wiphy, &init_net);
-+
-+	rdev->rfkill_ops.set_block = cfg80211_rfkill_set_block;
-+	rdev->rfkill = rfkill_alloc(dev_name(&rdev->wiphy.dev),
-+				   &rdev->wiphy.dev, RFKILL_TYPE_WLAN,
-+				   &rdev->rfkill_ops, rdev);
-+
-+	if (!rdev->rfkill) {
-+		wiphy_free(&rdev->wiphy);
-+		return NULL;
-+	}
-+
-+	INIT_WORK(&rdev->rfkill_block, cfg80211_rfkill_block_work);
-+	INIT_WORK(&rdev->conn_work, cfg80211_conn_work);
-+	INIT_WORK(&rdev->event_work, cfg80211_event_work);
-+
-+	init_waitqueue_head(&rdev->dev_wait);
-+
-+	/*
-+	 * Initialize wiphy parameters to IEEE 802.11 MIB default values.
-+	 * Fragmentation and RTS threshold are disabled by default with the
-+	 * special -1 value.
-+	 */
-+	rdev->wiphy.retry_short = 7;
-+	rdev->wiphy.retry_long = 4;
-+	rdev->wiphy.frag_threshold = (u32) -1;
-+	rdev->wiphy.rts_threshold = (u32) -1;
-+	rdev->wiphy.coverage_class = 0;
-+
-+	rdev->wiphy.max_num_csa_counters = 1;
-+
-+	rdev->wiphy.max_sched_scan_plans = 1;
-+	rdev->wiphy.max_sched_scan_plan_interval = U32_MAX;
-+
-+	return &rdev->wiphy;
-+}
-+EXPORT_SYMBOL(wiphy_new_nm);
-+
-+static int wiphy_verify_combinations(struct wiphy *wiphy)
-+{
-+	const struct ieee80211_iface_combination *c;
-+	int i, j;
-+
-+	for (i = 0; i < wiphy->n_iface_combinations; i++) {
-+		u32 cnt = 0;
-+		u16 all_iftypes = 0;
-+
-+		c = &wiphy->iface_combinations[i];
-+
-+		/*
-+		 * Combinations with just one interface aren't real,
-+		 * however we make an exception for DFS.
-+		 */
-+		if (WARN_ON((c->max_interfaces < 2) && !c->radar_detect_widths))
-+			return -EINVAL;
-+
-+		/* Need at least one channel */
-+		if (WARN_ON(!c->num_different_channels))
-+			return -EINVAL;
-+
-+		/*
-+		 * Put a sane limit on maximum number of different
-+		 * channels to simplify channel accounting code.
-+		 */
-+		if (WARN_ON(c->num_different_channels >
-+				CFG80211_MAX_NUM_DIFFERENT_CHANNELS))
-+			return -EINVAL;
-+
-+		/* DFS only works on one channel. */
-+		if (WARN_ON(c->radar_detect_widths &&
-+			    (c->num_different_channels > 1)))
-+			return -EINVAL;
-+
-+		if (WARN_ON(!c->n_limits))
-+			return -EINVAL;
-+
-+		for (j = 0; j < c->n_limits; j++) {
-+			u16 types = c->limits[j].types;
-+
-+			/* interface types shouldn't overlap */
-+			if (WARN_ON(types & all_iftypes))
-+				return -EINVAL;
-+			all_iftypes |= types;
-+
-+			if (WARN_ON(!c->limits[j].max))
-+				return -EINVAL;
-+
-+			/* Shouldn't list software iftypes in combinations! */
-+			if (WARN_ON(wiphy->software_iftypes & types))
-+				return -EINVAL;
-+
-+			/* Only a single P2P_DEVICE can be allowed */
-+			if (WARN_ON(types & BIT(NL80211_IFTYPE_P2P_DEVICE) &&
-+				    c->limits[j].max > 1))
-+				return -EINVAL;
-+
-+			/* Only a single NAN can be allowed */
-+			if (WARN_ON(types & BIT(NL80211_IFTYPE_NAN) &&
-+				    c->limits[j].max > 1))
-+				return -EINVAL;
-+
-+			/*
-+			 * This isn't well-defined right now. If you have an
-+			 * IBSS interface, then its beacon interval may change
-+			 * by joining other networks, and nothing prevents it
-+			 * from doing that.
-+			 * So technically we probably shouldn't even allow AP
-+			 * and IBSS in the same interface, but it seems that
-+			 * some drivers support that, possibly only with fixed
-+			 * beacon intervals for IBSS.
-+			 */
-+			if (WARN_ON(types & BIT(NL80211_IFTYPE_ADHOC) &&
-+				    c->beacon_int_min_gcd)) {
-+				return -EINVAL;
-+			}
-+
-+			cnt += c->limits[j].max;
-+			/*
-+			 * Don't advertise an unsupported type
-+			 * in a combination.
-+			 */
-+			if (WARN_ON((wiphy->interface_modes & types) != types))
-+				return -EINVAL;
-+		}
-+
-+#ifndef CONFIG_WIRELESS_WDS
-+		if (WARN_ON(all_iftypes & BIT(NL80211_IFTYPE_WDS)))
-+			return -EINVAL;
-+#endif
-+
-+		/* You can't even choose that many! */
-+		if (WARN_ON(cnt < c->max_interfaces))
-+			return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+int wiphy_register(struct wiphy *wiphy)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
-+	int res;
-+	enum nl80211_band band;
-+	struct ieee80211_supported_band *sband;
-+	bool have_band = false;
-+	int i;
-+	u16 ifmodes = wiphy->interface_modes;
-+
-+#ifdef CONFIG_PM
-+	if (WARN_ON(wiphy->wowlan &&
-+		    (wiphy->wowlan->flags & WIPHY_WOWLAN_GTK_REKEY_FAILURE) &&
-+		    !(wiphy->wowlan->flags & WIPHY_WOWLAN_SUPPORTS_GTK_REKEY)))
-+		return -EINVAL;
-+	if (WARN_ON(wiphy->wowlan &&
-+		    !wiphy->wowlan->flags && !wiphy->wowlan->n_patterns &&
-+		    !wiphy->wowlan->tcp))
-+		return -EINVAL;
-+#endif
-+	if (WARN_ON((wiphy->features & NL80211_FEATURE_TDLS_CHANNEL_SWITCH) &&
-+		    (!rdev->ops->tdls_channel_switch ||
-+		     !rdev->ops->tdls_cancel_channel_switch)))
-+		return -EINVAL;
-+
-+	if (WARN_ON((wiphy->interface_modes & BIT(NL80211_IFTYPE_NAN)) &&
-+		    (!rdev->ops->start_nan || !rdev->ops->stop_nan ||
-+		     !rdev->ops->add_nan_func || !rdev->ops->del_nan_func ||
-+		     !(wiphy->nan_supported_bands & BIT(NL80211_BAND_2GHZ)))))
-+		return -EINVAL;
-+
-+#ifndef CONFIG_WIRELESS_WDS
-+	if (WARN_ON(wiphy->interface_modes & BIT(NL80211_IFTYPE_WDS)))
-+		return -EINVAL;
-+#endif
-+
-+	if (WARN_ON(wiphy->pmsr_capa && !wiphy->pmsr_capa->ftm.supported))
-+		return -EINVAL;
-+
-+	if (wiphy->pmsr_capa && wiphy->pmsr_capa->ftm.supported) {
-+		if (WARN_ON(!wiphy->pmsr_capa->ftm.asap &&
-+			    !wiphy->pmsr_capa->ftm.non_asap))
-+			return -EINVAL;
-+		if (WARN_ON(!wiphy->pmsr_capa->ftm.preambles ||
-+			    !wiphy->pmsr_capa->ftm.bandwidths))
-+			return -EINVAL;
-+		if (WARN_ON(wiphy->pmsr_capa->ftm.preambles &
-+				~(BIT(NL80211_PREAMBLE_LEGACY) |
-+				  BIT(NL80211_PREAMBLE_HT) |
-+				  BIT(NL80211_PREAMBLE_VHT) |
-+				  BIT(NL80211_PREAMBLE_DMG))))
-+			return -EINVAL;
-+		if (WARN_ON(wiphy->pmsr_capa->ftm.bandwidths &
-+				~(BIT(NL80211_CHAN_WIDTH_20_NOHT) |
-+				  BIT(NL80211_CHAN_WIDTH_20) |
-+				  BIT(NL80211_CHAN_WIDTH_40) |
-+				  BIT(NL80211_CHAN_WIDTH_80) |
-+				  BIT(NL80211_CHAN_WIDTH_80P80) |
-+				  BIT(NL80211_CHAN_WIDTH_160) |
-+				  BIT(NL80211_CHAN_WIDTH_5) |
-+				  BIT(NL80211_CHAN_WIDTH_10))))
-+			return -EINVAL;
-+	}
-+
-+	/*
-+	 * if a wiphy has unsupported modes for regulatory channel enforcement,
-+	 * opt-out of enforcement checking
-+	 */
-+	if (wiphy->interface_modes & ~(BIT(NL80211_IFTYPE_STATION) |
-+				       BIT(NL80211_IFTYPE_P2P_CLIENT) |
-+				       BIT(NL80211_IFTYPE_AP) |
-+				       BIT(NL80211_IFTYPE_P2P_GO) |
-+				       BIT(NL80211_IFTYPE_ADHOC) |
-+				       BIT(NL80211_IFTYPE_P2P_DEVICE) |
-+				       BIT(NL80211_IFTYPE_NAN) |
-+				       BIT(NL80211_IFTYPE_AP_VLAN) |
-+				       BIT(NL80211_IFTYPE_MONITOR)))
-+		wiphy->regulatory_flags |= REGULATORY_IGNORE_STALE_KICKOFF;
-+
-+	if (WARN_ON((wiphy->regulatory_flags & REGULATORY_WIPHY_SELF_MANAGED) &&
-+		    (wiphy->regulatory_flags &
-+					(REGULATORY_CUSTOM_REG |
-+					 REGULATORY_STRICT_REG |
-+					 REGULATORY_COUNTRY_IE_FOLLOW_POWER |
-+					 REGULATORY_COUNTRY_IE_IGNORE))))
-+		return -EINVAL;
-+
-+	if (WARN_ON(wiphy->coalesce &&
-+		    (!wiphy->coalesce->n_rules ||
-+		     !wiphy->coalesce->n_patterns) &&
-+		    (!wiphy->coalesce->pattern_min_len ||
-+		     wiphy->coalesce->pattern_min_len >
-+			wiphy->coalesce->pattern_max_len)))
-+		return -EINVAL;
-+
-+	if (WARN_ON(wiphy->ap_sme_capa &&
-+		    !(wiphy->flags & WIPHY_FLAG_HAVE_AP_SME)))
-+		return -EINVAL;
-+
-+	if (WARN_ON(wiphy->addresses && !wiphy->n_addresses))
-+		return -EINVAL;
-+
-+	if (WARN_ON(wiphy->addresses &&
-+		    !is_zero_ether_addr(wiphy->perm_addr) &&
-+		    memcmp(wiphy->perm_addr, wiphy->addresses[0].addr,
-+			   ETH_ALEN)))
-+		return -EINVAL;
-+
-+	if (WARN_ON(wiphy->max_acl_mac_addrs &&
-+		    (!(wiphy->flags & WIPHY_FLAG_HAVE_AP_SME) ||
-+		     !rdev->ops->set_mac_acl)))
-+		return -EINVAL;
-+
-+	/* assure only valid behaviours are flagged by driver
-+	 * hence subtract 2 as bit 0 is invalid.
-+	 */
-+	if (WARN_ON(wiphy->bss_select_support &&
-+		    (wiphy->bss_select_support & ~(BIT(__NL80211_BSS_SELECT_ATTR_AFTER_LAST) - 2))))
-+		return -EINVAL;
-+
-+	if (WARN_ON(wiphy_ext_feature_isset(&rdev->wiphy,
-+					    NL80211_EXT_FEATURE_4WAY_HANDSHAKE_STA_1X) &&
-+		    (!rdev->ops->set_pmk || !rdev->ops->del_pmk)))
-+		return -EINVAL;
-+
-+	if (WARN_ON(!(rdev->wiphy.flags & WIPHY_FLAG_SUPPORTS_FW_ROAM) &&
-+		    rdev->ops->update_connect_params))
-+		return -EINVAL;
-+
-+	if (wiphy->addresses)
-+		memcpy(wiphy->perm_addr, wiphy->addresses[0].addr, ETH_ALEN);
-+
-+	/* sanity check ifmodes */
-+	WARN_ON(!ifmodes);
-+	ifmodes &= ((1 << NUM_NL80211_IFTYPES) - 1) & ~1;
-+	if (WARN_ON(ifmodes != wiphy->interface_modes))
-+		wiphy->interface_modes = ifmodes;
-+
-+	res = wiphy_verify_combinations(wiphy);
-+	if (res)
-+		return res;
-+
-+	/* sanity check supported bands/channels */
-+	for (band = 0; band < NUM_NL80211_BANDS; band++) {
-+		u16 types = 0;
-+
-+		sband = wiphy->bands[band];
-+		if (!sband)
-+			continue;
-+
-+		sband->band = band;
-+		if (WARN_ON(!sband->n_channels))
-+			return -EINVAL;
-+		/*
-+		 * on 60GHz band, there are no legacy rates, so
-+		 * n_bitrates is 0
-+		 */
-+		if (WARN_ON(band != NL80211_BAND_60GHZ &&
-+			    !sband->n_bitrates))
-+			return -EINVAL;
-+
-+		/*
-+		 * Since cfg80211_disable_40mhz_24ghz is global, we can
-+		 * modify the sband's ht data even if the driver uses a
-+		 * global structure for that.
-+		 */
-+		if (cfg80211_disable_40mhz_24ghz &&
-+		    band == NL80211_BAND_2GHZ &&
-+		    sband->ht_cap.ht_supported) {
-+			sband->ht_cap.cap &= ~IEEE80211_HT_CAP_SUP_WIDTH_20_40;
-+			sband->ht_cap.cap &= ~IEEE80211_HT_CAP_SGI_40;
-+		}
-+
-+		/*
-+		 * Since we use a u32 for rate bitmaps in
-+		 * ieee80211_get_response_rate, we cannot
-+		 * have more than 32 legacy rates.
-+		 */
-+		if (WARN_ON(sband->n_bitrates > 32))
-+			return -EINVAL;
-+
-+		for (i = 0; i < sband->n_channels; i++) {
-+			sband->channels[i].orig_flags =
-+				sband->channels[i].flags;
-+			sband->channels[i].orig_mag = INT_MAX;
-+			sband->channels[i].orig_mpwr =
-+				sband->channels[i].max_power;
-+			sband->channels[i].band = band;
-+		}
-+
-+		for (i = 0; i < sband->n_iftype_data; i++) {
-+			const struct ieee80211_sband_iftype_data *iftd;
-+
-+			iftd = &sband->iftype_data[i];
-+
-+			if (WARN_ON(!iftd->types_mask))
-+				return -EINVAL;
-+			if (WARN_ON(types & iftd->types_mask))
-+				return -EINVAL;
-+
-+			/* at least one piece of information must be present */
-+			if (WARN_ON(!iftd->he_cap.has_he))
-+				return -EINVAL;
-+
-+			types |= iftd->types_mask;
-+		}
-+
-+		have_band = true;
-+	}
-+
-+	if (!have_band) {
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0; i < rdev->wiphy.n_vendor_commands; i++) {
-+		/*
-+		 * Validate we have a policy (can be explicitly set to
-+		 * VENDOR_CMD_RAW_DATA which is non-NULL) and also that
-+		 * we have at least one of doit/dumpit.
-+		 */
-+		if (WARN_ON(!rdev->wiphy.vendor_commands[i].policy))
-+			return -EINVAL;
-+		if (WARN_ON(!rdev->wiphy.vendor_commands[i].doit &&
-+			    !rdev->wiphy.vendor_commands[i].dumpit))
-+			return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_PM
-+	if (WARN_ON(rdev->wiphy.wowlan && rdev->wiphy.wowlan->n_patterns &&
-+		    (!rdev->wiphy.wowlan->pattern_min_len ||
-+		     rdev->wiphy.wowlan->pattern_min_len >
-+				rdev->wiphy.wowlan->pattern_max_len)))
-+		return -EINVAL;
-+#endif
-+
-+	/* check and set up bitrates */
-+	ieee80211_set_bitrate_flags(wiphy);
-+
-+	rdev->wiphy.features |= NL80211_FEATURE_SCAN_FLUSH;
-+
-+	rtnl_lock();
-+	res = device_add(&rdev->wiphy.dev);
-+	if (res) {
-+		rtnl_unlock();
-+		return res;
-+	}
-+
-+	/* set up regulatory info */
-+	wiphy_regulatory_register(wiphy);
-+
-+	list_add_rcu(&rdev->list, &cfg80211_rdev_list);
-+	cfg80211_rdev_list_generation++;
-+
-+	/* add to debugfs */
-+	rdev->wiphy.debugfsdir = debugfs_create_dir(wiphy_name(&rdev->wiphy),
-+						    ieee80211_debugfs_dir);
-+
-+	cfg80211_debugfs_rdev_add(rdev);
-+	nl80211_notify_wiphy(rdev, NL80211_CMD_NEW_WIPHY);
-+
-+	if (wiphy->regulatory_flags & REGULATORY_CUSTOM_REG) {
-+		struct regulatory_request request;
-+
-+		request.wiphy_idx = get_wiphy_idx(wiphy);
-+		request.initiator = NL80211_REGDOM_SET_BY_DRIVER;
-+		request.alpha2[0] = '9';
-+		request.alpha2[1] = '9';
-+
-+		nl80211_send_reg_change_event(&request);
-+	}
-+
-+	/* Check that nobody globally advertises any capabilities they do not
-+	 * advertise on all possible interface types.
-+	 */
-+	if (wiphy->extended_capabilities_len &&
-+	    wiphy->num_iftype_ext_capab &&
-+	    wiphy->iftype_ext_capab) {
-+		u8 supported_on_all, j;
-+		const struct wiphy_iftype_ext_capab *capab;
-+
-+		capab = wiphy->iftype_ext_capab;
-+		for (j = 0; j < wiphy->extended_capabilities_len; j++) {
-+			if (capab[0].extended_capabilities_len > j)
-+				supported_on_all =
-+					capab[0].extended_capabilities[j];
-+			else
-+				supported_on_all = 0x00;
-+			for (i = 1; i < wiphy->num_iftype_ext_capab; i++) {
-+				if (j >= capab[i].extended_capabilities_len) {
-+					supported_on_all = 0x00;
-+					break;
-+				}
-+				supported_on_all &=
-+					capab[i].extended_capabilities[j];
-+			}
-+			if (WARN_ON(wiphy->extended_capabilities[j] &
-+				    ~supported_on_all))
-+				break;
-+		}
-+	}
-+
-+	rdev->wiphy.registered = true;
-+	rtnl_unlock();
-+
-+	res = rfkill_register(rdev->rfkill);
-+	if (res) {
-+		rfkill_destroy(rdev->rfkill);
-+		rdev->rfkill = NULL;
-+		wiphy_unregister(&rdev->wiphy);
-+		return res;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(wiphy_register);
-+
-+void wiphy_rfkill_start_polling(struct wiphy *wiphy)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
-+
-+	if (!rdev->ops->rfkill_poll)
-+		return;
-+	rdev->rfkill_ops.poll = cfg80211_rfkill_poll;
-+	rfkill_resume_polling(rdev->rfkill);
-+}
-+EXPORT_SYMBOL(wiphy_rfkill_start_polling);
-+
-+void wiphy_rfkill_stop_polling(struct wiphy *wiphy)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
-+
-+	rfkill_pause_polling(rdev->rfkill);
-+}
-+EXPORT_SYMBOL(wiphy_rfkill_stop_polling);
-+
-+void wiphy_unregister(struct wiphy *wiphy)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
-+
-+	wait_event(rdev->dev_wait, ({
-+		int __count;
-+		rtnl_lock();
-+		__count = rdev->opencount;
-+		rtnl_unlock();
-+		__count == 0; }));
-+
-+	if (rdev->rfkill)
-+		rfkill_unregister(rdev->rfkill);
-+
-+	rtnl_lock();
-+	nl80211_notify_wiphy(rdev, NL80211_CMD_DEL_WIPHY);
-+	rdev->wiphy.registered = false;
-+
-+	WARN_ON(!list_empty(&rdev->wiphy.wdev_list));
-+
-+	/*
-+	 * First remove the hardware from everywhere, this makes
-+	 * it impossible to find from userspace.
-+	 */
-+	debugfs_remove_recursive(rdev->wiphy.debugfsdir);
-+	list_del_rcu(&rdev->list);
-+	synchronize_rcu();
-+
-+	/*
-+	 * If this device got a regulatory hint tell core its
-+	 * free to listen now to a new shiny device regulatory hint
-+	 */
-+	wiphy_regulatory_deregister(wiphy);
-+
-+	cfg80211_rdev_list_generation++;
-+	device_del(&rdev->wiphy.dev);
-+
-+	rtnl_unlock();
-+
-+	flush_work(&rdev->scan_done_wk);
-+	cancel_work_sync(&rdev->conn_work);
-+	flush_work(&rdev->event_work);
-+	cancel_delayed_work_sync(&rdev->dfs_update_channels_wk);
-+	flush_work(&rdev->destroy_work);
-+	flush_work(&rdev->sched_scan_stop_wk);
-+	flush_work(&rdev->mlme_unreg_wk);
-+	flush_work(&rdev->propagate_radar_detect_wk);
-+	flush_work(&rdev->propagate_cac_done_wk);
-+
-+#ifdef CONFIG_PM
-+	if (rdev->wiphy.wowlan_config && rdev->ops->set_wakeup)
-+		rdev_set_wakeup(rdev, false);
-+#endif
-+	cfg80211_rdev_free_wowlan(rdev);
-+	cfg80211_rdev_free_coalesce(rdev);
-+}
-+EXPORT_SYMBOL(wiphy_unregister);
-+
-+void cfg80211_dev_free(struct cfg80211_registered_device *rdev)
-+{
-+	struct cfg80211_internal_bss *scan, *tmp;
-+	struct cfg80211_beacon_registration *reg, *treg;
-+	rfkill_destroy(rdev->rfkill);
-+	list_for_each_entry_safe(reg, treg, &rdev->beacon_registrations, list) {
-+		list_del(&reg->list);
-+		kfree(reg);
-+	}
-+	list_for_each_entry_safe(scan, tmp, &rdev->bss_list, list)
-+		cfg80211_put_bss(&rdev->wiphy, &scan->pub);
-+	kfree(rdev);
-+}
-+
-+void wiphy_free(struct wiphy *wiphy)
-+{
-+	put_device(&wiphy->dev);
-+}
-+EXPORT_SYMBOL(wiphy_free);
-+
-+void wiphy_rfkill_set_hw_state(struct wiphy *wiphy, bool blocked)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
-+
-+	if (rfkill_set_hw_state(rdev->rfkill, blocked))
-+		schedule_work(&rdev->rfkill_block);
-+}
-+EXPORT_SYMBOL(wiphy_rfkill_set_hw_state);
-+
-+void cfg80211_cqm_config_free(struct wireless_dev *wdev)
-+{
-+	kfree(wdev->cqm_config);
-+	wdev->cqm_config = NULL;
-+}
-+
-+static void __cfg80211_unregister_wdev(struct wireless_dev *wdev, bool sync)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wdev->wiphy);
-+
-+	ASSERT_RTNL();
-+
-+	flush_work(&wdev->pmsr_free_wk);
-+
-+	nl80211_notify_iface(rdev, wdev, NL80211_CMD_DEL_INTERFACE);
-+
-+	list_del_rcu(&wdev->list);
-+	if (sync)
-+		synchronize_rcu();
-+	rdev->devlist_generation++;
-+
-+	cfg80211_mlme_purge_registrations(wdev);
-+
-+	switch (wdev->iftype) {
-+	case NL80211_IFTYPE_P2P_DEVICE:
-+		cfg80211_stop_p2p_device(rdev, wdev);
-+		break;
-+	case NL80211_IFTYPE_NAN:
-+		cfg80211_stop_nan(rdev, wdev);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+#ifdef CONFIG_CFG80211_WEXT
-+	kzfree(wdev->wext.keys);
-+	wdev->wext.keys = NULL;
-+#endif
-+	/* only initialized if we have a netdev */
-+	if (wdev->netdev)
-+		flush_work(&wdev->disconnect_wk);
-+
-+	cfg80211_cqm_config_free(wdev);
-+}
-+
-+void cfg80211_unregister_wdev(struct wireless_dev *wdev)
-+{
-+	if (WARN_ON(wdev->netdev))
-+		return;
-+
-+	__cfg80211_unregister_wdev(wdev, true);
-+}
-+EXPORT_SYMBOL(cfg80211_unregister_wdev);
-+
-+static const struct device_type wiphy_type = {
-+	.name	= "wlan",
-+};
-+
-+void cfg80211_update_iface_num(struct cfg80211_registered_device *rdev,
-+			       enum nl80211_iftype iftype, int num)
-+{
-+	ASSERT_RTNL();
-+
-+	rdev->num_running_ifaces += num;
-+	if (iftype == NL80211_IFTYPE_MONITOR)
-+		rdev->num_running_monitor_ifaces += num;
-+}
-+
-+void __cfg80211_leave(struct cfg80211_registered_device *rdev,
-+		      struct wireless_dev *wdev)
-+{
-+	struct net_device *dev = wdev->netdev;
-+	struct cfg80211_sched_scan_request *pos, *tmp;
-+
-+	ASSERT_RTNL();
-+	ASSERT_WDEV_LOCK(wdev);
-+
-+	cfg80211_pmsr_wdev_down(wdev);
-+
-+	switch (wdev->iftype) {
-+	case NL80211_IFTYPE_ADHOC:
-+		__cfg80211_leave_ibss(rdev, dev, true);
-+		break;
-+	case NL80211_IFTYPE_P2P_CLIENT:
-+	case NL80211_IFTYPE_STATION:
-+		list_for_each_entry_safe(pos, tmp, &rdev->sched_scan_req_list,
-+					 list) {
-+			if (dev == pos->dev)
-+				cfg80211_stop_sched_scan_req(rdev, pos, false);
-+		}
-+
-+#ifdef CONFIG_CFG80211_WEXT
-+		kfree(wdev->wext.ie);
-+		wdev->wext.ie = NULL;
-+		wdev->wext.ie_len = 0;
-+		wdev->wext.connect.auth_type = NL80211_AUTHTYPE_AUTOMATIC;
-+#endif
-+		cfg80211_disconnect(rdev, dev,
-+				    WLAN_REASON_DEAUTH_LEAVING, true);
-+		break;
-+	case NL80211_IFTYPE_MESH_POINT:
-+		__cfg80211_leave_mesh(rdev, dev);
-+		break;
-+	case NL80211_IFTYPE_AP:
-+	case NL80211_IFTYPE_P2P_GO:
-+		__cfg80211_stop_ap(rdev, dev, true);
-+		break;
-+	case NL80211_IFTYPE_OCB:
-+		__cfg80211_leave_ocb(rdev, dev);
-+		break;
-+	case NL80211_IFTYPE_WDS:
-+		/* must be handled by mac80211/driver, has no APIs */
-+		break;
-+	case NL80211_IFTYPE_P2P_DEVICE:
-+	case NL80211_IFTYPE_NAN:
-+		/* cannot happen, has no netdev */
-+		break;
-+	case NL80211_IFTYPE_AP_VLAN:
-+	case NL80211_IFTYPE_MONITOR:
-+		/* nothing to do */
-+		break;
-+	case NL80211_IFTYPE_UNSPECIFIED:
-+	case NUM_NL80211_IFTYPES:
-+		/* invalid */
-+		break;
-+	}
-+}
-+
-+void cfg80211_leave(struct cfg80211_registered_device *rdev,
-+		    struct wireless_dev *wdev)
-+{
-+	wdev_lock(wdev);
-+	__cfg80211_leave(rdev, wdev);
-+	wdev_unlock(wdev);
-+}
-+
-+void cfg80211_stop_iface(struct wiphy *wiphy, struct wireless_dev *wdev,
-+			 gfp_t gfp)
-+{
-+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
-+	struct cfg80211_event *ev;
-+	unsigned long flags;
-+
-+	trace_cfg80211_stop_iface(wiphy, wdev);
-+
-+	ev = kzalloc(sizeof(*ev), gfp);
-+	if (!ev)
-+		return;
-+
-+	ev->type = EVENT_STOPPED;
-+
-+	spin_lock_irqsave(&wdev->event_lock, flags);
-+	list_add_tail(&ev->list, &wdev->event_list);
-+	spin_unlock_irqrestore(&wdev->event_lock, flags);
-+	queue_work(cfg80211_wq, &rdev->event_work);
-+}
-+EXPORT_SYMBOL(cfg80211_stop_iface);
-+
-+void cfg80211_init_wdev(struct cfg80211_registered_device *rdev,
-+			struct wireless_dev *wdev)
-+{
-+	mutex_init(&wdev->mtx);
-+	INIT_LIST_HEAD(&wdev->event_list);
-+	spin_lock_init(&wdev->event_lock);
-+	INIT_LIST_HEAD(&wdev->mgmt_registrations);
-+	spin_lock_init(&wdev->mgmt_registrations_lock);
-+	INIT_LIST_HEAD(&wdev->pmsr_list);
-+	spin_lock_init(&wdev->pmsr_lock);
-+	INIT_WORK(&wdev->pmsr_free_wk, cfg80211_pmsr_free_wk);
-+
-+	/*
-+	 * We get here also when the interface changes network namespaces,
-+	 * as it's registered into the new one, but we don't want it to
-+	 * change ID in that case. Checking if the ID is already assigned
-+	 * works, because 0 isn't considered a valid ID and the memory is
-+	 * 0-initialized.
-+	 */
-+	if (!wdev->identifier)
-+		wdev->identifier = ++rdev->wdev_id;
-+	list_add_rcu(&wdev->list, &rdev->wiphy.wdev_list);
-+	rdev->devlist_generation++;
-+
-+	nl80211_notify_iface(rdev, wdev, NL80211_CMD_NEW_INTERFACE);
-+}
-+
-+static int cfg80211_netdev_notifier_call(struct notifier_block *nb,
-+					 unsigned long state, void *ptr)
-+{
-+	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
-+	struct wireless_dev *wdev = dev->ieee80211_ptr;
-+	struct cfg80211_registered_device *rdev;
-+	struct cfg80211_sched_scan_request *pos, *tmp;
-+
-+	if (!wdev)
-+		return NOTIFY_DONE;
-+
-+	rdev = wiphy_to_rdev(wdev->wiphy);
-+
-+	WARN_ON(wdev->iftype == NL80211_IFTYPE_UNSPECIFIED);
-+
-+	switch (state) {
-+	case NETDEV_POST_INIT:
-+		SET_NETDEV_DEVTYPE(dev, &wiphy_type);
-+		break;
-+	case NETDEV_REGISTER:
-+		/*
-+		 * NB: cannot take rdev->mtx here because this may be
-+		 * called within code protected by it when interfaces
-+		 * are added with nl80211.
-+		 */
-+		/* can only change netns with wiphy */
-+		dev->features |= NETIF_F_NETNS_LOCAL;
-+
-+		if (sysfs_create_link(&dev->dev.kobj, &rdev->wiphy.dev.kobj,
-+				      "phy80211")) {
-+			pr_err("failed to add phy80211 symlink to netdev!\n");
-+		}
-+		wdev->netdev = dev;
-+#ifdef CONFIG_CFG80211_WEXT
-+		wdev->wext.default_key = -1;
-+		wdev->wext.default_mgmt_key = -1;
-+		wdev->wext.connect.auth_type = NL80211_AUTHTYPE_AUTOMATIC;
-+#endif
-+
-+		if (wdev->wiphy->flags & WIPHY_FLAG_PS_ON_BY_DEFAULT)
-+			wdev->ps = true;
-+		else
-+			wdev->ps = false;
-+		/* allow mac80211 to determine the timeout */
-+		wdev->ps_timeout = -1;
-+
-+		if ((wdev->iftype == NL80211_IFTYPE_STATION ||
-+		     wdev->iftype == NL80211_IFTYPE_P2P_CLIENT ||
-+		     wdev->iftype == NL80211_IFTYPE_ADHOC) && !wdev->use_4addr)
-+			dev->priv_flags |= IFF_DONT_BRIDGE;
-+
-+		INIT_WORK(&wdev->disconnect_wk, cfg80211_autodisconnect_wk);
-+
-+		cfg80211_init_wdev(rdev, wdev);
-+		break;
-+	case NETDEV_GOING_DOWN:
-+		cfg80211_leave(rdev, wdev);
-+		break;
-+	case NETDEV_DOWN:
-+		cfg80211_update_iface_num(rdev, wdev->iftype, -1);
-+		if (rdev->scan_req && rdev->scan_req->wdev == wdev) {
-+			if (WARN_ON(!rdev->scan_req->notified))
-+				rdev->scan_req->info.aborted = true;
-+			___cfg80211_scan_done(rdev, false);
-+		}
-+
-+		list_for_each_entry_safe(pos, tmp,
-+					 &rdev->sched_scan_req_list, list) {
-+			if (WARN_ON(pos->dev == wdev->netdev))
-+				cfg80211_stop_sched_scan_req(rdev, pos, false);
-+		}
-+
-+		rdev->opencount--;
-+		wake_up(&rdev->dev_wait);
-+		break;
-+	case NETDEV_UP:
-+		cfg80211_update_iface_num(rdev, wdev->iftype, 1);
-+		wdev_lock(wdev);
-+		switch (wdev->iftype) {
-+#ifdef CONFIG_CFG80211_WEXT
-+		case NL80211_IFTYPE_ADHOC:
-+			cfg80211_ibss_wext_join(rdev, wdev);
-+			break;
-+		case NL80211_IFTYPE_STATION:
-+			cfg80211_mgd_wext_connect(rdev, wdev);
-+			break;
-+#endif
-+#ifdef CONFIG_MAC80211_MESH
-+		case NL80211_IFTYPE_MESH_POINT:
-+			{
-+				/* backward compat code... */
-+				struct mesh_setup setup;
-+				memcpy(&setup, &default_mesh_setup,
-+						sizeof(setup));
-+				 /* back compat only needed for mesh_id */
-+				setup.mesh_id = wdev->ssid;
-+				setup.mesh_id_len = wdev->mesh_id_up_len;
-+				if (wdev->mesh_id_up_len)
-+					__cfg80211_join_mesh(rdev, dev,
-+							&setup,
-+							&default_mesh_config);
-+				break;
-+			}
-+#endif
-+		default:
-+			break;
-+		}
-+		wdev_unlock(wdev);
-+		rdev->opencount++;
-+
-+		/*
-+		 * Configure power management to the driver here so that its
-+		 * correctly set also after interface type changes etc.
-+		 */
-+		if ((wdev->iftype == NL80211_IFTYPE_STATION ||
-+		     wdev->iftype == NL80211_IFTYPE_P2P_CLIENT) &&
-+		    rdev->ops->set_power_mgmt &&
-+		    rdev_set_power_mgmt(rdev, dev, wdev->ps,
-+					wdev->ps_timeout)) {
-+			/* assume this means it's off */
-+			wdev->ps = false;
-+		}
-+		break;
-+	case NETDEV_UNREGISTER:
-+		/*
-+		 * It is possible to get NETDEV_UNREGISTER
-+		 * multiple times. To detect that, check
-+		 * that the interface is still on the list
-+		 * of registered interfaces, and only then
-+		 * remove and clean it up.
-+		 */
-+		if (!list_empty(&wdev->list)) {
-+			__cfg80211_unregister_wdev(wdev, false);
-+			sysfs_remove_link(&dev->dev.kobj, "phy80211");
-+		}
-+		/*
-+		 * synchronise (so that we won't find this netdev
-+		 * from other code any more) and then clear the list
-+		 * head so that the above code can safely check for
-+		 * !list_empty() to avoid double-cleanup.
-+		 */
-+		synchronize_rcu();
-+		INIT_LIST_HEAD(&wdev->list);
-+		/*
-+		 * Ensure that all events have been processed and
-+		 * freed.
-+		 */
-+		cfg80211_process_wdev_events(wdev);
-+
-+		if (WARN_ON(wdev->current_bss)) {
-+			cfg80211_unhold_bss(wdev->current_bss);
-+			cfg80211_put_bss(wdev->wiphy, &wdev->current_bss->pub);
-+			wdev->current_bss = NULL;
-+		}
-+		break;
-+	case NETDEV_PRE_UP:
-+		if (!cfg80211_iftype_allowed(wdev->wiphy, wdev->iftype,
-+					     wdev->use_4addr, 0))
-+			return notifier_from_errno(-EOPNOTSUPP);
-+
-+		if (rfkill_blocked(rdev->rfkill))
-+			return notifier_from_errno(-ERFKILL);
-+		break;
-+	default:
-+		return NOTIFY_DONE;
-+	}
-+
-+	wireless_nlevent_flush();
-+
-+	return NOTIFY_OK;
-+}
-+
-+static struct notifier_block cfg80211_netdev_notifier = {
-+	.notifier_call = cfg80211_netdev_notifier_call,
-+};
-+
-+static void __net_exit cfg80211_pernet_exit(struct net *net)
-+{
-+	struct cfg80211_registered_device *rdev;
-+
-+	rtnl_lock();
-+	list_for_each_entry(rdev, &cfg80211_rdev_list, list) {
-+		if (net_eq(wiphy_net(&rdev->wiphy), net))
-+			WARN_ON(cfg80211_switch_netns(rdev, &init_net));
-+	}
-+	rtnl_unlock();
-+}
-+
-+static struct pernet_operations cfg80211_pernet_ops = {
-+	.exit = cfg80211_pernet_exit,
-+};
-+
-+static int __init cfg80211_init(void)
-+{
-+	int err;
-+
-+	err = register_pernet_device(&cfg80211_pernet_ops);
-+	if (err)
-+		goto out_fail_pernet;
-+
-+	err = wiphy_sysfs_init();
-+	if (err)
-+		goto out_fail_sysfs;
-+
-+	err = register_netdevice_notifier(&cfg80211_netdev_notifier);
-+	if (err)
-+		goto out_fail_notifier;
-+
-+	err = nl80211_init();
-+	if (err)
-+		goto out_fail_nl80211;
-+
-+	ieee80211_debugfs_dir = debugfs_create_dir("ieee80211", NULL);
-+
-+	err = regulatory_init();
-+	if (err)
-+		goto out_fail_reg;
-+
-+	cfg80211_wq = alloc_ordered_workqueue("cfg80211", WQ_MEM_RECLAIM);
-+	if (!cfg80211_wq) {
-+		err = -ENOMEM;
-+		goto out_fail_wq;
-+	}
-+
-+	return 0;
-+
-+out_fail_wq:
-+	regulatory_exit();
-+out_fail_reg:
-+	debugfs_remove(ieee80211_debugfs_dir);
-+	nl80211_exit();
-+out_fail_nl80211:
-+	unregister_netdevice_notifier(&cfg80211_netdev_notifier);
-+out_fail_notifier:
-+	wiphy_sysfs_exit();
-+out_fail_sysfs:
-+	unregister_pernet_device(&cfg80211_pernet_ops);
-+out_fail_pernet:
-+	return err;
-+}
-+fs_initcall(cfg80211_init);
-+
-+static void __exit cfg80211_exit(void)
-+{
-+	debugfs_remove(ieee80211_debugfs_dir);
-+	nl80211_exit();
-+	unregister_netdevice_notifier(&cfg80211_netdev_notifier);
-+	wiphy_sysfs_exit();
-+	regulatory_exit();
-+	unregister_pernet_device(&cfg80211_pernet_ops);
-+	destroy_workqueue(cfg80211_wq);
-+}
-+module_exit(cfg80211_exit);
