@@ -2,6 +2,9 @@ self: super:
 let
   inherit (super) callPackage;
 
+  # Upstream is out of date.
+  aws-sam-cli = callPackage ../pkgs/aws-sam-cli { };
+
   # Upstream cfssl is out of date.
   cfssl = callPackage ../pkgs/cfssl {
     inherit (super.darwin.apple_sdk.frameworks) Security;
@@ -117,6 +120,7 @@ in
       frei0r = if super.stdenv.isDarwin then null else super.frei0r;
     };
 
+  inherit aws-sam-cli;
   inherit cfssl;
   inherit fsatrace;
   inherit hostapd;
