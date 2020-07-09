@@ -83,6 +83,18 @@
         "url": "https://github.com/hackworthltd/hacknix-lib/archive/7d2cf1abaf8ef6ea30bb888a725123291227424c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "hackworthltd-nixpkgs": {
+        "branch": "darwin-fix",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "hackworthltd",
+        "repo": "nixpkgs",
+        "rev": "7073f317320359e6232a96d066cf84e8df916ba8",
+        "sha256": "1pvj4l3pa4gh2i74i8lv2rhkbbn8mrz618m22ja1lpd9r132bja0",
+        "type": "tarball",
+        "url": "https://github.com/hackworthltd/nixpkgs/archive/7073f317320359e6232a96d066cf84e8df916ba8.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "lorri": {
         "branch": "master",
         "description": "Your project's nix-env",
