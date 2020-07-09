@@ -15,8 +15,9 @@ let
   # NOTE - must be the same as upstream.
   stateDir = "/var/lib/postfix/data";
   queueDir = "/var/lib/postfix/queue";
-  submission_header_checks = pkgs.writeText "submission_header_checks"
-    cfg.submission.cleanup.headerChecks;
+  submission_header_checks =
+    pkgs.writeText "submission_header_checks"
+      cfg.submission.cleanup.headerChecks;
   smtp_header_checks = pkgs.writeText "smtp_header_checks" cfg.smtpHeaderChecks;
   recipient_access =
     pkgs.writeText "postfix-recipient-access" cfg.smtpd.recipientAccess;
@@ -42,15 +43,16 @@ let
   acmeCertDir = config.security.acme.certs."${cfg.myHostname}".directory;
   acmeCertPublic = "${acmeCertDir}/fullchain.pem";
   acmeCertPrivate = "${acmeCertDir}/key.pem";
-  extraDomains = builtins.listToAttrs
-    (
+  extraDomains =
+    builtins.listToAttrs (
       builtins.map
         (
           name: {
             name = "${name}";
             value = null;
           }
-        ) cfg.acmeExtraDomains
+        )
+        cfg.acmeExtraDomains
     );
   submissionKeyFile = config.hacknix.keychain.keys."sasl-tls-key".path;
 in
@@ -410,8 +412,8 @@ in
 
     submission = {
       listenAddresses = mkOption {
-        type = types.listOf
-          (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
+        type =
+          types.listOf (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
         default = [ ];
         example = [ "127.0.0.1" "::1" "10.0.0.2" "2001:db8::2" ];
         description = ''
@@ -625,9 +627,9 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "31f7cb2ed3e8a8bb6b4e5797a3ee96a1ebda80f296c6a67066cfb3bdd111017c";
+      "a937cb98b5528d5c93fc685b0a26e70fdca1e63b42a931234a5b359fd634ad91";
     hacknix.assertions.moduleHashes."security/acme.nix" =
-      "71912f3d9fbb57fe57960a78589629b4a543b4f43d7126a503c3725dba9b6853";
+      "3fc5b7aa0df0cc4064c314c09e99d3772cd6982af412834e359c13cf37faddee";
 
     hacknix.keychain.keys."sasl-tls-key" = {
       destDir = "/var/lib/postfix/keys";
@@ -766,13 +768,15 @@ in
       extraConfig =
         let
           smtpd_client_restrictions =
-            optionalString (cfg.smtpd.clientRestrictions != null)
+            optionalString
+              (cfg.smtpd.clientRestrictions != null)
               (
                 "smtpd_client_restrictions = "
                 + (concatStringsSep ", " cfg.smtpd.clientRestrictions)
               );
           smtpd_helo_restrictions =
-            optionalString (cfg.smtpd.heloRestrictions != null)
+            optionalString
+              (cfg.smtpd.heloRestrictions != null)
               (
                 "smtpd_helo_restrictions = "
                 + (concatStringsSep ", " cfg.smtpd.heloRestrictions)
@@ -783,25 +787,29 @@ in
                 )
               );
           smtpd_sender_restrictions =
-            optionalString (cfg.smtpd.senderRestrictions != null)
+            optionalString
+              (cfg.smtpd.senderRestrictions != null)
               (
                 "smtpd_sender_restrictions = "
                 + (concatStringsSep ", " cfg.smtpd.senderRestrictions)
               );
           smtpd_relay_restrictions =
-            optionalString (cfg.smtpd.relayRestrictions != null)
+            optionalString
+              (cfg.smtpd.relayRestrictions != null)
               (
                 "smtpd_relay_restrictions = "
                 + (concatStringsSep ", " cfg.smtpd.relayRestrictions)
               );
           smtpd_recipient_restrictions =
-            optionalString (cfg.smtpd.recipientRestrictions != null)
+            optionalString
+              (cfg.smtpd.recipientRestrictions != null)
               (
                 "smtpd_recipient_restrictions = "
                 + (concatStringsSep ", " cfg.smtpd.recipientRestrictions)
               );
           smtpd_data_restrictions =
-            optionalString (cfg.smtpd.dataRestrictions != null)
+            optionalString
+              (cfg.smtpd.dataRestrictions != null)
               (
                 "smtpd_data_restrictions = "
                 + (concatStringsSep ", " cfg.smtpd.dataRestrictions)
@@ -906,16 +914,16 @@ in
         (
           if cfg.submission.listenAddresses != [ ] then
             (
-              listToAttrs
-                (
-                  map
-                    (
-                      ip: {
-                        name = "[${ip}]:submission";
-                        inherit value;
-                      }
-                    ) cfg.submission.listenAddresses
-                )
+              listToAttrs (
+                map
+                  (
+                    ip: {
+                      name = "[${ip}]:submission";
+                      inherit value;
+                    }
+                  )
+                  cfg.submission.listenAddresses
+              )
             )
           else {
             submission = value;

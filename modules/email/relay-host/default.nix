@@ -171,8 +171,8 @@ in
     };
 
     listenAddresses = mkOption {
-      type = types.nonEmptyListOf
-        (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
+      type =
+        types.nonEmptyListOf (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
       default = [ "127.0.0.1" "::1" ];
       example = [ "127.0.0.1" "::1" "10.0.0.25" "2001:db8::25" ];
       description = ''
@@ -190,7 +190,7 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "31f7cb2ed3e8a8bb6b4e5797a3ee96a1ebda80f296c6a67066cfb3bdd111017c";
+      "a937cb98b5528d5c93fc685b0a26e70fdca1e63b42a931234a5b359fd634ad91";
 
     hacknix.keychain.keys.postfix-relay-host-cert = {
       inherit user group;
@@ -215,8 +215,8 @@ in
       # "submission" master.cf line manually.
 
       enableSubmission = false;
-      masterConfig = listToAttrs
-        (
+      masterConfig =
+        listToAttrs (
           map
             (
               ip: {
@@ -243,11 +243,12 @@ in
                   ];
                 };
               }
-            ) cfg.listenAddresses
+            )
+            cfg.listenAddresses
         )
 
-      // listToAttrs
-        (
+        //
+        listToAttrs (
           map
             (
               ip: {
@@ -258,18 +259,19 @@ in
                   command = "smtpd";
                 };
               }
-            ) cfg.listenAddresses
+            )
+            cfg.listenAddresses
         )
 
-      // {
-        # Nixpkgs postfix module always enables smtp inet; we have to
-        # override it here.
-        #
-        # Note: this is a bit of a hack. It works because the name of
-        # the service is at the beginning of the line and we can
-        # change its name to be a comment.
-        smtp_inet = { name = mkForce "#smtp"; };
-      };
+        // {
+          # Nixpkgs postfix module always enables smtp inet; we have to
+          # override it here.
+          #
+          # Note: this is a bit of a hack. It works because the name of
+          # the service is at the beginning of the line and we can
+          # change its name to be a comment.
+          smtp_inet = { name = mkForce "#smtp"; };
+        };
 
       domain = cfg.myDomain;
       origin = cfg.myOrigin;
