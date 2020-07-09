@@ -18,8 +18,8 @@ let
   inherit (hacknix-lib) lib;
   inherit (lib.fetchers) fixedNixSrc;
 
-  # Temporarily use nixpkgs main branch.
-  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs;
+  # Temporarily use Hackworth nixpkgs fork.
+  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.hackworthltd-nixpkgs;
   #fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
 
   nixpkgs = import fixedNixpkgs;
