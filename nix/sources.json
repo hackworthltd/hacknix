@@ -89,10 +89,10 @@
         "homepage": null,
         "owner": "hackworthltd",
         "repo": "nixpkgs",
-        "rev": "7073f317320359e6232a96d066cf84e8df916ba8",
-        "sha256": "1pvj4l3pa4gh2i74i8lv2rhkbbn8mrz618m22ja1lpd9r132bja0",
+        "rev": "a772f060ce01bf9ae8684b56f92e78a9278da119",
+        "sha256": "1cgm11s9xlm065mnfkd9a8ij06j55gdr5kqhlfvbv9377rqig782",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/nixpkgs/archive/7073f317320359e6232a96d066cf84e8df916ba8.tar.gz",
+        "url": "https://github.com/hackworthltd/nixpkgs/archive/a772f060ce01bf9ae8684b56f92e78a9278da119.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "lorri": {
