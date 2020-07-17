@@ -104,7 +104,7 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "a937cb98b5528d5c93fc685b0a26e70fdca1e63b42a931234a5b359fd634ad91";
+      "a266b2758334cdcb9308081bd2a3e7cd289c5032ef176c8543b89811b97e0e61";
 
     hacknix.keychain.keys.postfix-null-client-cert = {
       inherit user group;
@@ -125,7 +125,6 @@ in
       relayHost = cfg.relayHost;
       relayPort = cfg.relayPort;
 
-      sslCACert = "${cfg.smtpTlsCAFile}";
       sslCert = "${cfg.smtpTlsCertFile}";
       sslKey = key.path;
 
@@ -141,6 +140,9 @@ in
 
         inet_interfaces = loopback-only
         local_transport = error:local delivery is disabled
+
+        smtp_tls_CAfile = "${cfg.smtpTlsCAFile}";
+        smtpd_tls_CAfile = "${cfg.smtpTlsCAFile}";
 
         smtp_tls_security_level = encrypt
         smtp_tls_loglevel = 1
