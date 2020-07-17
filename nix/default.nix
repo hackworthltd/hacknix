@@ -18,9 +18,7 @@ let
   inherit (hacknix-lib) lib;
   inherit (lib.fetchers) fixedNixSrc;
 
-  # Temporarily use Hackworth nixpkgs fork.
-  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.hackworthltd-nixpkgs;
-  #fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
+  fixedNixpkgs = fixedNixSrc "nixpkgs_override" sources.nixpkgs-unstable;
 
   nixpkgs = import fixedNixpkgs;
   fixedNixDarwin = lib.fetchers.fixedNixSrc "nix_darwin" sources.nix-darwin;
