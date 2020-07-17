@@ -190,7 +190,7 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "a937cb98b5528d5c93fc685b0a26e70fdca1e63b42a931234a5b359fd634ad91";
+      "a266b2758334cdcb9308081bd2a3e7cd289c5032ef176c8543b89811b97e0e61";
 
     hacknix.keychain.keys.postfix-relay-host-cert = {
       inherit user group;
@@ -285,7 +285,6 @@ in
       relayPort = cfg.relayPort;
       lookupMX = cfg.lookupMX;
 
-      sslCACert = "${cfg.smtpTlsCAFile}";
       sslCert = "${cfg.smtpTlsCertFile}";
       sslKey = key.path;
 
@@ -307,6 +306,9 @@ in
           masquerade_domains = ${concatStringsSep " " cfg.masqueradeDomains}
           masquerade_classes = envelope_sender, envelope_recipient, header_sender, header_recipient
         ''}
+
+        smtp_tls_CAfile = "${cfg.smtpTlsCAFile}";
+        smtpd_tls_CAfile = "${cfg.smtpTlsCAFile}";
 
         smtpd_tls_security_level = may
         smtpd_tls_session_cache_database = btree:${stateDir}/smtpd_scache

@@ -627,7 +627,7 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "a937cb98b5528d5c93fc685b0a26e70fdca1e63b42a931234a5b359fd634ad91";
+      "a266b2758334cdcb9308081bd2a3e7cd289c5032ef176c8543b89811b97e0e61";
     hacknix.assertions.moduleHashes."security/acme.nix" =
       "3fc5b7aa0df0cc4064c314c09e99d3772cd6982af412834e359c13cf37faddee";
 
@@ -697,7 +697,6 @@ in
       virtual = cfg.virtual.aliasMaps;
       transport = cfg.transport;
 
-      sslCACert = "/etc/ssl/certs/ca-certificates.crt";
       sslCert = acmeCertPublic;
       sslKey = acmeCertPrivate;
 
@@ -821,6 +820,9 @@ in
             '';
         in
         ''
+          smtp_tls_CAfile = "/etc/ssl/certs/ca-certificates.crt";
+          smtpd_tls_CAfile = "/etc/ssl/certs/ca-certificates.crt";
+
           ${smtpd_client_restrictions}
           ${smtpd_helo_restrictions}
           ${smtpd_sender_restrictions}
