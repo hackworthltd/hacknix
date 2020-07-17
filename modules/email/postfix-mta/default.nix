@@ -727,9 +727,6 @@ in
 
         relay_clientcerts = "hash:/etc/postfix/relay_clientcerts";
 
-        smtp_tls_CAfile = "/etc/ssl/certs/ca-certificates.crt";
-        smtpd_tls_CAfile = "/etc/ssl/certs/ca-certificates.crt";
-
         smtpd_tls_fingerprint_digest = "sha1";
         smtpd_tls_security_level = "may";
         smtpd_tls_auth_only = "yes";
@@ -823,6 +820,9 @@ in
             '';
         in
         ''
+          smtp_tls_CAfile = "/etc/ssl/certs/ca-certificates.crt";
+          smtpd_tls_CAfile = "/etc/ssl/certs/ca-certificates.crt";
+
           ${smtpd_client_restrictions}
           ${smtpd_helo_restrictions}
           ${smtpd_sender_restrictions}
