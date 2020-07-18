@@ -33,7 +33,6 @@ let
   overlays = [ hacknix-lib.overlays.all ] ++ (
     map import [
       ../overlays/custom-packages.nix
-      ../overlays/emacs.nix
       ../overlays/haskell-packages.nix
       ../overlays/lib/hacknix.nix
       ../overlays/lib/types.nix
