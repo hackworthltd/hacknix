@@ -307,8 +307,8 @@ in
           masquerade_classes = envelope_sender, envelope_recipient, header_sender, header_recipient
         ''}
 
-        smtp_tls_CAfile = "${cfg.smtpTlsCAFile}";
-        smtpd_tls_CAfile = "${cfg.smtpTlsCAFile}";
+        smtp_tls_CAfile = ${cfg.smtpTlsCAFile}
+        smtpd_tls_CAfile = {cfg.smtpTlsCAFile}
 
         smtpd_tls_security_level = may
         smtpd_tls_session_cache_database = btree:${stateDir}/smtpd_scache

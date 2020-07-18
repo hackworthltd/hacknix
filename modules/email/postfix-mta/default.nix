@@ -820,9 +820,6 @@ in
             '';
         in
         ''
-          smtp_tls_CAfile = "/etc/ssl/certs/ca-certificates.crt";
-          smtpd_tls_CAfile = "/etc/ssl/certs/ca-certificates.crt";
-
           ${smtpd_client_restrictions}
           ${smtpd_helo_restrictions}
           ${smtpd_sender_restrictions}

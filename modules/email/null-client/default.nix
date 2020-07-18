@@ -141,8 +141,8 @@ in
         inet_interfaces = loopback-only
         local_transport = error:local delivery is disabled
 
-        smtp_tls_CAfile = "${cfg.smtpTlsCAFile}";
-        smtpd_tls_CAfile = "${cfg.smtpTlsCAFile}";
+        smtp_tls_CAfile = ${cfg.smtpTlsCAFile}
+        smtpd_tls_CAfile = ${cfg.smtpTlsCAFile}
 
         smtp_tls_security_level = encrypt
         smtp_tls_loglevel = 1
