@@ -67,11 +67,6 @@
 
   inherit (pkgs) hashedCertDir;
 
-  inherit (pkgs) emacsMelpaPackagesNg;
-  inherit (pkgs) emacs-nox emacsNoXMelpaPackagesNg;
-  inherit (pkgs) emacsMacportMelpaPackagesNg;
-  inherit (pkgs) emacs-env emacs-nox-env emacs-macport-env;
-
   inherit (pkgs) haskellPackages;
 
   inherit (pkgs) darwin;
