@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "ca3a99a0499add858969ce8747049e681b85a2e2",
-        "sha256": "1mz3axgwv4n8q9k37hr2ajgppnmw2ayg9z18lbybykhwdybimhhc",
+        "rev": "d14541971b449d31ea5d3f60b1e8e4b9572653fd",
+        "sha256": "1s7c6wabf7wavsym9pw6ra67scns47kbzrbjml6bq3850xmnkvxb",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/ca3a99a0499add858969ce8747049e681b85a2e2.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/d14541971b449d31ea5d3f60b1e8e4b9572653fd.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -161,10 +161,10 @@
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "nixos",
         "repo": "nixpkgs-channels",
-        "rev": "e6d81a9b89e8dd8761654edf9dc744660a6bef0a",
-        "sha256": "0lmw1zy00l89b0x7l5f85bvxdd2w245iqf9smyiyxvl1j03b0zyq",
+        "rev": "949d39135bb67b2de617024b7cfeee906cde3acd",
+        "sha256": "0v7c0km6clajgdwhkqphzcmc2qls6aalzsmx6dq1yr44nvnh7p1z",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs-channels/archive/e6d81a9b89e8dd8761654edf9dc744660a6bef0a.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/949d39135bb67b2de617024b7cfeee906cde3acd.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
