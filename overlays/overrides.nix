@@ -100,6 +100,29 @@ let
     vscodeExtensions = super.lib.singleton self.vscode-extensions.ms-python.python;
   };
 
+  # Hydra is broken upstream because nixpkgs hasn't kept Hydra's
+  # required version of nix in sync. This one does.
+  hydraNix = (callPackage ../pkgs/nix {
+    boehmgc = super.boehmgc.override { enableLargeConfig = true; };
+  }
+  );
+
+  hydra-unstable = callPackage (super.path + "/pkgs/development/tools/misc/hydra/common.nix") {
+    version = "2020-06-23";
+    src = super.fetchFromGitHub {
+      owner = "NixOS";
+      repo = "hydra";
+      rev = "bb32aafa4a9b027c799e29b1bcf68727e3fc5f5b";
+      sha256 = "0kl9h70akwxpik3xf4dbbh7cyqn06023kshfvi14mygdlb84djgx";
+    };
+    nix = hydraNix.nixFlakes;
+
+    tests = {
+      db-migration = super.nixosTests.hydra-db-migration.mig;
+      basic = super.nixosTests.hydra.hydra-unstable;
+    };
+  };
+
 in
 {
   # Use fdk_aac in ffmpeg-full.
@@ -124,6 +147,7 @@ in
   inherit cfssl;
   inherit fsatrace;
   inherit hostapd;
+  inherit hydra-unstable;
   inherit libvmaf;
   inherit radare2;
   inherit unison-ucm;

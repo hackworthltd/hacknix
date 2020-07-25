@@ -290,6 +290,12 @@ in
 
       mapFiles = { relay_clientcerts = cfg.relayClientCertFingerprintsFile; };
 
+      config = {
+        # Override setting in postfix module when TLS certs are
+        # specified.
+        smtp_tls_security_level = mkForce "encrypt";
+      };
+
       extraConfig = ''
 
         ##
@@ -323,7 +329,6 @@ in
         smtpd_relay_restrictions = permit_auth_destination reject
 
         smtp_tls_session_cache_database = btree:${stateDir}/smtp_scache
-        smtp_tls_security_level = encrypt
         smtp_tls_loglevel = 1
         smtp_tls_mandatory_protocols = !SSLv2, !SSLv3
         smtp_tls_mandatory_ciphers = high

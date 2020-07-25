@@ -128,6 +128,12 @@ in
       sslCert = "${cfg.smtpTlsCertFile}";
       sslKey = key.path;
 
+      config = {
+        # Override setting in postfix module when TLS certs are
+        # specified.
+        smtp_tls_security_level = mkForce "encrypt";
+      };
+
       extraConfig = ''
 
         ##
@@ -144,7 +150,6 @@ in
         smtp_tls_CAfile = ${cfg.smtpTlsCAFile}
         smtpd_tls_CAfile = ${cfg.smtpTlsCAFile}
 
-        smtp_tls_security_level = encrypt
         smtp_tls_loglevel = 1
       '';
     };

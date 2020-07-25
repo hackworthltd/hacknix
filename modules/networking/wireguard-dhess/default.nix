@@ -29,8 +29,7 @@ let
       ips = mkOption {
         example = [ "192.168.2.1/24" "2001:DB8::1:0/112" ];
         default = [ ];
-        type = types.listOf
-          (types.either pkgs.lib.types.ipv4CIDR pkgs.lib.types.ipv6CIDR);
+        type = types.listOf (types.either pkgs.lib.types.ipv4CIDR pkgs.lib.types.ipv6CIDR);
         description = "The IP addresses of the interface.";
       };
 
@@ -143,8 +142,8 @@ let
         in
         ''
           ${
-            optionalString (!config.boot.isContainer)
-                "modprobe wireguard || true"
+          optionalString (!config.boot.isContainer)
+            "modprobe wireguard || true"
           }
 
           ${values.preSetup}
@@ -152,50 +151,50 @@ let
           ip link add dev ${name} type wireguard
 
           ${
-            concatMapStringsSep "\n"
-                (ip: "ip address add ${ip} dev ${name}") values.ips
+          concatMapStringsSep "\n"
+              (ip: "ip address add ${ip} dev ${name}") values.ips
           }
 
           wg set ${name} private-key ${keyFile} ${
-            optionalString (values.listenPort != null)
-                " listen-port ${toString values.listenPort}"
+          optionalString (values.listenPort != null)
+            " listen-port ${toString values.listenPort}"
           }
 
           ${
-            concatMapStringsSep "\n"
-                (
-                    peer:
-                        let
-                            pskPath = keys."${pskName name peer.name}".path;
-                            allowedIPs =
-                                map (allowedIP: allowedIP.ip) peer.allowedIPs;
-                          in
-                            "wg set ${name} peer ${peer.publicKey}"
-                              + " preshared-key ${pskPath}"
-                              + optionalString (peer.endpoint != null)
-                                " endpoint ${peer.endpoint}"
-                              + optionalString (peer.persistentKeepalive != null)
-                                " persistent-keepalive ${
-                                    toString peer.persistentKeepalive
-                                  }" + optionalString (allowedIPs != [ ])
-                                " allowed-ips ${concatStringsSep "," allowedIPs}"
-                  ) peers
+          concatMapStringsSep "\n"
+              (
+              peer:
+                  let
+                  pskPath = keys."${pskName name peer.name}".path;
+                  allowedIPs =
+                    map (allowedIP: allowedIP.ip) peer.allowedIPs;
+                  in
+                  "wg set ${name} peer ${peer.publicKey}"
+                      + " preshared-key ${pskPath}"
+                      + optionalString (peer.endpoint != null)
+                      " endpoint ${peer.endpoint}"
+                      + optionalString (peer.persistentKeepalive != null)
+                      " persistent-keepalive ${
+                          toString peer.persistentKeepalive
+                        }" + optionalString (allowedIPs != [ ])
+                      " allowed-ips ${concatStringsSep "," allowedIPs}"
+              ) peers
           }
 
           ip link set up dev ${name}
 
           ${
-            concatMapStringsSep "\n"
-                (
-                    peer:
-                        concatMapStringsSep "\n"
-                            (
-                                allowedIP:
-                                    optionalString allowedIP.route.enable
-                                        "ip route replace ${allowedIP.ip} dev ${name} table ${allowedIP.route.table}"
-                              )
-                            peer.allowedIPs
-                  ) peers
+          concatMapStringsSep "\n"
+              (
+              peer:
+                concatMapStringsSep "\n"
+                    (
+                    allowedIP:
+                      optionalString allowedIP.route.enable
+                        "ip route replace ${allowedIP.ip} dev ${name} table ${allowedIP.route.table}"
+                    )
+                  peer.allowedIPs
+              ) peers
           }
 
           ${values.postSetup}
@@ -242,7 +241,7 @@ in
   config = mkIf (cfg.interfaces != { }) {
 
     hacknix.assertions.moduleHashes."services/networking/wireguard.nix" =
-      "f7c76defbdf729bbd6c9d46349eea81904cf02ddf1d5dde637bf032b591904f3";
+      "226875d9618fedf66535d672b85efa13596044a759150de0b3e5f9ef7ab3003b";
 
     boot.extraModulePackages = [ kernel.wireguard ];
     environment.systemPackages = [ pkgs.wireguard-tools ];
@@ -254,28 +253,31 @@ in
 
     systemd.paths = mapAttrs' generatePathUnit cfg.interfaces;
 
-    hacknix.keychain.keys = listToAttrs
-      (
-        filter (x: x.value != null)
+    hacknix.keychain.keys =
+      listToAttrs (
+        filter
+          (x: x.value != null)
           (
-            lib.flatten
-              (
-                mapAttrsToList
-                  (
-                    ifname: values:
-                      mapAttrsToList
-                        (
-                          peer: values:
-                            nameValuePair (pskName ifname peer)
-                              (
-                                {
-                                  destDir = stateDir;
-                                  text = values.presharedKeyLiteral;
-                                }
-                              )
-                        ) values.peers
-                  ) cfg.interfaces
-              )
+            lib.flatten (
+              mapAttrsToList
+                (
+                  ifname: values:
+                    mapAttrsToList
+                      (
+                        peer: values:
+                          nameValuePair
+                            (pskName ifname peer)
+                            (
+                              {
+                                destDir = stateDir;
+                                text = values.presharedKeyLiteral;
+                              }
+                            )
+                      )
+                      values.peers
+                )
+                cfg.interfaces
+            )
           )
       );
 
