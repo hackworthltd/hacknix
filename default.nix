@@ -61,7 +61,6 @@
   inherit (pkgs) trimpcap;
   inherit (pkgs) tsoff;
   inherit (pkgs) unison-ucm;
-  inherit (pkgs) vscode vscode-with-extensions vscode-extensions vscode-with-python;
   inherit (pkgs) wpa_supplicant;
   inherit (pkgs) yubikey-manager;
 

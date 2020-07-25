@@ -82,24 +82,6 @@ let
     }
   );
 
-  # Upstream is broken:
-  # https://github.com/NixOS/nixpkgs/pull/71264/files
-  vscode = callPackage ../pkgs/vscode/vscode.nix { };
-  vscode-with-extensions = callPackage ../pkgs/vscode/with-extensions.nix {
-    inherit vscode;
-  };
-
-  # Upstream is broken, and a bit out of date.
-  vscode-extensions = super.recurseIntoAttrs (super.vscode-extensions // {
-    ms-python = super.vscode-extensions.ms-python // {
-      python = callPackage ../pkgs/vscode-python { };
-    };
-  });
-
-  vscode-with-python = self.vscode-with-extensions.override {
-    vscodeExtensions = super.lib.singleton self.vscode-extensions.ms-python.python;
-  };
-
   # Hydra is broken upstream because nixpkgs hasn't kept Hydra's
   # required version of nix in sync. This one does.
   hydraNix = (callPackage ../pkgs/nix {
@@ -151,7 +133,6 @@ in
   inherit libvmaf;
   inherit radare2;
   inherit unison-ucm;
-  inherit vscode vscode-with-extensions vscode-extensions vscode-with-python;
   inherit wpa_supplicant;
   inherit yubikey-manager;
 }
