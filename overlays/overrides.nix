@@ -43,9 +43,6 @@ let
     }
   );
 
-  # Upstream is out of date.
-  unison-ucm = super.callPackage ../pkgs/unison { };
-
   # Enable TLS v1.2 in wpa_supplicant.
   wpa_supplicant = super.wpa_supplicant.overrideAttrs (
     drv: {
@@ -124,7 +121,6 @@ in
   inherit hostapd;
   inherit hydra-unstable;
   inherit radare2;
-  inherit unison-ucm;
   inherit wpa_supplicant;
   inherit yubikey-manager;
 }

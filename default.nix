@@ -58,7 +58,6 @@
   inherit (pkgs) traefik-forward-auth;
   inherit (pkgs) trimpcap;
   inherit (pkgs) tsoff;
-  inherit (pkgs) unison-ucm;
   inherit (pkgs) wpa_supplicant;
   inherit (pkgs) yubikey-manager;
 
