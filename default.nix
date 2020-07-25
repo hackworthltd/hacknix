@@ -14,7 +14,6 @@
 }:
 {
   inherit (pkgs) awscli_2_0;
-  inherit (pkgs) aws-sam-cli;
   inherit (pkgs) aws-sso-credential-process;
   inherit (pkgs) aws-export-credentials;
 
