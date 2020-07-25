@@ -37,8 +37,8 @@ let
       srcs = super.fetchFromGitHub {
         owner = "Yubico";
         repo = "yubikey-manager";
-        rev = "2bbab3072ea0ec7cdcbaba398ce8dc0105aa27c2";
-        sha256 = "1i4qfmmwiw3pfbhzyivw6qp3zc17qv38sgxvza1lb2hl577za9y1";
+        rev = "12efa59f94e18bfd86b8d662a2bd70a5d2dc4fe0";
+        sha256 = "1anj1gav3mc2hzzbm80vfnb2k4s0jvlbf0kvisbj8fi4pqs18db3";
       };
     }
   );
