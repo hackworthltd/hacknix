@@ -7,9 +7,6 @@ let
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
 
-  # Upstream disables macOS.
-  libvmaf = callPackage ../pkgs/libvmaf { };
-
   # Upstream doesn't support macOS, probably due to
   # https://github.com/radareorg/radare2/issues/15197
   radare2 = super.radare2.overrideAttrs (
@@ -112,7 +109,7 @@ in
       nonfreeLicensing = true;
       fdkaacExtlib = true;
       fdk_aac = super.fdk_aac;
-      inherit libvmaf;
+      libvmaf = super.libvmaf;
       nvenc = false;
       inherit (super.darwin.apple_sdk.frameworks)
         Cocoa CoreServices CoreAudio AVFoundation MediaToolbox
@@ -126,7 +123,6 @@ in
   inherit fsatrace;
   inherit hostapd;
   inherit hydra-unstable;
-  inherit libvmaf;
   inherit radare2;
   inherit unison-ucm;
   inherit wpa_supplicant;

@@ -45,7 +45,6 @@
   inherit (pkgs) hostapd;
   inherit (pkgs) hydra-unstable;
   inherit (pkgs) libprelude;
-  inherit (pkgs) libvmaf;
   inherit (pkgs) linux_ath10k linuxPackages_ath10k;
   inherit (pkgs) linux_ath10k_ct linuxPackages_ath10k_ct;
   inherit (pkgs) lorri;
