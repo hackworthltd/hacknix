@@ -2,16 +2,10 @@ self: super:
 let
   inherit (super) callPackage;
 
-  # Upstream is out of date.
-  aws-sam-cli = callPackage ../pkgs/aws-sam-cli { };
-
   # Upstream cfssl is out of date.
   cfssl = callPackage ../pkgs/cfssl {
     inherit (super.darwin.apple_sdk.frameworks) Security;
   };
-
-  # Upstream disables macOS.
-  libvmaf = callPackage ../pkgs/libvmaf { };
 
   # Upstream doesn't support macOS, probably due to
   # https://github.com/radareorg/radare2/issues/15197
@@ -43,14 +37,11 @@ let
       srcs = super.fetchFromGitHub {
         owner = "Yubico";
         repo = "yubikey-manager";
-        rev = "2bbab3072ea0ec7cdcbaba398ce8dc0105aa27c2";
-        sha256 = "1i4qfmmwiw3pfbhzyivw6qp3zc17qv38sgxvza1lb2hl577za9y1";
+        rev = "12efa59f94e18bfd86b8d662a2bd70a5d2dc4fe0";
+        sha256 = "1anj1gav3mc2hzzbm80vfnb2k4s0jvlbf0kvisbj8fi4pqs18db3";
       };
     }
   );
-
-  # Upstream is out of date.
-  unison-ucm = super.callPackage ../pkgs/unison { };
 
   # Enable TLS v1.2 in wpa_supplicant.
   wpa_supplicant = super.wpa_supplicant.overrideAttrs (
@@ -115,7 +106,7 @@ in
       nonfreeLicensing = true;
       fdkaacExtlib = true;
       fdk_aac = super.fdk_aac;
-      inherit libvmaf;
+      libvmaf = super.libvmaf;
       nvenc = false;
       inherit (super.darwin.apple_sdk.frameworks)
         Cocoa CoreServices CoreAudio AVFoundation MediaToolbox
@@ -125,14 +116,11 @@ in
       frei0r = if super.stdenv.isDarwin then null else super.frei0r;
     };
 
-  inherit aws-sam-cli;
   inherit cfssl;
   inherit fsatrace;
   inherit hostapd;
   inherit hydra-unstable;
-  inherit libvmaf;
   inherit radare2;
-  inherit unison-ucm;
   inherit wpa_supplicant;
   inherit yubikey-manager;
 }

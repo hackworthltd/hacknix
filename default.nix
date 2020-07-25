@@ -14,7 +14,6 @@
 }:
 {
   inherit (pkgs) awscli_2_0;
-  inherit (pkgs) aws-sam-cli;
   inherit (pkgs) aws-sso-credential-process;
   inherit (pkgs) aws-export-credentials;
 
@@ -46,7 +45,6 @@
   inherit (pkgs) hostapd;
   inherit (pkgs) hydra-unstable;
   inherit (pkgs) libprelude;
-  inherit (pkgs) libvmaf;
   inherit (pkgs) linux_ath10k linuxPackages_ath10k;
   inherit (pkgs) linux_ath10k_ct linuxPackages_ath10k_ct;
   inherit (pkgs) lorri;
@@ -60,7 +58,6 @@
   inherit (pkgs) traefik-forward-auth;
   inherit (pkgs) trimpcap;
   inherit (pkgs) tsoff;
-  inherit (pkgs) unison-ucm;
   inherit (pkgs) wpa_supplicant;
   inherit (pkgs) yubikey-manager;
 
