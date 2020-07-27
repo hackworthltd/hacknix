@@ -629,7 +629,7 @@ in
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
       "a266b2758334cdcb9308081bd2a3e7cd289c5032ef176c8543b89811b97e0e61";
     hacknix.assertions.moduleHashes."security/acme.nix" =
-      "3fc5b7aa0df0cc4064c314c09e99d3772cd6982af412834e359c13cf37faddee";
+      "98b9910b9f971589a081cdd83cebe9c7ecee32b6e68ac359478b7cc8cec95fdb";
 
     hacknix.keychain.keys."sasl-tls-key" = {
       destDir = "/var/lib/postfix/keys";
