@@ -72,9 +72,9 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hacknix-lib": {
-        "branch": "master",
-        "description": "A library of useful Nix functions and types",
-        "homepage": null,
+        "branch": "main",
+        "description": "A library of useful Nix functions and types.",
+        "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
         "rev": "7d2cf1abaf8ef6ea30bb888a725123291227424c",
