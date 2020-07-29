@@ -14,7 +14,7 @@ makeTest {
       imports = pkgs.lib.hacknix.modules;
 
       hacknix.services.fail2ban = {
-        whitelist =
+        allowList =
           [ "192.168.0.0/24" "10.0.0.1" "2001:db8::/64" "2001:db8:1::1" ];
         bantime = 933;
         findtime = 377;

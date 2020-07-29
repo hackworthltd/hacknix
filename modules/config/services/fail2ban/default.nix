@@ -5,7 +5,7 @@ let
   cfg = config.hacknix.services.fail2ban;
   fail2ban-enabled = config.services.fail2ban.enable;
   ignoreip =
-    concatStringsSep " " ([ "127.0.0.0/8" "::1/128" ] ++ cfg.whitelist);
+    concatStringsSep " " ([ "127.0.0.0/8" "::1/128" ] ++ cfg.allowList);
   note = ''
 
     Note: this option will only take effect if the
@@ -16,18 +16,18 @@ in
 {
   options.hacknix.services.fail2ban = {
 
-    whitelist = mkOption {
+    allowList = mkOption {
       type =
         types.listOf (types.either pkgs.lib.types.ipv4 pkgs.lib.types.ipv6);
       default = [ ];
       example =
         [ "192.0.2.0/24" "198.51.100.1" "2001:db8::/64" "2001:db8:1::1" ];
       description = ''
-        A list of IP addresses that are whitelisted for all fail2ban
+        A list of IP addresses that are excluded for all fail2ban
         jails; i.e., these adresses will never be banned by fail2ban.
 
         Note that the loopback address ranges (both IPv4 and IPv6) are
-        always whitelisted and should not be listed here.
+        always allowed and should not be listed here.
         ${note}
       '';
     };
