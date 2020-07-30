@@ -1,4 +1,4 @@
-{ stdenv, lib, cacert, pkgs, extraCerts ? { } }:
+{ stdenv, lib, cacert, pkgs, extraCerts ? { }, ... }:
 let
   extraCAs = pkgs.writeText "extraCAs"
     (
