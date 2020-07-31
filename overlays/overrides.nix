@@ -81,12 +81,12 @@ let
   );
 
   hydra-unstable = callPackage (super.path + "/pkgs/development/tools/misc/hydra/common.nix") {
-    version = "2020-06-23";
+    version = "2020-07-28";
     src = super.fetchFromGitHub {
       owner = "NixOS";
       repo = "hydra";
-      rev = "bb32aafa4a9b027c799e29b1bcf68727e3fc5f5b";
-      sha256 = "0kl9h70akwxpik3xf4dbbh7cyqn06023kshfvi14mygdlb84djgx";
+      rev = "858eb41fab0c8e2a885dc95f629eac8d56c7449c";
+      sha256 = "17j0prprasdg0vvl2w8z99jwxzrjjr60gjgnky3k8ha399fm32pa";
     };
     nix = hydraNix.nixFlakes;
 

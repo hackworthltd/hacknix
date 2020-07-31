@@ -57,6 +57,9 @@ in
             sha256 = "0prinqi5smjkrc6jv8bs9gmnz3yga8ba9aacpg6cf1v1iq130iws";
           }
         )
+
+        # Disable restrictEval until we can work out the gitignoreSource issue.
+        ../patches/hydra/hydra-no-restrict.patch
         # (super.fetchpatch {
         #   url =
         #     "https://github.com/NixOS/hydra/commit/2f9d422172235297759f2b224fe0636cad07b6fb.patch";
