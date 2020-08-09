@@ -13,7 +13,6 @@
 , pkgs ? localLib.pkgs
 }:
 {
-  inherit (pkgs) awscli_2_0;
   inherit (pkgs) aws-sso-credential-process;
   inherit (pkgs) aws-export-credentials;
 
