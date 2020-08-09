@@ -17,10 +17,10 @@
         "homepage": null,
         "owner": "benkehoe",
         "repo": "aws-sso-credential-process",
-        "rev": "ae1fe9f7856460e79be4fc8726ddcd427e6c4c99",
-        "sha256": "1s0hw87fcsnilbf8abari4i7qiv9c6wwrxg0bmp0kv2qnv5bpjg2",
+        "rev": "26522521ac6f9c0da57de8d2f850ea2ac11290cf",
+        "sha256": "0kr87p378k7hs7vvkvfmvl3835b4q8djrh33j0k38a5scg2rvlpz",
         "type": "tarball",
-        "url": "https://github.com/benkehoe/aws-sso-credential-process/archive/ae1fe9f7856460e79be4fc8726ddcd427e6c4c99.tar.gz",
+        "url": "https://github.com/benkehoe/aws-sso-credential-process/archive/26522521ac6f9c0da57de8d2f850ea2ac11290cf.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "badhosts": {
@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "275562c6f9cc37243175656ce08007d6692bccb7",
-        "sha256": "1zxmxxzdv8rrpr38v7a5drcha8vlan0xx9vml3hhy1h0pqw4xl1g",
+        "rev": "44273a5867d4d1d0d5e3b7040f9f07340dcf0037",
+        "sha256": "1h11jq19m2cdpxysc6ly5m6hzycwmgl3bj7sisivj2xf6ifv90sh",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/275562c6f9cc37243175656ce08007d6692bccb7.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/44273a5867d4d1d0d5e3b7040f9f07340dcf0037.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -89,10 +89,10 @@
         "homepage": "",
         "owner": "target",
         "repo": "lorri",
-        "rev": "43a260c221d5dac4a44fd82271736c8444474eec",
-        "sha256": "0g6zq27dpr8bdan5xrqchybpbqwnhhc7x8sxbfygigbqd3xv9i6n",
+        "rev": "fff30c05a3d538177bbac442e9ade4bb279ef2a7",
+        "sha256": "1x8zdzkl8yx49xa9c1hid2hy464mlr0jqq6ngphr4d4wdxs03bin",
         "type": "tarball",
-        "url": "https://github.com/target/lorri/archive/43a260c221d5dac4a44fd82271736c8444474eec.tar.gz",
+        "url": "https://github.com/target/lorri/archive/fff30c05a3d538177bbac442e9ade4bb279ef2a7.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "minikube": {
@@ -149,10 +149,10 @@
         "homepage": null,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "620e15492139dfef31ec2a263f9b2f109c52bf8f",
-        "sha256": "1rcbl2mm9j7qmmp071lzm886sbpb93by4clgqj6cnyfb1jrp9aqk",
+        "rev": "b87c7ec3b47941f26cfca9047a8f68f848b6b413",
+        "sha256": "0j3spy016rdmvh7s3qq2j2ld9n1jq2a5nzla0zq4m7gp13mrfqma",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/620e15492139dfef31ec2a263f9b2f109c52bf8f.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/b87c7ec3b47941f26cfca9047a8f68f848b6b413.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-unstable": {
@@ -161,10 +161,10 @@
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "nixos",
         "repo": "nixpkgs-channels",
-        "rev": "76f2e271a2ef9de3734dcc9d366a42d6bfb18e82",
-        "sha256": "1r4da3kyghqq7vzya5yb295jpnha1fgp755bi6wda4fmhyaynnsp",
+        "rev": "3012ed98c2ef39b624b29e0e85ca66c0d9bff910",
+        "sha256": "1fh32xaply2gxajjmly6vslbpffwkdhl6h0bdfg4lms71awi4qh9",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs-channels/archive/76f2e271a2ef9de3734dcc9d366a42d6bfb18e82.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/3012ed98c2ef39b624b29e0e85ca66c0d9bff910.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
