@@ -112,9 +112,6 @@ let
   });
   linux_ath10k_ct = linuxPackages_ath10k_ct.kernel;
 
-  # awscli 2.0.
-  awscli_2_0 = callPackage ../pkgs/awscli/2.0 { };
-
   aws-sso-credential-process = callPackage ../pkgs/aws-sso-credential-process {
     src = self.lib.hacknix.sources.aws-sso-credential-process;
   };
@@ -143,7 +140,6 @@ in
 
   inherit (gitignoreSrc) gitignoreSource gitignoreFilter;
 
-  inherit awscli_2_0;
   inherit aws-export-credentials;
   inherit aws-sso-credential-process;
   inherit chamber;
