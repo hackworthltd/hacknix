@@ -2,11 +2,6 @@ self: super:
 let
   inherit (super) callPackage;
 
-  # Upstream cfssl is out of date.
-  cfssl = callPackage ../pkgs/cfssl {
-    inherit (super.darwin.apple_sdk.frameworks) Security;
-  };
-
   # Upstream doesn't support macOS, probably due to
   # https://github.com/radareorg/radare2/issues/15197
   radare2 = super.radare2.overrideAttrs (
@@ -116,7 +111,6 @@ in
       frei0r = if super.stdenv.isDarwin then null else super.frei0r;
     };
 
-  inherit cfssl;
   inherit fsatrace;
   inherit hostapd;
   inherit hydra-unstable;
