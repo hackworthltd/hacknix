@@ -34,7 +34,6 @@
   inherit (pkgs) badhosts-all;
 
   inherit (pkgs) cachix;
-  inherit (pkgs) cfssl;
   inherit (pkgs) chamber;
   inherit (pkgs) delete-tweets;
   inherit (pkgs) ffmpeg-full;
