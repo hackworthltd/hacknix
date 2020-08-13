@@ -17,4 +17,4 @@ jobs:
       with:
         name: hackworthltd-public
         signingKey: '${{ secrets.CACHIX_SIGNING_KEY_HACKWORTH_PUBLIC }}'
-    - run: nix-build ci.nix
+    - run: nix-build ci.nix --keep-going
