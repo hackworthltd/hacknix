@@ -98,7 +98,6 @@ let
     if elem system systems then handleTest path args
     else { };
   newTests = {
-    ntpd = handleTest ./tests/ntpd.nix { };
     postfix-mta = handleTest ./tests/postfix-mta.nix { };
   };
 in
