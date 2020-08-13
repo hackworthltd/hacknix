@@ -1,0 +1,17 @@
+name: "Build all packages"
+on:
+  pull_request:
+  push:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.3.2
+    - uses: cachix/install-nix-action@v10
+      with: 
+        skip_adding_nixpkgs_channel: true
+    - uses: cachix/cachix-action@v6
+      with:
+        name: hackworthltd-public
+        signingKey: '${{ secrets.CACHIX_SIGNING_KEY_HACKWORTH_PUBLIC }}'
+    - run: nix-build ci.nix
