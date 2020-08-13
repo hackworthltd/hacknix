@@ -20,5 +20,9 @@ let
           attrs
     else { };
 
+  # Note that we only build native packages for now -- no NixOS tests,
+  # as those require VM capabilities that aren't present on public
+  # GitHub Actions runners.
+
 in
 recurse [ ] releasePkgs.native
