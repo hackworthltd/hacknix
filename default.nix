@@ -51,7 +51,6 @@
   inherit (pkgs) neovim;
   inherit (pkgs) nixops;
   inherit (pkgs) nmrpflash;
-  inherit (pkgs) ntp;
   inherit (pkgs) radare2;
   inherit (pkgs) traefik-forward-auth;
   inherit (pkgs) trimpcap;

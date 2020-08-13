@@ -64,7 +64,6 @@
   ./services/apcupsd-net
   ./services/hydra-manual-setup
   ./services/netsniff-ng
-  ./services/ntpd
   ./services/systemd-digitalocean
   ./services/tarsnapper
   ./services/traefik-forward-auth
