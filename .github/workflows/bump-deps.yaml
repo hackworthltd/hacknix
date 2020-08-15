@@ -9,11 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.2
+
+    - uses: tibdex/github-app-token@v1.0.2
+      id: generate-token
+      with:
+        app_id: ${{ secrets.ACTION_PUBLIC_REPO_ID }}
+        private_key: ${{ secrets.ACTION_PUBLIC_REPO_TOKEN }}
+
     - uses: cachix/install-nix-action@v10
     - run: nix-shell --run "niv update"
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3.1.0
       with:
         commit-message: "chore: Bump dependencies."
         title: "chore: Bump dependencies"
         branch: "chore/bump-deps"
+        token: ${{ steps.generate-token.outputs.token }}
