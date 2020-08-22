@@ -23,10 +23,5 @@ in
         system, use the <literal>path</literal> attribute.
       '';
     };
-
-    description = ''
-      A mechanism for deploying file-based secrets to a target
-      machine, ensuring that secrets are not written to the Nix store.
-    '';
   };
 }

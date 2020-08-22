@@ -12,22 +12,6 @@ in
 
     services.hydra-manual-setup = {
 
-      description = ''
-        This service, when enabled along with the
-        <literal>hydra</literal> service, will do all of the initial
-        Hydra setup that normally needs to be done manually.
-        Specifically, it will create the admin user and set the admin
-        user's initial password in a relatively secure manner; see
-        <option>adminUser.initialPassword</option> for details.
-
-        The service will also copy the server's binary cache
-        public/private keypair to a specified location on the Hydra
-        server's filesystem.
-
-        This service will only run once (successfully) and will
-        effectively be a no-op from that point on.
-      '';
-
       enable = mkEnableOption ''
         the <literal>hydra-manual-setup</literal> service. Note that
         the service will only actually run if both this option and
