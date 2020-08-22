@@ -96,7 +96,7 @@ in
   # Use fdk_aac in ffmpeg-full.
   #
   # Don't override super; it disables a bunch of things on macOS.
-  ffmpeg-full =
+  xoffmpeg-full =
     callPackage (super.path + "/pkgs/development/libraries/ffmpeg-full") {
       nonfreeLicensing = true;
       fdkaacExtlib = true;
@@ -109,6 +109,9 @@ in
         ;
 
       frei0r = if super.stdenv.isDarwin then null else super.frei0r;
+
+      # Disable for now, samba isn't building on macOS.
+      samba = false;
     };
 
   inherit fsatrace;
