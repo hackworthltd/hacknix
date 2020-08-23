@@ -46,8 +46,8 @@ let
         namespace inbox {
           inbox = yes
           ${
-          optionalString (cfg.separator != null)
-              "separator = ${cfg.separator}"
+        optionalString (cfg.separator != null)
+          "separator = ${cfg.separator}"
         }
           ${concatStringsSep "\n" (map mailboxConfig cfg.mailboxes)}
         }
@@ -55,7 +55,7 @@ let
         protocol imap {
           mail_plugins = $mail_plugins imap_zlib ${imapPlugins}
           mail_max_userip_connections = ${
-          toString cfg.imap.maxUserIPConnections
+        toString cfg.imap.maxUserIPConnections
         }
         }
 
@@ -69,7 +69,8 @@ let
       ''
 
       (
-        optionalString cfg.lmtp.inet.enable
+        optionalString
+          cfg.lmtp.inet.enable
           (
             let
               userString = if cfg.mailUser != null then "user = ${cfg.mailUser}" else "";
@@ -132,10 +133,10 @@ let
           plugin {
             ${
             concatStringsSep "\n"
-                (
-                    mapAttrsToList (to: from: "sieve_${to} = ${stateDir}/sieve/${to}")
-                        cfg.sieveScripts
-                  )
+            (
+                mapAttrsToList (to: from: "sieve_${to} = ${stateDir}/sieve/${to}")
+                cfg.sieveScripts
+                )
           }
           }
         ''
@@ -190,11 +191,13 @@ let
     ];
   modulesDir = pkgs.symlinkJoin {
     name = "dovecot-modules";
-    paths = map (pkg: "${pkg}/lib/dovecot")
-      (
-        [ dovecotPkg ]
-        ++ map (module: module.override { dovecot = dovecotPkg; }) cfg.modules
-      );
+    paths =
+      map
+        (pkg: "${pkg}/lib/dovecot")
+        (
+          [ dovecotPkg ]
+          ++ map (module: module.override { dovecot = dovecotPkg; }) cfg.modules
+        );
   };
   mailboxConfig = mailbox:
     ''
@@ -218,18 +221,17 @@ let
           "Whether to automatically create or create and subscribe to the mailbox or not.";
       };
       specialUse = mkOption {
-        type = types.nullOr
-          (
-            types.enum [
-              "All"
-              "Archive"
-              "Drafts"
-              "Flagged"
-              "Junk"
-              "Sent"
-              "Trash"
-            ]
-          );
+        type = types.nullOr (
+          types.enum [
+            "All"
+            "Archive"
+            "Drafts"
+            "Flagged"
+            "Junk"
+            "Sent"
+            "Trash"
+          ]
+        );
         default = null;
         example = "Junk";
         description =
@@ -631,7 +633,7 @@ in
   config = mkIf cfg.enable {
 
     hacknix.assertions.moduleHashes."services/mail/dovecot.nix" =
-      "0447fdec5723b6b7819446f4b4c8f412e183fc6be2291869b5f2341f317d60fb";
+      "352e3b576e652fbf3c4b3fa7647b78e1e98d50ae019ba28af509930e964bdce7";
 
     security.pam.services.dovecot2 = mkIf cfg.enablePAM { };
 
@@ -701,37 +703,37 @@ in
         mkdir -p ${stateDir}/sieve
         ${concatStringsSep "\n"
           (
-              mapAttrsToList
-                  (
-                      to: from: ''
-                          if [ -d '${from}' ]; then
-                            mkdir '${stateDir}/sieve/${to}'
-                            cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
-                          else
-                            cp -p '${from}' '${stateDir}/sieve/${to}'
-                          fi
-                          ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
-                        ''
-                    ) cfg.sieveScripts
-            )}
+          mapAttrsToList
+              (
+              to: from: ''
+                  if [ -d '${from}' ]; then
+                    mkdir '${stateDir}/sieve/${to}'
+                    cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
+                  else
+                    cp -p '${from}' '${stateDir}/sieve/${to}'
+                  fi
+                  ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
+                ''
+              ) cfg.sieveScripts
+          )}
         chown -R '${cfg.mailUser}:${cfg.mailGroup}' '${stateDir}/sieve'
       '' + optionalString cfg.antispam.enable ''
         mkdir -p ${stateDir}/sieve
         ${concatStringsSep "\n"
           (
-              mapAttrsToList
-                  (
-                      to: from: ''
-                          if [ -d '${from}' ]; then
-                            mkdir '${stateDir}/sieve/${to}'
-                            cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
-                          else
-                            cp -p '${from}' '${stateDir}/sieve/${to}'
-                          fi
-                          ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
-                        ''
-                    ) antiSpamSieveScripts
-            )}
+          mapAttrsToList
+              (
+              to: from: ''
+                  if [ -d '${from}' ]; then
+                    mkdir '${stateDir}/sieve/${to}'
+                    cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
+                  else
+                    cp -p '${from}' '${stateDir}/sieve/${to}'
+                  fi
+                  ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
+                ''
+              ) antiSpamSieveScripts
+          )}
         cp ${cfg.antispam.scripts.learnSpam} ${stateDir}/sieve/learn-spam.sh
         chmod +x ${stateDir}/sieve/learn-spam.sh
         cp ${cfg.antispam.scripts.learnHam} ${stateDir}/sieve/learn-ham.sh
