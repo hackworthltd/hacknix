@@ -68,29 +68,6 @@ let
     }
   );
 
-  # Hydra is broken upstream because nixpkgs hasn't kept Hydra's
-  # required version of nix in sync. This one does.
-  hydraNix = (callPackage ../pkgs/nix {
-    boehmgc = super.boehmgc.override { enableLargeConfig = true; };
-  }
-  );
-
-  hydra-unstable = callPackage (super.path + "/pkgs/development/tools/misc/hydra/common.nix") {
-    version = "2020-07-28";
-    src = super.fetchFromGitHub {
-      owner = "NixOS";
-      repo = "hydra";
-      rev = "858eb41fab0c8e2a885dc95f629eac8d56c7449c";
-      sha256 = "17j0prprasdg0vvl2w8z99jwxzrjjr60gjgnky3k8ha399fm32pa";
-    };
-    nix = hydraNix.nixFlakes;
-
-    tests = {
-      db-migration = super.nixosTests.hydra-db-migration.mig;
-      basic = super.nixosTests.hydra.hydra-unstable;
-    };
-  };
-
 in
 {
   # Use fdk_aac in ffmpeg-full.
@@ -116,7 +93,6 @@ in
 
   inherit fsatrace;
   inherit hostapd;
-  inherit hydra-unstable;
   inherit radare2;
   inherit wpa_supplicant;
   inherit yubikey-manager;
