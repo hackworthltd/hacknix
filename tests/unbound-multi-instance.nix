@@ -1,12 +1,14 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   ipv6_prefix = "fd00:1234:5678::/64";
   adblock_ipv4 = "192.168.1.251";
   noblock_ipv4 = "192.168.1.252";
   adblock_ipv6 = "fd00:1234:5678::1";
   noblock_ipv6 = "fd00:1234:5678::2";
+  imports = pkgs.lib.hacknix.modules;
+
 in
-makeTest rec {
+makeTestPython rec {
 
   name = "unbound-multi-instance";
 
@@ -44,9 +46,9 @@ makeTest rec {
       '';
     };
 
-    server = { config, ... }: {
+    server = { pkgs, config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports = pkgs.lib.hacknix.modules;
+      inherit imports;
       networking.useDHCP = false;
       networking.firewall.allowedUDPPorts = [ 53 ];
       networking.firewall.allowedTCPPorts = [ 53 ];
@@ -139,77 +141,46 @@ makeTest rec {
   };
 
   testScript = { nodes, ... }: ''
-    startAll;
+    start_all()
 
-    $server->waitForUnit("unbound-adblock.service");
-    $server->waitForUnit("unbound-noblock.service");
-    $nsd->waitForUnit("nsd.service");
-    $client->waitForUnit("multi-user.target");
-    $badclient->waitForUnit("multi-user.target");
+    server.wait_for_unit("unbound-adblock.service")
+    server.wait_for_unit("unbound-noblock.service")
+    nsd.wait_for_unit("nsd.service")
+    client.wait_for_unit("multi-user.target")
+    badclient.wait_for_unit("multi-user.target")
 
-    # Make sure we have IPv6 connectivity and there isn't an issue
-    # with the network setup in the test.
+    with subtest("Doubleclick"):
+        assert "status: NXDOMAIN" in client.succeed(
+            "${nodes.client.pkgs.dnsutils}/bin/dig @${adblock_ipv4} A ad.doubleclick.net"
+        )
+        assert "status: NXDOMAIN" in client.succeed(
+            "${nodes.client.pkgs.dnsutils}/bin/dig @${adblock_ipv4} AAAA ad.doubleclick.net"
+        )
+        assert "13.13.13.13" in client.succeed(
+            "${nodes.client.pkgs.dnsutils}/bin/dig @${noblock_ipv4} A ad.doubleclick.net"
+        )
+        assert "dead::beef" in client.succeed(
+            "${nodes.client.pkgs.dnsutils}/bin/dig @${noblock_ipv4} AAAA ad.doubleclick.net"
+        )
 
-    sub waitForAddress {
-        my ($machine, $iface, $scope) = @_;
-        $machine->waitUntilSucceeds("[ `ip -o -6 addr show dev $iface scope $scope | grep -v tentative | wc -l` -eq 1 ]");
-        my $ip = (split /[ \/]+/, $machine->succeed("ip -o -6 addr show dev $iface scope $scope"))[3];
-        $machine->log("$scope address on $iface is $ip");
-        return $ip;
-    }
+    with subtest("Forwarding"):
+        assert "1.2.3.4" in client.succeed(
+            "${nodes.client.pkgs.dnsutils}/bin/dig @${adblock_ipv4} A ipv4.example.com +short"
+        )
+        assert "1.2.3.4" in client.succeed(
+            "${nodes.client.pkgs.dnsutils}/bin/dig @${noblock_ipv4} A ipv4.example.com +short"
+        )
 
-    waitForAddress $client, "eth1", "global";
-    waitForAddress $badclient, "eth1", "global";
-    waitForAddress $server, "eth1", "global";
-    waitForAddress $nsd, "eth1", "global";
+    with subtest("Bad client"):
+        badclient.fail(
+            "${nodes.badclient.pkgs.dnsutils}/bin/dig @${adblock_ipv4} A ad.doubleclick.net +time=2"
+        )
+        badclient.fail(
+            "${nodes.badclient.pkgs.dnsutils}/bin/dig @${noblock_ipv4} A ad.doubleclick.net +time=2"
+        )
 
-    $server->succeed("ping -c 1 fd00:1234:5678::2000 >&2");
-    $server->succeed("ping -c 1 fd00:1234:5678::3000 >&2");
-    $server->succeed("ping -c 1 fd00:1234:5678::ffff >&2");
-    $client->succeed("ping -c 1 fd00:1234:5678::1000 >&2");
-    $badclient->succeed("ping -c 1 fd00:1234:5678::1000 >&2");
-
-    sub testDoubleclickBlocked {
-      my ($machine, $dnsip, $extraArg) = @_;
-      my $ipv4 = $machine->succeed("${pkgs.dnsutils}/bin/dig \@$dnsip $extraArg A ad.doubleclick.net");
-      $ipv4 =~ /status: NXDOMAIN/ or die "ad.doubleclick.net does not return NXDOMAIN";
-      my $ipv6 = $machine->succeed("${pkgs.dnsutils}/bin/dig \@$dnsip $extraArg AAAA ad.doubleclick.net");
-      $ipv6 =~ /status: NXDOMAIN/ or die "ad.doubleclick.net does not return NXDOMAIN";
-    }
-
-    sub testDoubleclick {
-      my ($machine, $dnsip, $extraArg) = @_;
-      my $ipv4 = $machine->succeed("${pkgs.dnsutils}/bin/dig \@$dnsip $extraArg A ad.doubleclick.net +short");
-      $ipv4 =~ /^13\.13\.13\.13$/ or die "ad.doubleclick.net does not resolve to 13.13.13.13";
-      my $ipv6 = $machine->succeed("${pkgs.dnsutils}/bin/dig \@$dnsip $extraArg AAAA ad.doubleclick.net +short");
-      $ipv6 =~ /^dead::beef$/ or die "ad.doubleclick.net does not resolve to dead::beef";
-    }
-
-    subtest "doubleclick", sub {
-      testDoubleclickBlocked $client, "${adblock_ipv4}", "";
-      #testDoubleclickBlocked $client, "${adblock_ipv6}", "-6";
-      testDoubleclick $client, "${noblock_ipv4}", "";
-      #testDoubleclick $client, "${noblock_ipv6}", "-6";
-    };
-
-    subtest "forwarding", sub {
-      my $ip1 = $client->succeed("${pkgs.dnsutils}/bin/dig \@${adblock_ipv4} A ipv4.example.com +short");
-      $ip1 =~ /^1\.2\.3\.4$/ or die "ipv4.example.com does not resolve to 1.2.3.4 from adblock instance";
-      my $ip2 = $client->succeed("${pkgs.dnsutils}/bin/dig \@${noblock_ipv4} A ipv4.example.com +short");
-      $ip2 =~ /^1\.2\.3\.4$/ or die "ipv4.example.com does not resolve to 1.2.3.4 from noblock instance";
-    };
-
-    subtest "badclient", sub {
-      $badclient->fail("${pkgs.dnsutils}/bin/dig \@${adblock_ipv4} A ad.doubleclick.net +time=2");
-      $badclient->fail("${pkgs.dnsutils}/bin/dig \@${noblock_ipv4} A ad.doubleclick.net +time=2");
-      #$badclient->fail("${pkgs.dnsutils}/bin/dig \@${adblock_ipv6} A ad.doubleclick.net +time=2");
-      #$badclient->fail("${pkgs.dnsutils}/bin/dig \@${noblock_ipv6} A ad.doubleclick.net +time=2");
-    };
-
-    subtest "check-stop", sub {
-      $server->stopJob("unbound-adblock.service");
-      $server->stopJob("unbound-noblock.service");
-    };
-
+    with subtest("Stop the service"):
+        server.stop_job("unbound-adblock.service")
+        server.stop_job("unbound-noblock.service")
   '';
 }

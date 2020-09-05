@@ -1,4 +1,4 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   exampleCA1Pem = pkgs.writeText "exampleCA1.pem" ''
     -----BEGIN CERTIFICATE-----
@@ -79,18 +79,20 @@ let
     gnK6FH1Gxkquo9AnV8KGXJQ9AOllUkgv+Zg2G1bIEcgqbGIfuOo79g==
     -----END RSA PRIVATE KEY-----
   '';
+
+  imports = [ ./common/user-account.nix ] ++ pkgs.lib.hacknix.modules
+    ++ pkgs.lib.hacknix.testing.testModules;
+
 in
-makeTest rec {
+makeTestPython {
   name = "dovecot";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
-  machine = { config, ... }: {
-    imports = [ ./common/user-account.nix ] ++ pkgs.lib.hacknix.modules
-      ++ pkgs.lib.hacknix.testing.testModules;
-
+  machine = { pkgs, config, ... }: {
     # Use the test key deployment system.
     deployment.reallyReallyEnable = true;
+    inherit imports;
 
     services.postfix.enable = true;
     services.dovecot2 = {
@@ -148,11 +150,11 @@ makeTest rec {
   };
 
   testScript = ''
-    $machine->waitForUnit('postfix.service');
-    $machine->waitForUnit('dovecot2.service');
-    $machine->succeed('send-testmail');
-    $machine->succeed('send-lda');
-    $machine->waitUntilFails('[ "$(postqueue -p)" != "Mail queue is empty" ]');
-    $machine->succeed('test-imap');
+    machine.wait_for_unit("postfix.service")
+    machine.wait_for_unit("dovecot2.service")
+    machine.succeed("send-testmail")
+    machine.succeed("send-lda")
+    machine.wait_until_fails('[ "$(postqueue -p)" != "Mail queue is empty" ]')
+    machine.succeed("test-imap")
   '';
 }

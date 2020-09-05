@@ -1,7 +1,7 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
 in
-makeTest rec {
+makeTestPython rec {
   name = "service-status-email";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -24,7 +24,7 @@ makeTest rec {
   };
 
   testScript = { nodes, ... }: ''
-    $machine->waitForUnit("multi-user.target");
-    $machine->startJob("status-email-root\@postfix");
+    machine.wait_for_unit("multi-user.target")
+    machine.start_job("status-email-root@postfix")
   '';
 }

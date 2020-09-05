@@ -1,16 +1,19 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
+  imports = pkgs.lib.hacknix.modules
+    ++ pkgs.lib.hacknix.testing.testModules;
+
   makeZncTest = name: machineAttrs:
-    makeTest {
+    makeTestPython {
       name = "znc-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
       nodes = {
 
-        localhostServer = { config, ... }: {
+
+        localhostServer = { pkgs, config, ... }: {
           nixpkgs.localSystem.system = system;
-          imports = pkgs.lib.hacknix.modules
-            ++ pkgs.lib.hacknix.testing.testModules;
+          inherit imports;
 
           # Use the test key deployment system.
           deployment.reallyReallyEnable = true;
@@ -33,10 +36,9 @@ let
           };
         };
 
-        server = { config, ... }: {
+        server = { pkgs, config, ... }: {
           nixpkgs.localSystem.system = system;
-          imports = pkgs.lib.hacknix.modules
-            ++ pkgs.lib.hacknix.testing.testModules;
+          inherit imports;
 
           # Use the test key deployment system.
           deployment.reallyReallyEnable = true;
@@ -58,42 +60,34 @@ let
           };
         };
 
-        client = { config, ... }: { nixpkgs.localSystem.system = system; };
+        client = { pkgs, config, ... }: { nixpkgs.localSystem.system = system; };
 
       } // machineAttrs;
 
       testScript = { nodes, ... }: ''
-        startAll;
+        start_all()
 
-        $server->waitForUnit("znc.service");
-        $localhostServer->waitForUnit("znc.service");
+        server.wait_for_unit("znc.service")
+        localhostServer.wait_for_unit("znc.service")
 
-        subtest "no-remote-connections", sub {
-          $client->fail("${pkgs.netcat}/bin/nc -w 5 localhostServer ${
-          builtins.toString
-              nodes.localhostServer.config.services.qx-znc.confOptions.port
-        }");
-        };
+        with subtest("No remote connections"):
+            client.fail(
+                "${nodes.client.pkgs.netcat}/bin/nc -w 5 localhostServer ${builtins.toString nodes.localhostServer.config.services.qx-znc.confOptions.port}"
+            )
 
-        subtest "localhost-connections", sub {
-          $localhostServer->succeed("${pkgs.netcat}/bin/nc -w 5 localhost ${
-          builtins.toString
-              nodes.localhostServer.config.services.qx-znc.confOptions.port
-        }");
-        };
+        with subtest("Localhost connections"):
+            localhostServer.succeed(
+                "${pkgs.netcat}/bin/nc -w 5 localhost ${builtins.toString nodes.localhostServer.config.services.qx-znc.confOptions.port}"
+            )
 
-        subtest "allow-remote-connections", sub {
-          $client->succeed("${pkgs.netcat}/bin/nc -w 5 server ${
-          builtins.toString
-              nodes.server.config.services.qx-znc.confOptions.port
-        }");
-        };
+        with subtest("Allow remote connections"):
+            client.succeed(
+                "${pkgs.netcat}/bin/nc -w 5 server ${builtins.toString nodes.server.config.services.qx-znc.confOptions.port}"
+            )
       '';
 
     };
 in
 {
-
   defaultTest = makeZncTest "default" { };
-
 }

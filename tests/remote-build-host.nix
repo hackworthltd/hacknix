@@ -1,4 +1,4 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   remoteBuilderKey = pkgs.writeText "remote-builder.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
@@ -12,7 +12,7 @@ let
   remoteBuilderPublicKey = pkgs.writeText "remote-builder.pub"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH5uUNmlLsJvS2L1FnhX6dDY5KnYPhev88eO2vuUMB5r alice";
   makeRemoteBuildHostTest = name: machineAttrs:
-    makeTest {
+    makeTestPython {
       name = "remote-builder-test-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
@@ -37,21 +37,18 @@ let
         let
         in
         ''
-          startAll;
-          $server->waitForUnit("sshd.service");
+          start_all()
+          server.wait_for_unit("sshd.service")
 
-          subtest "remote-builder-ssh", sub {
-            $client->succeed("cat ${remoteBuilderKey} > remote-builder.key");
-            $client->succeed("chmod 0400 remote-builder.key");
-            $client->succeed("ssh -o UserKnownHostsFile=/dev/null" .
-                             " -o StrictHostKeyChecking=no -i remote-builder.key" .
-                             " -l remote-builder server true");
-          };
+          with subtest("SSH to remote builder"):
+              client.succeed(
+                  "cat ${remoteBuilderKey} > remote-builder.key"
+              )
+              client.succeed("chmod 0400 remote-builder.key")
+              client.succeed(
+                  "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i remote-builder.key -l remote-builder server true"
+              )
         '';
     };
 in
-rec {
-
-  remoteBuildHostTest = makeRemoteBuildHostTest "" { };
-
-}
+makeRemoteBuildHostTest "default" { }

@@ -1,4 +1,4 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   # Don't do this in production -- it will put the secrets into the
   # Nix store! This is just a convenience for the tests.
@@ -8,7 +8,7 @@ let
   bob-certKeyInStore =
     pkgs.copyPathToStore ./testfiles/keys/bob-at-acme.com.key;
 in
-makeTest rec {
+makeTestPython rec {
   name = "postfix-null-client";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -39,11 +39,12 @@ makeTest rec {
       stateDir = nodes.client.config.services.postfix-null-client.stateDir;
     in
     ''
-      $client->waitForUnit("multi-user.target");
-      $client->requireActiveUnit("postfix.service");
+      client.wait_for_unit("multi-user.target")
+      client.require_unit_state("postfix.service")
 
-      subtest "check-keys", sub {
-        $client->succeed("diff ${bob-certKeyInStore} ${stateDir}/keys/postfix-null-client-cert");
-      };
+      with subtest("Check TLS keys"):
+          client.succeed(
+              "diff ${bob-certKeyInStore} ${stateDir}/keys/postfix-null-client-cert"
+          )
     '';
 }

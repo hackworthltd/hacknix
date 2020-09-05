@@ -1,4 +1,4 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   alicePrivateKey = pkgs.writeText "alice.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
@@ -33,24 +33,27 @@ let
   '';
   rootPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPnpwChRRru8LDlpDuNeBR9S+cUzU8o6JJVgqQJ2zZ4F root";
+
+  imports = [ ./common/users.nix ./common/root-user.nix ]
+    ++ pkgs.lib.hacknix.modules;
+
   makeSshTest = name: machineAttrs:
-    makeTest {
+    makeTestPython {
       name = "ssh-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
       nodes = {
-        server = { config, ... }:
+        server = { pkgs, config, ... }:
           {
+            inherit imports;
             nixpkgs.localSystem.system = system;
-            imports = [ ./common/users.nix ./common/root-user.nix ]
-            ++ pkgs.lib.hacknix.modules;
             users.users.root.openssh.authorizedKeys.keys = [ rootPublicKey ];
             users.users.alice.openssh.authorizedKeys.keys = [ alicePublicKey ];
             users.users.bob.openssh.authorizedKeys.keys = [ bobPublicKey ];
           } // machineAttrs;
-        badserver = { config, ... }: {
+        badserver = { pkgs, config, ... }: {
           nixpkgs.localSystem.system = system;
-          imports = [ ./common/users.nix ./common/root-user.nix ];
+          inherit imports;
           users.users.root.openssh.authorizedKeys.keys = [ rootPublicKey ];
           users.users.alice.openssh.authorizedKeys.keys = [ alicePublicKey ];
           users.users.bob.openssh.authorizedKeys.keys = [ bobPublicKey ];
@@ -58,9 +61,9 @@ let
           services.openssh.passwordAuthentication = true;
           services.openssh.permitRootLogin = "yes";
         };
-        client = { config, ... }: {
+        client = { pkgs, config, ... }: {
           nixpkgs.localSystem.system = system;
-          imports = pkgs.lib.hacknix.modules;
+          inherit imports;
         };
       };
 
@@ -71,59 +74,52 @@ let
           root = nodes.server.config.users.users.root;
         in
         ''
-          startAll;
-          $server->waitForUnit("sshd.service");
+          start_all()
+          server.wait_for_unit("sshd.service")
 
-          subtest "user-authkey", sub {
-            $client->succeed("cat ${alicePrivateKey} > alice.key");
-            $client->succeed("chmod 0600 alice.key");
-            $client->succeed("ssh -o UserKnownHostsFile=/dev/null" .
-                             " -o StrictHostKeyChecking=no -i alice.key" .
-                             " -l alice server true");
+          with subtest("User authkey"):
+              client.succeed(
+                  "cat ${alicePrivateKey} > alice.key"
+              )
+              client.succeed("chmod 0600 alice.key")
+              client.succeed(
+                  "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i alice.key -l alice server true"
+              )
 
-            $client->succeed("cat ${bobPrivateKey} > bob.key");
-            $client->succeed("chmod 0600 bob.key");
-            $client->succeed("ssh -o UserKnownHostsFile=/dev/null" .
-                             " -o StrictHostKeyChecking=no -i bob.key" .
-                             " -l bob server true");
-          };
+              client.succeed("cat ${bobPrivateKey} > bob.key")
+              client.succeed("chmod 0600 bob.key")
+              client.succeed(
+                  "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i bob.key -l bob server true"
+              )
 
-          subtest "root-authkey", sub {
-            $client->succeed("cat ${rootPrivateKey} > root.key");
-            $client->succeed("chmod 0600 root.key");
-            $client->succeed("ssh -o UserKnownHostsFile=/dev/null" .
-                             " -o StrictHostKeyChecking=no -i root.key" .
-                             " -l root server true");
-          };
+          with subtest("root authkey"):
+              client.succeed(
+                  "cat ${rootPrivateKey} > root.key"
+              )
+              client.succeed("chmod 0600 root.key")
+              client.succeed(
+                  "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i root.key -l root server true"
+              )
+          
+          with subtest("Disallow user password"):
+              sshcmd = "${nodes.client.pkgs.sshpass}/bin/sshpass -p ${alice.password} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l alice"
+              client.fail(sshcmd + " server true")
 
-          subtest "user-password-disallowed", sub {
-            my $sshcmd = "${pkgs.sshpass}/bin/sshpass -p ${alice.password}" .
-                         " ssh -o UserKnownHostsFile=/dev/null" .
-                         " -o StrictHostKeyChecking=no -l alice";
-            $client->fail($sshcmd . " server true") =~ /Permission denied (publickey,keyboard-interactive)/;
+              # Make sure the same command succeeds on the misconfigured server.
+              client.succeed(sshcmd + " badserver true")
+          
+          with subtest("Disallow root password"):
+              sshcmd = "${pkgs.sshpass}/bin/sshpass -p ${root.password} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l root"
+              client.fail(sshcmd + " server true")
 
-            # Make sure the same command succeeds on the misconfigured server.
-            $client->succeed($sshcmd . " badserver true");
-          };
-
-          subtest "root-password-disallowed", sub {
-            my $sshcmd = "${pkgs.sshpass}/bin/sshpass -p ${root.password}" .
-                         " ssh -o UserKnownHostsFile=/dev/null" .
-                         " -o StrictHostKeyChecking=no -l root";
-            $client->fail($sshcmd . " server true") =~ /Permission denied (publickey,keyboard-interactive)/;
-
-            # Make sure the same command succeeds on the misconfigured server.
-            $client->succeed($sshcmd . " badserver true");
-          };
-
+              # Make sure the same command succeeds on the misconfigured server.
+              client.succeed(sshcmd + " badserver true")
         '';
     };
 in
 rec {
-
   globalEnableTest =
     makeSshTest "global-enable" { hacknix.defaults.enable = true; };
   sshEnableTest =
     makeSshTest "ssh-enable" { hacknix.defaults.ssh.enable = true; };
-
 }

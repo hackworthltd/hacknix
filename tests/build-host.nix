@@ -2,7 +2,7 @@
 # that the files and keys needed to support remote builds are set up
 # correctly.
 
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   expectedMachinesFile = pkgs.writeText "machines" ''
     ssh://bob@bar.example.com x86_64-linux,i686-linux /etc/nix/bob_at_bar 16 2 benchmark,big-parallel,kvm,nixos-test benchmark
@@ -80,7 +80,7 @@ let
       sshKeyLiteral = alicePrivateKey;
     };
   };
-  noExtraBuildHosts = makeTest rec {
+  noExtraBuildHosts = makeTestPython {
 
     name = "build-host";
     meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -105,31 +105,34 @@ let
       let
       in
       ''
-        startAll;
+        start_all()
 
-        subtest "check-ssh-keys", sub {
-          $machine->succeed("diff ${alicePrivateKeyFile} /etc/nix/alice_at_foo");
-          $machine->succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]");
-          $machine->succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]");
-          $machine->succeed("diff ${bobPrivateKeyFile} /etc/nix/bob_at_bar");
-          $machine->succeed("[[ `stat -c%a /etc/nix/bob_at_bar` -eq 400 ]]");
-          $machine->succeed("[[ `stat -c%U /etc/nix/bob_at_bar` -eq root ]]");
-        };
+        with subtest("Check SSH keys"):
+            machine.succeed(
+                "diff ${alicePrivateKeyFile} /etc/nix/alice_at_foo"
+            )
+            machine.succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]")
+            machine.succeed(
+                "diff ${bobPrivateKeyFile} /etc/nix/bob_at_bar"
+            )
+            machine.succeed("[[ `stat -c%a /etc/nix/bob_at_bar` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/bob_at_bar` -eq root ]]")
 
-        subtest "check-etc-nix-machines", sub {
-          $machine->succeed("diff -w ${expectedMachinesFile} /etc/nix/machines");
-        };
+        with subtest("Check /etc/nix/machines"):
+            machine.succeed(
+                "diff -w ${expectedMachinesFile} /etc/nix/machines"
+            )
 
-        subtest "check-ssh_known_hosts", sub {
-          my $foostring = quotemeta ("foo.example.com,10.0.0.1,2001:db8::1 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsvvICWc8HDQkkIwIaHQ2xuHieJyLULqe1Z/xeJQRzi");
-          my $barstring = quotemeta ("bar.example.com,10.0.0.2,2001:db8::2 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAEBze0BfSijN9vRgvLOyJacAo7rCgr9u96hGWNkyPL");
-          my $ssh_known_hosts = $machine->succeed("cat /etc/ssh/ssh_known_hosts");
-          $ssh_known_hosts =~ /$foostring/ or die "/etc/ssh/ssh_known_hosts is missing expected `foo` host key";
-          $ssh_known_hosts =~ /$barstring/ or die "/etc/ssh/ssh_known_hosts is missing expected `bar` host key";
-        };
+        with subtest("Check /etc/ssh/ssh_known_hosts"):
+            foo_key = "foo.example.com,10.0.0.1,2001:db8::1 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsvvICWc8HDQkkIwIaHQ2xuHieJyLULqe1Z/xeJQRzi"
+            bar_key = "bar.example.com,10.0.0.2,2001:db8::2 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAEBze0BfSijN9vRgvLOyJacAo7rCgr9u96hGWNkyPL"
+            ssh_known_hosts = machine.succeed("cat /etc/ssh/ssh_known_hosts")
+            assert foo_key in ssh_known_hosts
+            assert bar_key in ssh_known_hosts
       '';
   };
-  extraBuildHosts = makeTest rec {
+  extraBuildHosts = makeTestPython {
 
     name = "build-host-extra-build-hosts";
     meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -155,45 +158,50 @@ let
       let
       in
       ''
-        startAll;
+        start_all()
 
-        subtest "check-ssh-keys", sub {
-          $machine->succeed("diff ${alicePrivateKeyFile} /etc/nix/alice_at_foo");
-          $machine->succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]");
-          $machine->succeed("[[ `stat -c%U /etc/nix/alice_at_foo` -eq root ]]");
-          $machine->succeed("diff ${bobPrivateKeyFile} /etc/nix/bob_at_bar");
-          $machine->succeed("[[ `stat -c%a /etc/nix/bob_at_bar` -eq 400 ]]");
-          $machine->succeed("[[ `stat -c%U /etc/nix/bob_at_bar` -eq root ]]");
-          $machine->succeed("diff ${alicePrivateKeyFile} /etc/nix/alice_at_baz");
-          $machine->succeed("[[ `stat -c%a /etc/nix/alice_at_baz` -eq 400 ]]");
-          $machine->succeed("[[ `stat -c%U /etc/nix/alice_at_baz` -eq root ]]");
-        };
+        with subtest("Check SSH keys"):
+            machine.succeed(
+                "diff ${alicePrivateKeyFile} /etc/nix/alice_at_foo"
+            )
+            machine.succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/alice_at_foo` -eq root ]]")
+            machine.succeed(
+                "diff ${bobPrivateKeyFile} /etc/nix/bob_at_bar"
+            )
+            machine.succeed("[[ `stat -c%a /etc/nix/bob_at_bar` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/bob_at_bar` -eq root ]]")
+            machine.succeed(
+                "diff ${alicePrivateKeyFile} /etc/nix/alice_at_baz"
+            )
+            machine.succeed("[[ `stat -c%a /etc/nix/alice_at_baz` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/alice_at_baz` -eq root ]]")
 
-        subtest "check-etc-nix-machines", sub {
-          $machine->succeed("diff -w ${expectedMachinesFile} /etc/nix/machines");
-        };
+        with subtest("Check /etc/nix/machines"):
+            machine.succeed(
+                "diff -w ${expectedMachinesFile} /etc/nix/machines"
+            )
 
-        subtest "check-etc-nix-extra-machines", sub {
-          $machine->succeed("diff -w ${expectedExtraMachinesFile} /etc/nix/extra-machines");
-        };
+        with subtest("Check /etc/nix/extra-machines"):
+            machine.succeed(
+                "diff -w ${expectedExtraMachinesFile} /etc/nix/extra-machines"
+            )
 
-        subtest "check-ssh_known_hosts", sub {
-          my $foostring = quotemeta ("foo.example.com,10.0.0.1,2001:db8::1 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsvvICWc8HDQkkIwIaHQ2xuHieJyLULqe1Z/xeJQRzi");
-          my $barstring = quotemeta ("bar.example.com,10.0.0.2,2001:db8::2 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAEBze0BfSijN9vRgvLOyJacAo7rCgr9u96hGWNkyPL");
-          my $bazstring = quotemeta ("baz.example.com,10.0.0.3,2001:db8::3 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds");
-          my $ssh_known_hosts = $machine->succeed("cat /etc/ssh/ssh_known_hosts");
-          $ssh_known_hosts =~ /$foostring/ or die "/etc/ssh/ssh_known_hosts is missing expected `foo` host key";
-          $ssh_known_hosts =~ /$barstring/ or die "/etc/ssh/ssh_known_hosts is missing expected `bar` host key";
-          $ssh_known_hosts =~ /$bazstring/ or die "/etc/ssh/ssh_known_hosts is missing expected `baz` host key";
-        };
+        with subtest("Check /etc/ssh/known_hosts"):
+            foo_key = "foo.example.com,10.0.0.1,2001:db8::1 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsvvICWc8HDQkkIwIaHQ2xuHieJyLULqe1Z/xeJQRzi"
+            bar_key = "bar.example.com,10.0.0.2,2001:db8::2 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAEBze0BfSijN9vRgvLOyJacAo7rCgr9u96hGWNkyPL"
+            baz_key = "baz.example.com,10.0.0.3,2001:db8::3 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds"
+            ssh_known_hosts = machine.succeed("cat /etc/ssh/ssh_known_hosts")
+            assert foo_key in ssh_known_hosts
+            assert bar_key in ssh_known_hosts
+            assert baz_key in ssh_known_hosts
 
-        subtest "check-ssh_config", sub {
-          my $hoststring = quotemeta ("Host bar.example.com");
-          my $portstring = quotemeta ("Port 2002");
-          my $ssh_config = $machine->succeed("cat /etc/ssh/ssh_config");
-          $ssh_config =~ /$hoststring/ or die "/etc/ssh/ssh_config is missing expected `Host bar.example.com` line";
-          $ssh_config =~ /$portstring/ or die "/etc/ssh/ssh_config is missing expected `Port 2002` line";
-        };
+        with subtest("Check /etc/ssh/ssh_config"):
+            host = "Host bar.example.com"
+            port = "Port 2002"
+            ssh_config = machine.succeed("cat /etc/ssh/ssh_config")
+            assert host in ssh_config
+            assert port in ssh_config
       '';
   };
 in

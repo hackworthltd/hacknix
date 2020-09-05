@@ -1,40 +1,33 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
+  imports = [ ./common/users.nix ] ++ pkgs.lib.hacknix.modules;
   makeEnvTest = name: machineAttrs:
-    makeTest {
+    makeTestPython {
       name = "environment-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
-      machine = { config, ... }:
+      machine = { config, pkgs, ... }:
         {
           nixpkgs.localSystem.system = system;
-          imports = [ ./common/users.nix ] ++ pkgs.lib.hacknix.modules;
+          inherit imports;
         } // machineAttrs;
       testScript = { ... }: ''
-        $machine->waitForUnit("multi-user.target");
+        machine.wait_for_unit("multi-user.target")
 
-        subtest "root-no-histfile", sub {
-          my $histfile = $machine->fail("${pkgs.bash}/bin/bash -c 'printenv HISTFILE'");
-          $histfile eq "" or die "Unexpected output from 'printenv HISTFILE'";
-        };
+        with subtest("No history file for root"):
+            machine.fail("bash -c 'printenv HISTFILE'")
 
-        subtest "user-no-histfile", sub {
-          my $whoami = $machine->succeed("su - alice -c 'whoami'");
-          $whoami eq "alice\n" or die "su failed";
-          my $histfile = $machine->fail("su - alice -c 'printenv HISTFILE'");
-          $histfile eq "" or die "Unexpected output from 'printenv HISTFILE'";
-        };
+        with subtest("No history file for user"):
+            assert "alice" in machine.succeed("su - alice -c 'whoami'")
+            machine.fail("su - alice -c 'printenv HISTFILE'")
 
-        subtest "git-is-in-path", sub {
-          $machine->succeed("git init") =~ /Initialized empty Git repository in/;
-        };
+        with subtest("Ensure git is in the path"):
+            assert "Initialized empty Git repository in" in machine.succeed("git init")
 
-        subtest "wget-is-in-path", sub {
-          $machine->succeed("wget --version") =~ /GNU Wget/;
-        };
+        with subtest("Ensure wget is in the path"):
+            assert "GNU Wget" in machine.succeed("wget --version")
 
-        subtest "emacs-is-in-path", sub {
-          $machine->succeed("emacs --version") =~ /GNU Emacs/;
-        };
+        with subtest("Ensure emacs is in the path"):
+            assert "GNU Emacs" in machine.succeed("emacs --version")
       '';
     };
 in

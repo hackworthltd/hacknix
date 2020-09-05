@@ -1,7 +1,7 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
 in
-makeTest rec {
+makeTestPython rec {
   name = "tarsnapper";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -32,7 +32,7 @@ makeTest rec {
   };
 
   testScript = { nodes, ... }: ''
-    startAll;
+    start_all()
 
     ## Not a whole lot we can do here without an actual tarsnap server
     ## except make sure the timer is active. Note that the service is
@@ -40,7 +40,7 @@ makeTest rec {
     ## successfully ping v1-0-0-server.tarsnap.com, so we don't test
     ## that here, either.
 
-    $machine->waitForUnit("multi-user.target");
-    $machine->waitForUnit("tarsnapper.timer");
+    machine.wait_for_unit("multi-user.target")
+    machine.wait_for_unit("tarsnapper.timer")
   '';
 }

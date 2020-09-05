@@ -1,7 +1,7 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
 in
-makeTest rec {
+makeTestPython rec {
 
   name = "virtual-ips";
 
@@ -19,13 +19,13 @@ makeTest rec {
   };
 
   testScript = { nodes, ... }: ''
-    startAll;
+    start_all()
 
-    $host->waitForUnit("multi-user.target");
+    host.wait_for_unit("multi-user.target")
 
-    $host->succeed("ping -c 1 10.0.0.1 >&2");
-    $host->succeed("ping -c 1 192.168.8.77 >&2");
-    $host->succeed("ping -c 1 fd00:1234:5678::1 >&2");
-    $host->succeed("ping -c 1 fd00:1234:5678::2000:8 >&2");
+    host.succeed("ping -c 1 10.0.0.1 >&2")
+    host.succeed("ping -c 1 192.168.8.77 >&2")
+    host.succeed("ping -c 1 fd00:1234:5678::1 >&2")
+    host.succeed("ping -c 1 fd00:1234:5678::2000:8 >&2")
   '';
 }

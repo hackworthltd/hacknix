@@ -1,7 +1,7 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   makeSystemTest = name: machineAttrs:
-    makeTest {
+    makeTestPython {
       name = "system-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
       machine = { config, ... }:
@@ -10,29 +10,24 @@ let
           imports = pkgs.lib.hacknix.modules;
         } // machineAttrs;
       testScript = { ... }: ''
-        $machine->waitForUnit("multi-user.target");
+        machine.wait_for_unit("multi-user.target")
 
-        subtest "timezone-is-utc", sub {
-          my $timedatectl = $machine->succeed("timedatectl");
-          $timedatectl =~ /Time zone:.* \(UTC,/ or die "System has wrong timezone";
-        };
+        with subtest("Timezone is UTC"):
+            timedatectl = machine.succeed("timedatectl")
+            assert "UTC" in timedatectl
 
-        subtest "locale-is-utf8", sub {
-          my $localectl = $machine->succeed("localectl");
-          $localectl =~ /System Locale: LANG=en_US.UTF-8/ or die "System has wrong locale";
-        };
+        with subtest("Locale is UTF8"):
+            localectl = machine.succeed("localectl")
+            assert "System Locale: LANG=en_US.UTF-8" in localectl
 
-        subtest "logrotate-enabled", sub {
-          $machine->waitForUnit("logrotate.timer");
-        };
+        with subtest("Logrotate is enabled"):
+            machine.wait_for_unit("logrotate.timer")
       '';
     };
 in
 {
-
   globalEnableTest =
     makeSystemTest "global-enable" { hacknix.defaults.enable = true; };
   systemEnableTest =
     makeSystemTest "system-enable" { hacknix.defaults.system.enable = true; };
-
 }
