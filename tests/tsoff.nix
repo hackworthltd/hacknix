@@ -1,35 +1,32 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
+  imports = pkgs.lib.hacknix.modules;
+
   makeTsoffTest = name: machineAttrs:
-    makeTest {
+    makeTestPython {
       name = "tsoff-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
-      machine = { config, ... }:
+      machine = { pkgs, config, ... }:
         {
           nixpkgs.localSystem.system = system;
-          imports = pkgs.lib.hacknix.modules;
+          inherit imports;
         } // machineAttrs;
       testScript = { nodes, ... }: ''
-        $machine->waitForUnit("network.target");
+        machine.wait_for_unit("network.target")
 
-        subtest "disables-offloads", sub {
-          $machine->succeed("${pkgs.tsoff}/bin/tsoff -v eth0");
-          my $out = $machine->succeed("${pkgs.ethtool}/bin/ethtool --show-offload eth0");
-          chomp $out;
-          for my $line (split /\n/, $out) {
-            chomp $line;
-            # This will ignore features that are "[fixed]", which is
-            # what we want.
-            if ($line =~ /^\s*([a-z0-9_-]+):\s+on$/) {
-              die "Offload feature '$1' not disabled";
-            }
-          }
-        };
+        with subtest("Disables offload"):
+            machine.succeed(
+                "${nodes.machine.pkgs.tsoff}/bin/tsoff -v eth0"
+            )
+            assert "tcp-segmentation-offload: off" in machine.succeed(
+                "${pkgs.ethtool}/bin/ethtool --show-offload eth0"
+            )
 
-        subtest "is-idempotent", sub {
-          # Should just silently succeed.
-          $machine->succeed("${pkgs.tsoff}/bin/tsoff -v eth0");
-        };
+        with subtest("Idempotent"):
+            # Should just silently succeed.
+            machine.succeed(
+                "${nodes.machine.pkgs.tsoff}/bin/tsoff -v eth0"
+            )
       '';
     };
 in

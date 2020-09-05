@@ -1,4 +1,4 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   # NOTE: these are dummy keys and certs, and they are obviously
   # insecure. Do not use them for any purpose!
@@ -112,17 +112,18 @@ let
     5qSgSFtQGfvUH6bYfEiJIMGyhBU029MgGoVJ4ILe0z1nWsR2gEwX/w4=
     -----END RSA PRIVATE KEY-----
   '';
+  imports = pkgs.lib.hacknix.modules;
   makeMkCacertTest = name: clientAttrs:
-    makeTest {
+    makeTestPython {
       name = "mkCacert-${name}";
       meta = with pkgs.lib; { maintainers = [ maintainers.dhess ]; };
 
       nodes = {
 
-        client = { config, ... }:
+        client = { config, pkgs, ... }:
           {
             nixpkgs.localSystem.system = system;
-            imports = pkgs.lib.hacknix.modules;
+            inherit imports;
           } // clientAttrs;
 
         server1 = { config, ... }: {
@@ -148,22 +149,20 @@ let
           custom-cacert = pkgs.mkCacert { inherit extraCerts; };
         in
         ''
-          startAll;
-          $server1->waitForUnit("nginx.service");
-          $client->waitForUnit("multi-user.target");
+          start_all()
+          server1.wait_for_unit("nginx.service")
+          client.wait_for_unit("multi-user.target")
 
-          subtest "default-cacert-fails", sub {
-            $client->fail("${pkgs.wget}/bin/wget -O server1.html https://server1");
-          };
+          with subtest("Default CA cert fails"):
+              client.fail(
+                  "${nodes.client.pkgs.wget}/bin/wget -O server1.html https://server1"
+              )
 
-          subtest "custom-cacert-succeeds", sub {
-            $client->succeed("${pkgs.wget}/bin/wget -O server1.html --ca-certificate=${custom-cacert}/etc/ssl/certs/ca-bundle.crt https://server1");
-          };
+          with subtest("Custom CA cert succeeds"):
+              client.succeed(
+                  "${nodes.client.pkgs.wget}/bin/wget -O server1.html --ca-certificate=${custom-cacert}/etc/ssl/certs/ca-bundle.crt https://server1"
+              )
         '';
     };
 in
-{
-
-  defaultTest = makeMkCacertTest "default" { };
-
-}
+makeMkCacertTest "default" { }

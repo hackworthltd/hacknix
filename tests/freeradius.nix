@@ -1,16 +1,19 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
+
+  imports = pkgs.lib.hacknix.modules
+    ++ pkgs.lib.hacknix.testing.testModules;
+
 in
-makeTest rec {
+makeTestPython {
   name = "freeradius";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
-    freeradius = { config, ... }: {
+    freeradius = { pkgs, config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+      inherit imports;
 
       # Use the test key deployment system.
       deployment.reallyReallyEnable = true;
@@ -40,8 +43,8 @@ makeTest rec {
   };
 
   testScript = { nodes, ... }: ''
-    startAll;
-    $freeradius->waitForUnit("multi-user.target");
-    $freeradius->waitForUnit("freeradius.service");
+    start_all()
+    freeradius.wait_for_unit("multi-user.target")
+    freeradius.wait_for_unit("freeradius.service")
   '';
 }

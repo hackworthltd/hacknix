@@ -1,7 +1,7 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   makeNetworkingTest = name: machineAttrs:
-    makeTest {
+    makeTestPython {
 
       name = "networking-${name}";
 
@@ -20,23 +20,20 @@ let
       };
 
       testScript = { nodes, ... }: ''
-        startAll;
-        $client->waitForUnit("network.target");
-        $server->waitForUnit("network.target");
+        start_all()
+        client.wait_for_unit("network.target")
+        server.wait_for_unit("network.target")
 
-        subtest "can-ping", sub {
-          $client->succeed("ping -c 1 server >&2");
-        };
+        with subtest("Can ping server"):
+            client.succeed("ping -c 1 server >&2")
       '';
 
     };
 in
 {
-
   test1 =
     makeNetworkingTest "global-enable" { hacknix.defaults.enable = true; };
   test2 = makeNetworkingTest "networking-enable" {
     hacknix.defaults.networking.enable = true;
   };
-
 }

@@ -1,7 +1,7 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   makeSecurityTest = name: machineAttrs:
-    makeTest {
+    makeTestPython {
 
       name = "security-${name}";
 
@@ -15,23 +15,20 @@ let
         } // machineAttrs;
 
       testScript = { ... }: ''
-        $machine->waitForUnit("multi-user.target");
+        machine.wait_for_unit("multi-user.target")
 
-        subtest "clean-tmpdir-on-boot", sub {
-          $machine->succeed("touch /tmp/foobar");
-          $machine->shutdown;
-          $machine->waitForUnit("systemd-tmpfiles-clean.timer");
-          $machine->succeed("! [ -e /tmp/foobar ]");
-        };
+        with subtest("Clean tmpdir on boot"):
+            machine.succeed("touch /tmp/foobar")
+            machine.shutdown()
+            machine.wait_for_unit("systemd-tmpfiles-clean.timer")
+            machine.succeed("! [ -e /tmp/foobar ]")
       '';
 
     };
 in
 {
-
   test1 = makeSecurityTest "global-enable" { hacknix.defaults.enable = true; };
   test2 = makeSecurityTest "security-enable" {
     hacknix.defaults.security.enable = true;
   };
-
 }

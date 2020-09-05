@@ -1,17 +1,18 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
+let
 
-makeTest {
+  imports = pkgs.lib.hacknix.modules;
+
+in
+makeTestPython {
   name = "fail2ban-config";
-
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
-
-    client = { config, ... }: { nixpkgs.localSystem.system = system; };
-
-    server = { config, ... }: {
+    client = { pkgs, config, ... }: { nixpkgs.localSystem.system = system; };
+    server = { pkgs, config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports = pkgs.lib.hacknix.modules;
+      inherit imports;
 
       hacknix.services.fail2ban = {
         allowList =
@@ -23,42 +24,36 @@ makeTest {
 
       services.fail2ban.enable = true;
     };
-
   };
 
   testScript = { nodes, ... }:
     let
     in
     ''
-      startAll;
+      start_all()
 
-      $client->waitForUnit("multi-user.target");
-      $server->waitForUnit("fail2ban.service");
+      client.wait_for_unit("multi-user.target")
+      server.wait_for_unit("fail2ban.service")
 
-      subtest "check-ignoreip", sub {
-        my $ignoreip = $server->succeed("fail2ban-client -d | grep ignoreip");
-        $ignoreip =~ /127\.0\.0\.0\/8/ or die "ignoreip is missing 127.0.0.0/8";
-        $ignoreip =~ /::1\/128/ or die "ignoreip is missing ::1/128";
-        $ignoreip =~ /192\.168\.0\.0\/24/ or die "ignoreip is missing 192.168.0.0/24";
-        $ignoreip =~ /10\.0\.0\.1/ or die "ignoreip is missing 10.0.0.1";
-        $ignoreip =~ /2001:db8::\/64/ or die "ignoreip is missing 2001:db8::/64";
-        $ignoreip =~ /2001:db8:1::1/ or die "ignoreip is missing 2001:db8:1::1";
-      };
+      with subtest("Check ignoreip"):
+          ignoreip = server.succeed("fail2ban-client -d | grep ignoreip")
+          assert "127.0.0.0/8" in ignoreip
+          assert "::1/128" in ignoreip
+          assert "192.168.0.0/24" in ignoreip
+          assert "10.0.0.1" in ignoreip
+          assert "2001:db8::/64" in ignoreip
+          assert "2001:db8:1::1" in ignoreip
 
-      subtest "check-bantime", sub {
-        my $bantime = $server->succeed("fail2ban-client -d | grep bantime");
-        $bantime =~ /933/ or die "expected bantime 933";
-      };
+      with subtest("Check bantime"):
+          bantime = server.succeed("fail2ban-client -d | grep bantime")
+          assert "933" in bantime
 
-      subtest "check-findtime", sub {
-        my $findtime = $server->succeed("fail2ban-client -d | grep findtime");
-        $findtime =~ /377/ or die "expected findtime 377";
-      };
+      with subtest("Check findtime"):
+          findtime = server.succeed("fail2ban-client -d | grep findtime")
+          assert "377" in findtime
 
-      subtest "check-maxretry", sub {
-        my $maxretry = $server->succeed("fail2ban-client -d | grep maxretry");
-        $maxretry =~ /5/ or die "expected maxretry 5";
-      };
-
+      with subtest("Check maxtretry"):
+          maxretry = server.succeed("fail2ban-client -d | grep maxretry")
+          assert "5" in maxretry
     '';
 }

@@ -1,20 +1,21 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   canary1 = pkgs.copyPathToStore testfiles/canary1;
   canary2 = pkgs.copyPathToStore testfiles/canary2;
+  imports = pkgs.lib.hacknix.modules
+    ++ pkgs.lib.hacknix.testing.testModules;
+
 in
-makeTest rec {
+makeTestPython rec {
   name = "tftpd-hpa";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
 
-    server1 = { config, ... }: {
+    server1 = { pkgs, config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
-
+      inherit imports;
       networking.firewall.allowedUDPPorts = [ 69 ];
       services.tftpd-hpa.enable = true;
 
@@ -41,10 +42,9 @@ makeTest rec {
     # This server runs tftpd on a virtual IP, to test the
     # listenAddress functionality.
 
-    server2 = { config, ... }: {
+    server2 = { pkgs, config, ... }: {
       nixpkgs.localSystem.system = system;
-      imports = pkgs.lib.hacknix.modules
-        ++ pkgs.lib.hacknix.testing.testModules;
+      inherit imports;
 
       networking.firewall.allowedUDPPorts = [ 69 ];
       boot.kernelModules = [ "dummy" ];
@@ -90,19 +90,23 @@ makeTest rec {
   };
 
   testScript = { nodes, ... }: ''
-    startAll;
+    start_all()
 
-    $server1->waitForUnit("tftpd-hpa.service");
-    $server2->waitForUnit("tftpd-hpa.service");
-    $client->waitForUnit("multi-user.target");
+    server1.wait_for_unit("tftpd-hpa.service")
+    server2.wait_for_unit("tftpd-hpa.service")
+    client.wait_for_unit("multi-user.target")
 
-    $client->succeed("${pkgs.tftp-hpa}/bin/tftp server1 -c get canary1");
-    $client->succeed("diff canary1 ${canary1}");
+    client.succeed(
+        "${nodes.client.pkgs.tftp-hpa}/bin/tftp server1 -c get canary1"
+    )
+    client.succeed("diff canary1 ${canary1}")
 
-    $client->succeed("ping -c 1 192.168.1.100 >&2");
-    $client->succeed("${pkgs.tftp-hpa}/bin/tftp 192.168.1.100 -c get canary2");
-    $client->succeed("diff canary2 ${canary2}");
+    client.succeed("ping -c 1 192.168.1.100 >&2")
+    client.succeed(
+        "${nodes.client.pkgs.tftp-hpa}/bin/tftp 192.168.1.100 -c get canary2"
+    )
+    client.succeed("diff canary2 ${canary2}")
 
-    $server1->stopJob("tftpd-hpa.service");
+    server1.stop_job("tftpd-hpa.service")
   '';
 }

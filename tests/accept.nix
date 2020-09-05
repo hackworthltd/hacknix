@@ -1,4 +1,4 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   index = pkgs.writeText "index.html" ''
     Not really HTML.
@@ -20,7 +20,7 @@ let
     fd00:1234:0:567a::1000 virtual_server
   '';
   makeAllowedIPsTest = name:
-    makeTest rec {
+    makeTestPython rec {
 
       inherit name;
 
@@ -275,96 +275,81 @@ let
       };
 
       testScript = { nodes, ... }: ''
-        startAll;
+        import re
 
-        $server->waitForUnit("nginx.service");
-        $client1->waitForUnit("multi-user.target");
-        $client2->waitForUnit("multi-user.target");
-        $client3->waitForUnit("multi-user.target");
+        start_all()
 
-        # Make sure we have IPv6 connectivity and there isn't an issue
-        # with the network setup in the test.
+        server.wait_for_unit("nginx.service")
+        client1.wait_for_unit("multi-user.target")
+        client2.wait_for_unit("multi-user.target")
+        client3.wait_for_unit("multi-user.target")
 
-        sub waitForAddress {
-            my ($machine, $iface, $scope) = @_;
-            $machine->waitUntilSucceeds("[ `ip -o -6 addr show dev $iface scope $scope | grep -v tentative | wc -l` -eq 1 ]");
-            my $ip = (split /[ \/]+/, $machine->succeed("ip -o -6 addr show dev $iface scope $scope"))[3];
-            $machine->log("$scope address on $iface is $ip");
-            return $ip;
-        }
+        server.succeed("ping -c 1 192.168.1.2 >&2")
+        server.succeed("ping -c 1 fd00:1234:0:5678::2000 >&2")
+        server.succeed("ping -c 1 192.168.1.3 >&2")
+        server.succeed("ping -c 1 fd00:1234:0:5678::3000 >&2")
+        server.succeed("ping -c 1 192.168.2.2 >&2")
+        server.succeed("ping -c 1 fd00:1234:0:5679::2000 >&2")
 
-        waitForAddress $client1, "eth1", "global";
-        waitForAddress $client2, "eth1", "global";
-        waitForAddress $client3, "eth1", "global";
-        waitForAddress $server, "eth1", "global";
+        client1.succeed("ping -c 1 192.168.1.1 >&2")
+        client1.succeed("ping -c 1 10.0.0.8 >&2")
+        client1.succeed("ping -c 1 fd00:1234:0:5678::1000 >&2")
+        client1.succeed("ping -c 1 fd00:1234:0:567a::1000 >&2")
+        client2.succeed("ping -c 1 192.168.1.1 >&2")
+        client2.succeed("ping -c 1 10.0.0.8 >&2")
+        client2.succeed("ping -c 1 fd00:1234:0:5678::1000 >&2")
+        client2.succeed("ping -c 1 fd00:1234:0:567a::1000 >&2")
+        client3.succeed("ping -c 1 192.168.2.1 >&2")
+        client3.succeed("ping -c 1 10.0.0.8 >&2")
+        client3.succeed("ping -c 1 fd00:1234:0:5679::1000 >&2")
+        client3.succeed("ping -c 1 fd00:1234:0:567a::1000 >&2")
 
-        $server->succeed("ping -c 1 192.168.1.2 >&2");
-        $server->succeed("ping -c 1 fd00:1234:0:5678::2000 >&2");
-        $server->succeed("ping -c 1 192.168.1.3 >&2");
-        $server->succeed("ping -c 1 fd00:1234:0:5678::3000 >&2");
-        $server->succeed("ping -c 1 192.168.2.2 >&2");
-        $server->succeed("ping -c 1 fd00:1234:0:5679::2000 >&2");
+        with subtest("Make remote connections"):
+            client1.succeed("curl --output - -4 http://server:80")
+            client1.succeed("curl --output - -6 http://server:80")
+            client1.fail("curl --output - -4 http://server:8080")
+            client1.fail("curl --output - -4 http://server:8081")
+            client1.fail("curl --output - -6 http://server:8081")
+            client1.fail("curl --output - -6 http://server:8081")
+            client1.succeed("curl --output - --local-port 800 -4 http://server:8080")
+            client1.succeed("curl --output - --local-port 801 -6 http://server:8081")
+            client1.fail("curl --output - -4 http://server:8088")
+            client1.fail("curl --output - -6 http://server:8088")
+            client1.fail("curl --output - -4 http://server:8089")
+            client1.fail("curl --output - -6 http://server:8089")
+            client1.succeed("curl --output - -4 http://virtual_server:8089")
+            client1.succeed("curl --output - -6 http://virtual_server:8089")
 
-        $client1->succeed("ping -c 1 192.168.1.1 >&2");
-        $client1->succeed("ping -c 1 10.0.0.8 >&2");
-        $client1->succeed("ping -c 1 fd00:1234:0:5678::1000 >&2");
-        $client1->succeed("ping -c 1 fd00:1234:0:567a::1000 >&2");
-        $client2->succeed("ping -c 1 192.168.1.1 >&2");
-        $client2->succeed("ping -c 1 10.0.0.8 >&2");
-        $client2->succeed("ping -c 1 fd00:1234:0:5678::1000 >&2");
-        $client2->succeed("ping -c 1 fd00:1234:0:567a::1000 >&2");
-        $client3->succeed("ping -c 1 192.168.2.1 >&2");
-        $client3->succeed("ping -c 1 10.0.0.8 >&2");
-        $client3->succeed("ping -c 1 fd00:1234:0:5679::1000 >&2");
-        $client3->succeed("ping -c 1 fd00:1234:0:567a::1000 >&2");
+            client2.fail("curl --output - -4 http://server:80")
+            client2.fail("curl --output - -6 http://server:80")
+            client2.fail("curl --output - -4 http://server:8080")
+            client2.fail("curl --output - -4 http://server:8081")
+            client2.fail("curl --output - -6 http://server:8080")
+            client2.fail("curl --output - -6 http://server:8081")
+            client2.succeed("curl --output - --local-port 800 -4 http://server:8080")
+            client2.succeed("curl --output - --local-port 801 -6 http://server:8081")
+            client2.fail("curl --output - -4 http://server:8088")
+            client2.fail("curl --output - -6 http://server:8088")
+            client2.fail("curl --output - -4 http://server:8089")
+            client2.fail("curl --output - -6 http://server:8089")
+            client2.succeed("curl --output - -4 http://virtual_server:8089")
+            client2.succeed("curl --output - -6 http://virtual_server:8089")
 
-        subtest "remote-connections", sub {
-          $client1->succeed("${pkgs.curl}/bin/curl --output - -4 http://server:80");
-          $client1->succeed("${pkgs.curl}/bin/curl --output - -6 http://server:80");
-          $client1->fail("${pkgs.curl}/bin/curl --output - -4 http://server:8080");
-          $client1->fail("${pkgs.curl}/bin/curl --output - -4 http://server:8081");
-          $client1->fail("${pkgs.curl}/bin/curl --output - -6 http://server:8081");
-          $client1->fail("${pkgs.curl}/bin/curl --output - -6 http://server:8081");
-          $client1->succeed("${pkgs.curl}/bin/curl --output - --local-port 800 -4 http://server:8080");
-          $client1->succeed("${pkgs.curl}/bin/curl --output - --local-port 801 -6 http://server:8081");
-          $client1->fail("${pkgs.curl}/bin/curl --output - -4 http://server:8088");
-          $client1->fail("${pkgs.curl}/bin/curl --output - -6 http://server:8088");
-          $client1->fail("${pkgs.curl}/bin/curl --output - -4 http://server:8089");
-          $client1->fail("${pkgs.curl}/bin/curl --output - -6 http://server:8089");
-          $client1->succeed("${pkgs.curl}/bin/curl --output - -4 http://virtual_server:8089");
-          $client1->succeed("${pkgs.curl}/bin/curl --output - -6 http://virtual_server:8089");
-
-          $client2->fail("${pkgs.curl}/bin/curl --output - -4 http://server:80");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -6 http://server:80");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -4 http://server:8080");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -4 http://server:8081");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -6 http://server:8080");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -6 http://server:8081");
-          $client2->succeed("${pkgs.curl}/bin/curl --output - --local-port 800 -4 http://server:8080");
-          $client2->succeed("${pkgs.curl}/bin/curl --output - --local-port 801 -6 http://server:8081");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -4 http://server:8088");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -6 http://server:8088");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -4 http://server:8089");
-          $client2->fail("${pkgs.curl}/bin/curl --output - -6 http://server:8089");
-          $client2->succeed("${pkgs.curl}/bin/curl --output - -4 http://virtual_server:8089");
-          $client2->succeed("${pkgs.curl}/bin/curl --output - -6 http://virtual_server:8089");
-
-          $client3->fail("${pkgs.curl}/bin/curl --output - -4 http://server_vlan2:80");
-          $client3->fail("${pkgs.curl}/bin/curl --output - -6 http://server_vlan2:80");
-          $client3->fail("${pkgs.curl}/bin/curl --output - -4 http://server_vlan2:8080");
-          $client3->fail("${pkgs.curl}/bin/curl --output - -4 http://server_vlan2:8081");
-          $client3->fail("${pkgs.curl}/bin/curl --output - -6 http://server_vlan2:8080");
-          $client3->fail("${pkgs.curl}/bin/curl --output - -6 http://server_vlan2:8081");
-          $client3->succeed("${pkgs.curl}/bin/curl --output - --local-port 800 -4 http://server_vlan2:8080");
-          $client3->succeed("${pkgs.curl}/bin/curl --output - --local-port 801 -6 http://server_vlan2:8081");
-          $client3->succeed("${pkgs.curl}/bin/curl --output - -4 http://server:8088");
-          $client3->succeed("${pkgs.curl}/bin/curl --output - -6 http://server:8088");
-          $client3->fail("${pkgs.curl}/bin/curl --output - -4 http://server_vlan2:8089");
-          $client3->fail("${pkgs.curl}/bin/curl --output - -6 http://server_vlan2:8089");
-          $client3->succeed("${pkgs.curl}/bin/curl --output - -4 http://virtual_server:8089");
-          $client3->succeed("${pkgs.curl}/bin/curl --output - -6 http://virtual_server:8089");
-        };
+            client3.fail("curl --output - -4 http://server_vlan2:80")
+            client3.fail("curl --output - -6 http://server_vlan2:80")
+            client3.fail("curl --output - -4 http://server_vlan2:8080")
+            client3.fail("curl --output - -4 http://server_vlan2:8081")
+            client3.fail("curl --output - -6 http://server_vlan2:8080")
+            client3.fail("curl --output - -6 http://server_vlan2:8081")
+            client3.succeed("curl --output - --local-port 800 -4 http://server_vlan2:8080")
+            client3.succeed("curl --output - --local-port 801 -6 http://server_vlan2:8081")
+            client3.succeed("curl --output - -4 http://server:8088")
+            client3.succeed("curl --output - -6 http://server:8088")
+            client3.fail("curl --output - -4 http://server_vlan2:8089")
+            client3.fail("curl --output - -6 http://server_vlan2:8089")
+            client3.succeed("curl --output - -4 http://virtual_server:8089")
+            client3.succeed("curl --output - -6 http://virtual_server:8089")
       '';
     };
 in
-{ accept = makeAllowedIPsTest "accept"; }
+makeAllowedIPsTest "accept"

@@ -1,4 +1,4 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
   justAnExamplePublicKey = ''
     2018.10.27._domainkey  IN  TXT  ( "v=DKIM1; h=sha256; k=rsa; "
@@ -36,7 +36,7 @@ let
   '';
   justAnExampleKeyFile = pkgs.writeText "example.com.key" justAnExampleKey;
 in
-makeTest rec {
+makeTestPython rec {
   name = "opendkim";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -79,18 +79,25 @@ makeTest rec {
       socket = "/run/opendkim/opendkim.sock";
     in
     ''
-      startAll;
+      start_all()
 
-      $machine->waitForUnit("opendkim.service");
+      machine.wait_for_unit("opendkim.service")
 
-      subtest "check-ssh-keys", sub {
-        $machine->succeed("diff ${justAnExampleKeyFile} ${exampleKeyPath}");
-        $machine->succeed("[[ `stat -c%a ${exampleKeyPath}` -eq 400 ]]");
-        $machine->succeed("[[ `stat -c%U ${exampleKeyPath}` -eq opendkim ]]");
-        $machine->succeed("[[ `stat -c%G ${exampleKeyPath}` -eq opendkim ]]");
-        $machine->succeed("[[ `stat -c%a ${socket}` -eq 775 ]]");
-        $machine->succeed("[[ `stat -c%U ${socket}` -eq opendkim ]]");
-        $machine->succeed("[[ `stat -c%G ${socket}` -eq opendkim ]]");
-      };
+      with subtest("Check OpenDKIM keys"):
+          machine.succeed(
+              "diff ${justAnExampleKeyFile} ${exampleKeyPath}"
+          )
+          machine.succeed(
+              "[[ `stat -c%a ${exampleKeyPath}` -eq 400 ]]"
+          )
+          machine.succeed(
+              "[[ `stat -c%U ${exampleKeyPath}` -eq opendkim ]]"
+          )
+          machine.succeed(
+              "[[ `stat -c%G ${exampleKeyPath}` -eq opendkim ]]"
+          )
+          machine.succeed("[[ `stat -c%a ${socket}` -eq 775 ]]")
+          machine.succeed("[[ `stat -c%U ${socket}` -eq opendkim ]]")
+          machine.succeed("[[ `stat -c%G ${socket}` -eq opendkim ]]")
     '';
 }

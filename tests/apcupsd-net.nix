@@ -1,10 +1,10 @@
 # Note -- this service can't actually communicate with an actual UPS.
 # It's mainly here just to make sure that the service starts up.
 
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
 in
-makeTest rec {
+makeTestPython {
   name = "apcupsd-net";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -28,8 +28,8 @@ makeTest rec {
   };
 
   testScript = { nodes, ... }: ''
-    startAll;
+    start_all()
 
-    $machine->waitForUnit("apcupsd.service");
+    machine.wait_for_unit("apcupsd.service")
   '';
 }

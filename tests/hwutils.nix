@@ -1,26 +1,24 @@
-{ system ? "x86_64-linux", pkgs, makeTest, ... }:
+{ system ? "x86_64-linux", pkgs, makeTestPython, ... }:
 let
+
+  imports = pkgs.lib.hacknix.modules;
+
 in
-makeTest rec {
+makeTestPython {
   name = "hwutils";
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
-  machine = { config, ... }: {
+  machine = { pkgs, config, ... }: {
     nixpkgs.localSystem.system = system;
-    imports = pkgs.lib.hacknix.modules;
+    inherit imports;
+
     hacknix.hardware.hwutils.enable = true;
   };
 
   testScript = { nodes, ... }: ''
-    $machine->waitForUnit("multi-user.target");
-
-    subtest "check-lspci", sub {
-      $machine->succeed("lspci");
-    };
-
-    subtest "check-lsusb", sub {
-      $machine->succeed("lsusb");
-    };
+    machine.wait_for_unit("multi-user.target")
+    machine.succeed("lspci")
+    machine.succeed("lsusb")
   '';
 }
