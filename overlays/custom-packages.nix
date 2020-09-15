@@ -4,7 +4,7 @@ let
 
   inherit (super) callPackage;
   nixpkgsPath = (import lib.fixedNixpkgs { }).path;
-  nixops = import lib.fixedNixOps { nixpkgs = nixpkgsPath; };
+  nixops = import lib.fixedNixOps;
   lorri = (import lib.fixedLorri) { pkgs = super; };
   gawk_4_2_1 = callPackage ../pkgs/gawk/4.2.1.nix { };
   libprelude =

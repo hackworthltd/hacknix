@@ -132,15 +132,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
-        "branch": "eval-machine-info",
-        "description": "NixOps, the NixOS-based cloud deployment tool",
+        "branch": "master",
+        "description": "NixOps is a tool for deploying to NixOS machines in a network or cloud.",
         "homepage": "https://nixos.org/nixops",
-        "owner": "dhess",
+        "owner": "NixOS",
         "repo": "nixops",
-        "rev": "aff261b9eafa32df1317f3b57d90ea0f145b59b3",
-        "sha256": "109pbjv2kdlk2ncxlhcy4af10wav6s5ly45xh27w543npgr1azak",
+        "rev": "d5baedfa79c32327e23d34813a7e75f5979f7560",
+        "sha256": "11406540qp07s97pm15glqh57hv3smlc86hnxi6w1wxxwp2wkgcq",
         "type": "tarball",
-        "url": "https://github.com/dhess/nixops/archive/aff261b9eafa32df1317f3b57d90ea0f145b59b3.tar.gz",
+        "url": "https://github.com/NixOS/nixops/archive/d5baedfa79c32327e23d34813a7e75f5979f7560.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
