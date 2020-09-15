@@ -29,6 +29,16 @@ let
       system = "x86_64-darwin";
       inherit configuration;
     };
+
+  # Make NixOps deployments buildable in Hydra.
+  deployments = network:
+    super.recurseIntoAttrs
+      (
+        super.lib.mapAttrs (super.lib.const (n: n.config.system.build.toplevel))
+          network.nodes
+      );
+  network = import (localLib.fixedNixOps + "/nix/eval-machine-info.nix");
+
 in
 {
   lib = (super.lib or { }) // {
@@ -47,6 +57,10 @@ in
 
       # Provide access to our nix-darwin, if anyone downstream wants to use it.
       inherit (localLib) nix-darwin;
+
+      nixops = (super.lib.hacknix.nixops or { }) // {
+        inherit deployments network;
+      };
 
       testing = (super.lib.hacknix.testing or { }) // {
         inherit testModules testModulesList;

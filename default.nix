@@ -80,5 +80,7 @@
 
   inherit (pkgs) macos-remote-builder macos-build-host;
 
+  inherit (pkgs) nixops-network-deployments;
+
   overlays.all = localLib.overlays;
 }

@@ -41,6 +41,7 @@ let
       ../overlays/build-support.nix
       ../overlays/build-envs.nix
       ../overlays/nix-darwin-examples.nix
+      ../overlays/nixops-examples.nix
     ]
   );
 
