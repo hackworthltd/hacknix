@@ -629,7 +629,7 @@ in
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
       "41def83d30cb0e331fae7e7433cb0a89ac0f5e0b39feb7bb05f2f34087c59d93";
     hacknix.assertions.moduleHashes."security/acme.nix" =
-      "d1c04ff1a5aa0388d12b8286d7500442fff8e0acbcb89321f6fa0ac93f52837e";
+      "6edc91bd71fce84fa1b75315f95a75debdaca07665a923e152ccde14b81656fe";
 
     hacknix.keychain.keys."sasl-tls-key" = {
       destDir = "/var/lib/postfix/keys";
@@ -673,7 +673,6 @@ in
       inherit extraDomains;
       webroot = acmeChallenge;
       email = "postmaster@${cfg.myDomain}";
-      allowKeysForGroup = true;
       group = config.users.groups.postfix-acme.name;
       postRun = ''
         systemctl reload postfix
