@@ -14,7 +14,8 @@
 let
   localLib = import nix/default.nix { inherit sourcesOverride; };
 in
-with import (localLib.fixedNixpkgs + "/pkgs/top-level/release-lib.nix") {
+with import (localLib.fixedNixpkgs + "/pkgs/top-level/release-lib.nix")
+{
   inherit supportedSystems scrubJobs;
   packageSet = import projectSrc;
   nixpkgsArgs = {
@@ -37,11 +38,17 @@ let
       supportedSystems = [ "x86_64-linux" ];
     }
   );
+  darwin = [ "x86_64-darwin" ];
   x86_64 = [ "x86_64-linux" "x86_64-darwin" ];
   x86_64_linux = [ "x86_64-linux" ];
   linux = [ "x86_64-linux" ];
+
   jobs = {
     native = mapTestOn (packagePlatforms pkgs);
+    macos-examples = mapTestOn {
+      macos-build-host.system = darwin;
+      macos-remote-builder.system = darwin;
+    };
     inherit nixos-tests;
   };
 in
