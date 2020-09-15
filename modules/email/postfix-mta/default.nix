@@ -43,17 +43,6 @@ let
   acmeCertDir = config.security.acme.certs."${cfg.myHostname}".directory;
   acmeCertPublic = "${acmeCertDir}/fullchain.pem";
   acmeCertPrivate = "${acmeCertDir}/key.pem";
-  extraDomains =
-    builtins.listToAttrs (
-      builtins.map
-        (
-          name: {
-            name = "${name}";
-            value = null;
-          }
-        )
-        cfg.acmeExtraDomains
-    );
   submissionKeyFile = config.hacknix.keychain.keys."sasl-tls-key".path;
 in
 {
@@ -105,7 +94,7 @@ in
       '';
     };
 
-    acmeExtraDomains = mkOption {
+    acmeExtraDomainNames = mkOption {
       type = pkgs.lib.types.listOf pkgs.lib.types.nonEmptyStr;
       example = "submission.example.com";
       default = [ ];
@@ -667,10 +656,10 @@ in
     # for myhostname, as that's the name that it'll be reporting both
     # to SMTP clients (upon mail receipt) and to SMTP servers (upon
     # mail delivery). In other words, we don't need to add any virtual
-    # domains to the ACME extraDomains.
+    # domains to the ACME extraDomainNames.
 
     security.acme.certs."${cfg.myHostname}" = {
-      inherit extraDomains;
+      extraDomainNames = cfg.acmeExtraDomainNames;
       webroot = acmeChallenge;
       email = "postmaster@${cfg.myDomain}";
       group = config.users.groups.postfix-acme.name;
