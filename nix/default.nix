@@ -40,7 +40,7 @@ let
       ../overlays/patches.nix
       ../overlays/build-support.nix
       ../overlays/build-envs.nix
-      ../overlays/examples.nix
+      ../overlays/nix-darwin-examples.nix
     ]
   );
 

@@ -17,16 +17,18 @@ let
               in
               "${cfg.sshKeyDir}/${keyname}";
           }
-      ) remoteBuildHosts;
+      )
+      remoteBuildHosts;
   knownHosts = remoteBuildHosts:
-    lib.mapAttrsToList
+    lib.mapAttrs'
       (
-        host: descriptor: {
+        host: descriptor: lib.nameValuePair host {
           hostNames = lib.singleton descriptor.hostName
             ++ descriptor.alternateHostNames;
           publicKey = descriptor.hostPublicKeyLiteral;
         }
-      ) remoteBuildHosts;
+      )
+      remoteBuildHosts;
   mkHostPortPairs = remoteBuildHosts:
     lib.mapAttrsToList
       (_: descriptor: with descriptor; { inherit hostName port; })
@@ -40,7 +42,8 @@ let
         Host ${pair.hostName}
         Port ${toString pair.port}
       ''
-      ) (mkHostPortPairs remoteBuildHosts);
+      )
+      (mkHostPortPairs remoteBuildHosts);
   sshConfig = pkgs.writeText "ssh_config" (sshExtraConfig cfg.buildMachines);
 in
 {

@@ -78,7 +78,7 @@
 
   inherit (pkgs) lib;
 
-  inherit (pkgs) examples;
+  inherit (pkgs) macos-remote-builder macos-build-host;
 
   overlays.all = localLib.overlays;
 }
