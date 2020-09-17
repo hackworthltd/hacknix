@@ -30,6 +30,9 @@ let
   fixedGitignoreNix =
     lib.fetchers.fixedNixSrc "gitignore.nix" sources."gitignore.nix";
 
+  fixedHydra =
+    lib.fetchers.fixedNixSrc "hydra" sources."hydra";
+
   overlays = [ hacknix-lib.overlays.all ] ++ (
     map import [
       ../overlays/custom-packages.nix
@@ -79,6 +82,7 @@ lib // {
   inherit fixedBadhosts;
   inherit fixedCachix;
   inherit fixedGitignoreNix;
+  inherit fixedHydra;
 
   inherit sources;
 

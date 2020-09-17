@@ -83,6 +83,18 @@
         "url": "https://github.com/hackworthltd/hacknix-lib/archive/b178c973516b4e1d705c78767799cda95f199122.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "hydra": {
+        "branch": "master",
+        "description": "Hydra, the Nix-based continuous build system",
+        "homepage": "http://nixos.org/hydra",
+        "owner": "NixOS",
+        "repo": "hydra",
+        "rev": "46a8d6d531d065a8a9b8325ca101de242ef8f60e",
+        "sha256": "1jiawvn8sff6zchfj6p6q1m1d2ph0i66ch5yh9mwf9yjpcn69pjm",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/hydra/archive/46a8d6d531d065a8a9b8325ca101de242ef8f60e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "lorri": {
         "branch": "master",
         "description": "Your project's nix-env",
