@@ -84,7 +84,7 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
-        "branch": "master",
+        "branch": "46a8d6d531d065a8a9b8325ca101de242ef8f60e",
         "description": "Hydra, the Nix-based continuous build system",
         "homepage": "http://nixos.org/hydra",
         "owner": "NixOS",
