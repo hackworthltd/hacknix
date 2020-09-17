@@ -81,6 +81,7 @@ let
       gitAndTools.git-extras
       gitAndTools.git-secrets
       git-lfs
+      github-cli
       gnumake
       gnupg
       gnused
