@@ -10,13 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2.3.2
     - uses: cachix/install-nix-action@v10
-    - name: Generate token
-      id: generate_token
-      uses: tibdex/github-app-token@v1.1.0
-      with:
-        app_id: ${{ secrets.TOKEN_GENERATOR_ID }}
-        private_key: ${{ secrets.TOKEN_GENERATOR_KEY }}
-    - run: GITHUB_TOKEN=${{ steps.generate_token.outputs.token }} nix-shell --run "niv update"
+    - run: nix-shell --run "niv update"
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3.3.0
       with:
