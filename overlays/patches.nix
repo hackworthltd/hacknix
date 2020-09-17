@@ -27,6 +27,13 @@ in
             sha256 = "0m4009pmi4sl0vwq6q98bzp4hpnfr4ww1j27czwcazbda7l8fdzy";
           }
         )
+        (
+          super.fetchpatch {
+            url =
+              "https://github.com/helsinki-systems/hydra/commit/821357468e9c0b82e567b8b4e7e050dedfaefcf6.patch";
+            sha256 = "1lls14p165v7cmpl28wvr7algi77wzywzsmsfs3i1fq6dxphj99m";
+          }
+        )
 
         # Secure GitHub token handling.
         (
