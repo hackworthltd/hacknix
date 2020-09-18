@@ -69,6 +69,8 @@ let
   );
 
   hydra-unstable = (import super.lib.hacknix.sources.hydra).defaultPackage.x86_64-linux;
+
+  niv = (import super.lib.hacknix.sources.niv { pkgs = super; }).niv;
 in
 {
   # Use fdk_aac in ffmpeg-full.
@@ -95,6 +97,7 @@ in
   inherit fsatrace;
   inherit hostapd;
   inherit hydra-unstable;
+  inherit niv;
   inherit radare2;
   inherit wpa_supplicant;
   inherit yubikey-manager;
