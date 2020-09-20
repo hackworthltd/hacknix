@@ -155,18 +155,6 @@
         "url": "https://github.com/NixOS/nixops/archive/d5baedfa79c32327e23d34813a7e75f5979f7560.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
-    "nixpkgs": {
-        "branch": "master",
-        "description": "Nix Packages collection",
-        "homepage": null,
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "a9162ffdaa77d7fbc0c72f822449f63fae9454ec",
-        "sha256": "0ldvjqc45waz9pvfzca4pwgmx2j3cq3flx0b05a1272grs0qxh8m",
-        "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/a9162ffdaa77d7fbc0c72f822449f63fae9454ec.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
     "nixpkgs-unstable": {
         "branch": "nixpkgs-unstable",
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
