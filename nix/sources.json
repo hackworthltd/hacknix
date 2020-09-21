@@ -77,10 +77,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "b178c973516b4e1d705c78767799cda95f199122",
-        "sha256": "1j599gbxn8i0cz17x3ywmc690vmkyqjj5j6h9parwl3qqbl7s7nm",
+        "rev": "19b279652d7c012bda609a96745b4ac9f3b4490c",
+        "sha256": "0zb0m1qnda60jr3f9n0prq082ghlnvc8pglzwphnjw3daw4yhpi2",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/b178c973516b4e1d705c78767799cda95f199122.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/19b279652d7c012bda609a96745b4ac9f3b4490c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
@@ -161,10 +161,10 @@
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "nixos",
         "repo": "nixpkgs-channels",
-        "rev": "6d4b93323e7f78121f8d6db6c59f3889aa1dd931",
-        "sha256": "0g2j41cx2w2an5d9kkqvgmada7ssdxqz1zvjd7hi5vif8ag0v5la",
+        "rev": "6803bc6882004ec296fca90252d9764a60040abd",
+        "sha256": "0hg9jrcb01ilpq5qc6bhm5pzip6l1nk51zgcqw1da63lfpbrsbnl",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs-channels/archive/6d4b93323e7f78121f8d6db6c59f3889aa1dd931.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/6803bc6882004ec296fca90252d9764a60040abd.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
