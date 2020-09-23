@@ -41,10 +41,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "e219b8922c106fe46f8d74e7a5dc12acd1e7b07f",
-        "sha256": "19mbzixnmwmzrkr06qyhx6ng4dwkzr86cm2y06bh027shp0na9v4",
+        "rev": "0279bcfa5174cf9f4b80d4a59041032f53be5979",
+        "sha256": "0kfss3hbifhb8zi7qfyi2b406hcwylhjycqaf3104fszb8wv1s93",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/e219b8922c106fe46f8d74e7a5dc12acd1e7b07f.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/0279bcfa5174cf9f4b80d4a59041032f53be5979.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -77,10 +77,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "19b279652d7c012bda609a96745b4ac9f3b4490c",
-        "sha256": "0zb0m1qnda60jr3f9n0prq082ghlnvc8pglzwphnjw3daw4yhpi2",
+        "rev": "10b705973dfd05889e33e8e4bd5d18ea895bb944",
+        "sha256": "0mw9ajcla7q1zml587g32fjhcsb3njk30gy8p3x3jvwkl35r8hg9",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/19b279652d7c012bda609a96745b4ac9f3b4490c.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/10b705973dfd05889e33e8e4bd5d18ea895bb944.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
@@ -149,10 +149,10 @@
         "homepage": "https://nixos.org/nixops",
         "owner": "NixOS",
         "repo": "nixops",
-        "rev": "d5baedfa79c32327e23d34813a7e75f5979f7560",
-        "sha256": "11406540qp07s97pm15glqh57hv3smlc86hnxi6w1wxxwp2wkgcq",
+        "rev": "6fc9ca59a93907aef9fbf74a4815c01282b535c5",
+        "sha256": "0pwqxgfbdwzhqzpn91xxkvmdhqwhapcbjhhp6cfcf0vf409myzga",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixops/archive/d5baedfa79c32327e23d34813a7e75f5979f7560.tar.gz",
+        "url": "https://github.com/NixOS/nixops/archive/6fc9ca59a93907aef9fbf74a4815c01282b535c5.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-unstable": {
