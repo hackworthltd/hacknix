@@ -41,10 +41,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "0279bcfa5174cf9f4b80d4a59041032f53be5979",
-        "sha256": "0kfss3hbifhb8zi7qfyi2b406hcwylhjycqaf3104fszb8wv1s93",
+        "rev": "1ae3428d52d17fb78b9fe9cbfba81439f725adfe",
+        "sha256": "1m7082vkyr86mzz740m9lmpbg5rx6czk77f0905cf6wihrqijf17",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/0279bcfa5174cf9f4b80d4a59041032f53be5979.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/1ae3428d52d17fb78b9fe9cbfba81439f725adfe.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -77,10 +77,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "ac8f9bb77570b44e19626a725f26d08487d7cb01",
-        "sha256": "0n4a9crc2v41ma484nigr88zkq7mp6yyrf99vw0p8gh60h89vavc",
+        "rev": "902a56cdb3f7e112ec56d174ec39bc47bb7084f1",
+        "sha256": "0ca9p66g5q382f96pwb3dg6dikydnqz8lmbdvlh4ca1nxxgbqfnz",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/ac8f9bb77570b44e19626a725f26d08487d7cb01.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/902a56cdb3f7e112ec56d174ec39bc47bb7084f1.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
@@ -101,10 +101,10 @@
         "homepage": "",
         "owner": "target",
         "repo": "lorri",
-        "rev": "0b3d330e423cb376a3b7c2256165bca1cdf0f9f1",
-        "sha256": "0wgynzrxjkqc6fj3gqwanlxx059z7373yai9ai62b6wd1sb65hpi",
+        "rev": "923ccbb5158d3beffa6efb113a701476ff2ac28f",
+        "sha256": "1281zxzkxngz05rgzamcf1zv8njm7hwrba1zvl4vd9i8ai26bx7y",
         "type": "tarball",
-        "url": "https://github.com/target/lorri/archive/0b3d330e423cb376a3b7c2256165bca1cdf0f9f1.tar.gz",
+        "url": "https://github.com/target/lorri/archive/923ccbb5158d3beffa6efb113a701476ff2ac28f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "minikube": {
