@@ -59,6 +59,18 @@
         "url": "https://github.com/segmentio/chamber/archive/233c6c10ce75f00d057ec17a05f86905e26c0868.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "emacs-overlay": {
+        "branch": "master",
+        "description": "Bleeding edge emacs overlay [maintainer=@adisbladis] ",
+        "homepage": "",
+        "owner": "nix-community",
+        "repo": "emacs-overlay",
+        "rev": "29af541c516ef7e940ae5e207507e6b32cf3cad8",
+        "sha256": "07r1g52af4pv0rrcrb8pflb6cxx57cawl1fdfr7187pm9vwi37w2",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/29af541c516ef7e940ae5e207507e6b32cf3cad8.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "gitignore.nix": {
         "branch": "master",
         "description": "Nix function for filtering local git sources",

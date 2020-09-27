@@ -83,5 +83,8 @@
 
   inherit (pkgs) nixops-network-deployments;
 
+  # emacs-overlay packages.
+  inherit (pkgs) emacsGcc;
+
   overlays.all = localLib.overlays;
 }
