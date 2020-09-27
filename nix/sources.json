@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "32242792ba515da9b55cb892cfd508da2fde0dfc",
-        "sha256": "0pnfszl01d2clmxvlwnwgvns22h9i3kr1amfkcsw30s2kqq51iy5",
+        "rev": "dccdf794a2cc75ec70846b3ffbb2d73f92d587d0",
+        "sha256": "16xl4d9g7mjyb5czlcjb0pr5cy4cjm8s076p1931hjbcwk80ghr2",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/32242792ba515da9b55cb892cfd508da2fde0dfc.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/dccdf794a2cc75ec70846b3ffbb2d73f92d587d0.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
