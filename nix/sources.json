@@ -41,10 +41,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "1ae3428d52d17fb78b9fe9cbfba81439f725adfe",
-        "sha256": "1m7082vkyr86mzz740m9lmpbg5rx6czk77f0905cf6wihrqijf17",
+        "rev": "ea243c453d254a9acd90c0545607f2b97ce35b95",
+        "sha256": "0wdy073aw4jfqhsfjsnp630psc2r5d39q9dwqz4121h5hwgx90d2",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/1ae3428d52d17fb78b9fe9cbfba81439f725adfe.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/ea243c453d254a9acd90c0545607f2b97ce35b95.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "3e7f0cfbb052cc9d5b0f04d26104f064ed7c01c9",
-        "sha256": "02iyxf89f1xlwc6dbmxbwc4k2lp9rp9n9l0w90c2a5gi0qxmwb98",
+        "rev": "9e97abc83c77348d2965552a0809091b6ad7884f",
+        "sha256": "00w7vk6kh7y4q51b0di8m1k4wnnxwgj9n2cjjqxpmpayyvah56gp",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/3e7f0cfbb052cc9d5b0f04d26104f064ed7c01c9.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/9e97abc83c77348d2965552a0809091b6ad7884f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -137,10 +137,10 @@
         "homepage": "https://github.com/nmattia/niv",
         "owner": "nmattia",
         "repo": "niv",
-        "rev": "29ddaaf4e099c3ac0647f5b652469dfc79cd3b53",
-        "sha256": "1va6myp07gkspgxfch8z3rs9nyvys6jmgzkys6a2c4j09qxp1bs0",
+        "rev": "9d35b9e4837ab88517210b1701127612c260eccf",
+        "sha256": "0q50xhnm8g2yfyakrh0nly4swyygxpi0a8cb9gp65wcakcgvzvdh",
         "type": "tarball",
-        "url": "https://github.com/nmattia/niv/archive/29ddaaf4e099c3ac0647f5b652469dfc79cd3b53.tar.gz",
+        "url": "https://github.com/nmattia/niv/archive/9d35b9e4837ab88517210b1701127612c260eccf.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nix-darwin": {
