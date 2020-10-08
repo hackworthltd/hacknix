@@ -41,10 +41,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "ea243c453d254a9acd90c0545607f2b97ce35b95",
-        "sha256": "0wdy073aw4jfqhsfjsnp630psc2r5d39q9dwqz4121h5hwgx90d2",
+        "rev": "f852b6de8759e32d83cd0481b1fc247c23869374",
+        "sha256": "0gqcqlyj5k1r83cdphg3awgri8ysw7ywj4rca5nblqj1qcg8zglh",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/ea243c453d254a9acd90c0545607f2b97ce35b95.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/f852b6de8759e32d83cd0481b1fc247c23869374.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "9e97abc83c77348d2965552a0809091b6ad7884f",
-        "sha256": "00w7vk6kh7y4q51b0di8m1k4wnnxwgj9n2cjjqxpmpayyvah56gp",
+        "rev": "d1119d6a3cf52a5d5da5ddac2a82c799d46d814f",
+        "sha256": "0q3rxjvnlvlp191968kqn6fm4xxsgy49jd410yhh31xjdnqyspli",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/9e97abc83c77348d2965552a0809091b6ad7884f.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/d1119d6a3cf52a5d5da5ddac2a82c799d46d814f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -89,10 +89,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "b26519337a3e01c3175a0fbf0f9f135f850abb80",
-        "sha256": "0ybdwv85msky677qjfd8p82gvzczf58s2drpm7qdf4i7k7w1z4zc",
+        "rev": "ae52fb45ca3d39b400816613f4fa99aa609621e8",
+        "sha256": "0nzixm654z9wm0341hs1ih5c5s9s32h8sy2dmvj426qwlmg1pxmx",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/b26519337a3e01c3175a0fbf0f9f135f850abb80.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/ae52fb45ca3d39b400816613f4fa99aa609621e8.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
