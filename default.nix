@@ -53,6 +53,7 @@
   inherit (pkgs) nixops;
   inherit (pkgs) nmrpflash;
   inherit (pkgs) radare2;
+  inherit (pkgs) spago2nix;
   inherit (pkgs) traefik-forward-auth;
   inherit (pkgs) trimpcap;
   inherit (pkgs) tsoff;

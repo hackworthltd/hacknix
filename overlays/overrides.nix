@@ -71,6 +71,10 @@ let
   hydra-unstable = (import super.lib.hacknix.sources.hydra).defaultPackage.x86_64-linux;
 
   niv = (import super.lib.hacknix.sources.niv { pkgs = super; }).niv;
+
+  # Use our fork.
+  spago2nix = import super.lib.hacknix.sources.spago2nix { };
+
 in
 {
   # Use fdk_aac in ffmpeg-full.
@@ -99,6 +103,7 @@ in
   inherit hydra-unstable;
   inherit niv;
   inherit radare2;
+  inherit spago2nix;
   inherit wpa_supplicant;
   inherit yubikey-manager;
 }
