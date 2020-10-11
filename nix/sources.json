@@ -48,15 +48,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
-        "branch": "v2.8.0",
+        "branch": "master",
         "description": "CLI for managing secrets",
         "homepage": null,
-        "owner": "segmentio",
+        "owner": "hackworthltd",
         "repo": "chamber",
-        "rev": "233c6c10ce75f00d057ec17a05f86905e26c0868",
-        "sha256": "142pxxjc2kz2yhqbqgr03rs8lmixb181izkax6hphk867gchf9q2",
+        "rev": "7c5297b63fe63fa49b7e70dd2de0c32adacb0de1",
+        "sha256": "1ih39a25pp1d684djikn9qg2j9si21rbqb3mcp5qw09xb426cmcz",
         "type": "tarball",
-        "url": "https://github.com/segmentio/chamber/archive/233c6c10ce75f00d057ec17a05f86905e26c0868.tar.gz",
+        "url": "https://github.com/hackworthltd/chamber/archive/7c5297b63fe63fa49b7e70dd2de0c32adacb0de1.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "emacs-overlay": {
