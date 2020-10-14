@@ -633,7 +633,7 @@ in
   config = mkIf cfg.enable {
 
     hacknix.assertions.moduleHashes."services/mail/dovecot.nix" =
-      "352e3b576e652fbf3c4b3fa7647b78e1e98d50ae019ba28af509930e964bdce7";
+      "faa19fb08013581458bb8a5812c877ee2486510eba88e86b8b2e02e5104085d8";
 
     security.pam.services.dovecot2 = mkIf cfg.enablePAM { };
 
@@ -661,12 +661,13 @@ in
       } // optionalAttrs (cfg.mailGroup != null) { group = cfg.mailGroup; };
     };
 
-    users.groups = optionalAttrs (cfg.group == "dovecot2") {
-      dovecot2 = {
-        name = "dovecot2";
-        gid = config.ids.gids.dovecot2;
-      };
-    } // optionalAttrs (cfg.createMailUser && cfg.mailGroup != null) {
+    users.groups = optionalAttrs (cfg.group == "dovecot2")
+      {
+        dovecot2 = {
+          name = "dovecot2";
+          gid = config.ids.gids.dovecot2;
+        };
+      } // optionalAttrs (cfg.createMailUser && cfg.mailGroup != null) {
       "${cfg.mailGroup}" = { name = cfg.mailGroup; };
     } // {
       dovenull = {
@@ -700,45 +701,47 @@ in
       preStart = ''
         rm -rf ${stateDir}/sieve
       '' + optionalString (cfg.sieveScripts != { }) ''
-        mkdir -p ${stateDir}/sieve
-        ${concatStringsSep "\n"
-          (
-          mapAttrsToList
-              (
-              to: from: ''
-                  if [ -d '${from}' ]; then
-                    mkdir '${stateDir}/sieve/${to}'
-                    cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
-                  else
-                    cp -p '${from}' '${stateDir}/sieve/${to}'
-                  fi
-                  ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
-                ''
-              ) cfg.sieveScripts
-          )}
-        chown -R '${cfg.mailUser}:${cfg.mailGroup}' '${stateDir}/sieve'
+                mkdir -p ${stateDir}/sieve
+                ${concatStringsSep "\n"
+                  (
+                  mapAttrsToList
+                      (
+                      to: from: ''
+                          if [ -d '${from}' ]; then
+                            mkdir '${stateDir}/sieve/${to}'
+                            cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
+                          else
+                            cp -p '${from}' '${stateDir}/sieve/${to}'
+                          fi
+                          ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
+                        ''
+                      )
+        cfg.sieveScripts
+                  )}
+                chown -R '${cfg.mailUser}:${cfg.mailGroup}' '${stateDir}/sieve'
       '' + optionalString cfg.antispam.enable ''
-        mkdir -p ${stateDir}/sieve
-        ${concatStringsSep "\n"
-          (
-          mapAttrsToList
-              (
-              to: from: ''
-                  if [ -d '${from}' ]; then
-                    mkdir '${stateDir}/sieve/${to}'
-                    cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
-                  else
-                    cp -p '${from}' '${stateDir}/sieve/${to}'
-                  fi
-                  ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
-                ''
-              ) antiSpamSieveScripts
-          )}
-        cp ${cfg.antispam.scripts.learnSpam} ${stateDir}/sieve/learn-spam.sh
-        chmod +x ${stateDir}/sieve/learn-spam.sh
-        cp ${cfg.antispam.scripts.learnHam} ${stateDir}/sieve/learn-ham.sh
-        chmod +x ${stateDir}/sieve/learn-ham.sh
-        chown -R '${cfg.mailUser}:${cfg.mailGroup}' '${stateDir}/sieve'
+                mkdir -p ${stateDir}/sieve
+                ${concatStringsSep "\n"
+                  (
+                  mapAttrsToList
+                      (
+                      to: from: ''
+                          if [ -d '${from}' ]; then
+                            mkdir '${stateDir}/sieve/${to}'
+                            cp -p "${from}/"*.sieve '${stateDir}/sieve/${to}'
+                          else
+                            cp -p '${from}' '${stateDir}/sieve/${to}'
+                          fi
+                          ${pkgs.dovecot_pigeonhole}/bin/sievec '${stateDir}/sieve/${to}'
+                        ''
+                      )
+        antiSpamSieveScripts
+                  )}
+                cp ${cfg.antispam.scripts.learnSpam} ${stateDir}/sieve/learn-spam.sh
+                chmod +x ${stateDir}/sieve/learn-spam.sh
+                cp ${cfg.antispam.scripts.learnHam} ${stateDir}/sieve/learn-ham.sh
+                chmod +x ${stateDir}/sieve/learn-ham.sh
+                chown -R '${cfg.mailUser}:${cfg.mailGroup}' '${stateDir}/sieve'
       '';
     };
 
