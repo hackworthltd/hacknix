@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "57eb4be3bf3f9d982c92eca57c5069b4404b9907",
-        "sha256": "0a9ricfnk642gv52yb0y5mch7cap7w81ybzndl9pks97d6gzadpv",
+        "rev": "8318449b2589482b85b79f3d211c749cb671cf01",
+        "sha256": "139g2mpzkdfzk4y9ap5lhybrjbzr7hvkahwa1qcnxf0i9dxxnqs3",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/57eb4be3bf3f9d982c92eca57c5069b4404b9907.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/8318449b2589482b85b79f3d211c749cb671cf01.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -89,10 +89,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "8f8c718bb9556559b08c2a9c8b7f5e741eb8ab3d",
-        "sha256": "0spzhm7af4pxskqrndhz1q3h60zslkrbria29cddrphnlx95blj8",
+        "rev": "0506cac096399bd1557d63f7312be09f077b440e",
+        "sha256": "0c02sbj4z294yfhcsrmkkr1vxgc0wvj7vm2ain29kwi3fcsp92wl",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/8f8c718bb9556559b08c2a9c8b7f5e741eb8ab3d.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/0506cac096399bd1557d63f7312be09f077b440e.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
