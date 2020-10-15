@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "5a5016ab5bf0166e004147cb49ccd0114ed29b72",
-        "sha256": "07pjj28bqpn5ldh8f49n3m99ifwq1r24sqkvlfb19pgahirnd3ws",
+        "rev": "e772566dc3b1e0af8d95f9e13fe138ccd9c2ae79",
+        "sha256": "05b0wcnf2q239vcvgcsaz53yqa9c58gvhr7jldcwljw2gkhpgyyx",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/5a5016ab5bf0166e004147cb49ccd0114ed29b72.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/e772566dc3b1e0af8d95f9e13fe138ccd9c2ae79.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "8318449b2589482b85b79f3d211c749cb671cf01",
-        "sha256": "139g2mpzkdfzk4y9ap5lhybrjbzr7hvkahwa1qcnxf0i9dxxnqs3",
+        "rev": "003d3be9695e41d5ac19573e2fce9d86a0ea5fff",
+        "sha256": "0qlvck9327kq64iy6ihjx7l8qgqs5fpfr5pkg94pfsmz8lqi85ql",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/8318449b2589482b85b79f3d211c749cb671cf01.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/003d3be9695e41d5ac19573e2fce9d86a0ea5fff.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -173,10 +173,10 @@
         "homepage": "",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "41c0f49681009ceb57a65b7cd7d4e6d605df712c",
-        "sha256": "0ahi76lb38fcnbzl40k53yjr5vcc75kqg0ddcw6bbc6ckz0z27kg",
+        "rev": "420f89ceb267b461eed5d025b6c3c0e57703cc5c",
+        "sha256": "0c9kr76p6nmf4z2j2afgcddckbaxq6kxlmp1895h6qamm1c0ypb9",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/41c0f49681009ceb57a65b7cd7d4e6d605df712c.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/420f89ceb267b461eed5d025b6c3c0e57703cc5c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
