@@ -41,10 +41,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "f852b6de8759e32d83cd0481b1fc247c23869374",
-        "sha256": "0gqcqlyj5k1r83cdphg3awgri8ysw7ywj4rca5nblqj1qcg8zglh",
+        "rev": "633e3f787bcb5055f20eda3b2f3b219124980c06",
+        "sha256": "1k4khkphh62i7828dlzdrqxk90v6hnbb8zjbkh3y1vhn6dxb8m28",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/f852b6de8759e32d83cd0481b1fc247c23869374.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/633e3f787bcb5055f20eda3b2f3b219124980c06.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "867d805bc84600493be30d5d9757d75236ab7c7b",
-        "sha256": "0md8vhf3rjdwxn4pa1i37hq6l1giz3v6xhg3xvk7dgwrj7s96g8l",
+        "rev": "0910ccae22b3530ef8ebf5006e84c335c8ef1087",
+        "sha256": "02kbk4z1si5wdjdixkhby1r3d2dkxhyv075zaylayspf45nvr4kg",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/867d805bc84600493be30d5d9757d75236ab7c7b.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/0910ccae22b3530ef8ebf5006e84c335c8ef1087.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
