@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "b021448cfe7da597fd2b5ad52d23b7a2346cdb79",
-        "sha256": "1rvfs6vy5w2j8l68r69wbmpbcmk8mn5zr3bbbzkmq9pzabkcj0bs",
+        "rev": "1cd35b6c75db3ac5256a6f724fb91af633418359",
+        "sha256": "0al0qlclly4frnsl7yh495876algpz9y1549p52cgbnphfdcj6ij",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/b021448cfe7da597fd2b5ad52d23b7a2346cdb79.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/1cd35b6c75db3ac5256a6f724fb91af633418359.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "0910ccae22b3530ef8ebf5006e84c335c8ef1087",
-        "sha256": "02kbk4z1si5wdjdixkhby1r3d2dkxhyv075zaylayspf45nvr4kg",
+        "rev": "c125c940096fbf60eeedda927db36b6e640c25f6",
+        "sha256": "1l26f13qlgxd6iif038bzjdq3v7lw9vp9qwpxcf9i1l7bjrgf95c",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/0910ccae22b3530ef8ebf5006e84c335c8ef1087.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/c125c940096fbf60eeedda927db36b6e640c25f6.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
