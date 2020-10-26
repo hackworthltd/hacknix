@@ -96,15 +96,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
-        "branch": "46a8d6d531d065a8a9b8325ca101de242ef8f60e",
+        "branch": "be709d450b98a384374228db51c14dc958a3a72a",
         "description": "Hydra, the Nix-based continuous build system",
         "homepage": "http://nixos.org/hydra",
         "owner": "NixOS",
         "repo": "hydra",
-        "rev": "46a8d6d531d065a8a9b8325ca101de242ef8f60e",
-        "sha256": "1jiawvn8sff6zchfj6p6q1m1d2ph0i66ch5yh9mwf9yjpcn69pjm",
+        "rev": "be709d450b98a384374228db51c14dc958a3a72a",
+        "sha256": "0js2w79mi3v70dn0jpcxf1ba9ilwpdaa5s4zg19pcr213wrvplpm",
         "type": "tarball",
-        "url": "https://github.com/NixOS/hydra/archive/46a8d6d531d065a8a9b8325ca101de242ef8f60e.tar.gz",
+        "url": "https://github.com/NixOS/hydra/archive/be709d450b98a384374228db51c14dc958a3a72a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "lorri": {
