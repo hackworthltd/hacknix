@@ -72,8 +72,8 @@ let
 
   niv = (import super.lib.hacknix.sources.niv { pkgs = super; }).niv;
 
-  # Use our fork. Also, make it buildable on multiple targets.
-  spago2nix = (import super.lib.hacknix.sources.spago2nix { }).overrideAttrs (
+  # Use the pinned spago2nix and make it buildable on multiple targets.
+  spago2nix = (import super.lib.hacknix.sources.spago2nix { pkgs = super; }).overrideAttrs (
     drv: {
       meta = (drv.meta or { }) // { platforms = super.lib.platforms.all; };
     }

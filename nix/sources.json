@@ -180,15 +180,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
-        "branch": "upstream",
+        "branch": "master",
         "description": "Generate a derivation of Spago dependencies, and use them to install them into the directory structure used by Spago.",
         "homepage": "",
-        "owner": "hackworthltd",
+        "owner": "justinwoo",
         "repo": "spago2nix",
-        "rev": "aae0e1a51d32f6b6862abdcbfe1bb05d8d79bfe8",
+        "rev": "898798204fa8f53837bbcf71e30aeb425deb0906",
         "sha256": "1igb1ldilj52f6vppsv58hxwzasd9vjcfsfhxsmk1jhs7cbnb1dq",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/spago2nix/archive/aae0e1a51d32f6b6862abdcbfe1bb05d8d79bfe8.tar.gz",
+        "url": "https://github.com/justinwoo/spago2nix/archive/898798204fa8f53837bbcf71e30aeb425deb0906.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
