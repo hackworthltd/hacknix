@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "b153fa74c36c35396c38acb8ba6d30c844356339",
-        "sha256": "0lmwpnz23jdz29fajh5r86wj42zfnlj4abyhh22inzfx2a1w5yqb",
+        "rev": "a69588a3f7de6d68f20cea21562ab7f6f91a400a",
+        "sha256": "180jp31zfrlhnz490x6hckz6z3bvfxwz1613cg4zmf0lrflrl3gp",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/b153fa74c36c35396c38acb8ba6d30c844356339.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/a69588a3f7de6d68f20cea21562ab7f6f91a400a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -149,10 +149,10 @@
         "homepage": "",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "b346a283a8b04d8ca2a73c86c6fde53a5383f852",
-        "sha256": "0ql04696xlkwkfqinb9qc86gnhl9dj2qzmy0bxc4sf3q6ar529f4",
+        "rev": "c2124383f47315c23b0fbe8b75a1190b6d7929d0",
+        "sha256": "1iy54j7c94bdwgj3z5p7gxrlgicm8i25lhpb6d9hpfawp2201qg8",
         "type": "tarball",
-        "url": "https://github.com/LnL7/nix-darwin/archive/b346a283a8b04d8ca2a73c86c6fde53a5383f852.tar.gz",
+        "url": "https://github.com/LnL7/nix-darwin/archive/c2124383f47315c23b0fbe8b75a1190b6d7929d0.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
