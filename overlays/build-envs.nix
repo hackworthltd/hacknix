@@ -21,9 +21,8 @@ let
       myPass
       pinentry_mac
       qrencode
-      radare2
       # Disabled until fixed upstream.
-      # wireguard-tools
+      # radare2
       youtube-dl
       yubico-piv-tool
       yubikey-manager
