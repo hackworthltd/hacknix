@@ -79,6 +79,22 @@ let
     }
   );
 
+  emacsGcc = super.emacsGcc.overrideAttrs (drv: {
+    # Courtesy:
+    # https://github.com/twlz0ne/nix-gccemacs-darwin/blob/aaacc6dd84dc3e585b4ad653dd3bbbe2cc7e070c/emacs.nix#L52
+    postInstall = drv.postInstall or "" + super.lib.optionalString super.stdenv.isDarwin ''
+      ln -snf $out/lib/emacs/28.0.50/native-lisp $out/native-lisp
+      ln -snf $out/lib/emacs/28.0.50/native-lisp $out/Applications/Emacs.app/Contents/native-lisp
+      cat <<EOF> $out/bin/run-emacs.sh
+      #!/usr/bin/env bash
+      set -e
+      exec $out/bin/emacs-28.0.50 "\$@"
+      EOF
+      chmod a+x $out/bin/run-emacs.sh
+      ln -snf ./run-emacs.sh $out/bin/emacs
+    '';
+  });
+
 in
 {
   # Use fdk_aac in ffmpeg-full.
@@ -102,6 +118,7 @@ in
       samba = false;
     };
 
+  inherit emacsGcc;
   inherit fsatrace;
   inherit hostapd;
   inherit hydra-unstable;
