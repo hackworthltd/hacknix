@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "e90044563dbd6957ac805c5f598855879054f87b",
-        "sha256": "1kjgfyqjgvj52gkl8rw0hx8jlcm2a79136wq4lw8nzqq4h4yxpqr",
+        "rev": "b72648459c75ab7a6e5975cd984c169eb586bf6e",
+        "sha256": "1xy4b13kxy2lishk5wz0jhd0fcg0c4zvkbh54vs07g6kn1ik670g",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/e90044563dbd6957ac805c5f598855879054f87b.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/b72648459c75ab7a6e5975cd984c169eb586bf6e.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -41,10 +41,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "633e3f787bcb5055f20eda3b2f3b219124980c06",
-        "sha256": "1k4khkphh62i7828dlzdrqxk90v6hnbb8zjbkh3y1vhn6dxb8m28",
+        "rev": "af049a7cb0baa2170dcdc9263a7757d52c5a1958",
+        "sha256": "0m210dlv9v1y4kabplkhnqzdrmm7kyay8aqdaa39dcswgjn2shrx",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/633e3f787bcb5055f20eda3b2f3b219124980c06.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/af049a7cb0baa2170dcdc9263a7757d52c5a1958.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "c57bba0fcc6386dc95ff92f0b7b192135725bd07",
-        "sha256": "163x244gpzx48nk5drwjncfq26m02f9p1wbvg6fllf6bys9i72dx",
+        "rev": "89dbade60e2ba2914de6bea7d8688cd88b9cba13",
+        "sha256": "110mh3ypldx3gf883j2b0v590wid6dhh1amqy06qn3ih2lcndgn8",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/c57bba0fcc6386dc95ff92f0b7b192135725bd07.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/89dbade60e2ba2914de6bea7d8688cd88b9cba13.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -137,10 +137,10 @@
         "homepage": "https://github.com/nmattia/niv",
         "owner": "nmattia",
         "repo": "niv",
-        "rev": "9d35b9e4837ab88517210b1701127612c260eccf",
-        "sha256": "0q50xhnm8g2yfyakrh0nly4swyygxpi0a8cb9gp65wcakcgvzvdh",
+        "rev": "20c899271f288d33114760bc298838575fc6c7f9",
+        "sha256": "07zswk6dhlydihl9g6skmy52grjvqpra8r98f2dmbgwzc1yhjhxq",
         "type": "tarball",
-        "url": "https://github.com/nmattia/niv/archive/9d35b9e4837ab88517210b1701127612c260eccf.tar.gz",
+        "url": "https://github.com/nmattia/niv/archive/20c899271f288d33114760bc298838575fc6c7f9.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nix-darwin": {
@@ -149,10 +149,10 @@
         "homepage": "",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "c2124383f47315c23b0fbe8b75a1190b6d7929d0",
-        "sha256": "1iy54j7c94bdwgj3z5p7gxrlgicm8i25lhpb6d9hpfawp2201qg8",
+        "rev": "1145503ef97c41b3358ed2f49fcdd17ec45a460a",
+        "sha256": "0hg1mbchwzxy46jjpjpbnjzc09b28aqw23p5zz7jprl44vqxwwwn",
         "type": "tarball",
-        "url": "https://github.com/LnL7/nix-darwin/archive/c2124383f47315c23b0fbe8b75a1190b6d7929d0.tar.gz",
+        "url": "https://github.com/LnL7/nix-darwin/archive/1145503ef97c41b3358ed2f49fcdd17ec45a460a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
@@ -173,10 +173,10 @@
         "homepage": "",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "26d3fbf21563c52f124551eb60dec5ea17ade8fa",
-        "sha256": "08xhvfnwy60yyyhkddg7lknm9g7w2pg6lkyha5kfkg98c09f1p10",
+        "rev": "0da76dab4c2acce5ebf404c400d38ad95c52b152",
+        "sha256": "1lj3h4hg3cnxl3avbg9089wd8c82i6sxhdyxfy99l950i78j0gfg",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/26d3fbf21563c52f124551eb60dec5ea17ade8fa.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/0da76dab4c2acce5ebf404c400d38ad95c52b152.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
