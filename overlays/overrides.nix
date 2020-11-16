@@ -23,21 +23,6 @@ let
   # Nixpkgs and not pulling in Apple frameworks.
   fsatrace = super.fsatrace.overrideAttrs (drv: { meta = drv.meta // { platforms = super.lib.platforms.unix; }; });
 
-  # We need YubiKey OpenPGP KDF functionality, which hasn't been
-  # released yet.
-  yubikey-manager = super.yubikey-manager.overrideAttrs (
-    drv: {
-      version = "3.1.1";
-      name = "yubikey-manager-3.1.1";
-      srcs = super.fetchFromGitHub {
-        owner = "Yubico";
-        repo = "yubikey-manager";
-        rev = "12efa59f94e18bfd86b8d662a2bd70a5d2dc4fe0";
-        sha256 = "1anj1gav3mc2hzzbm80vfnb2k4s0jvlbf0kvisbj8fi4pqs18db3";
-      };
-    }
-  );
-
   # Enable TLS v1.2 in wpa_supplicant.
   wpa_supplicant = super.wpa_supplicant.overrideAttrs (
     drv: {
@@ -94,6 +79,20 @@ let
       ln -snf ./run-emacs.sh $out/bin/emacs
     '';
   });
+
+  # The patch previously needed for macOS is now applied upstream.
+  ykPython3 = super.python3.override {
+    packageOverrides = self: super: {
+      pyscard = super.pyscard.overrideAttrs (oldAttrs: rec {
+        patches = [ ];
+      });
+    };
+  };
+
+  yubikey-manager = callPackage (super.path + "/pkgs/tools/misc/yubikey-manager") {
+    inherit (super) fetchurl lib yubikey-personalization libu2f-host libusb1;
+    python3Packages = ykPython3.pkgs;
+  };
 
 in
 {
