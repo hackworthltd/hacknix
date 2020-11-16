@@ -10,10 +10,11 @@ let
   globalCfg = config;
   instances = globalCfg.services.unbound-multi-instance.instances;
   stateDir = "/var/lib/unbound-multi-instance";
-  wrapped = runCommand "ipfs" {
-    buildInputs = [ makeWrapper ];
-    preferLocalBuild = true;
-  } ''
+  wrapped = runCommand "ipfs"
+    {
+      buildInputs = [ makeWrapper ];
+      preferLocalBuild = true;
+    } ''
     mkdir -p "$out/bin"
     makeWrapper "${ipfs}/bin/ipfs" "$out/bin/ipfs" \
       --set IPFS_PATH ${cfg.dataDir} \
@@ -223,7 +224,7 @@ in
     # them here.
 
     hacknix.assertions.moduleHashes."services/networking/unbound.nix" =
-      "8af6d702a2abe945c90054e7233ca908994eaab59781f364f1f34e7533d5462d";
+      "7fbafb7623c4ff5012439a94b5055521127a8b075a8771bb4b30bd07de11c3c9";
 
     environment.systemPackages = [ pkgs.unbound ];
 
