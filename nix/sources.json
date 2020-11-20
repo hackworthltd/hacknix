@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "43ac279435d6d9fc469c1cf427c7c20232fd5b70",
-        "sha256": "1773mkvk3nmiz3kd16r6l0ikvz9a80s6arc8jpmk6h57knfl9h94",
+        "rev": "5c614ca1d8fd94541dff3d040122717bb70b7668",
+        "sha256": "1infvd68pxn9v719vz2cqdzvrlh7md109nky1yi732mw5mbcm3h1",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/43ac279435d6d9fc469c1cf427c7c20232fd5b70.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/5c614ca1d8fd94541dff3d040122717bb70b7668.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cachix": {
@@ -41,10 +41,10 @@
         "homepage": "https://cachix.org",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "114d7ac0e40ce8ce071c9320e4af619194fec371",
-        "sha256": "1hkz3lnm1rh873g01s855b2bhfkdsajk9i7xzq6zbbb3qv51m3lw",
+        "rev": "b3dcc86feca49823d14845c79606f8fd75fd9c6c",
+        "sha256": "1yy3639q1vkh633wd4gh7pjqp39rf8lgvgl8bq53nqr7b1xfdm7f",
         "type": "tarball",
-        "url": "https://github.com/cachix/cachix/archive/114d7ac0e40ce8ce071c9320e4af619194fec371.tar.gz",
+        "url": "https://github.com/cachix/cachix/archive/b3dcc86feca49823d14845c79606f8fd75fd9c6c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "98dd4d94a2037e090bf54bfc5f7171dfea655127",
-        "sha256": "03xhl2mjqapax1s444295x7kbg02az5s0iv4m37kxvy4v9l0pf47",
+        "rev": "d5fe4670d3537726e54a8a62312ecb894ac5db62",
+        "sha256": "1wmn8p6grw0nn566g9aj07ar3gcm8plzzj118m3cjzd5w82jkanw",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/98dd4d94a2037e090bf54bfc5f7171dfea655127.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/d5fe4670d3537726e54a8a62312ecb894ac5db62.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -89,10 +89,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "5512ff48d311c9f0e3491a708f7650edeab2f52b",
-        "sha256": "1xiwbvqsvnl58xagm7h0qlqsvjr7iwzy9br82r0d7m38bgk4mb8z",
+        "rev": "514a30e6a38f9653fa18ce30981e19cadcea19c0",
+        "sha256": "06qf933d00pp3dgkaszinrc7g5kk5qa9m3dfgsbqwhbkg8x0casx",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/5512ff48d311c9f0e3491a708f7650edeab2f52b.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/514a30e6a38f9653fa18ce30981e19cadcea19c0.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
@@ -173,10 +173,10 @@
         "homepage": "",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b605b989c5fa327625eb1027b06368bd26f08dd1",
-        "sha256": "1xsqrxq07m5aksdmx4q9yf0nal108gk673igrz5s0nm4mbvb1ahf",
+        "rev": "854f78d1555e55d4f623b46b528d180a5c2a5008",
+        "sha256": "0a0dj304qvgblywd4qwidknz75fvrg812ah1sh4xablj0wx0drcp",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/b605b989c5fa327625eb1027b06368bd26f08dd1.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/854f78d1555e55d4f623b46b528d180a5c2a5008.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
