@@ -91,6 +91,8 @@ let
       fdk_aac = super.fdk_aac;
       libvmaf = super.libvmaf;
       nvenc = false;
+      x265 = super.x265;
+      xavs = super.xavs;
       inherit (super.darwin.apple_sdk.frameworks)
         Cocoa CoreServices CoreAudio AVFoundation MediaToolbox
         VideoDecodeAcceleration
@@ -98,8 +100,12 @@ let
 
       frei0r = if super.stdenv.isDarwin then null else super.frei0r;
 
-      # Disable for now, samba isn't building on macOS.
+      # Broken on macOS.
       samba = false;
+
+      # Broken.
+      rav1e = null;
+      vid-stab = null;
     };
 
 in
