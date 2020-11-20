@@ -94,12 +94,13 @@ let
     python3Packages = ykPython3.pkgs;
   };
 
-in
-{
+  # Upstream keeps breaking this and it's usually not up-to-date, either.
+  awscli2 = callPackage ../pkgs/awscli2 { };
+
   # Use fdk_aac in ffmpeg-full.
   #
   # Don't override super; it disables a bunch of things on macOS.
-  xoffmpeg-full =
+  ffmpeg-full =
     callPackage (super.path + "/pkgs/development/libraries/ffmpeg-full") {
       nonfreeLicensing = true;
       fdkaacExtlib = true;
@@ -117,7 +118,11 @@ in
       samba = false;
     };
 
+in
+{
+  inherit awscli2;
   inherit emacsGcc;
+  inherit ffmpeg-full;
   inherit fsatrace;
   inherit hostapd;
   inherit hydra-unstable;
