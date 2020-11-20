@@ -31,8 +31,6 @@ in
       unset HISTFILE
     '';
 
-    environment.noXlibs = true;
-
     programs.bash.enableCompletion = true;
 
   };
