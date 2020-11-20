@@ -2,22 +2,6 @@ self: super:
 let
   inherit (super) callPackage;
 
-  # Upstream doesn't support macOS, probably due to
-  # https://github.com/radareorg/radare2/issues/15197
-  radare2 = super.radare2.overrideAttrs (
-    drv: {
-      python3 = super.python3;
-      useX11 = false;
-      pythonBindings = true;
-      luaBindings = true;
-
-      # XXX dhess - this is a bit of a hack.
-      HOST_CC = if super.stdenv.cc.isClang then "clang" else "gcc";
-
-      meta = drv.meta // { platforms = super.lib.platforms.unix; };
-    }
-  );
-
   # Upstream prevents fsatrace from building on macOS. It should work,
   # more or less, as long as you're using it with binaries built from
   # Nixpkgs and not pulling in Apple frameworks.
@@ -127,7 +111,6 @@ in
   inherit hostapd;
   inherit hydra-unstable;
   inherit niv;
-  inherit radare2;
   inherit spago2nix;
   inherit wpa_supplicant;
   inherit yubikey-manager;
