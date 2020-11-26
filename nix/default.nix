@@ -26,7 +26,6 @@ let
   fixedNixOps = lib.fetchers.fixedNixSrc "nixops" sources.nixops;
   fixedLorri = lib.fetchers.fixedNixSrc "lorri" sources.lorri;
   fixedBadhosts = lib.fetchers.fixedNixSrc "badhosts" sources.badhosts;
-  fixedCachix = lib.fetchers.fixedNixSrc "cachix" sources.cachix;
   fixedGitignoreNix =
     lib.fetchers.fixedNixSrc "gitignore.nix" sources."gitignore.nix";
 
@@ -44,7 +43,6 @@ let
   (
     map import [
       ../overlays/custom-packages.nix
-      ../overlays/haskell-packages.nix
       ../overlays/lib/hacknix.nix
       ../overlays/lib/types.nix
       ../overlays/overrides.nix
@@ -88,7 +86,6 @@ lib // {
   inherit fixedNixOps;
   inherit fixedLorri;
   inherit fixedBadhosts;
-  inherit fixedCachix;
   inherit fixedGitignoreNix;
   inherit fixedHydra;
 
