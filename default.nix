@@ -34,7 +34,6 @@
   inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
   inherit (pkgs) badhosts-all;
 
-  inherit (pkgs) cachix;
   inherit (pkgs) chamber;
   inherit (pkgs) delete-tweets;
   inherit (pkgs) ffmpeg-full;
@@ -61,8 +60,6 @@
   inherit (pkgs) yubikey-manager;
 
   inherit (pkgs) hashedCertDir;
-
-  inherit (pkgs) haskellPackages;
 
   inherit (pkgs) darwin;
 
