@@ -50,7 +50,8 @@ let
     name = "nixtools-env";
     paths = with super; [
       cabal2nix
-      cachix
+      # Breaks on Big Sur. Disable for now.
+      #cachix
       direnv
       hydra-cli
       lorri
