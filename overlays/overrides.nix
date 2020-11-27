@@ -73,8 +73,11 @@ let
     };
   };
 
-  yubikey-manager = callPackage (super.path + "/pkgs/tools/misc/yubikey-manager") {
-    inherit (super) fetchurl lib yubikey-personalization libu2f-host libusb1;
+  # We want OpenPGP KDF, and that breaks yubikey-manager 3.1.1, the
+  # current release version. We override it with the latest GitHub
+  # version.
+  yubikey-manager = callPackage ../pkgs/yubikey-manager {
+    inherit (super) fetchFromGitHub lib yubikey-personalization libu2f-host libusb1;
     python3Packages = ykPython3.pkgs;
   };
 
