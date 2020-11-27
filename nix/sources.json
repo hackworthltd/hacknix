@@ -156,15 +156,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
-        "branch": "master",
+        "branch": "hackworthltd/nixpkgs-unstable",
         "description": "Nix Packages collection",
         "homepage": "",
-        "owner": "NixOS",
+        "owner": "hackworthltd",
         "repo": "nixpkgs",
-        "rev": "ead04a66392bccddd77effe9d46ca3b7e0e06d95",
-        "sha256": "13wdk1sib795ylbsxclawrqz5kf9hzxlxzclh18hvw3sndgrjwbd",
+        "rev": "d31b5895717d2041e5101fe5165c9fd7f130152b",
+        "sha256": "1xd54x5jc1z1s3pgkxjmg13n2hbr1wirv04hx82rin5na5r1z4gg",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/ead04a66392bccddd77effe9d46ca3b7e0e06d95.tar.gz",
+        "url": "https://github.com/hackworthltd/nixpkgs/archive/d31b5895717d2041e5101fe5165c9fd7f130152b.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
