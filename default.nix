@@ -84,5 +84,8 @@
   # emacs-overlay packages.
   inherit (pkgs) emacsGcc;
 
+  # We build a custom Python 3.9 to work around Big Sur issues.
+  inherit (pkgs) python39;
+
   overlays.all = localLib.overlays;
 }
