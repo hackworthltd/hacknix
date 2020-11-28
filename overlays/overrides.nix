@@ -87,6 +87,9 @@ let
   # Don't override super; it disables a bunch of things on macOS.
   ffmpeg-full =
     callPackage (super.path + "/pkgs/development/libraries/ffmpeg-full") {
+      # Broken on macOS.
+      libmodplug = null;
+
       nonfreeLicensing = true;
       fdkaacExtlib = true;
       fdk_aac = super.fdk_aac;
