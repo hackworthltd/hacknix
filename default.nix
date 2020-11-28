@@ -49,7 +49,6 @@
   inherit (pkgs) macnix-rebuild;
   inherit (pkgs) mkCacert;
   inherit (pkgs) neovim;
-  inherit (pkgs) niv;
   inherit (pkgs) nixops;
   inherit (pkgs) nmrpflash;
   inherit (pkgs) spago2nix;
