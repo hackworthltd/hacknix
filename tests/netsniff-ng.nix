@@ -43,7 +43,11 @@ let
               # the interface before it drops privileges.
               sniffer.succeed("sleep 5")
               output = sniffer.succeed("ps -u netsniff-ng")
-              assert re.search("[0-9]+.* netsniff-ng", output, flags=re.DOTALL,)
+              assert re.search(
+                  "[0-9]+.* netsniff-ng",
+                  output,
+                  flags=re.DOTALL,
+              )
 
 
           # This test should go last, as it stops the service on sniffer.
@@ -65,8 +69,16 @@ let
 
               sniffer.succeed("systemctl stop netsniff-ng\@test.service")
               output = sniffer.succeed("journalctl -xn 10 -a -u netsniff-ng\@test.service")
-              assert re.search("[1-9][0-9]*  packets incoming", output, flags=re.DOTALL,)
-              assert re.search("[1-9][0-9]*  packets passed filter", output, flags=re.DOTALL,)
+              assert re.search(
+                  "[1-9][0-9]*  packets incoming",
+                  output,
+                  flags=re.DOTALL,
+              )
+              assert re.search(
+                  "[1-9][0-9]*  packets passed filter",
+                  output,
+                  flags=re.DOTALL,
+              )
               assert "0  packets failed filter" in output
         '';
 
