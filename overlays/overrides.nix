@@ -39,8 +39,6 @@ let
 
   hydra-unstable = (import super.lib.hacknix.sources.hydra).defaultPackage.x86_64-linux;
 
-  niv = (import super.lib.hacknix.sources.niv { pkgs = super; }).niv;
-
   # Use the pinned spago2nix and make it buildable on multiple targets.
   spago2nix = (import super.lib.hacknix.sources.spago2nix { pkgs = super; }).overrideAttrs (
     drv: {
@@ -119,7 +117,6 @@ in
   inherit fsatrace;
   inherit hostapd;
   inherit hydra-unstable;
-  inherit niv;
   inherit spago2nix;
   inherit wpa_supplicant;
   inherit yubikey-manager;
