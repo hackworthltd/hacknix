@@ -137,10 +137,10 @@
         "homepage": "https://nixos.org/nixops",
         "owner": "hackworthltd",
         "repo": "nixops",
-        "rev": "cd7ed171bb32526fbe68700ad31eeeb49b8697a6",
-        "sha256": "06zgdx7nqqf7f3yr29g992cfxnfw8l31651dx6z53myfx87g3gc7",
+        "rev": "66775b9d5dc7714dfca25a3b4ef84b104e92a1e4",
+        "sha256": "0v0mdfs4j7y30y3dix4f0ghmpid6v008d8wm2png78ajqk6rykr5",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/nixops/archive/cd7ed171bb32526fbe68700ad31eeeb49b8697a6.tar.gz",
+        "url": "https://github.com/hackworthltd/nixops/archive/66775b9d5dc7714dfca25a3b4ef84b104e92a1e4.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
