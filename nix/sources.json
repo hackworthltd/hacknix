@@ -132,15 +132,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
-        "branch": "master",
+        "branch": "big-sur-fixes",
         "description": "NixOps is a tool for deploying to NixOS machines in a network or cloud.",
         "homepage": "https://nixos.org/nixops",
-        "owner": "NixOS",
+        "owner": "hackworthltd",
         "repo": "nixops",
-        "rev": "8de09879d7b1733bc4085257d5bf3cc734f1ed38",
-        "sha256": "0j61q2hfik2hc6pd2jn439g67xx3x20vj8g1bsnhd4hh9wwv7i7c",
+        "rev": "cd7ed171bb32526fbe68700ad31eeeb49b8697a6",
+        "sha256": "06zgdx7nqqf7f3yr29g992cfxnfw8l31651dx6z53myfx87g3gc7",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixops/archive/8de09879d7b1733bc4085257d5bf3cc734f1ed38.tar.gz",
+        "url": "https://github.com/hackworthltd/nixops/archive/cd7ed171bb32526fbe68700ad31eeeb49b8697a6.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
