@@ -77,10 +77,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "1aaf6b28fca980922d69ada6f280f745f3e01c3e",
-        "sha256": "015aa0j6cbdhg01ysvsz12ycgwy3m72gdh8vhfvhknpq1ff6aj3x",
+        "rev": "c3044b62adb4ef1c08b976dcca02c7520a4a84f4",
+        "sha256": "0mpryf03mvxvj3s74ibz3v55wpa5bxflxh7369m6zd7wjh4rdf24",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/1aaf6b28fca980922d69ada6f280f745f3e01c3e.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/c3044b62adb4ef1c08b976dcca02c7520a4a84f4.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
