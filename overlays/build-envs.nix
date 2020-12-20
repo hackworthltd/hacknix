@@ -33,19 +33,6 @@ let
     paths = with super; [ coq lean prooftree ];
     meta.platforms = super.lib.platforms.all;
   };
-  minikube-env = super.buildEnv {
-    name = "minikube-env";
-    paths = with super; [
-      kubectl
-      linuxkit
-      minikube
-    ] ++ super.lib.optional super.stdenv.isLinux [
-      docker-machine-kvm2
-    ] ++ super.lib.optional super.stdenv.isDarwin [
-      docker-machine-hyperkit
-    ];
-    meta.platforms = super.lib.platforms.all;
-  };
   nixtools-env = super.buildEnv {
     name = "nixtools-env";
     paths = with super; [
@@ -99,7 +86,6 @@ in
   inherit anki-env;
   inherit mactools-env;
   inherit maths-env;
-  inherit minikube-env;
   inherit nixtools-env;
   inherit opsec-env;
   inherit shell-env;
