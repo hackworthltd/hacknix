@@ -66,7 +66,6 @@
   inherit (pkgs) anki-env;
   inherit (pkgs) mactools-env;
   inherit (pkgs) maths-env;
-  inherit (pkgs) minikube-env;
   inherit (pkgs) nixtools-env;
   inherit (pkgs) opsec-env;
   inherit (pkgs) shell-env;
