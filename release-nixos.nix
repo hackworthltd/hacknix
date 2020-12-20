@@ -81,8 +81,6 @@ let
     sudo = handleTest ./tests/sudo.nix { };
     system = handleTest ./tests/system.nix { };
     tarsnapper = handleTest ./tests/tarsnapper.nix { };
-    # Disabled until LRU package issue is fixed.
-    #trimpcap = handleTest ./tests/trimpcap.nix {};
     tftpd-hpa = handleTest ./tests/tftpd-hpa.nix { };
     tsoff = handleTest ./tests/tsoff.nix { };
     unbound-multi-instance = handleTest ./tests/unbound-multi-instance.nix { };
