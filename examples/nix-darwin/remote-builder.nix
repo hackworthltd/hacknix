@@ -1,15 +1,20 @@
-{ config, pkgs, lib, ... }:
-let
-  localLib = import ../../nix { };
-in
+{ lib
+, ...
+}:
 {
-  # For now, setting this is required.
-  environment.darwinConfig = "${localLib.path}/examples/remote-builder.nix";
+  modules = lib.singleton
+    ({ pkgs, ... }:
+      let
+        sshPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkRyutu3OMvSDFQOsOtls4A5krFlYEPbiPG/qUyxGdb example remote-builder key";
+      in
+      {
+        # For now, setting this is required.
+        environment.darwinConfig = "${pkgs.lib.hacknix.path}/examples/nix-darwin/remote-builder.nix";
 
-  imports = localLib.nixDarwinModules;
-  nix.maxJobs = 12;
-  hacknix-nix-darwin.remote-build-host = {
-    enable = true;
-    user.sshPublicKeyFiles = lib.singleton ./remote-builder.pub;
-  };
+        nix.maxJobs = 12;
+        hacknix-nix-darwin.remote-build-host = {
+          enable = true;
+          user.sshPublicKeys = lib.singleton sshPublicKey;
+        };
+      });
 }
