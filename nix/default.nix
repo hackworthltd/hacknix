@@ -24,7 +24,6 @@ let
   fixedNixDarwin = lib.fetchers.fixedNixSrc "nix_darwin" sources.nix-darwin;
   nix-darwin = (import fixedNixDarwin) { };
   fixedNixOps = lib.fetchers.fixedNixSrc "nixops" sources.nixops;
-  fixedLorri = lib.fetchers.fixedNixSrc "lorri" sources.lorri;
   fixedBadhosts = lib.fetchers.fixedNixSrc "badhosts" sources.badhosts;
   fixedGitignoreNix =
     lib.fetchers.fixedNixSrc "gitignore.nix" sources."gitignore.nix";
@@ -84,7 +83,6 @@ lib // {
   inherit nix-darwin;
   inherit overlays;
   inherit fixedNixOps;
-  inherit fixedLorri;
   inherit fixedBadhosts;
   inherit fixedGitignoreNix;
   inherit fixedHydra;

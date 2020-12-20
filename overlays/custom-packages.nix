@@ -5,7 +5,6 @@ let
   inherit (super) callPackage;
   nixpkgsPath = (import lib.fixedNixpkgs { }).path;
   nixops = (import lib.fixedNixOps { system = super.stdenv.hostPlatform.system; }).default;
-  lorri = (import lib.fixedLorri) { pkgs = super; };
   gawk_4_2_1 = callPackage ../pkgs/gawk/4.2.1.nix { };
   libprelude =
     callPackage ../pkgs/development/libraries/libprelude { gawk = gawk_4_2_1; };
@@ -149,7 +148,6 @@ in
   inherit libprelude;
   inherit linux_ath10k linuxPackages_ath10k;
   inherit linux_ath10k_ct linuxPackages_ath10k_ct;
-  inherit lorri;
   inherit macnix-rebuild;
   inherit mkCacert;
   inherit nixops;

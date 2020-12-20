@@ -45,7 +45,6 @@
   inherit (pkgs) libprelude;
   inherit (pkgs) linux_ath10k linuxPackages_ath10k;
   inherit (pkgs) linux_ath10k_ct linuxPackages_ath10k_ct;
-  inherit (pkgs) lorri;
   inherit (pkgs) macnix-rebuild;
   inherit (pkgs) mkCacert;
   inherit (pkgs) neovim;
