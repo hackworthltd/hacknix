@@ -95,18 +95,6 @@
         "url": "https://github.com/NixOS/hydra/archive/be709d450b98a384374228db51c14dc958a3a72a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
-    "lorri": {
-        "branch": "master",
-        "description": "Your project's nix-env",
-        "homepage": "",
-        "owner": "target",
-        "repo": "lorri",
-        "rev": "66536ab4a503e2c30f948849e9b655ad5c0f0708",
-        "sha256": "08jb2vgbm4s87wnk7q82yc55dd2b8fyn7v8vsarjamwhna2fh7py",
-        "type": "tarball",
-        "url": "https://github.com/target/lorri/archive/66536ab4a503e2c30f948849e9b655ad5c0f0708.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
     "minikube": {
         "branch": "v1.9.2",
         "description": "Run Kubernetes locally",
