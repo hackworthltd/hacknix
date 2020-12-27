@@ -1,6 +1,6 @@
 final: prev:
 let
-  structuredExtraConfig = with prev.stdenv.lib.kernel; {
+  structuredExtraConfig = with final.stdenv.lib.kernel; {
     EXPERT = yes;
     EVENT_TRACING = yes;
     DEBUG_FS = yes;
@@ -33,16 +33,16 @@ let
     ATH10K_TRACING = yes;
   };
 
-  ath10kPackagesFor = kernel: prev.linuxPackagesFor (
+  ath10kPackagesFor = kernel: final.linuxPackagesFor (
     kernel.override {
       inherit structuredExtraConfig;
     }
   );
 
   # iwlwifi is broken on this kernel.
-  ath10kPackagesFor_ct = kernel: prev.linuxPackagesFor (
+  ath10kPackagesFor_ct = kernel: final.linuxPackagesFor (
     kernel.override {
-      structuredExtraConfig = structuredExtraConfig // (with prev.stdenv.lib.kernel; {
+      structuredExtraConfig = structuredExtraConfig // (with final.stdenv.lib.kernel; {
         IWLWIFI = no;
       });
     }
@@ -50,17 +50,17 @@ let
 
   # Don't recurseIntoAttrs here, as we don't want to build all these
   # out-of-tree modules for ath10k kernels.
-  linuxPackages_ath10k = ath10kPackagesFor prev.linux;
+  linuxPackages_ath10k = ath10kPackagesFor final.linux;
   linux_ath10k = linuxPackages_ath10k.kernel;
 
 
-  linux_5_4_ct = prev.callPackage ../pkgs/linux-5.4-ct {
+  linux_5_4_ct = final.callPackage ../pkgs/linux-5.4-ct {
     kernelPatches = [
-      prev.kernelPatches.bridge_stp_helper
-      prev.kernelPatches.request_key_helper
+      final.kernelPatches.bridge_stp_helper
+      final.kernelPatches.request_key_helper
       # Not yet in our nixpkgs.
-      #prev.kernelPatches.rtl8761b_support
-      prev.kernelPatches.export_kernel_fpu_functions."5.3"
+      #final.kernelPatches.rtl8761b_support
+      final.kernelPatches.export_kernel_fpu_functions."5.3"
     ];
   };
 

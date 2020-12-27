@@ -1,9 +1,9 @@
 final: prev:
 let
   gitignoreSrc =
-    (import prev.lib.hacknix.flake.inputs.gitignore-nix)
+    (import final.lib.hacknix.flake.inputs.gitignore-nix)
       {
-        inherit (prev) lib;
+        inherit (final) lib;
       };
 in
 {

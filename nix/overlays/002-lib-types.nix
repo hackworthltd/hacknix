@@ -5,8 +5,6 @@
 # the LICENSE file included with this source distribution.
 
 final: prev:
-
-with prev.lib;
 let
   ## A key type for configuring secrets that are stored in the
   ## filesystem. The option names and types here are compatible with
@@ -15,12 +13,12 @@ let
   ## type ensures that its paths are not contained in the Nix store,
   ## so that the chances of accidentally storing a secret in the store
   ## are minimized.
-  key = types.submodule
+  key = final.lib.types.submodule
     (
       { config, name, ... }: {
-        options.text = mkOption {
-          example = "prev secret stuff";
-          type = prev.lib.types.nonEmptyStr;
+        options.text = final.lib.mkOption {
+          example = "secret stuff";
+          type = final.lib.types.nonEmptyStr;
           description = ''
             This designates the text that the key should contain. So if
             the key name is <replaceable>password</replaceable> and
@@ -31,9 +29,9 @@ let
           '';
         };
 
-        options.destDir = mkOption {
+        options.destDir = final.lib.mkOption {
           default = "/run/keys";
-          type = prev.lib.types.nonStorePath;
+          type = final.lib.types.nonStorePath;
           description = ''
             When specified, this allows changing the destDir directory of the key
             file from its default value of <filename>/run/keys</filename>.
@@ -43,8 +41,8 @@ let
           '';
         };
 
-        options.path = mkOption {
-          type = prev.lib.types.nonStorePath;
+        options.path = final.lib.mkOption {
+          type = final.lib.types.nonStorePath;
           default = "${config.destDir}/${name}";
           internal = true;
           description = ''
@@ -56,26 +54,26 @@ let
           '';
         };
 
-        options.user = mkOption {
+        options.user = final.lib.mkOption {
           default = "root";
-          type = prev.lib.types.nonEmptyStr;
+          type = final.lib.types.nonEmptyStr;
           description = ''
             The user which will be the owner of the key file.
           '';
         };
 
-        options.group = mkOption {
+        options.group = final.lib.mkOption {
           default = "root";
-          type = prev.lib.types.nonEmptyStr;
+          type = final.lib.types.nonEmptyStr;
           description = ''
             The group that will be set for the key file.
           '';
         };
 
-        options.permissions = mkOption {
+        options.permissions = final.lib.mkOption {
           default = "0400";
           example = "0640";
-          type = prev.lib.types.nonEmptyStr;
+          type = final.lib.types.nonEmptyStr;
           description = ''
             The default permissions to set for the key file, needs to be in the
             format accepted by <citerefentry><refentrytitle>chmod</refentrytitle>
@@ -84,21 +82,21 @@ let
         };
       }
     );
-  fwRule = types.listOf
+  fwRule = final.lib.types.listOf
     (
-      types.submodule {
+      final.lib.types.submodule {
         options = {
 
-          protocol = mkOption {
-            type = prev.lib.types.nonEmptyStr;
+          protocol = final.lib.mkOption {
+            type = final.lib.types.nonEmptyStr;
             example = "tcp";
             description = ''
               The protocol of the rule or packet to check.
             '';
           };
 
-          interface = mkOption {
-            type = types.nullOr prev.lib.types.nonEmptyStr;
+          interface = final.lib.mkOption {
+            type = final.lib.types.nullOr final.lib.types.nonEmptyStr;
             default = null;
             example = "eth0";
             description = ''
@@ -109,11 +107,11 @@ let
           };
 
           src = {
-            port = mkOption {
-              type = types.nullOr
+            port = final.lib.mkOption {
+              type = final.lib.types.nullOr
                 (
-                  types.either prev.lib.types.port
-                    (types.strMatching "[[:digit:]]+:[[:digit:]]+")
+                  final.lib.types.either final.lib.types.port
+                    (final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+")
                 );
               default = null;
               example = "67:68";
@@ -127,8 +125,8 @@ let
               '';
             };
 
-            ip = mkOption {
-              type = types.nullOr prev.lib.types.ipv4;
+            ip = final.lib.mkOption {
+              type = final.lib.types.nullOr final.lib.types.ipv4;
               default = null;
               example = "10.0.0.0/24";
               description = ''
@@ -138,11 +136,11 @@ let
           };
 
           dest = {
-            port = mkOption {
-              type = types.nullOr
+            port = final.lib.mkOption {
+              type = final.lib.types.nullOr
                 (
-                  types.either prev.lib.types.port
-                    (types.strMatching "[[:digit:]]+:[[:digit:]]+")
+                  final.lib.types.either final.lib.types.port
+                    (final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+")
                 );
               default = null;
               example = "8000:8007";
@@ -151,8 +149,8 @@ let
               '';
             };
 
-            ip = mkOption {
-              type = types.nullOr prev.lib.types.ipv4;
+            ip = final.lib.mkOption {
+              type = final.lib.types.nullOr final.lib.types.ipv4;
               default = null;
               example = "10.0.0.0/24";
               description = ''
@@ -164,21 +162,21 @@ let
         };
       }
     );
-  fwRule6 = types.listOf
+  fwRule6 = final.lib.types.listOf
     (
-      types.submodule {
+      final.lib.types.submodule {
         options = {
 
-          protocol = mkOption {
-            type = prev.lib.types.nonEmptyStr;
+          protocol = final.lib.mkOption {
+            type = final.lib.types.nonEmptyStr;
             example = "tcp";
             description = ''
               The protocol of the rule or packet to check.
             '';
           };
 
-          interface = mkOption {
-            type = types.nullOr prev.lib.types.nonEmptyStr;
+          interface = final.lib.mkOption {
+            type = final.lib.types.nullOr final.lib.types.nonEmptyStr;
             default = null;
             example = "eth0";
             description = ''
@@ -189,11 +187,11 @@ let
           };
 
           src = {
-            port = mkOption {
-              type = types.nullOr
+            port = final.lib.mkOption {
+              type = final.lib.types.nullOr
                 (
-                  types.either prev.lib.types.port
-                    (types.strMatching "[[:digit:]]+:[[:digit:]]+")
+                  final.lib.types.either final.lib.types.port
+                    (final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+")
                 );
               default = null;
               example = "67:68";
@@ -207,8 +205,8 @@ let
               '';
             };
 
-            ip = mkOption {
-              type = types.nullOr prev.lib.types.ipv6;
+            ip = final.lib.mkOption {
+              type = final.lib.types.nullOr final.lib.types.ipv6;
               default = null;
               example = "2001:db8::3:0/64";
               description = ''
@@ -218,11 +216,11 @@ let
           };
 
           dest = {
-            port = mkOption {
-              type = types.nullOr
+            port = final.lib.mkOption {
+              type = final.lib.types.nullOr
                 (
-                  types.either prev.lib.types.port
-                    (types.strMatching "[[:digit:]]+:[[:digit:]]+")
+                  final.lib.types.either final.lib.types.port
+                    (final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+")
                 );
               default = null;
               example = "8000:8007";
@@ -231,8 +229,8 @@ let
               '';
             };
 
-            ip = mkOption {
-              type = types.nullOr prev.lib.types.ipv6;
+            ip = final.lib.mkOption {
+              type = final.lib.types.nullOr final.lib.types.ipv6;
               default = null;
               example = "2001:db8::3:0/64";
               description = ''
@@ -246,11 +244,11 @@ let
     );
 
   ## An IPv4 subnet description.
-  ipv4Subnet = types.submodule {
+  ipv4Subnet = final.lib.types.submodule {
     options = rec {
 
-      description = mkOption {
-        type = types.nullOr types.str;
+      description = final.lib.mkOption {
+        type = final.lib.types.nullOr final.lib.types.str;
         default = null;
         example = "The foo subnet";
         description = ''
@@ -258,16 +256,16 @@ let
         '';
       };
 
-      ip = mkOption {
-        type = prev.lib.types.ipv4CIDR;
+      ip = final.lib.mkOption {
+        type = final.lib.types.ipv4CIDR;
         example = "192.168.1.0/24";
         description = ''
           The IPv4 address of the subnet in CIDR notation.
         '';
       };
 
-      prefix = mkOption {
-        type = prev.lib.types.nonEmptyStr;
+      prefix = final.lib.mkOption {
+        type = final.lib.types.nonEmptyStr;
         example = "192.168.1";
         description = ''
           Just the prefix part of the IPv4 address of the subnet.
@@ -277,8 +275,8 @@ let
         '';
       };
 
-      prefixLength = mkOption {
-        type = types.ints.between 0 32;
+      prefixLength = final.lib.mkOption {
+        type = final.lib.types.ints.between 0 32;
         example = 24;
         description = ''
           Just the prefix length part of the IPv4 address of the
@@ -289,8 +287,8 @@ let
         '';
       };
 
-      router = mkOption {
-        type = types.nullOr prev.lib.types.ipv4NoCIDR;
+      router = final.lib.mkOption {
+        type = final.lib.types.nullOr final.lib.types.ipv4NoCIDR;
         example = "192.168.1.1";
         description = ''
           The subnet's default router, expressed as an IPv4 address.
@@ -306,10 +304,10 @@ let
 
     };
   };
-  dhcp4Subnet = types.submodule {
+  dhcp4Subnet = final.lib.types.submodule {
     options = {
 
-      subnet = mkOption {
+      subnet = final.lib.mkOption {
         type = ipv4Subnet;
         readOnly = true;
         description = ''
@@ -317,13 +315,13 @@ let
         '';
       };
 
-      range = mkOption {
-        type = types.nullOr
+      range = final.lib.mkOption {
+        type = final.lib.types.nullOr
           (
-            types.submodule {
+            final.lib.types.submodule {
               options = {
-                start = mkOption { type = prev.lib.types.ipv4NoCIDR; };
-                end = mkOption { type = prev.lib.types.ipv4NoCIDR; };
+                start = final.lib.mkOption { type = final.lib.types.ipv4NoCIDR; };
+                end = final.lib.mkOption { type = final.lib.types.ipv4NoCIDR; };
               };
             }
           );
@@ -337,13 +335,13 @@ let
         '';
       };
 
-      leaseTime = mkOption {
-        type = types.nullOr
+      leaseTime = final.lib.mkOption {
+        type = final.lib.types.nullOr
           (
-            types.submodule {
+            final.lib.types.submodule {
               options = {
-                default = mkOption { type = types.ints.unsigned; };
-                max = mkOption { type = types.ints.unsigned; };
+                default = final.lib.mkOption { type = final.lib.types.ints.unsigned; };
+                max = final.lib.mkOption { type = final.lib.types.ints.unsigned; };
               };
             }
           );
@@ -357,9 +355,9 @@ let
         '';
       };
 
-      nameservers = mkOption {
-        type = types.listOf
-          (types.either prev.lib.types.ipv4NoCIDR prev.lib.types.ipv6NoCIDR);
+      nameservers = final.lib.mkOption {
+        type = final.lib.types.listOf
+          (final.lib.types.either final.lib.types.ipv4NoCIDR final.lib.types.ipv6NoCIDR);
         default = [ ];
         example = [ "192.168.0.8" "2001:db8::8" ];
         description = ''
@@ -368,8 +366,8 @@ let
         '';
       };
 
-      deny = mkOption {
-        type = types.listOf prev.lib.types.nonEmptyStr;
+      deny = final.lib.mkOption {
+        type = final.lib.types.listOf final.lib.types.nonEmptyStr;
         default = [ ];
         example = [ "unknown-clients" ];
         description = ''
@@ -378,10 +376,10 @@ let
         '';
       };
 
-      extraConfig = mkOption {
-        type = types.lines;
+      extraConfig = final.lib.mkOption {
+        type = final.lib.types.lines;
         default = "";
-        example = literalExample ''
+        example = final.lib.literalExample ''
           option ubnt.unifi-address 192.168.0.8;
         '';
         description = ''
@@ -393,11 +391,11 @@ let
   };
 
   ## An IPv6 subnet description.
-  ipv6Subnet = types.submodule {
+  ipv6Subnet = final.lib.types.submodule {
     options = rec {
 
-      description = mkOption {
-        type = types.nullOr types.str;
+      description = final.lib.mkOption {
+        type = final.lib.types.nullOr final.lib.types.str;
         default = null;
         example = "The foo subnet";
         description = ''
@@ -405,16 +403,16 @@ let
         '';
       };
 
-      ip = mkOption {
-        type = prev.lib.types.ipv6CIDR;
+      ip = final.lib.mkOption {
+        type = final.lib.types.ipv6CIDR;
         example = "2001:db8::/64";
         description = ''
           The IPv6 address of the subnet in CIDR notation.
         '';
       };
 
-      prefix = mkOption {
-        type = prev.lib.types.nonEmptyStr;
+      prefix = final.lib.mkOption {
+        type = final.lib.types.nonEmptyStr;
         example = "2001:db8::";
         description = ''
           Just the prefix part of the IPv6 address of the subnet.
@@ -424,8 +422,8 @@ let
         '';
       };
 
-      prefixLength = mkOption {
-        type = types.ints.between 0 128;
+      prefixLength = final.lib.mkOption {
+        type = final.lib.types.ints.between 0 128;
         example = 64;
         description = ''
           Just the prefix length part of the IPv6 address of the
@@ -436,8 +434,8 @@ let
         '';
       };
 
-      router = mkOption {
-        type = types.nullOr prev.lib.types.ipv6NoCIDR;
+      router = final.lib.mkOption {
+        type = final.lib.types.nullOr final.lib.types.ipv6NoCIDR;
         example = "fe80::1";
         description = ''
           The subnet's default router, expressed as an IPv6 address.
@@ -455,10 +453,10 @@ let
   };
 
   # A WireGuard peer.
-  wgAllowedIP = types.submodule {
+  wgAllowedIP = final.lib.types.submodule {
     options = {
-      ip = mkOption {
-        type = types.either prev.lib.types.ipv4CIDR prev.lib.types.ipv6CIDR;
+      ip = final.lib.mkOption {
+        type = final.lib.types.either final.lib.types.ipv4CIDR final.lib.types.ipv6CIDR;
         example = "10.192.122.3/32";
         description = ''
           An IPv4 or IPv6 address (with CIDR mask) from which this
@@ -471,15 +469,15 @@ let
       };
 
       route = {
-        enable = mkEnableOption ''
+        enable = final.lib.mkEnableOption ''
           a static route for the given IP address via this WireGuard
           device.
         '';
 
-        table = mkOption {
+        table = final.lib.mkOption {
           default = "main";
           example = "vpn";
-          type = prev.lib.types.nonEmptyStr;
+          type = final.lib.types.nonEmptyStr;
           description = ''
             The kernel routing table to which the static route (if any) will be added.
 
@@ -489,13 +487,13 @@ let
       };
     };
   };
-  wgPeer = types.submodule
+  wgPeer = final.lib.types.submodule
     (
       { config, name, ... }: {
         options = {
 
-          name = mkOption {
-            type = prev.lib.types.nonEmptyStr;
+          name = final.lib.mkOption {
+            type = final.lib.types.nonEmptyStr;
             default = "${name}";
             description = ''
               A short name for the peer. The name should be a valid
@@ -506,14 +504,14 @@ let
             '';
           };
 
-          publicKey = mkOption {
+          publicKey = final.lib.mkOption {
             example = "xTIBA5rboUvnH4htodjb6e697QjLERt1NAB4mZqp8Dg=";
-            type = prev.lib.types.nonEmptyStr;
+            type = final.lib.types.nonEmptyStr;
             description = "The base64 public key the peer.";
           };
 
-          presharedKeyLiteral = mkOption {
-            type = prev.lib.types.nonEmptyStr;
+          presharedKeyLiteral = final.lib.mkOption {
+            type = final.lib.types.nonEmptyStr;
             example = "<key>";
             description = ''
               The WireGuard pre-shared key for this peer, as a string
@@ -525,32 +523,32 @@ let
             '';
           };
 
-          allowedIPs = mkOption {
-            example = literalExample [
+          allowedIPs = final.lib.mkOption {
+            example = final.lib.literalExample [
               {
                 ip = "10.192.122.3/32";
                 route.enable = true;
               }
             ];
-            type = types.listOf wgAllowedIP;
+            type = final.lib.types.listOf wgAllowedIP;
             description = ''
               List of IP addresses (and optional routes) for IPs that are
               allowed on this WireGuard interface.
             '';
           };
 
-          endpoint = mkOption {
+          endpoint = final.lib.mkOption {
             default = null;
             example = "demo.wireguard.io:12913";
-            type = with types; nullOr str;
+            type = with final.lib.types; nullOr str;
             description = ''
               Endpoint IP or hostname of the peer, followed by a colon,
                       and then a port number of the peer.'';
           };
 
-          persistentKeepalive = mkOption {
+          persistentKeepalive = final.lib.mkOption {
             default = null;
-            type = with types; nullOr int;
+            type = with final.lib.types; nullOr int;
             example = 25;
             description = ''
               This is optional and is by default off, because most
@@ -580,11 +578,11 @@ let
   # configuring SSH on a build host to guarantee that nix-daemon's
   # initial SSH attempt to log into the remote builder will connect
   # without failing.
-  remoteBuildHost = types.submodule {
+  remoteBuildHost = final.lib.types.submodule {
     options = {
 
-      hostName = mkOption {
-        type = prev.lib.types.nonEmptyStr;
+      hostName = final.lib.mkOption {
+        type = final.lib.types.nonEmptyStr;
         example = "builder.example.com";
         description = ''
           The primary host name of the remote build host. This is the
@@ -593,8 +591,8 @@ let
         '';
       };
 
-      port = mkOption {
-        type = types.nullOr prev.lib.types.port;
+      port = final.lib.mkOption {
+        type = final.lib.types.nullOr final.lib.types.port;
         default = null;
         example = 22;
         description = ''
@@ -618,8 +616,8 @@ let
         '';
       };
 
-      alternateHostNames = mkOption {
-        type = types.listOf prev.lib.types.nonEmptyStr;
+      alternateHostNames = final.lib.mkOption {
+        type = final.lib.types.listOf final.lib.types.nonEmptyStr;
         default = [ ];
         example = [ "192.168.1.1" "2001:db8::1" ];
         description = ''
@@ -631,8 +629,8 @@ let
         '';
       };
 
-      hostPublicKeyLiteral = mkOption {
-        type = prev.lib.types.nonEmptyStr;
+      hostPublicKeyLiteral = final.lib.mkOption {
+        type = final.lib.types.nonEmptyStr;
         example =
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
         description = ''
@@ -642,8 +640,8 @@ let
         '';
       };
 
-      systems = mkOption {
-        type = types.nonEmptyListOf prev.lib.types.nonEmptyStr;
+      systems = final.lib.mkOption {
+        type = final.lib.types.nonEmptyListOf final.lib.types.nonEmptyStr;
         example = [ "x86_64-linux" "i686-linux" ];
         description = ''
           A list of Nix system types for which this remote build host
@@ -651,8 +649,8 @@ let
         '';
       };
 
-      maxJobs = mkOption {
-        type = types.ints.positive;
+      maxJobs = final.lib.mkOption {
+        type = final.lib.types.ints.positive;
         default = 1;
         example = 8;
         description = ''
@@ -661,8 +659,8 @@ let
         '';
       };
 
-      speedFactor = mkOption {
-        type = types.ints.positive;
+      speedFactor = final.lib.mkOption {
+        type = final.lib.types.ints.positive;
         default = 1;
         example = 2;
         description = ''
@@ -671,8 +669,8 @@ let
         '';
       };
 
-      mandatoryFeatures = mkOption {
-        type = types.listOf prev.lib.types.nonEmptyStr;
+      mandatoryFeatures = final.lib.mkOption {
+        type = final.lib.types.listOf final.lib.types.nonEmptyStr;
         default = [ ];
         example = [ "perf" ];
         description = ''
@@ -680,8 +678,8 @@ let
         '';
       };
 
-      supportedFeatures = mkOption {
-        type = types.listOf prev.lib.types.nonEmptyStr;
+      supportedFeatures = final.lib.mkOption {
+        type = final.lib.types.listOf final.lib.types.nonEmptyStr;
         default = [ ];
         example = [ "kvm" "big-parallel" ];
         description = ''
@@ -689,8 +687,8 @@ let
         '';
       };
 
-      sshUserName = mkOption {
-        type = prev.lib.types.nonEmptyStr;
+      sshUserName = final.lib.mkOption {
+        type = final.lib.types.nonEmptyStr;
         example = "remote-builder";
         description = ''
           The user name to be used for builds on the remote builder.
@@ -702,8 +700,8 @@ let
         '';
       };
 
-      sshKeyLiteral = mkOption {
-        type = prev.lib.types.nonEmptyStr;
+      sshKeyLiteral = final.lib.mkOption {
+        type = final.lib.types.nonEmptyStr;
         description = ''
           The SSH private key for <varname>sshUser</varname>, as a
           literal string.

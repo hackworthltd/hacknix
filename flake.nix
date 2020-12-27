@@ -57,12 +57,7 @@
       forAllTestSystems = f: nixpkgs.lib.genAttrs testSystems (system: f system);
 
       asList = attrs: map (name: attrs.${name}) (builtins.attrNames attrs);
-
-      allOverlays = [
-        emacs-overlay.overlay
-      ]
-      ++ asList hacknix-lib.overlays
-      ++ asList self.overlays;
+      overlaysAsList = asList self.overlays;
 
       config = {
         allowUnfree = true;
@@ -73,7 +68,7 @@
       pkgsFor = forAllSystems (system:
         import nixpkgs {
           inherit system config;
-          overlays = allOverlays;
+          overlays = overlaysAsList;
         }
       );
 
@@ -85,7 +80,11 @@
       # it's not useful as an attrset downstream (e.g.,
       # `nixpkgs.overlays` expects to be passed a list of overlays,
       # not an attrset.)
-      overlays = (hacknix-lib.lib.sources.importDirectory ./nix/overlays) // {
+      overlays = {
+        "000-emacs" = emacs-overlay.overlay;
+      }
+      // hacknix-lib.overlays
+      // (hacknix-lib.lib.sources.importDirectory ./nix/overlays) // {
         "000-flakes" = (final: prev: {
           lib = (prev.lib or { }) // {
             hacknix = (prev.lib.hacknix or { }) // {
@@ -260,7 +259,7 @@
           ./nix/modules/services/tftpd-hpa
           ./nix/modules/services/znc
         ];
-        nixpkgs.overlays = allOverlays;
+        nixpkgs.overlays = overlaysAsList;
       };
 
       nixosConfigurations = self.lib.hacknix.importNixosConfigurations ./examples/nixos {
@@ -273,7 +272,7 @@
           ./nix/darwinModules/config/remote-builds/build-host
           ./nix/darwinModules/config/remote-builds/remote-build-host
         ];
-        nixpkgs.overlays = allOverlays;
+        nixpkgs.overlays = overlaysAsList;
       };
 
       darwinConfigurations = self.lib.hacknix.importDarwinConfigurations ./examples/nix-darwin {

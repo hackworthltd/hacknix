@@ -2,23 +2,23 @@ final: prev:
 let
   # We tune ffmpeg-full for our own purposes.
   ffmpeg-full =
-    prev.callPackage (prev.path + "/pkgs/development/libraries/ffmpeg-full") {
+    final.callPackage (final.path + "/pkgs/development/libraries/ffmpeg-full") {
       # Broken on macOS.
       libmodplug = null;
 
       nonfreeLicensing = true;
       fdkaacExtlib = true;
-      fdk_aac = prev.fdk_aac;
-      libvmaf = prev.libvmaf;
+      fdk_aac = final.fdk_aac;
+      libvmaf = final.libvmaf;
       nvenc = false;
-      x265 = prev.x265;
-      xavs = prev.xavs;
-      inherit (prev.darwin.apple_sdk.frameworks)
+      x265 = final.x265;
+      xavs = final.xavs;
+      inherit (final.darwin.apple_sdk.frameworks)
         Cocoa CoreServices CoreAudio AVFoundation MediaToolbox
         VideoDecodeAcceleration
         ;
 
-      frei0r = if prev.stdenv.isDarwin then null else prev.frei0r;
+      frei0r = if final.stdenv.isDarwin then null else final.frei0r;
 
       # Broken on macOS.
       samba = false;

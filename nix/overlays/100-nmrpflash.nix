@@ -1,6 +1,6 @@
 final: prev:
 let
-  nmrpflash = prev.callPackage ../pkgs/nmrpflash { };
+  nmrpflash = final.callPackage ../pkgs/nmrpflash { };
 in
 {
   inherit nmrpflash;

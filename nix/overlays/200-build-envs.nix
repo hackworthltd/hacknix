@@ -1,8 +1,8 @@
 final: prev:
 let
-  anki-env = prev.buildEnv {
+  anki-env = final.buildEnv {
     name = "anki-env";
-    paths = with prev;
+    paths = with final;
       [
         # Disabled for now, see:
         # https://github.com/NixOS/nixpkgs/issues/76715
@@ -11,10 +11,10 @@ let
       ];
   };
 
-  myPass = prev.pass.withExtensions (ext: [ ext.pass-genphrase ext.pass-update ]);
-  mactools-env = prev.buildEnv {
+  myPass = final.pass.withExtensions (ext: [ ext.pass-genphrase ext.pass-update ]);
+  mactools-env = final.buildEnv {
     name = "mactools-env";
-    paths = with prev; [
+    paths = with final; [
       ccextractor
       delete-tweets
       ffmpeg-full
@@ -27,22 +27,22 @@ let
       yubikey-manager
       yubikey-personalization
     ];
-    meta.platforms = prev.lib.platforms.darwin;
+    meta.platforms = final.lib.platforms.darwin;
   };
 
-  maths-env = prev.buildEnv {
+  maths-env = final.buildEnv {
     name = "maths-env";
-    paths = with prev; [
+    paths = with final; [
       coq
       lean
       prooftree
     ];
-    meta.platforms = prev.lib.platforms.all;
+    meta.platforms = final.lib.platforms.all;
   };
 
-  nixtools-env = prev.buildEnv {
+  nixtools-env = final.buildEnv {
     name = "nixtools-env";
-    paths = with prev; [
+    paths = with final; [
       cabal2nix
       cachix
       direnv
@@ -54,12 +54,12 @@ let
       nix-info
       nox
     ];
-    meta.platforms = prev.lib.platforms.all;
+    meta.platforms = final.lib.platforms.all;
   };
 
-  shell-env = prev.buildEnv {
+  shell-env = final.buildEnv {
     name = "shell-env";
-    paths = with prev; [
+    paths = with final; [
       coreutils
       gitAndTools.git-crypt
       gitAndTools.git-extras
@@ -78,7 +78,7 @@ let
       wget
       xz
     ];
-    meta.platforms = prev.lib.platforms.all;
+    meta.platforms = final.lib.platforms.all;
   };
 
 in

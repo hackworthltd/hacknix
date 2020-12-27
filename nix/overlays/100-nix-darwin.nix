@@ -1,7 +1,7 @@
 final: prev:
 let
   # A helper script for rebuilding nix-darwin systems.
-  macnix-rebuild = prev.callPackage ../pkgs/macnix-rebuild { };
+  macnix-rebuild = final.callPackage ../pkgs/macnix-rebuild { };
 
 in
 {

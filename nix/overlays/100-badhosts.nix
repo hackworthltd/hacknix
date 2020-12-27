@@ -1,8 +1,8 @@
 final: prev:
 let
 
-  badhosts = prev.callPackage ../pkgs/badhosts {
-    src = prev.lib.hacknix.flake.inputs.badhosts;
+  badhosts = final.callPackage ../pkgs/badhosts {
+    src = final.lib.hacknix.flake.inputs.badhosts;
   };
 
 in

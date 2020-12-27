@@ -6,7 +6,7 @@ let
   # Nixpkgs and not pulling in Apple frameworks.
   fsatrace = prev.fsatrace.overrideAttrs (drv: {
     meta = drv.meta // {
-      platforms = prev.lib.platforms.unix;
+      platforms = final.lib.platforms.unix;
     };
   });
 
