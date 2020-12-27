@@ -1,6 +1,6 @@
 final: prev:
 let
-  delete-tweets = prev.callPackage ../pkgs/delete-tweets { };
+  delete-tweets = final.callPackage ../pkgs/delete-tweets { };
 in
 {
   inherit delete-tweets;

@@ -1,8 +1,8 @@
 final: prev:
 let
-  chamber = prev.callPackage ../pkgs/chamber {
-    src = prev.lib.hacknix.flake.inputs.chamber;
-    inherit (prev.darwin.apple_sdk.frameworks) Security;
+  chamber = final.callPackage ../pkgs/chamber {
+    src = final.lib.hacknix.flake.inputs.chamber;
+    inherit (final.darwin.apple_sdk.frameworks) Security;
   };
 in
 {

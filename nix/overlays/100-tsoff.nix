@@ -1,6 +1,6 @@
 final: prev:
 let
-  tsoff = prev.callPackage ../pkgs/tsoff { };
+  tsoff = final.callPackage ../pkgs/tsoff { };
 in
 {
   inherit tsoff;

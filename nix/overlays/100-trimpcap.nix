@@ -1,6 +1,6 @@
 final: prev:
 let
-  trimpcap = prev.callPackage ../pkgs/trimpcap { };
+  trimpcap = final.callPackage ../pkgs/trimpcap { };
 in
 {
   inherit trimpcap;

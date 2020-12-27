@@ -2,7 +2,7 @@ final: prev:
 let
   # Some applications need a hashed X.509 certificate directory, per
   # OpenSSL's c_rehash(1).
-  hashedCertDir = prev.callPackage ../pkgs/hashed-cert-dir { };
+  hashedCertDir = final.callPackage ../pkgs/hashed-cert-dir { };
 
   # When called with an argument `extraCerts` whose value is a set
   # mapping strings containing human-friendly certificate authority
@@ -29,7 +29,7 @@ let
   # some packages which hard-wire their cacert package, such as many
   # of nixpkgs's fetch functions. It's for that reason that this
   # function exists.
-  mkCacert = prev.callPackage ../pkgs/custom-cacert;
+  mkCacert = final.callPackage ../pkgs/custom-cacert;
 
 in
 {
