@@ -5,10 +5,10 @@
         "homepage": null,
         "owner": "benkehoe",
         "repo": "aws-export-credentials",
-        "rev": "2843f7ea473dfe906043a076e06137f362c2bf91",
-        "sha256": "0bnvwxig5b6xx47rsz1ddzpwjdk5fs4ffr0jxz0fv3g3cdqnim92",
+        "rev": "7ea29781290184105252363402ff9bb4031801ca",
+        "sha256": "0vyp002y85p2hfsjzwwrv65rzr46mfmb8awikvly15lq2i8w02m8",
         "type": "tarball",
-        "url": "https://github.com/benkehoe/aws-export-credentials/archive/2843f7ea473dfe906043a076e06137f362c2bf91.tar.gz",
+        "url": "https://github.com/benkehoe/aws-export-credentials/archive/7ea29781290184105252363402ff9bb4031801ca.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "aws-sso-credential-process": {
@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "5c614ca1d8fd94541dff3d040122717bb70b7668",
-        "sha256": "1infvd68pxn9v719vz2cqdzvrlh7md109nky1yi732mw5mbcm3h1",
+        "rev": "56f6051c2edac17a6272056658a08cda9847bf85",
+        "sha256": "1g47px1gd4g0hy4k97nsj502jmlbs78605miif2i4nsmb9mmh1k5",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/5c614ca1d8fd94541dff3d040122717bb70b7668.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/56f6051c2edac17a6272056658a08cda9847bf85.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -53,10 +53,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "1af7f57553bdc057f6b4ccf723475b0b38421700",
-        "sha256": "08ydp29hy2n7nivdji2fpmwds5h27bjdb7zzmdnw2jm4mwb9n6jg",
+        "rev": "6a1e119554e8355214ce3a432ac2a6c82304ec0c",
+        "sha256": "0li392m2x8q6gb4wybk2v4bs7wf5rh7w4d0avnvigypvc3cdijk8",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/1af7f57553bdc057f6b4ccf723475b0b38421700.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/6a1e119554e8355214ce3a432ac2a6c82304ec0c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -77,10 +77,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "514a30e6a38f9653fa18ce30981e19cadcea19c0",
-        "sha256": "06qf933d00pp3dgkaszinrc7g5kk5qa9m3dfgsbqwhbkg8x0casx",
+        "rev": "3d51855cc2ce9c155b31cf3003e9a7432e8d56c1",
+        "sha256": "08pp80l0alj1c7nlif4ybbiayky025yz1pg22q14nzd60rd8af82",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/hacknix-lib/archive/514a30e6a38f9653fa18ce30981e19cadcea19c0.tar.gz",
+        "url": "https://github.com/hackworthltd/hacknix-lib/archive/3d51855cc2ce9c155b31cf3003e9a7432e8d56c1.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
@@ -125,10 +125,10 @@
         "homepage": "",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "6bd5208e7ffd141f2b2c4bd639e11ca5b96aec8c",
-        "sha256": "1iiki0gyvdf8rk8vd41s51cq88sqwcbr3gd69gd5nqpyrnz3h450",
+        "rev": "8834df431736c3037bbef017b24c62bc4ace4645",
+        "sha256": "0mxpj7a00qawq02wr8gz0ij2ix3m5r3z33wbi46s9ackknalvnih",
         "type": "tarball",
-        "url": "https://github.com/LnL7/nix-darwin/archive/6bd5208e7ffd141f2b2c4bd639e11ca5b96aec8c.tar.gz",
+        "url": "https://github.com/LnL7/nix-darwin/archive/8834df431736c3037bbef017b24c62bc4ace4645.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
