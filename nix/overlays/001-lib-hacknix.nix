@@ -15,53 +15,21 @@ let
       );
   network = nixops: import (nixops + "/nix/eval-machine-info.nix");
 
-  # A slightly extended version of darwinSystem that automatically
-  # appends the hacknix modules to the modules provided in the args.
-  darwinSystemWithArgs = args: system:
-    let
-      config = system args;
-    in
-    final.lib.hacknix.flake.inputs.nix-darwin.lib.darwinSystem (config // {
-      modules = (config.modules or [ ]) ++ [
-        final.lib.hacknix.flake.darwinModule
-      ];
-    });
+  # A version of the nixosSystem function that automatically appends
+  # the hacknix modules, so that the configuration doesn't need to do
+  # that manually.
+  nixosSystem = final.lib.flakes.nixosSystem' [ final.lib.hacknix.flake.nixosModule ];
 
-  importDarwinConfigurations = dir: args:
-    final.lib.mapAttrs
-      (_: config: darwinSystemWithArgs args config)
-      (final.lib.sources.importDirectory dir);
-
-  # A slightly extended version of nixosSystem that automatically
-  # appends the hacknix modules to the modules provided by the
+  # A version of nixosConfigurations.importFromDirectory that
+  # automatically injects the hacknix modules into each system
   # configuration.
-  nixosSystemWithArgs = args: system:
-    let
-      config = system args;
-    in
-    final.lib.hacknix.flake.inputs.nixpkgs.lib.nixosSystem (config // {
-      modules = (config.modules or [ ]) ++ [
-        final.lib.hacknix.flake.nixosModule
-      ];
-    });
+  importFromDirectory =
+    final.lib.flakes.nixosConfigurations.importFromDirectory nixosSystem;
 
-  importNixosConfigurations = dir: args:
-    final.lib.mapAttrs
-      (_: config: nixosSystemWithArgs args config)
-      (final.lib.sources.importDirectory dir);
-
-  # A convenience function for importing directories full of NixOS
-  # Python-style tests.
-  importNixosTests = dir: { system, pkgs, extraConfigurations ? [ ] }: testArgs:
-    let
-      testingPython = import (final.lib.hacknix.flake.inputs.nixpkgs + "/nixos/lib/testing-python.nix") {
-        inherit system pkgs extraConfigurations;
-      };
-      callTest = test: test ({ inherit testingPython; } // testArgs);
-    in
-    final.lib.mapAttrs (_: test: callTest test)
-      (final.lib.sources.importDirectory dir);
-
+  # A version of the darwinSystem function that automatically appends
+  # the hacknix darwin modules, so that the configuration doesn't need to do
+  # that manually.
+  darwinSystem = final.lib.flakes.darwinSystem' [ final.lib.hacknix.flake.darwinModule ];
 
 in
 {
@@ -71,13 +39,16 @@ in
 
       inherit mkZncConfig;
 
-      inherit darwinSystemWithArgs;
-      inherit importDarwinConfigurations;
+      inherit nixosSystem;
+      nixosConfigurations = (prev.lib.hacknix.nixosConfigurations or { }) // {
+        inherit importFromDirectory;
+      };
 
-      inherit nixosSystemWithArgs;
-      inherit importNixosConfigurations;
-
-      inherit importNixosTests;
+      inherit darwinSystem;
+      darwinConfigurations = (prev.lib.hacknix.darwinConfigurations or { }) // {
+        importFromDirectory =
+          final.lib.flakes.nixosConfigurations.importFromDirectory darwinSystem;
+      };
 
       nixops = (prev.lib.hacknix.nixops or { }) // {
         inherit deployments network;
