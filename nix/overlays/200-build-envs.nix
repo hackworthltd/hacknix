@@ -43,11 +43,8 @@ let
   nixtools-env = final.buildEnv {
     name = "nixtools-env";
     paths = with final; [
-      cabal2nix
       cachix
       direnv
-      hydra-cli
-      lorri
       niv
       nixpkgs-fmt
       nix-index
