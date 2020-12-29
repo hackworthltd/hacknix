@@ -57,7 +57,9 @@
       forAllTestSystems = f: nixpkgs.lib.genAttrs testSystems (system: f system);
 
       asList = attrs: map (name: attrs.${name}) (builtins.attrNames attrs);
-      overlaysAsList = asList self.overlays;
+      overlaysAsList = [ emacs-overlay.overlay ] ++
+        (asList hacknix-lib.overlays) ++
+        (asList self.overlays);
 
       config = {
         allowUnfree = true;
@@ -80,11 +82,10 @@
       # it's not useful as an attrset downstream (e.g.,
       # `nixpkgs.overlays` expects to be passed a list of overlays,
       # not an attrset.)
-      overlays = {
-        "000-emacs" = emacs-overlay.overlay;
-      }
-      // hacknix-lib.overlays
-      // (hacknix-lib.lib.sources.importDirectory ./nix/overlays) // {
+      #
+      # Note that this overlay depends on definitions in the
+      # hacknix-lib overlay, and must be used with it.
+      overlays = (hacknix-lib.lib.sources.importDirectory ./nix/overlays) // {
         "000-flakes" = (final: prev: {
           lib = (prev.lib or { }) // {
             hacknix = (prev.lib.hacknix or { }) // {
@@ -103,7 +104,7 @@
           let
             pkgs = pkgsFor.${system};
           in
-          (hacknix-lib.lib.misc.filterPackagesByPlatform system
+          (hacknix-lib.lib.flakes.filterPackagesByPlatform system
             {
               inherit (pkgs) awscli2;
               inherit (pkgs) aws-export-credentials;
@@ -262,9 +263,10 @@
         nixpkgs.overlays = overlaysAsList;
       };
 
-      nixosConfigurations = self.lib.hacknix.importNixosConfigurations ./examples/nixos {
-        inherit (self) lib;
-      };
+      nixosConfigurations =
+        self.lib.hacknix.nixosConfigurations.importFromDirectory ./examples/nixos {
+          inherit (self) lib;
+        };
 
       darwinModule = {
         imports = [
@@ -275,17 +277,18 @@
         nixpkgs.overlays = overlaysAsList;
       };
 
-      darwinConfigurations = self.lib.hacknix.importDarwinConfigurations ./examples/nix-darwin {
-        inherit (self) lib;
-      };
+      darwinConfigurations =
+        self.lib.hacknix.darwinConfigurations.importFromDirectory ./examples/nix-darwin {
+          inherit (self) lib;
+        };
 
       hydraJobs = {
         build = self.packages;
-        nixosConfigurations = hacknix-lib.lib.misc.buildNixosConfigurations self.nixosConfigurations;
-        darwinConfigurations = hacknix-lib.lib.misc.buildNixosConfigurations self.darwinConfigurations;
+        nixosConfigurations = self.lib.flakes.nixosConfigurations.build self.nixosConfigurations;
+        darwinConfigurations = self.lib.flakes.nixosConfigurations.build self.darwinConfigurations;
         tests = forAllTestSystems
           (system:
-            self.lib.hacknix.importNixosTests ./tests/fixtures
+            self.lib.testing.nixos.importFromDirectory ./tests/fixtures
               {
                 inherit system;
                 pkgs = pkgsFor.${system};

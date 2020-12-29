@@ -126,21 +126,6 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
-      "locked": {
-        "lastModified": 1605370193,
-        "narHash": "sha256-YyMTf3URDL/otKdKgtoMChu4vfVL3vCMkRqpGifhUn0=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "5021eac20303a61fafe17224c087f5519baed54d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "gitignore-nix": {
       "flake": false,
       "locked": {
@@ -160,15 +145,15 @@
     "hacknix-lib": {
       "inputs": {
         "flake-compat": "flake-compat_2",
-        "flake-utils": "flake-utils_2",
+        "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1609035621,
-        "narHash": "sha256-Bx1GS/ctoTuBYOXy6bbBcTJNnZT5mm+WCIErbyAR5wg=",
+        "lastModified": 1609284455,
+        "narHash": "sha256-+sM+usAQ2yzZ7KQRmjQeAcEBj8/XVWv6FQOwgl/Hrs4=",
         "owner": "hackworthltd",
         "repo": "hacknix-lib",
-        "rev": "4ae41551795f4a59c47ff06b661f1d097b66f5f9",
+        "rev": "f08c720df9ae546c30928be546310ca297f3f7ad",
         "type": "github"
       },
       "original": {
@@ -254,13 +239,33 @@
         "type": "github"
       }
     },
+    "nix-darwin_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1608628442,
+        "narHash": "sha256-MNpNlZ2TqaQNiYuP8UcudfQoZAT/ocwFwFxhANSRt1c=",
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "rev": "8834df431736c3037bbef017b24c62bc4ace4645",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1608910026,
-        "narHash": "sha256-h4IHWIMJ44AagQC8wNRruduFYy0lCyGlkk2KIiwcBsA=",
+        "lastModified": 1609228586,
+        "narHash": "sha256-Aabo3QhYzNQ6d0etMYTvFQuh2vgWYMeW2e0mNqZtsQo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a60a1340b7dbd1402a8ef97de8bc4760961a722f",
+        "rev": "1aa915c09dfe5d70570a59646df37ea718e93148",
         "type": "github"
       },
       "original": {
@@ -313,7 +318,7 @@
         "gitignore-nix": "gitignore-nix",
         "hacknix-lib": "hacknix-lib",
         "hydra": "hydra",
-        "nix-darwin": "nix-darwin",
+        "nix-darwin": "nix-darwin_2",
         "nixpkgs": "nixpkgs_3",
         "spago2nix": "spago2nix",
         "traefik-forward-auth": "traefik-forward-auth"
