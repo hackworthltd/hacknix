@@ -66,11 +66,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1609100384,
-        "narHash": "sha256-FW3X2At688q7euVieyGnSaT3Ie8QenrZQ5v7IGeP6XA=",
+        "lastModified": 1609331148,
+        "narHash": "sha256-DxqGiR44jDhmqvYr5SaXpssMaz8LR5HLaPXaZkd/IJ8=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "f77fd4e00a20942b348e8781e6aec6890e6d9204",
+        "rev": "05fb17fc6ef2b1c205a034b7aabbc463291a0fcb",
         "type": "github"
       },
       "original": {
@@ -113,11 +113,11 @@
     },
     "flake-utils": {
       "locked": {
-        "lastModified": 1605370193,
-        "narHash": "sha256-YyMTf3URDL/otKdKgtoMChu4vfVL3vCMkRqpGifhUn0=",
+        "lastModified": 1609246779,
+        "narHash": "sha256-eq6ZXE/VWo3EMC65jmIT6H/rrUc9UWOWVujkzav025k=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "5021eac20303a61fafe17224c087f5519baed54d",
+        "rev": "08c7ad4a0844adc4a7f9f5bb3beae482e789afa4",
         "type": "github"
       },
       "original": {
@@ -292,11 +292,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1609109748,
-        "narHash": "sha256-u5s+BQo32KGh7LH2VCZ/Iu8F8MDZpBtKNurQ/WhegIY=",
+        "lastModified": 1609340148,
+        "narHash": "sha256-rf92SFWpDLOQQ6SXhEma3pXyAjuo6fRjt6KPicWYLBk=",
         "owner": "hackworthltd",
         "repo": "nixpkgs",
-        "rev": "7335cf933314443289fd42baeaef3be2717cf449",
+        "rev": "5498ca69e7a8b783c01ead2e39884335d678888c",
         "type": "github"
       },
       "original": {
