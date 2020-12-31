@@ -264,8 +264,14 @@
       };
 
       nixosConfigurations =
+        let
+          extraModules = [{
+            boot.isContainer = true;
+          }];
+          mkSystem = self.lib.hacknix.nixosSystem' extraModules;
+        in
         self.lib.flakes.nixosConfigurations.importFromDirectory
-          self.lib.hacknix.nixosSystem
+          mkSystem
           ./examples/nixos
           {
             inherit (self) lib;
