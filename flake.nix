@@ -56,11 +56,6 @@
       testSystems = [ "x86_64-linux" ];
       forAllTestSystems = hacknix-lib.lib.flakes.forAllSystems testSystems;
 
-      asList = attrs: map (name: attrs.${name}) (builtins.attrNames attrs);
-      overlaysAsList = [ emacs-overlay.overlay ] ++
-        (asList hacknix-lib.overlays) ++
-        (asList self.overlays);
-
       config = {
         allowUnfree = true;
         allowBroken = true;
@@ -70,7 +65,7 @@
       pkgsFor = forAllSupportedSystems (system:
         import nixpkgs {
           inherit system config;
-          overlays = overlaysAsList;
+          overlays = [ self.overlay ];
         }
       );
 
@@ -78,26 +73,26 @@
     {
       lib = pkgsFor.x86_64-linux.lib;
 
-      # Nix's flake support expects this to be an attrset, even though
-      # it's not useful as an attrset downstream (e.g.,
-      # `nixpkgs.overlays` expects to be passed a list of overlays,
-      # not an attrset.)
-      #
-      # Note that this overlay depends on definitions in the
-      # hacknix-lib overlay, and must be used with it.
-      overlays = (hacknix-lib.lib.sources.importDirectory ./nix/overlays) // {
-        "000-flakes" = (final: prev: {
-          lib = (prev.lib or { }) // {
-            hacknix = (prev.lib.hacknix or { }) // {
-              flake = (prev.lib.hacknix.flake or { }) // {
-                inherit inputs;
-                inherit (self) darwinModule;
-                inherit (self) nixosModule;
-              };
-            };
-          };
-        });
-      };
+      overlay = final: prev:
+        hacknix-lib.lib.overlays.composeFromDir ./nix/overlays
+          (hacknix-lib.lib.overlays.compose
+            [
+              (final: prev: {
+                lib = (prev.lib or { }) // {
+                  hacknix = (prev.lib.hacknix or { }) // {
+                    flake = (prev.lib.hacknix.flake or { }) // {
+                      inherit inputs;
+                      inherit (self) darwinModule;
+                      inherit (self) nixosModule;
+                    };
+                  };
+                };
+              })
+              hacknix-lib.overlay
+              emacs-overlay.overlay
+            ]
+            prev
+          );
 
       packages = forAllSupportedSystems
         (system:
@@ -260,7 +255,7 @@
           ./nix/modules/services/tftpd-hpa
           ./nix/modules/services/znc
         ];
-        nixpkgs.overlays = overlaysAsList;
+        nixpkgs.overlays = [ self.overlay ];
       };
 
       nixosConfigurations =
@@ -283,7 +278,7 @@
           ./nix/darwinModules/config/remote-builds/build-host
           ./nix/darwinModules/config/remote-builds/remote-build-host
         ];
-        nixpkgs.overlays = overlaysAsList;
+        nixpkgs.overlays = [ self.overlay ];
       };
 
       darwinConfigurations =
