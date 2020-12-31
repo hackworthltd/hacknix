@@ -15,21 +15,19 @@ let
       );
   network = nixops: import (nixops + "/nix/eval-machine-info.nix");
 
-  # A version of the nixosSystem function that automatically appends
-  # the hacknix modules, so that the configuration doesn't need to do
-  # that manually.
-  nixosSystem = final.lib.flakes.nixosSystem' [ final.lib.hacknix.flake.nixosModule ];
-
-  # A version of nixosConfigurations.importFromDirectory that
-  # automatically injects the hacknix modules into each system
+  # Like their hacknix-lib equivalents, except these automatically
+  # append the hacknix modules (or darwinModules) to the
   # configuration.
-  importFromDirectory =
-    final.lib.flakes.nixosConfigurations.importFromDirectory nixosSystem;
-
-  # A version of the darwinSystem function that automatically appends
-  # the hacknix darwin modules, so that the configuration doesn't need to do
-  # that manually.
-  darwinSystem = final.lib.flakes.darwinSystem' [ final.lib.hacknix.flake.darwinModule ];
+  nixosSystem' = extraModules:
+    final.lib.flakes.nixosSystem' ([ final.lib.hacknix.flake.nixosModule ] ++ extraModules);
+  nixosSystem = nixosSystem' [ ];
+  amazonImage = extraModules:
+    final.lib.flakes.amazonImage ([ final.lib.hacknix.flake.nixosModule ] ++ extraModules);
+  isoImage = extraModules:
+    final.lib.flakes.isoImage ([ final.lib.hacknix.flake.nixosModule ] ++ extraModules);
+  darwinSystem' = extraModules:
+    final.lib.flakes.darwinSystem' ([ final.lib.hacknix.flake.darwinModule ] ++ extraModules);
+  darwinSystem = darwinSystem' [ ];
 
 in
 {
@@ -39,16 +37,8 @@ in
 
       inherit mkZncConfig;
 
-      inherit nixosSystem;
-      nixosConfigurations = (prev.lib.hacknix.nixosConfigurations or { }) // {
-        inherit importFromDirectory;
-      };
-
-      inherit darwinSystem;
-      darwinConfigurations = (prev.lib.hacknix.darwinConfigurations or { }) // {
-        importFromDirectory =
-          final.lib.flakes.nixosConfigurations.importFromDirectory darwinSystem;
-      };
+      inherit nixosSystem' nixosSystem amazonImage isoImage;
+      inherit darwinSystem' darwinSystem;
 
       nixops = (prev.lib.hacknix.nixops or { }) // {
         inherit deployments network;

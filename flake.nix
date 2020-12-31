@@ -264,9 +264,12 @@
       };
 
       nixosConfigurations =
-        self.lib.hacknix.nixosConfigurations.importFromDirectory ./examples/nixos {
-          inherit (self) lib;
-        };
+        self.lib.flakes.nixosConfigurations.importFromDirectory
+          self.lib.hacknix.nixosSystem
+          ./examples/nixos
+          {
+            inherit (self) lib;
+          };
 
       darwinModule = {
         imports = [
@@ -278,9 +281,12 @@
       };
 
       darwinConfigurations =
-        self.lib.hacknix.darwinConfigurations.importFromDirectory ./examples/nix-darwin {
-          inherit (self) lib;
-        };
+        self.lib.flakes.darwinConfigurations.importFromDirectory
+          self.lib.hacknix.darwinSystem
+          ./examples/nix-darwin
+          {
+            inherit (self) lib;
+          };
 
       hydraJobs = {
         build = self.packages;
