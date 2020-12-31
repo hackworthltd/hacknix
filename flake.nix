@@ -51,10 +51,10 @@
     }@inputs:
     let
       supportedSystems = [ "x86_64-linux" "x86_64-darwin" ];
-      forAllSystems = f: nixpkgs.lib.genAttrs supportedSystems (system: f system);
+      forAllSupportedSystems = hacknix-lib.lib.flakes.forAllSystems supportedSystems;
 
       testSystems = [ "x86_64-linux" ];
-      forAllTestSystems = f: nixpkgs.lib.genAttrs testSystems (system: f system);
+      forAllTestSystems = hacknix-lib.lib.flakes.forAllSystems testSystems;
 
       asList = attrs: map (name: attrs.${name}) (builtins.attrNames attrs);
       overlaysAsList = [ emacs-overlay.overlay ] ++
@@ -67,7 +67,7 @@
       };
 
       # Memoize nixpkgs for a given system;
-      pkgsFor = forAllSystems (system:
+      pkgsFor = forAllSupportedSystems (system:
         import nixpkgs {
           inherit system config;
           overlays = overlaysAsList;
@@ -99,7 +99,7 @@
         });
       };
 
-      packages = forAllSystems
+      packages = forAllSupportedSystems
         (system:
           let
             pkgs = pkgsFor.${system};
