@@ -9,6 +9,7 @@
         sshPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBp7K+EqL+5Ry40pQrHRDd9H/jh/eaYYYV0uxH9cxa0q";
       in
       {
+        networking.hostName = "build-host";
         hacknix.defaults.enable = true;
         hacknix.build-host.enable = true;
         hacknix.build-host.buildMachines = {

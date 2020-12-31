@@ -298,6 +298,46 @@
         build = self.packages;
         nixosConfigurations = self.lib.flakes.nixosConfigurations.build self.nixosConfigurations;
         darwinConfigurations = self.lib.flakes.nixosConfigurations.build self.darwinConfigurations;
+
+        amazonImages =
+          let
+            extraModules = [
+              {
+                ec2.hvm = true;
+                amazonImage.format = "qcow2";
+                amazonImage.sizeMB = 4096;
+              }
+            ];
+            mkSystem = self.lib.hacknix.amazonImage extraModules;
+            configs =
+              self.lib.flakes.nixosConfigurations.importFromDirectory
+                mkSystem
+                ./examples/nixos
+                {
+                  inherit (self) lib;
+                };
+          in
+          self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
+
+        isoImages =
+          let
+            extraModules = [
+              ({ config, ... }:
+                {
+                  isoImage.isoBaseName = self.lib.mkForce "${config.networking.hostName}_hacknix-example-iso";
+                })
+            ];
+            mkSystem = self.lib.hacknix.isoImage extraModules;
+            configs =
+              self.lib.flakes.nixosConfigurations.importFromDirectory
+                mkSystem
+                ./examples/nixos
+                {
+                  inherit (self) lib;
+                };
+          in
+          self.lib.flakes.nixosConfigurations.buildISOImages configs;
+
         tests = forAllTestSystems
           (system:
             self.lib.testing.nixos.importFromDirectory ./tests/fixtures
