@@ -84,5 +84,8 @@
   # We build a custom Python 3.9 to work around Big Sur issues.
   inherit (pkgs) python39;
 
+  # Work around a nix issue.
+  inherit (pkgs) nixUnstable nixFlakes;
+
   overlays.all = localLib.overlays;
 }
