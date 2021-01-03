@@ -131,6 +131,7 @@
               inherit (pkgs) hydra-unstable;
               inherit (pkgs) libprelude;
               inherit (pkgs) macnix-rebuild;
+              inherit (pkgs) nixUnstable nixFlakes;
               inherit (pkgs) nmrpflash;
               inherit (pkgs) spago2nix;
               inherit (pkgs) traefik-forward-auth;
