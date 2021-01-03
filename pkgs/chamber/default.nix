@@ -5,7 +5,6 @@ buildGoModule rec {
   pname = "chamber";
   version = "2.8.2";
 
-  goPackagePath = "github.com/${source.owner}/${source.repo}";
   deleteVendor = true;
   vendorSha256 = "05lipdkrr3v64ppj13gp48zfk0w946qfpavg6w2y591az4pyx7zl";
 

@@ -190,7 +190,7 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "41def83d30cb0e331fae7e7433cb0a89ac0f5e0b39feb7bb05f2f34087c59d93";
+      "2dd7600f164b768532e671e32310e7b851f1fa2034c477e29f685317ae82a4c0";
 
     hacknix.keychain.keys.postfix-relay-host-cert = {
       inherit user group;
@@ -216,36 +216,37 @@ in
 
       enableSubmission = false;
       masterConfig =
-        listToAttrs (
-          map
-            (
-              ip: {
-                name = "[${ip}]:submission";
-                value = {
-                  type = "inet";
-                  private = false;
-                  command = "smtpd";
-                  args = [
-                    "-o"
-                    "milter_macro_daemon_name=ORIGINATING"
-                    "-o"
-                    "smtpd_client_restrictions=permit_tls_clientcerts,reject"
-                    "-o"
-                    "smtpd_reject_unlisted_recipient=no"
-                    "-o"
-                    "smtpd_tls_dh1024_param_file=${dhParamsFile}"
-                    "-o"
-                    "smtpd_tls_security_level=encrypt"
-                    "-o"
-                    "syslog_name=postfix/submission"
-                    "-o"
-                    "tls_preempt_cipherlist=yes"
-                  ];
-                };
-              }
-            )
-            cfg.listenAddresses
-        )
+        listToAttrs
+          (
+            map
+              (
+                ip: {
+                  name = "[${ip}]:submission";
+                  value = {
+                    type = "inet";
+                    private = false;
+                    command = "smtpd";
+                    args = [
+                      "-o"
+                      "milter_macro_daemon_name=ORIGINATING"
+                      "-o"
+                      "smtpd_client_restrictions=permit_tls_clientcerts,reject"
+                      "-o"
+                      "smtpd_reject_unlisted_recipient=no"
+                      "-o"
+                      "smtpd_tls_dh1024_param_file=${dhParamsFile}"
+                      "-o"
+                      "smtpd_tls_security_level=encrypt"
+                      "-o"
+                      "syslog_name=postfix/submission"
+                      "-o"
+                      "tls_preempt_cipherlist=yes"
+                    ];
+                  };
+                }
+              )
+              cfg.listenAddresses
+          )
 
         //
         listToAttrs (
