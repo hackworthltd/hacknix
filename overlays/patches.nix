@@ -3,7 +3,8 @@ let
   # Work around nix issue; see:
   # https://github.com/NixOS/nix/pull/4264
   nixUnstable = super.nixUnstable.overrideAttrs (drv: {
-    patches = (drv.patches or [ ]) ++ [
+    # Doesn't compose properly if we add to drv.patches.
+    patches = [
       # BoehmGCStackAllocator: disable GC with coroutines https://github.com/NixOS/nix/pull/4264
       (super.fetchpatch {
         url = "https://github.com/NixOS/nix/pull/4264.patch";
