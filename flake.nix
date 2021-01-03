@@ -73,26 +73,26 @@
     {
       lib = pkgsFor.x86_64-linux.lib;
 
-      overlay = final: prev:
-        hacknix-lib.lib.overlays.composeFromDir ./nix/overlays
-          (hacknix-lib.lib.overlays.compose
-            [
-              (final: prev: {
-                lib = (prev.lib or { }) // {
-                  hacknix = (prev.lib.hacknix or { }) // {
-                    flake = (prev.lib.hacknix.flake or { }) // {
-                      inherit inputs;
-                      inherit (self) darwinModule;
-                      inherit (self) nixosModule;
-                    };
-                  };
+      overlay =
+        let
+          overlaysFromDir = hacknix-lib.lib.overlays.combineFromDir ./nix/overlays;
+        in
+        hacknix-lib.lib.overlays.combine [
+          hacknix-lib.overlay
+          emacs-overlay.overlay
+          overlaysFromDir
+          (final: prev: {
+            lib = (prev.lib or { }) // {
+              hacknix = (prev.lib.hacknix or { }) // {
+                flake = (prev.lib.hacknix.flake or { }) // {
+                  inherit inputs;
+                  inherit (self) darwinModule;
+                  inherit (self) nixosModule;
                 };
-              })
-              hacknix-lib.overlay
-              emacs-overlay.overlay
-            ]
-            prev
-          );
+              };
+            };
+          })
+        ];
 
       packages = forAllSupportedSystems
         (system:
