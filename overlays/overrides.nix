@@ -112,9 +112,13 @@ let
       vid-stab = null;
     };
 
+  # Broken upstream.
+  aws-sam-cli = callPackage ../pkgs/aws-sam-cli { };
+
 in
 {
   inherit awscli2;
+  inherit aws-sam-cli;
   inherit emacsGcc;
   inherit ffmpeg-full;
   inherit fsatrace;
