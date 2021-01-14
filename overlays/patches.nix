@@ -1,23 +1,8 @@
 self: super:
 let
-  # Work around nix issue; see:
-  # https://github.com/NixOS/nix/pull/4264
-  nixUnstable = super.nixUnstable.overrideAttrs (drv: {
-    # Doesn't compose properly if we add to drv.patches.
-    patches = [
-      # BoehmGCStackAllocator: disable GC with coroutines https://github.com/NixOS/nix/pull/4264
-      (super.fetchpatch {
-        url = "https://github.com/NixOS/nix/pull/4264.patch";
-        sha256 = "sha256-pEvymyZLidu1Zn5LpRXcfRXF/cNqglDLx2HIGrbwksE=";
-      })
-    ];
-  });
-  nixFlakes = nixUnstable;
 
 in
 {
-  inherit nixUnstable nixFlakes;
-
   # Hydra fixes from iohk and other various sources.
   hydra-unstable = super.hydra-unstable.overrideAttrs (
     drv: {
