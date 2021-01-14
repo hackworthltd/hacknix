@@ -84,15 +84,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hydra": {
-        "branch": "be709d450b98a384374228db51c14dc958a3a72a",
+        "branch": "master",
         "description": "Hydra, the Nix-based continuous build system",
         "homepage": "http://nixos.org/hydra",
         "owner": "NixOS",
         "repo": "hydra",
-        "rev": "be709d450b98a384374228db51c14dc958a3a72a",
-        "sha256": "0js2w79mi3v70dn0jpcxf1ba9ilwpdaa5s4zg19pcr213wrvplpm",
+        "rev": "be0aa7eb8589dc0b6ca92caa06a243c8163a04bd",
+        "sha256": "0rxwbp1g834a76ifl8hkmcgh7la0w73wd3473jncn963jk4yd5vq",
         "type": "tarball",
-        "url": "https://github.com/NixOS/hydra/archive/be709d450b98a384374228db51c14dc958a3a72a.tar.gz",
+        "url": "https://github.com/NixOS/hydra/archive/be0aa7eb8589dc0b6ca92caa06a243c8163a04bd.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nix-darwin": {
@@ -125,10 +125,10 @@
         "homepage": "",
         "owner": "hackworthltd",
         "repo": "nixpkgs",
-        "rev": "191e3dd47d208e7ca313f3596cc514c5372be998",
-        "sha256": "0dv0pm3gvvsmw3x16gr0i6fg6hza23gxqm0y3drcfwvfjk2gfs7d",
+        "rev": "c8b32877874962d2d9b2e0278ca0643ae3d55f22",
+        "sha256": "01ww1wmf4bphdawqchaykrr165zzj35sjk5rri2w2ijg18s228r1",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/nixpkgs/archive/191e3dd47d208e7ca313f3596cc514c5372be998.tar.gz",
+        "url": "https://github.com/hackworthltd/nixpkgs/archive/c8b32877874962d2d9b2e0278ca0643ae3d55f22.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
