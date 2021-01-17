@@ -6,12 +6,12 @@
 with testingPython;
 let
   expectedMachinesFile = pkgs.writeText "machines" ''
-    ssh://bob@bar.example.com x86_64-linux,i686-linux /etc/nix/bob_at_bar 16 2 benchmark,big-parallel,kvm,nixos-test benchmark
-    ssh://alice@foo.example.com x86_64-darwin /etc/nix/alice_at_foo 4 1 big-parallel
-    ssh://syd@qux.example.com x86_64-linux,i686-linux /etc/nix/remote-builder 8 1 big-parallel,kvm,nixos-test
+    ssh://bob@bar.example.com x86_64-linux,i686-linux /etc/nix/remote-build-keys/bob_at_bar 16 2 benchmark,big-parallel,kvm,nixos-test benchmark
+    ssh://alice@foo.example.com x86_64-darwin /etc/nix/remote-build-keys/alice_at_foo 4 1 big-parallel
+    ssh://syd@qux.example.com x86_64-linux,i686-linux /etc/nix/remote-build-keys/remote-builder 8 1 big-parallel,kvm,nixos-test
   '';
   expectedExtraMachinesFile = pkgs.writeText "extra-machines" ''
-    ssh://alice@baz.example.com aarch64-linux /etc/nix/alice_at_baz 6 2 big-parallel,nixos-test
+    ssh://alice@baz.example.com aarch64-linux /etc/nix/remote-build-keys/alice_at_baz 6 2 big-parallel,nixos-test
   '';
   alicePrivateKey = ''
     -----BEGIN OPENSSH PRIVATE KEY-----
@@ -95,6 +95,7 @@ let
     };
   };
   noExtraBuildHosts = makeTest {
+    skipLint = true;
 
     name = "build-host";
     meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -121,15 +122,21 @@ let
 
         with subtest("Check SSH keys"):
             machine.succeed(
-                "diff ${alicePrivateKeyFile} /etc/nix/alice_at_foo"
+                "diff ${alicePrivateKeyFile} /etc/nix/remote-build-keys/alice_at_foo"
             )
-            machine.succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]")
-            machine.succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/alice_at_foo` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/alice_at_foo` -eq 400 ]]")
             machine.succeed(
-                "diff ${bobPrivateKeyFile} /etc/nix/bob_at_bar"
+                "diff ${bobPrivateKeyFile} /etc/nix/remote-build-keys/bob_at_bar"
             )
-            machine.succeed("[[ `stat -c%a /etc/nix/bob_at_bar` -eq 400 ]]")
-            machine.succeed("[[ `stat -c%U /etc/nix/bob_at_bar` -eq root ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/bob_at_bar` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-build-keys/bob_at_bar` -eq root ]]")
+
+            machine.wait_for_file("/etc/nix/remote-build-keys/remote-builder")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/remote-builder` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-build-keys/remote-builder` -eq root ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/remote-builder.pub` -eq 444 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-build-keys/remote-builder.pub` -eq root ]]")
 
         with subtest("Check /etc/nix/machines"):
             machine.succeed(
@@ -145,6 +152,7 @@ let
       '';
   };
   extraBuildHosts = makeTest {
+    skipLint = true;
 
     name = "build-host-extra-build-hosts";
     meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
@@ -172,26 +180,26 @@ let
 
         with subtest("Check SSH keys"):
             machine.succeed(
-                "diff ${alicePrivateKeyFile} /etc/nix/alice_at_foo"
+                "diff ${alicePrivateKeyFile} /etc/nix/remote-build-keys/alice_at_foo"
             )
-            machine.succeed("[[ `stat -c%a /etc/nix/alice_at_foo` -eq 400 ]]")
-            machine.succeed("[[ `stat -c%U /etc/nix/alice_at_foo` -eq root ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/alice_at_foo` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-build-keys/alice_at_foo` -eq root ]]")
             machine.succeed(
-                "diff ${bobPrivateKeyFile} /etc/nix/bob_at_bar"
+                "diff ${bobPrivateKeyFile} /etc/nix/remote-build-keys/bob_at_bar"
             )
-            machine.succeed("[[ `stat -c%a /etc/nix/bob_at_bar` -eq 400 ]]")
-            machine.succeed("[[ `stat -c%U /etc/nix/bob_at_bar` -eq root ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/bob_at_bar` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-build-keys/bob_at_bar` -eq root ]]")
             machine.succeed(
-                "diff ${alicePrivateKeyFile} /etc/nix/alice_at_baz"
+                "diff ${alicePrivateKeyFile} /etc/nix/remote-build-keys/alice_at_baz"
             )
-            machine.succeed("[[ `stat -c%a /etc/nix/alice_at_baz` -eq 400 ]]")
-            machine.succeed("[[ `stat -c%U /etc/nix/alice_at_baz` -eq root ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/alice_at_baz` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-build-keys/alice_at_baz` -eq root ]]")
 
-            machine.wait_for_file("/etc/nix/remote-builder")
-            machine.succeed("[[ `stat -c%a /etc/nix/remote-builder` -eq 600 ]]")
-            machine.succeed("[[ `stat -c%U /etc/nix/remote-builder` -eq root ]]")
-            machine.succeed("[[ `stat -c%a /etc/nix/remote-builder.pub` -eq 644 ]]")
-            machine.succeed("[[ `stat -c%U /etc/nix/remote-builder.pub` -eq root ]]")
+            machine.wait_for_file("/etc/nix/remote-build-keys/remote-builder")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/remote-builder` -eq 400 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-build-keys/remote-builder` -eq root ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-build-keys/remote-builder.pub` -eq 444 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-build-keys/remote-builder.pub` -eq root ]]")
 
         with subtest("Check /etc/nix/machines"):
             machine.succeed(

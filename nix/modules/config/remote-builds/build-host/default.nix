@@ -102,7 +102,7 @@ in
 
     sshKeyDir = lib.mkOption {
       type = pkgs.lib.types.nonEmptyStr;
-      default = "/etc/nix";
+      default = "/etc/nix/remote-build-keys";
       example = "/var/lib/remote-build-keys";
       description = ''
         A directory where the SSH private keys for the remote build
@@ -222,6 +222,10 @@ in
         extraBuildMachines;
     };
 
+    systemd.tmpfiles.rules = [
+      "d ${cfg.sshKeyDir}            0755 root root -  -"
+    ];
+
     systemd.services.create-remote-builder-key = {
       description = "Create a default remote builder SSH keypair";
       wantedBy = [ "multi-user.target" ];
@@ -230,6 +234,10 @@ in
           echo "Creating default remote builder private key..."
           ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -f ${defaultPrivateKey} -q -N ""
         fi
+        chown ${cfg.sshKeyFileOwner}:root ${defaultPrivateKey}
+        chown ${cfg.sshKeyFileOwner}:root ${defaultPrivateKey}.pub
+        chmod 0400 ${defaultPrivateKey}
+        chmod 0444 ${defaultPrivateKey}.pub
       '';
       serviceConfig = {
         Type = "oneshot";
