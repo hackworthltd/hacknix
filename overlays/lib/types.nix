@@ -571,9 +571,10 @@ let
   #
   # This type is mostly compatible with what's expected by the
   # attrsets in the list `nix.buildMachines`. The major difference is
-  # that, here, the SSH private key is specified as a literal rather
-  # than as a filename, to prevent you from mistakenly putting the
-  # file containing the SSH private key into the Nix store.
+  # that, here, the (optional) SSH private key is specified as a
+  # literal rather than as a filename, to prevent you from mistakenly
+  # putting the file containing the SSH private key into the Nix
+  # store.
   #
   # In addition to those attributes, it also provides a list of
   # alternate hostnames and an SSH host key, which are useful for
@@ -702,11 +703,12 @@ let
         '';
       };
 
-      sshKeyLiteral = mkOption {
-        type = super.lib.types.nonEmptyStr;
+      sshKeyLiteral = super.lib.mkOption {
+        type = super.lib.types.nullOr super.lib.types.nonEmptyStr;
+        default = null;
         description = ''
-          The SSH private key for <varname>sshUser</varname>, as a
-          literal string.
+          An optional SSH private key for <varname>sshUser</varname>,
+          as a literal string.
         '';
       };
     };

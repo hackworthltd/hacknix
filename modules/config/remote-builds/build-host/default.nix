@@ -2,6 +2,9 @@
 let
   cfg = config.hacknix.build-host;
   enabled = cfg.enable;
+
+  defaultPrivateKey = "${cfg.sshKeyDir}/remote-builder";
+
   extraMachinesPath = "nix/extra-machines";
   sshKeyName = host: user: "${user}_at_${host}";
   mkBuildMachines = remoteBuildHosts:
@@ -14,12 +17,17 @@ let
               ;
             sshUser = "ssh://${sshUserName}";
             sshKey =
-              let
-                keyname = sshKeyName host sshUserName;
-              in
-              config.hacknix.keychain.keys.${keyname}.path;
+              if (sshKeyLiteral != null) then
+                (
+                  let
+                    keyname = sshKeyName host sshUserName;
+                  in
+                  config.hacknix.keychain.keys.${keyname}.path
+                )
+              else defaultPrivateKey;
           }
-      ) remoteBuildHosts;
+      )
+      remoteBuildHosts;
   buildMachines = mkBuildMachines cfg.buildMachines;
   extraBuildMachines = mkBuildMachines cfg.extraBuildMachines;
   mkHostPortPairs = remoteBuildHosts:
@@ -35,7 +43,8 @@ let
         Host ${pair.hostName}
         Port ${toString pair.port}
       ''
-      ) (mkHostPortPairs remoteBuildHosts);
+      )
+      (mkHostPortPairs remoteBuildHosts);
   knownHosts = remoteBuildHosts:
     lib.mapAttrs'
       (
@@ -45,7 +54,8 @@ let
               ++ descriptor.alternateHostNames;
             publicKey = descriptor.hostPublicKeyLiteral;
           }
-      ) remoteBuildHosts;
+      )
+      remoteBuildHosts;
   genKeys = remoteBuildHosts:
     lib.mapAttrs'
       (
@@ -60,7 +70,8 @@ let
             group = "root";
             permissions = "0400";
           }
-      ) remoteBuildHosts;
+      )
+      (lib.filterAttrs (_: v: v.sshKeyLiteral != null) remoteBuildHosts);
 in
 {
 
@@ -78,6 +89,15 @@ in
       host once before enabling remote builds, in order to get SSH to
       accept the remote build host's host key; but if you configure
       this module properly, that will not be necessary.)
+
+      This service will create a default SSH keypair. The default
+      keypair's private key will be used to connect to any remote
+      builder for which an SSH private key literal is not provided by
+      a particular build machine config (i.e., when that machine
+      config's <literal>sshKeyLiteral</literal> option is
+      <literal>null</literal>). The public half of the key pair can be
+      found in the <literal>sshKeyDir</literal>, so that you can find
+      it and install it on the remote builder(s).
     '';
 
     sshKeyDir = lib.mkOption {
@@ -86,10 +106,7 @@ in
       example = "/var/lib/remote-build-keys";
       description = ''
         A directory where the SSH private keys for the remote build
-        host users are stored.
-
-        These keys will be deployed securely to this directory on the
-        build host; i.e., they will not be copied to the Nix store.
+        host users are stored on the target machine.
       '';
     };
 
@@ -201,9 +218,23 @@ in
             (machine.mandatoryFeatures or [ ] ++ machine.supportedFeatures or [ ])
           + " " + lib.concatStringsSep "," machine.mandatoryFeatures or [ ]
           + "\n"
-        ) extraBuildMachines;
+        )
+        extraBuildMachines;
     };
 
+    systemd.services.create-remote-builder-key = {
+      description = "Create a default remote builder SSH keypair";
+      wantedBy = [ "multi-user.target" ];
+      script = ''
+        if [ ! -e ${defaultPrivateKey} ]; then
+          echo "Creating default remote builder private key..."
+          ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -f ${defaultPrivateKey} -q -N ""
+        fi
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+    };
   };
-
 }
