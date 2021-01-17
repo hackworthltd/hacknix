@@ -8,6 +8,7 @@ let
   expectedMachinesFile = pkgs.writeText "machines" ''
     ssh://bob@bar.example.com x86_64-linux,i686-linux /etc/nix/bob_at_bar 16 2 benchmark,big-parallel,kvm,nixos-test benchmark
     ssh://alice@foo.example.com x86_64-darwin /etc/nix/alice_at_foo 4 1 big-parallel
+    ssh://syd@qux.example.com x86_64-linux,i686-linux /etc/nix/remote-builder 8 1 big-parallel,kvm,nixos-test
   '';
   expectedExtraMachinesFile = pkgs.writeText "extra-machines" ''
     ssh://alice@baz.example.com aarch64-linux /etc/nix/alice_at_baz 6 2 big-parallel,nixos-test
@@ -42,6 +43,8 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAEBze0BfSijN9vRgvLOyJacAo7rCgr9u96hGWNkyPL";
   bazPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
+  quxPublicKey =
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUD3f/kxQgu+DJHjy/3jWqqTZk6rnWrwBabt+WTBWfT";
   remoteBuildHosts = {
     foo = {
       hostName = "foo.example.com";
@@ -66,6 +69,16 @@ let
       supportedFeatures = [ "big-parallel" "kvm" "nixos-test" ];
       sshUserName = "bob";
       sshKeyLiteral = bobPrivateKey;
+    };
+    qux = {
+      hostName = "qux.example.com";
+      alternateHostNames = [ "10.0.0.4" "2001:db8::4" ];
+      hostPublicKeyLiteral = quxPublicKey;
+      systems = [ "x86_64-linux" "i686-linux" ];
+      maxJobs = 8;
+      speedFactor = 1;
+      supportedFeatures = [ "big-parallel" "kvm" "nixos-test" ];
+      sshUserName = "syd";
     };
   };
   extraRemoteBuildHosts = {
@@ -174,6 +187,12 @@ let
             machine.succeed("[[ `stat -c%a /etc/nix/alice_at_baz` -eq 400 ]]")
             machine.succeed("[[ `stat -c%U /etc/nix/alice_at_baz` -eq root ]]")
 
+            machine.wait_for_file("/etc/nix/remote-builder")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-builder` -eq 600 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-builder` -eq root ]]")
+            machine.succeed("[[ `stat -c%a /etc/nix/remote-builder.pub` -eq 644 ]]")
+            machine.succeed("[[ `stat -c%U /etc/nix/remote-builder.pub` -eq root ]]")
+
         with subtest("Check /etc/nix/machines"):
             machine.succeed(
                 "diff -w ${expectedMachinesFile} /etc/nix/machines"
@@ -188,10 +207,12 @@ let
             foo_key = "foo.example.com,10.0.0.1,2001:db8::1 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsvvICWc8HDQkkIwIaHQ2xuHieJyLULqe1Z/xeJQRzi"
             bar_key = "bar.example.com,10.0.0.2,2001:db8::2 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAEBze0BfSijN9vRgvLOyJacAo7rCgr9u96hGWNkyPL"
             baz_key = "baz.example.com,10.0.0.3,2001:db8::3 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds"
+            qux_key = "qux.example.com,10.0.0.4,2001:db8::4 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUD3f/kxQgu+DJHjy/3jWqqTZk6rnWrwBabt+WTBWfT"
             ssh_known_hosts = machine.succeed("cat /etc/ssh/ssh_known_hosts")
             assert foo_key in ssh_known_hosts
             assert bar_key in ssh_known_hosts
             assert baz_key in ssh_known_hosts
+            assert qux_key in ssh_known_hosts
 
         with subtest("Check /etc/ssh/ssh_config"):
             host = "Host bar.example.com"
