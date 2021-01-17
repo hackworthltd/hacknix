@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }:
 let
   cfg = config.hacknix-nix-darwin.build-host;
+
+  defaultPrivateKey = "${cfg.sshKeyDir}/remote-builder";
+
   sshKeyName = host: user: "${user}_at_${host}";
   mkBuildMachines = remoteBuildHosts:
     lib.mapAttrsToList
@@ -12,10 +15,14 @@ let
               ;
             sshUser = "ssh://${sshUserName}";
             sshKey =
-              let
-                keyname = sshKeyName host sshUserName;
-              in
-              "${cfg.sshKeyDir}/${keyname}";
+              if (sshKeyLiteral != null) then
+                (
+                  let
+                    keyname = sshKeyName host sshUserName;
+                  in
+                  "${cfg.sshKeyDir}/${keyname}"
+                )
+              else defaultPrivateKey;
           }
       )
       remoteBuildHosts;
@@ -61,6 +68,15 @@ in
       host once before enabling remote builds, in order to get SSH to
       accept the remote build host's host key; but if you configure
       this module properly, that will not be necessary.)
+
+      This service will create a default SSH keypair. The default
+      keypair's private key will be used to connect to any remote
+      builder for which an SSH private key literal is not provided by
+      a particular build machine config (i.e., when that machine
+      config's <literal>sshKeyLiteral</literal> option is
+      <literal>null</literal>). The public half of the key pair can be
+      found in the <literal>sshKeyDir</literal>, so that you can find
+      it and install it on the remote builder(s).
     '';
 
     sshKeyDir = lib.mkOption {
@@ -115,6 +131,11 @@ in
       cp -f ${sshConfig} ~root/.ssh/config
       chown -R root:wheel ~root/.ssh/config
       chmod 0400 ~root/.ssh/config
+
+      if [ ! -e ${defaultPrivateKey} ]; then
+        echo "Creating default remote builder private key..."
+        ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -f ${defaultPrivateKey} -q -N ""
+      fi
     '';
   };
 }
