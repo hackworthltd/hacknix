@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 let
   localLib = import ../../nix { };
+  sshPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkRyutu3OMvSDFQOsOtls4A5krFlYEPbiPG/qUyxGdb example remote-builder key";
+
 in
 {
   # For now, setting this is required.
@@ -10,6 +12,6 @@ in
   nix.maxJobs = 12;
   hacknix-nix-darwin.remote-build-host = {
     enable = true;
-    user.sshPublicKeyFiles = lib.singleton ./remote-builder.pub;
+    user.sshPublicKeys = lib.singleton sshPublicKey;
   };
 }
