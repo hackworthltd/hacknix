@@ -82,7 +82,7 @@ in
     sshKeyDir = lib.mkOption {
       type = pkgs.lib.types.nonEmptyStr;
       default = "/var/lib/remote-build-keys";
-      example = "/etc/nix";
+      example = "/etc/nix/remote-build-keys";
       description = ''
         A directory where the files containing the SSH private keys
         for the remote build host users are stored.
@@ -132,10 +132,22 @@ in
       chown -R root:wheel ~root/.ssh/config
       chmod 0400 ~root/.ssh/config
 
+      printf "Creating remote builder ssh key directory and setting permissions... "
+      install -m 0755 -o root -g wheel -d ${cfg.sshKeyDir}
+      echo "ok"
+
       if [ ! -e ${defaultPrivateKey} ]; then
-        echo "Creating default remote builder private key..."
+        printf "Creating default remote builder private key... "
         ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -f ${defaultPrivateKey} -q -N ""
+        echo "ok"
       fi
+
+      printf "Setting permissions on default remote builder keypair... "
+      chown root:wheel ${defaultPrivateKey}
+      chown root:wheel ${defaultPrivateKey}.pub
+      chmod 0400 ${defaultPrivateKey}
+      chmod 0444 ${defaultPrivateKey}.pub
+      echo "ok"
     '';
   };
 }
