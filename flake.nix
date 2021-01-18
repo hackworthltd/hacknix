@@ -2,7 +2,7 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    nixpkgs.url = github:hackworthltd/nixpkgs/big-sur-fixes-v4;
+    nixpkgs.url = github:NixOS/nixpkgs;
 
     nix-darwin.url = github:LnL7/nix-darwin;
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -160,10 +160,6 @@
               # inherit (pkgs) gitignoreSource gitignoreFilter;
               # inherit (pkgs) hashedCertDir;
               # inherit (pkgs) lib;
-
-              # Build these overrides (for Big Sur support) until
-              # they're upstreamed.
-              inherit (pkgs) python38 python39;
             }) //
           # For some reason, the filterPackagesByPlatform doesn't
           # filter these Linux kernels from the macOS package set, so
