@@ -120,15 +120,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
-        "branch": "big-sur-fixes-v4",
+        "branch": "nixpkgs-unstable",
         "description": "Nix Packages collection",
         "homepage": "",
-        "owner": "hackworthltd",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c8b32877874962d2d9b2e0278ca0643ae3d55f22",
-        "sha256": "01ww1wmf4bphdawqchaykrr165zzj35sjk5rri2w2ijg18s228r1",
+        "rev": "c60bb493e67e2be7e2ee735207ecaf8f5bb37510",
+        "sha256": "04cb7i640c9zavx0zc60hgwdhp8fdir6yf4bbp4hl9wsi72fcxw1",
         "type": "tarball",
-        "url": "https://github.com/hackworthltd/nixpkgs/archive/c8b32877874962d2d9b2e0278ca0643ae3d55f22.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/c60bb493e67e2be7e2ee735207ecaf8f5bb37510.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
