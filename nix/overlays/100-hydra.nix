@@ -16,6 +16,10 @@ let
         # Enable verbose mode in hydra-eval-jobs so that we can see
         # some semblance of progress in the logs.
         ../patches/hydra/verbose-hydra-eval-jobs.patch
+
+        # We have some git repos with private submodules. Allow Hydra
+        # to continue evaluating when it can't check these out.
+        ../patches/hydra/ignore-submodule-failures.patch
       ];
     }
   );
