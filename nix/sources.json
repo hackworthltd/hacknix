@@ -5,10 +5,10 @@
         "homepage": null,
         "owner": "benkehoe",
         "repo": "aws-export-credentials",
-        "rev": "2843f7ea473dfe906043a076e06137f362c2bf91",
-        "sha256": "0bnvwxig5b6xx47rsz1ddzpwjdk5fs4ffr0jxz0fv3g3cdqnim92",
+        "rev": "967c0e5bc4db27f08446e15a14fadd8feb5ad0e9",
+        "sha256": "1p3v5bd6b2hqvy7wssxag8l540r57yq788iyda3a6h2w9bc8prcj",
         "type": "tarball",
-        "url": "https://github.com/benkehoe/aws-export-credentials/archive/2843f7ea473dfe906043a076e06137f362c2bf91.tar.gz",
+        "url": "https://github.com/benkehoe/aws-export-credentials/archive/967c0e5bc4db27f08446e15a14fadd8feb5ad0e9.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "aws-sso-credential-process": {
@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "5c614ca1d8fd94541dff3d040122717bb70b7668",
-        "sha256": "1infvd68pxn9v719vz2cqdzvrlh7md109nky1yi732mw5mbcm3h1",
+        "rev": "69909796ec1d1d5e58643dfe1f045a5e8bc367ff",
+        "sha256": "0khkln7zmig1shy2jriq8njhkx1vagv3ffnjqwmr88na4shx5j6n",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/5c614ca1d8fd94541dff3d040122717bb70b7668.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/69909796ec1d1d5e58643dfe1f045a5e8bc367ff.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -53,10 +53,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "1af7f57553bdc057f6b4ccf723475b0b38421700",
-        "sha256": "08ydp29hy2n7nivdji2fpmwds5h27bjdb7zzmdnw2jm4mwb9n6jg",
+        "rev": "9e77787f9160d37ba4b07717442dc3ce12e8f7e8",
+        "sha256": "182mcjmhpcchdg180ganhq0c0nyq2rbb6a0y031046vixcdhdcm3",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/1af7f57553bdc057f6b4ccf723475b0b38421700.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/9e77787f9160d37ba4b07717442dc3ce12e8f7e8.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -72,7 +72,7 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hacknix-lib": {
-        "branch": "main",
+        "branch": "514a30e6a38f9653fa18ce30981e19cadcea19c0",
         "description": "A library of useful Nix functions and types.",
         "homepage": "",
         "owner": "hackworthltd",
@@ -89,10 +89,10 @@
         "homepage": "http://nixos.org/hydra",
         "owner": "NixOS",
         "repo": "hydra",
-        "rev": "be0aa7eb8589dc0b6ca92caa06a243c8163a04bd",
-        "sha256": "0rxwbp1g834a76ifl8hkmcgh7la0w73wd3473jncn963jk4yd5vq",
+        "rev": "53c2fc2216c7ee888af8fbe18628197df506941a",
+        "sha256": "0dnnzvnq3fk6pyawgmkg1rjc2v5ap5mxbgdkfaw8lpkgcm6s538n",
         "type": "tarball",
-        "url": "https://github.com/NixOS/hydra/archive/be0aa7eb8589dc0b6ca92caa06a243c8163a04bd.tar.gz",
+        "url": "https://github.com/NixOS/hydra/archive/53c2fc2216c7ee888af8fbe18628197df506941a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nix-darwin": {
@@ -101,10 +101,10 @@
         "homepage": "",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "6bd5208e7ffd141f2b2c4bd639e11ca5b96aec8c",
-        "sha256": "1iiki0gyvdf8rk8vd41s51cq88sqwcbr3gd69gd5nqpyrnz3h450",
+        "rev": "8834df431736c3037bbef017b24c62bc4ace4645",
+        "sha256": "0mxpj7a00qawq02wr8gz0ij2ix3m5r3z33wbi46s9ackknalvnih",
         "type": "tarball",
-        "url": "https://github.com/LnL7/nix-darwin/archive/6bd5208e7ffd141f2b2c4bd639e11ca5b96aec8c.tar.gz",
+        "url": "https://github.com/LnL7/nix-darwin/archive/8834df431736c3037bbef017b24c62bc4ace4645.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
@@ -125,10 +125,10 @@
         "homepage": "",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c60bb493e67e2be7e2ee735207ecaf8f5bb37510",
-        "sha256": "04cb7i640c9zavx0zc60hgwdhp8fdir6yf4bbp4hl9wsi72fcxw1",
+        "rev": "f6a583eeece936a1d917de67194fec4b6c74cf1f",
+        "sha256": "1gx55zhch0gp1d055mcq843lfg5n9m4ry7is3fw0nd1ww14fj035",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/c60bb493e67e2be7e2ee735207ecaf8f5bb37510.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/f6a583eeece936a1d917de67194fec4b6c74cf1f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
