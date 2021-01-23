@@ -5,7 +5,6 @@ let
   nixUnstable = prev.nixUnstable.overrideAttrs (
     drv: {
       patches = [
-
         # Replicate the patch from upstream, since patches aren't
         # composable via overlays :(
         (final.fetchpatch {
@@ -14,7 +13,11 @@ let
           sha256 = "mTvLvuxb2QVybRDgntKMq+b6da/s3YgM/ll2rWBeY/Y=";
         })
 
-        ../patches/nix/etag.patch
+        # Fix GitHub etag problem.
+        (final.fetchpatch {
+          url = "https://github.com/NixOS/nix/pull/4470.diff";
+          sha256 = "sha256-d4RNOKMxa4NMbFgYcqWRv2ByHt8F/XUWV+6P9qHz7S4=";
+        })
       ];
     }
   );
