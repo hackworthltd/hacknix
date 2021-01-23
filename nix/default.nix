@@ -30,6 +30,7 @@ let
 
   fixedHydra =
     lib.fetchers.fixedNixSrc "hydra" sources."hydra";
+  hydra = import fixedHydra;
 
   fixedEmacsOverlay =
     lib.fetchers.fixedNixSrc "emacs-overlay" sources."emacs-overlay";
@@ -38,6 +39,7 @@ let
   overlays = [
     hacknix-lib.overlays.all
     emacs-overlay
+    hydra.overlay
   ] ++
   (
     map import [
