@@ -46,6 +46,7 @@
     , nixpkgs
     , nix-darwin
     , hacknix-lib
+    , hydra
     , emacs-overlay
     , ...
     }@inputs:
@@ -80,6 +81,7 @@
         hacknix-lib.lib.overlays.combine [
           hacknix-lib.overlay
           emacs-overlay.overlay
+          hydra.overlay
           overlaysFromDir
           (final: prev: {
             lib = (prev.lib or { }) // {
