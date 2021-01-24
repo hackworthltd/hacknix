@@ -32,6 +32,7 @@
     gitignore-nix.flake = false;
 
     hydra.url = github:NixOS/hydra;
+    hydra.inputs.nixpkgs.follows = "nixpkgs";
 
     traefik-forward-auth.url = github:thomseddon/traefik-forward-auth;
     traefik-forward-auth.flake = false;
