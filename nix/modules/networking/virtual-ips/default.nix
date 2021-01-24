@@ -47,20 +47,23 @@ in
   config = lib.mkIf enabled {
     boot.kernelModules = [ "dummy" ];
     networking.interfaces."${cfg.interface}" = {
+      useDHCP = false;
       ipv4.addresses = map
         (
           address: {
             inherit address;
             prefixLength = 32;
           }
-        ) cfg.v4;
+        )
+        cfg.v4;
       ipv6.addresses = map
         (
           address: {
             inherit address;
             prefixLength = 128;
           }
-        ) cfg.v6;
+        )
+        cfg.v6;
     };
   };
 }
