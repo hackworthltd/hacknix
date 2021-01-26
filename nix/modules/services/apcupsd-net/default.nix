@@ -227,7 +227,7 @@ in
 
     # Keep track of changes in the upstream module.
     hacknix.assertions.moduleHashes."services/monitoring/apcupsd.nix" =
-      "049210f3395709b20e41ce492fff6ceecc4145922a3d96f0010f42a1d5a71d33";
+      "37c01de7945da4e0706f21e41c0a451db2a421defdda17e6ffd312c6d8122f2d";
 
     hacknix.keychain.keys."${keyName}" = {
       destDir = stateDir;
