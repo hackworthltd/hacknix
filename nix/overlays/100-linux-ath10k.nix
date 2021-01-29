@@ -58,9 +58,7 @@ let
     kernelPatches = [
       final.kernelPatches.bridge_stp_helper
       final.kernelPatches.request_key_helper
-      # Not yet in our nixpkgs.
-      #final.kernelPatches.rtl8761b_support
-      final.kernelPatches.export_kernel_fpu_functions."5.3"
+      final.kernelPatches.rtl8761b_support
     ];
   };
 
