@@ -616,9 +616,9 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "6de14aa58505056ead1c9428970f5d0843646b1d8bf964e063009b686d7ee7bb";
+      "4d9dcf7abc0833c2cca337c27cea399a98abddab27b11c78f40a99642d955b88";
     hacknix.assertions.moduleHashes."security/acme.nix" =
-      "33e959289f5b8fa6f56eaf169f80d7b5593e4a3038f11bf3362ef284148340b0";
+      "e07795c5d4e2df9c4d99a3725adcd5a454880391c8f295d798217837c5438dfa";
 
     hacknix.keychain.keys."sasl-tls-key" = {
       destDir = "/var/lib/postfix/keys";

@@ -104,7 +104,7 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "6de14aa58505056ead1c9428970f5d0843646b1d8bf964e063009b686d7ee7bb";
+      "4d9dcf7abc0833c2cca337c27cea399a98abddab27b11c78f40a99642d955b88";
 
     hacknix.keychain.keys.postfix-null-client-cert = {
       inherit user group;
