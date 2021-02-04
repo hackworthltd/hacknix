@@ -143,9 +143,6 @@
               inherit (pkgs) wpa_supplicant;
               inherit (pkgs) yubikey-manager;
 
-              # CVE-2021-3156
-              inherit (pkgs) sudo;
-
               # Various buildEnv's that we use, usually only on macOS (though many
               # of them should work on any pltform).
               inherit (pkgs) anki-env;
