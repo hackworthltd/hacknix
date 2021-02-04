@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "69909796ec1d1d5e58643dfe1f045a5e8bc367ff",
-        "sha256": "0khkln7zmig1shy2jriq8njhkx1vagv3ffnjqwmr88na4shx5j6n",
+        "rev": "963c0def7e73ea8e4facf25c50468ecc0582a80d",
+        "sha256": "0kzb7fvmp8br69xnn13z0fhfigcc1i97xwz739bjjppp66xwma2x",
         "type": "tarball",
-        "url": "https://github.com/StevenBlack/hosts/archive/69909796ec1d1d5e58643dfe1f045a5e8bc367ff.tar.gz",
+        "url": "https://github.com/StevenBlack/hosts/archive/963c0def7e73ea8e4facf25c50468ecc0582a80d.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "chamber": {
@@ -53,10 +53,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "9e77787f9160d37ba4b07717442dc3ce12e8f7e8",
-        "sha256": "182mcjmhpcchdg180ganhq0c0nyq2rbb6a0y031046vixcdhdcm3",
+        "rev": "d963d900925cbda9c679e8d3c0c2d225d2b0ae82",
+        "sha256": "1wx7m5kvj3xlp0adw25nssi0mbny44qannwswycndwgil9kpcr53",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/9e77787f9160d37ba4b07717442dc3ce12e8f7e8.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/d963d900925cbda9c679e8d3c0c2d225d2b0ae82.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "gitignore.nix": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "hercules-ci",
         "repo": "gitignore.nix",
-        "rev": "c4662e662462e7bf3c2a968483478a665d00e717",
-        "sha256": "1npnx0h6bd0d7ql93ka7azhj40zgjp815fw2r6smg8ch9p7mzdlx",
+        "rev": "211907489e9f198594c0eb0ca9256a1949c9d412",
+        "sha256": "06j7wpvj54khw0z10fjyi31kpafkr6hi1k0di13k1xp8kywvfyx8",
         "type": "tarball",
-        "url": "https://github.com/hercules-ci/gitignore.nix/archive/c4662e662462e7bf3c2a968483478a665d00e717.tar.gz",
+        "url": "https://github.com/hercules-ci/gitignore.nix/archive/211907489e9f198594c0eb0ca9256a1949c9d412.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "hacknix-lib": {
@@ -89,10 +89,10 @@
         "homepage": "http://nixos.org/hydra",
         "owner": "NixOS",
         "repo": "hydra",
-        "rev": "53c2fc2216c7ee888af8fbe18628197df506941a",
-        "sha256": "0dnnzvnq3fk6pyawgmkg1rjc2v5ap5mxbgdkfaw8lpkgcm6s538n",
+        "rev": "d8a5892795e7d88616dd29128812844e516e61ec",
+        "sha256": "1gacvxlrzn6nkdm6l9k5hm6w7ic1zs0fv9abdvbi9zgl5p4gvr6q",
         "type": "tarball",
-        "url": "https://github.com/NixOS/hydra/archive/53c2fc2216c7ee888af8fbe18628197df506941a.tar.gz",
+        "url": "https://github.com/NixOS/hydra/archive/d8a5892795e7d88616dd29128812844e516e61ec.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nix-darwin": {
@@ -101,10 +101,10 @@
         "homepage": "",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "8834df431736c3037bbef017b24c62bc4ace4645",
-        "sha256": "0mxpj7a00qawq02wr8gz0ij2ix3m5r3z33wbi46s9ackknalvnih",
+        "rev": "dca3806552420c811e539ede2af3aa7aec665ba1",
+        "sha256": "1pcq911d8fbkrj63bl3iqil2g8778awcaqzjkmfpllq59bjk5x40",
         "type": "tarball",
-        "url": "https://github.com/LnL7/nix-darwin/archive/8834df431736c3037bbef017b24c62bc4ace4645.tar.gz",
+        "url": "https://github.com/LnL7/nix-darwin/archive/dca3806552420c811e539ede2af3aa7aec665ba1.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixops": {
@@ -125,10 +125,10 @@
         "homepage": "",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f6a583eeece936a1d917de67194fec4b6c74cf1f",
-        "sha256": "1gx55zhch0gp1d055mcq843lfg5n9m4ry7is3fw0nd1ww14fj035",
+        "rev": "2c58a9dac0bd5f5620394c7c6f623355f9f476d2",
+        "sha256": "135ik7ac5bfdcpjzrvq3xmlcai0r3wz7y636ph2k9kc9nsgrbzba",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/f6a583eeece936a1d917de67194fec4b6c74cf1f.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/2c58a9dac0bd5f5620394c7c6f623355f9f476d2.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "spago2nix": {
