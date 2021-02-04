@@ -113,19 +113,6 @@ let
   # Broken upstream.
   aws-sam-cli = callPackage ../pkgs/aws-sam-cli { };
 
-  # Address CVE-2021-3156 until it's fixed in upstream nixpkgs-unstable.
-  sudo = super.sudo.overrideAttrs (drv: rec {
-    pname = drv.pname;
-    version = "1.9.5p2";
-    src = super.fetchurl
-      {
-        url = "https://www.sudo.ws/dist/${pname}-${version}.tar.gz";
-        sha256 = "0y093z4f3822rc88g9asdch12nljdamp817vjxk04mca7ks2x7jk";
-      };
-  }
-  );
-
-
 in
 {
   inherit awscli2;
@@ -137,6 +124,4 @@ in
   inherit spago2nix;
   inherit wpa_supplicant;
   inherit yubikey-manager;
-
-  inherit sudo;
 }
