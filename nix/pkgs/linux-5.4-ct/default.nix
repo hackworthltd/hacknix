@@ -1,4 +1,4 @@
-{ stdenv
+{ lib
 , buildPackages
 , perl
 , buildLinux
@@ -7,7 +7,7 @@
 , ...
 } @ args:
 
-with stdenv.lib;
+with lib;
 
 buildLinux (args // rec {
   version = "5.4.52-ct";

@@ -25,7 +25,7 @@ let
         description = "Steven Black's bad hosts (${subname})";
         maintainers = maintainers.dhess;
         license = licenses.mit;
-        platforms = stdenv.lib.platforms.all;
+        platforms = lib.platforms.all;
       };
     };
   alternate = subname:

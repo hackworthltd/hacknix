@@ -13,11 +13,11 @@ stdenv.mkDerivation rec {
 
   patches = [ ./Makefile.patch ];
 
-  nativeBuildInputs = stdenv.lib.optionals stdenv.isLinux [ pkgconfig ];
+  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkgconfig ];
 
-  buildInputs = [ libpcap ] ++ stdenv.lib.optionals stdenv.isLinux [ libnl ];
+  buildInputs = [ libpcap ] ++ lib.optionals stdenv.isLinux [ libnl ];
 
-  configurePhase = stdenv.lib.optionalString stdenv.isLinux ''
+  configurePhase = lib.optionalString stdenv.isLinux ''
     export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE $(pkg-config --cflags libnl-route-3.0)"
     export NIX_CFLAGS_LINK="$NIX_CFLAGS_LINK $(pkg-config --libs libnl-route-3.0)"
   '';
