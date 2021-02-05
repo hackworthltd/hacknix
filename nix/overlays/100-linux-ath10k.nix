@@ -1,6 +1,6 @@
 final: prev:
 let
-  structuredExtraConfig = with final.stdenv.lib.kernel; {
+  structuredExtraConfig = with final.lib.kernel; {
     EXPERT = yes;
     EVENT_TRACING = yes;
     DEBUG_FS = yes;
@@ -42,7 +42,7 @@ let
   # iwlwifi is broken on this kernel.
   ath10kPackagesFor_ct = kernel: final.linuxPackagesFor (
     kernel.override {
-      structuredExtraConfig = structuredExtraConfig // (with final.stdenv.lib.kernel; {
+      structuredExtraConfig = structuredExtraConfig // (with final.lib.kernel; {
         IWLWIFI = no;
       });
     }

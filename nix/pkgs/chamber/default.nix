@@ -16,7 +16,7 @@ buildGoModule rec {
 
   inherit src;
 
-  buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = "A CLI for managing secrets in AWS.";

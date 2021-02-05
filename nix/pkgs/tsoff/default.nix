@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
 
   installPhase =
     let
-      path = stdenv.lib.makeBinPath [ ethtool ];
+      path = lib.makeBinPath [ ethtool ];
     in
     ''
       mkdir -p $out/bin

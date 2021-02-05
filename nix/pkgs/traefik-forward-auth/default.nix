@@ -12,7 +12,7 @@ buildGoModule rec {
   vendorSha256 = "031g9ldpnmwxhxgnbnzn5slxsy75mprzdwsk1svnpd3lsz8h29mr";
   inherit src;
 
-  buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = lib.optionals stdenv.isDarwin [ Security ];
 
   postInstall = ''
     mv $out/bin/cmd $out/bin/traefik-forward-auth
