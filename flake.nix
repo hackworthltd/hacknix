@@ -39,6 +39,9 @@
 
     spago2nix.url = github:justinwoo/spago2nix;
     spago2nix.flake = false;
+
+    sops-nix.url = github:hackworthltd/sops-nix;
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -49,6 +52,7 @@
     , hacknix-lib
     , hydra
     , emacs-overlay
+    , sops-nix
     , ...
     }@inputs:
     let
@@ -83,6 +87,7 @@
           hacknix-lib.overlay
           emacs-overlay.overlay
           hydra.overlay
+          sops-nix.overlay
           overlaysFromDir
           (final: prev: {
             lib = (prev.lib or { }) // {
@@ -156,6 +161,9 @@
 
               # We don't override these, but just want to make sure they build.
               inherit (pkgs) neovim;
+
+              # From sops-nix.
+              inherit (pkgs) sops-init-gpg-key sops-install-secrets sops-pgp-hook ssh-to-pgp;
 
               # These aren't actually derivations, and therefore, we
               # can't export them from packages. They are in the overlay, however.

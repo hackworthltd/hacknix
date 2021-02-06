@@ -318,8 +318,29 @@
         "hydra": "hydra",
         "nix-darwin": "nix-darwin_2",
         "nixpkgs": "nixpkgs_3",
+        "sops-nix": "sops-nix",
         "spago2nix": "spago2nix",
         "traefik-forward-auth": "traefik-forward-auth"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1612630064,
+        "narHash": "sha256-yD0vXLZIYRwseiKt3Qgfw8WIJIYDe6vVKXmRy5iQzrs=",
+        "owner": "hackworthltd",
+        "repo": "sops-nix",
+        "rev": "ecb42cdcf9f29d8f769c224e71aeb79a679371ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hackworthltd",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "spago2nix": {
