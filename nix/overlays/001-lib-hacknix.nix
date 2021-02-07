@@ -29,6 +29,41 @@ let
     final.lib.flakes.darwinSystem' ([ final.lib.hacknix.flake.darwinModule ] ++ extraModules);
   darwinSystem = darwinSystem' [ ];
 
+  # Given a set of remote build hosts of the hacknix remoteBuildHost
+  # type, create SSH config for the remote build host hostname and
+  # port.
+  sshExtraConfig = remoteBuildHosts:
+    let
+      mkHostPortPairs = remoteBuildHosts:
+        final.lib.mapAttrsToList
+          (_: descriptor: with descriptor; { inherit hostName port; })
+          remoteBuildHosts;
+    in
+    final.lib.concatMapStrings
+      (
+        pair:
+        final.lib.optionalString (pair.port != null) ''
+
+        Host ${pair.hostName}
+        Port ${toString pair.port}
+      ''
+      )
+      (mkHostPortPairs remoteBuildHosts);
+
+  # Given a set of remote build hosts of the hacknix remoteBuildHost
+  # type, create an SSH known hosts config that can be used as a value
+  # for `programs.ssh.knownHosts`.
+  knownHosts = remoteBuildHosts:
+    final.lib.mapAttrs'
+      (
+        host: descriptor: final.lib.nameValuePair host {
+          hostNames = final.lib.singleton descriptor.hostName
+            ++ descriptor.alternateHostNames;
+          publicKey = descriptor.hostPublicKeyLiteral;
+        }
+      )
+      remoteBuildHosts;
+
 in
 {
   lib = (prev.lib or { }) // {
@@ -39,6 +74,11 @@ in
 
       inherit nixosSystem' nixosSystem amazonImage isoImage;
       inherit darwinSystem' darwinSystem;
+
+      remote-build-host = (prev.lib.hacknix.remote-build-host or { }) // {
+        inherit sshExtraConfig;
+        inherit knownHosts;
+      };
 
       nixops = (prev.lib.hacknix.nixops or { }) // {
         inherit deployments network;

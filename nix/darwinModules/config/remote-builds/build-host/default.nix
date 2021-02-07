@@ -26,32 +26,7 @@ let
           }
       )
       remoteBuildHosts;
-  knownHosts = remoteBuildHosts:
-    lib.mapAttrs'
-      (
-        host: descriptor: lib.nameValuePair host {
-          hostNames = lib.singleton descriptor.hostName
-            ++ descriptor.alternateHostNames;
-          publicKey = descriptor.hostPublicKeyLiteral;
-        }
-      )
-      remoteBuildHosts;
-  mkHostPortPairs = remoteBuildHosts:
-    lib.mapAttrsToList
-      (_: descriptor: with descriptor; { inherit hostName port; })
-      remoteBuildHosts;
-  sshExtraConfig = remoteBuildHosts:
-    lib.concatMapStrings
-      (
-        pair:
-        lib.optionalString (pair.port != null) ''
-
-        Host ${pair.hostName}
-        Port ${toString pair.port}
-      ''
-      )
-      (mkHostPortPairs remoteBuildHosts);
-  sshConfig = pkgs.writeText "ssh_config" (sshExtraConfig cfg.buildMachines);
+  sshConfig = pkgs.writeText "ssh_config" (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.buildMachines);
 in
 {
   options.hacknix-nix-darwin.build-host = {
@@ -123,7 +98,7 @@ in
 
     nix.distributedBuilds = true;
     nix.buildMachines = mkBuildMachines cfg.buildMachines;
-    programs.ssh.knownHosts = knownHosts cfg.buildMachines;
+    programs.ssh.knownHosts = pkgs.lib.hacknix.remote-build-host.knownHosts cfg.buildMachines;
 
     system.activationScripts.postActivation.text = ''
       mkdir -p ~root/.ssh
