@@ -30,32 +30,6 @@ let
       remoteBuildHosts;
   buildMachines = mkBuildMachines cfg.buildMachines;
   extraBuildMachines = mkBuildMachines cfg.extraBuildMachines;
-  mkHostPortPairs = remoteBuildHosts:
-    lib.mapAttrsToList
-      (_: descriptor: with descriptor; { inherit hostName port; })
-      remoteBuildHosts;
-  sshExtraConfig = remoteBuildHosts:
-    lib.concatMapStrings
-      (
-        pair:
-        lib.optionalString (pair.port != null) ''
-
-        Host ${pair.hostName}
-        Port ${toString pair.port}
-      ''
-      )
-      (mkHostPortPairs remoteBuildHosts);
-  knownHosts = remoteBuildHosts:
-    lib.mapAttrs'
-      (
-        host: descriptor:
-          lib.nameValuePair descriptor.hostName {
-            hostNames = lib.singleton descriptor.hostName
-              ++ descriptor.alternateHostNames;
-            publicKey = descriptor.hostPublicKeyLiteral;
-          }
-      )
-      remoteBuildHosts;
   genKeys = remoteBuildHosts:
     lib.mapAttrs'
       (
@@ -191,10 +165,10 @@ in
     nix.distributedBuilds = true;
     nix.buildMachines = buildMachines;
 
-    programs.ssh.knownHosts = (knownHosts cfg.buildMachines)
-      // (knownHosts cfg.extraBuildMachines);
-    programs.ssh.extraConfig = (sshExtraConfig cfg.buildMachines)
-      + (sshExtraConfig cfg.extraBuildMachines);
+    programs.ssh.knownHosts = (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.buildMachines)
+      // (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.extraBuildMachines);
+    programs.ssh.extraConfig = (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.buildMachines)
+      + (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.extraBuildMachines);
 
     hacknix.keychain.keys = (genKeys cfg.buildMachines)
       // (genKeys cfg.extraBuildMachines);
