@@ -578,7 +578,9 @@ let
   # alternate hostnames and an SSH host key, which are useful for
   # configuring SSH on a build host to guarantee that nix-daemon's
   # initial SSH attempt to log into the remote builder will connect
-  # without failing.
+  # without failing. It also allows you to provide a list of public
+  # SSH keys that can be used to authenticate as the remote build
+  # user.
   remoteBuildHost = final.lib.types.submodule {
     options = {
 
@@ -698,6 +700,16 @@ let
 
           Note: this value should be just the bare user name; do not
           include a <literal>ssh://</literal> prefix.
+        '';
+      };
+
+      sshUserPublicKeys = final.lib.mkOption {
+        type = final.lib.types.listOf final.lib.types.nonEmptyStr;
+        default = [ ];
+        example = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAL9hxC4bYdA70iI8pDA7T5x55dQa9Ox3u0upJ24XMxk" ];
+        description = ''
+          An optional list of public keys that can be used by remote
+          users/services to authenticate as the remote build user.
         '';
       };
 
