@@ -240,8 +240,12 @@
           ./nix/modules/config/nix/auto-gc
           ./nix/modules/config/remote-builds/remote-build-host
           ./nix/modules/config/remote-builds/build-host
-          ./nix/modules/core/keychain
+
+          ./nix/modules/core/keychain/default.nix
+          ./nix/modules/core/keychain/nixops.nix
+
           ./nix/modules/core/module-hashes.nix
+
           ./nix/modules/dns/unbound-multi-instance
           ./nix/modules/email/dovecot
           ./nix/modules/email/null-client
