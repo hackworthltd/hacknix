@@ -3,7 +3,6 @@ with testingPython;
 let
   canary1 = pkgs.copyPathToStore ../testfiles/canary1;
   canary2 = pkgs.copyPathToStore ../testfiles/canary2;
-  imports = [ ../include/deploy-keys.nix ];
 
 in
 makeTest rec {
@@ -13,7 +12,6 @@ makeTest rec {
 
   nodes = {
     server1 = { pkgs, config, ... }: {
-      inherit imports;
       networking.firewall.allowedUDPPorts = [ 69 ];
       services.tftpd-hpa.enable = true;
 
@@ -41,8 +39,6 @@ makeTest rec {
     # listenAddress functionality.
 
     server2 = { pkgs, config, ... }: {
-      inherit imports;
-
       networking.firewall.allowedUDPPorts = [ 69 ];
       boot.kernelModules = [ "dummy" ];
       networking.interfaces.dummy0.ipv4.addresses = [

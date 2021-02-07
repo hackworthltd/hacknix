@@ -3,11 +3,9 @@
 with lib;
 let
   cfg = config.services.tarsnapper;
-  keychain = config.hacknix.keychain.keys;
-  key = config.hacknix.keychain.keys.tarsnap-key;
   cacheDir = "/var/cache/tarsnap/tarsnapper";
   tarsnapConfigFile = ''
-    keyfile ${key.path}
+    keyfile ${cfg.keyfile}
     cachedir ${cacheDir}
     nodump
     print-stats
@@ -35,18 +33,13 @@ in
     services.tarsnapper = {
       enable = mkEnableOption "periodic tarsnapper backups.";
 
-      keyLiteral = mkOption {
-        type = pkgs.lib.types.nonEmptyStr;
-        example = "<key>";
+      keyfile = mkOption {
+        type = pkgs.lib.types.nonStorePath;
+        example = "/var/lib/tarsnapper/tarsnap.key";
         description = ''
-          The tarsnap key which associates this machine with your
-          tarsnap account, as a string literal. Create the key with
-          <command>tarsnap-keygen</command>.
-
-          Note that this secret will not be copied to the Nix store.
-          However, upon start-up, the service will copy a file
-          containing the key to the <literal>tarsnapper</literal>
-          cache directory.
+          A path to the tarsnap key which associates this machine with
+          your tarsnap account, as a string literal. Create the key
+          with <command>tarsnap-keygen</command>.
         '';
       };
 
@@ -123,16 +116,10 @@ in
 
   config = mkIf cfg.enable {
 
-    hacknix.keychain.keys.tarsnap-key = {
-      destDir = cacheDir;
-      text = cfg.keyLiteral;
-    };
-
     systemd.services.tarsnapper = rec {
       description = "Tarsnapper backup";
       requires = [ "network-online.target" ];
-      wants = [ "tarsnap-key-key.service" ];
-      after = [ "network-online.target" ] ++ wants;
+      after = [ "network-online.target" ];
       onFailure = if cfg.email.enable then [ "tarsnapper-failed.service" ] else [ ];
 
       path = with pkgs; [

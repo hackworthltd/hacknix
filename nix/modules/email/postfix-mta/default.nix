@@ -43,7 +43,6 @@ let
   acmeCertDir = config.security.acme.certs."${cfg.myHostname}".directory;
   acmeCertPublic = "${acmeCertDir}/fullchain.pem";
   acmeCertPrivate = "${acmeCertDir}/key.pem";
-  submissionKeyFile = config.hacknix.keychain.keys."sasl-tls-key".path;
 in
 {
   meta.maintainers = lib.maintainers.dhess;
@@ -519,17 +518,13 @@ in
           '';
         };
 
-        tlsKeyLiteral = mkOption {
-          type = pkgs.lib.types.nonEmptyStr;
-          example = "<private key>";
+        tlsKeyFile = mkOption {
+          type = pkgs.lib.types.nonStorePath;
+          example = "/var/lib/keys/tls.key";
           description = ''
-            The private key corresponding to the
-            <option>submission.smtpdTLSCertFile</option> option,
-            represented as a string literal.
-
-            This key will be written to a file that is securely
-            deployed to the host. It will not be written to the Nix
-            store.
+            A path to the file containing the private key
+            corresponding to the
+            <option>submission.smtpdTLSCertFile</option> option.
           '';
         };
       };
@@ -619,14 +614,6 @@ in
       "4d9dcf7abc0833c2cca337c27cea399a98abddab27b11c78f40a99642d955b88";
     hacknix.assertions.moduleHashes."security/acme.nix" =
       "e07795c5d4e2df9c4d99a3725adcd5a454880391c8f295d798217837c5438dfa";
-
-    hacknix.keychain.keys."sasl-tls-key" = {
-      destDir = "/var/lib/postfix/keys";
-      text = cfg.submission.smtpd.tlsKeyLiteral;
-      user = config.services.postfix.user;
-      group = config.services.postfix.group;
-      permissions = "0400";
-    };
 
     hacknix.defaults.acme.enable = true;
 
@@ -870,7 +857,7 @@ in
               "-o"
               "smtpd_tls_cert_file=${cfg.submission.smtpd.tlsCertFile}"
               "-o"
-              "smtpd_tls_key_file=${submissionKeyFile}"
+              "smtpd_tls_key_file=${cfg.submission.smtpd.tlsKeyFile}"
               "-o"
               "smtpd_tls_ask_ccert=yes"
               "-o"
