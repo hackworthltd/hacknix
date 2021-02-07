@@ -15,7 +15,8 @@ let
           dest.port = port;
           src.ip = ip;
         }
-      ) ips;
+      )
+      ips;
   fwRulesPerInterface = port: interfaces: ips:
     lib.flatten (map (interface: fwRulePerIP port interface ips) interfaces);
   radiusClient = lib.types.submodule
@@ -49,16 +50,12 @@ let
             '';
           };
 
-          secretLiteral = lib.mkOption {
-            type = pkgs.lib.types.nonEmptyStr;
-            example = "s3kr3tk3y";
+          secretFile = lib.mkOption {
+            type = pkgs.lib.types.nonStorePath;
+            example = "/var/lib/freeradius/client.secret";
             description = ''
-              The client's secret key, as a plaintext literal, used to
-              authenticate with the RADIUS server.
-
-              Note that this secret will not be written to the Nix store.
-              It will be securely copied to the RADIUS host and stored in
-              the RADIUS server's configuration directory.
+              A path to the file containing the client's secret key,
+              which is used to authenticate with the RADIUS server.
             '';
           };
         };
@@ -147,16 +144,11 @@ in
         '';
       };
 
-      serverCertificateKeyLiteral = lib.mkOption {
-        type = pkgs.lib.types.nonEmptyStr;
+      serverCertificateKeyFile = lib.mkOption {
+        type = pkgs.lib.types.nonStorePath;
+        example = "/var/lib/freeradius/tls.key";
         description = ''
-          The private key of the certificate specified in the
-          <option>tls.serverCertificate</option> option, as a
-          plaintext literal.
-
-          Note that this secret will not be written to the Nix store.
-          It will be securely copied to the RADIUS host and stored in
-          the RADIUS server's configuration directory.
+          A path to the file containing the server's TLS certificate key.
         '';
       };
     };
@@ -307,12 +299,6 @@ in
           wpa_supplicant
         ];
 
-        systemd.services.freeradius = {
-          # XXX dhess TODO - replace with each individual RADIUS key.
-          wants = [ "keys.target" ];
-          after = [ "keys.target" ];
-        };
-
         systemd.tmpfiles.rules = [
           "d '${cfg.dataDir}' 0750 radius wheel - -"
           "d '${cfg.logDir}' 0750 radius wheel - -"
@@ -323,5 +309,4 @@ in
     )
     raddb
   ];
-
 }

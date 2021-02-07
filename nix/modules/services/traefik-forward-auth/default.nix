@@ -5,9 +5,6 @@ let
   cfg = config.services.traefik-forward-auth;
   user = "traefik-forward-auth";
   group = "traefik-forward-auth";
-  secretsFile =
-    config.hacknix.keychain.keys."traefik-forward-auth-secrets".path;
-  keyDir = "/var/lib/traefik-forward-auth";
   configFile = pkgs.writeText "traefik-forward-auth.conf"
     (
       cfg.literalConfig
@@ -44,20 +41,6 @@ in
       '';
     };
 
-    signingSecretLiteral = mkOption {
-      type = pkgs.lib.types.nonEmptyStr;
-      example = "vjT165sqskqrm0jU";
-      description = ''
-        A random string that serves as a signing secret for
-        communicating with clients. This is only used by
-        traefik-forward-auth and need not be shared with any other
-        service -- just generate a random string and specify it here.
-
-        This secret will be written to a file that is securely
-        deployed to the host. It will not be written to the Nix store.
-      '';
-    };
-
     oidc = {
       clientID = mkOption {
         type = pkgs.lib.types.nonEmptyStr;
@@ -73,30 +56,40 @@ in
           The OIDC issuer URL.
         '';
       };
+    };
 
-      clientSecretLiteral = mkOption {
-        type = pkgs.lib.types.nonEmptyStr;
-        example = "<private key>";
-        description = ''
-          The OIDC client secret, provided by your OIDC provider for
-          this application.
+    secretsFile = mkOption {
+      type = pkgs.lib.types.nonStorePath;
+      example = "/var/lib/keys/traefik-forward-auth.secrets";
+      description = ''
+        A path to the file containing the traefik-forward-auth server
+        secrets.
 
-          This key will be written to a file that is securely
-          deployed to the host. It will not be written to the Nix
-          store.
-        '';
-      };
+        One line in the file should read <literal>secret =
+        signing-secret</literal>, where
+        <literal>signing-secret</literal> is a random string that
+        serves as a signing secret for communication with clients.
+        This is only used by the service and need not be shared with
+        any other service. It suffices to generate a random string
+        with no whitespace.
+
+        The other line in the file should read
+        <literal>providers.oidc.client-secret = oidc-secret</literal>,
+        where <literal>oidc-secret</literal> is the OIDC client secret
+        provided by your OIDC provider for the application served
+        behind the traefik-forward-auth service.
+
+        Do not store this file in the Nix store!
+      '';
     };
   };
 
   config = mkIf cfg.enable {
     systemd.services.traefik-forward-auth = {
       description = "traefik authentication middleware";
-
       after = [ "network-online.target" ];
-      wants = [ "traefik-forward-auth-secrets-key.service" ];
       wantedBy = [ "multi-user.target" ];
-      restartTriggers = [ secretsFile ];
+      restartTriggers = [ cfg.secretsFile ];
 
       unitConfig = {
         StartLimitIntervalSec = 0;
@@ -108,7 +101,7 @@ in
         Group = group;
 
         ExecStart =
-          "${pkgs.traefik-forward-auth}/bin/traefik-forward-auth --config=${configFile} --config=${secretsFile}";
+          "${pkgs.traefik-forward-auth}/bin/traefik-forward-auth --config=${configFile} --config=${cfg.secretsFile}";
         Restart = "on-failure";
 
         AmbientCapabilities = "cap_net_bind_service";
@@ -121,23 +114,10 @@ in
       };
     };
 
-    systemd.tmpfiles.rules = [ "d '${keyDir}' 0700 ${user} ${group} - -" ];
-
-    hacknix.keychain.keys."traefik-forward-auth-secrets" = {
-      inherit user group;
-      destDir = keyDir;
-      permissions = "0400";
-      text = ''
-        secret = ${cfg.signingSecretLiteral}
-        providers.oidc.client-secret = ${cfg.oidc.clientSecretLiteral}
-      '';
-    };
-
     users.users.${user} = {
       inherit group;
       isSystemUser = true;
     };
-
     users.groups.${group} = { };
   };
 }

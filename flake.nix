@@ -40,7 +40,7 @@
     spago2nix.url = github:justinwoo/spago2nix;
     spago2nix.flake = false;
 
-    sops-nix.url = github:hackworthltd/sops-nix;
+    sops-nix.url = github:Mic92/sops-nix;
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 

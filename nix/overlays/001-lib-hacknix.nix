@@ -19,12 +19,21 @@ let
   # append the hacknix modules (or darwinModules) to the
   # configuration.
   nixosSystem' = extraModules:
-    final.lib.flakes.nixosSystem' ([ final.lib.hacknix.flake.nixosModule ] ++ extraModules);
+    final.lib.flakes.nixosSystem' ([
+      final.lib.hacknix.flake.nixosModule
+      final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
+    ] ++ extraModules);
   nixosSystem = nixosSystem' [ ];
   amazonImage = extraModules:
-    final.lib.flakes.amazonImage ([ final.lib.hacknix.flake.nixosModule ] ++ extraModules);
+    final.lib.flakes.amazonImage ([
+      final.lib.hacknix.flake.nixosModule
+      final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
+    ] ++ extraModules);
   isoImage = extraModules:
-    final.lib.flakes.isoImage ([ final.lib.hacknix.flake.nixosModule ] ++ extraModules);
+    final.lib.flakes.isoImage ([
+      final.lib.hacknix.flake.nixosModule
+      final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
+    ] ++ extraModules);
   darwinSystem' = extraModules:
     final.lib.flakes.darwinSystem' ([ final.lib.hacknix.flake.darwinModule ] ++ extraModules);
   darwinSystem = darwinSystem' [ ];
