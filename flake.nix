@@ -193,8 +193,8 @@
       # moment, so we simply export them as a single module, for now.
       nixosModule = {
         imports = [
+          ./nix/modules/config/providers/ec2/default.nix
           ./nix/modules/config/providers/linode/default.nix
-
           ./nix/modules/config/providers/vultr/cloud/default.nix
 
           ./nix/modules/config/defaults/default.nix
