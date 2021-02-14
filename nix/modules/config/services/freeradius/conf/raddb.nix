@@ -56,7 +56,7 @@ let
       let
         radiusdConfPath = "${radiusdConf}";
         clientsConfPath = "${clientsConf}";
-        serverKeyPath = cfg.tls.serverCertificateFile;
+        serverKeyPath = cfg.tls.serverCertificateKeyFile;
         caPath = "${cfg.tls.caPath}";
         serverCertPath = "${cfg.tls.serverCertificate}";
         dhPath = "${pkgs.ffdhe3072Pem}";
