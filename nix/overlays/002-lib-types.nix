@@ -601,6 +601,48 @@ let
       };
     };
   };
+
+  radiusClient = final.lib.types.submodule
+    (
+      { name, ... }: {
+        options = {
+          name = final.lib.mkOption {
+            type = final.lib.types.nonEmptyStr;
+            default = "${name}";
+            description = ''
+              A short name for the RADIUS client.
+            '';
+          };
+
+          ipv4 = final.lib.mkOption {
+            type = final.lib.types.ipv4NoCIDR;
+            example = "10.0.0.8";
+            description = ''
+              The IPv4 address from which the RADIUS client will connect
+              to the RADIUS server.
+            '';
+          };
+
+          ipv6 = final.lib.mkOption {
+            type = final.lib.types.ipv6NoCIDR;
+            example = "2001:db8::8";
+            description = ''
+              The IPv6 address from which the RADIUS client will connect
+              to the RADIUS server.
+            '';
+          };
+
+          secretFile = final.lib.mkOption {
+            type = final.lib.types.nonStorePath;
+            example = "/var/lib/freeradius/client.secret";
+            description = ''
+              A path to the file containing the client's secret key,
+              which is used to authenticate with the RADIUS server.
+            '';
+          };
+        };
+      }
+    );
 in
 {
   lib = (prev.lib or { }) // {
@@ -610,6 +652,7 @@ in
       inherit ipv4Subnet dhcp4Subnet;
       inherit ipv6Subnet;
       inherit remoteBuildHost;
+      inherit radiusClient;
     };
   };
 }

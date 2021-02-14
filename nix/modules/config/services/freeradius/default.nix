@@ -19,48 +19,6 @@ let
       ips;
   fwRulesPerInterface = port: interfaces: ips:
     lib.flatten (map (interface: fwRulePerIP port interface ips) interfaces);
-  radiusClient = lib.types.submodule
-    (
-      { name, ... }: {
-        options = {
-
-          name = lib.mkOption {
-            type = pkgs.lib.types.nonEmptyStr;
-            default = "${name}";
-            description = ''
-              A short name for the RADIUS client.
-            '';
-          };
-
-          ipv4 = lib.mkOption {
-            type = pkgs.lib.types.ipv4NoCIDR;
-            example = "10.0.0.8";
-            description = ''
-              The IPv4 address from which the RADIUS client will connect
-              to the RADIUS server.
-            '';
-          };
-
-          ipv6 = lib.mkOption {
-            type = pkgs.lib.types.ipv6NoCIDR;
-            example = "2001:db8::8";
-            description = ''
-              The IPv6 address from which the RADIUS client will connect
-              to the RADIUS server.
-            '';
-          };
-
-          secretFile = lib.mkOption {
-            type = pkgs.lib.types.nonStorePath;
-            example = "/var/lib/freeradius/client.secret";
-            description = ''
-              A path to the file containing the client's secret key,
-              which is used to authenticate with the RADIUS server.
-            '';
-          };
-        };
-      }
-    );
   raddb = import ./conf/raddb.nix { inherit lib pkgs config; };
 in
 {
@@ -94,7 +52,7 @@ in
 
     clients = lib.mkOption {
       default = { };
-      type = lib.types.attrsOf radiusClient;
+      type = lib.types.attrsOf pkgs.lib.types.radiusClient;
       description = ''
         RADIUS clients that are authorized to connect to this RADIUS
         server.
