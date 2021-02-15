@@ -19,7 +19,6 @@ let
   globalCfg = config;
   cfg = config.services.postfix-relay-host;
   enabled = cfg.enable;
-  key = config.hacknix.keychain.keys.postfix-relay-host-cert;
 
   # NOTE - must be the same as upstream.
   stateDir = "/var/lib/postfix/data";
@@ -159,14 +158,13 @@ in
       '';
     };
 
-    smtpTlsKeyLiteral = mkOption {
-      type = pkgs.lib.types.nonEmptyStr;
-      example = "<key>";
+    smtpTlsKeyFile = mkOption {
+      type = pkgs.lib.types.nonStorePath;
+      example = "/var/lib/keys/tls.key";
       description = ''
-        The relay host's private key file, as a string literal. Note
-        that this secret will not be copied to the Nix store. However,
-        upon start-up, the service will copy a file containing the key
-        to its persistent state directory.
+        A path to a file containing the relay host's private key.
+
+        This key should be owned by the Postfix user and group.
       '';
     };
 
@@ -191,12 +189,6 @@ in
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
       "4d9dcf7abc0833c2cca337c27cea399a98abddab27b11c78f40a99642d955b88";
-
-    hacknix.keychain.keys.postfix-relay-host-cert = {
-      inherit user group;
-      destDir = "${stateDir}/keys";
-      text = cfg.smtpTlsKeyLiteral;
-    };
 
     assertions = [
       {
@@ -287,7 +279,7 @@ in
       lookupMX = cfg.lookupMX;
 
       sslCert = "${cfg.smtpTlsCertFile}";
-      sslKey = key.path;
+      sslKey = cfg.smtpTlsKeyFile;
 
       mapFiles = { relay_clientcerts = cfg.relayClientCertFingerprintsFile; };
 
@@ -337,12 +329,6 @@ in
         relay_clientcerts = hash:/var/lib/postfix/conf/relay_clientcerts
       '';
     };
-
-    systemd.services.postfix = rec {
-      wants = [ "postfix-relay-host-cert-key.service" ];
-      after = wants;
-    };
-
   };
 
   meta.maintainers = lib.maintainers.dhess;

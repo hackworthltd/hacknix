@@ -15,7 +15,6 @@ with lib;
 let
   cfg = config.services.postfix-null-client;
   enabled = cfg.enable;
-  key = config.hacknix.keychain.keys.postfix-null-client-cert;
   user = config.services.postfix.user;
   group = config.services.postfix.group;
 in
@@ -78,39 +77,21 @@ in
       '';
     };
 
-    smtpTlsKeyLiteral = mkOption {
-      type = pkgs.lib.types.nonEmptyStr;
-      example = "<key>";
+    smtpTlsKeyFile = mkOption {
+      type = pkgs.lib.types.nonStorePath;
+      example = "/var/lib/keys/tls.key";
       description = ''
-        The null client's private key file, as a string literal. Note
-        that this secret will not be copied to the Nix store. However,
-        upon start-up, the service will copy a file containing the key
-        to its persistent state directory.
+        A path to a file containing the null client's private key.
+
+        This key should be owned by the Postfix user and group.
       '';
     };
-
-    stateDir = mkOption {
-      type = types.path;
-      default = "/var/lib/postfix-null-client";
-      example = "/var/lib/postfix";
-      description = ''
-        Where the service stores the file containing the client's
-        private key file.
-      '';
-    };
-
   };
 
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
       "4d9dcf7abc0833c2cca337c27cea399a98abddab27b11c78f40a99642d955b88";
-
-    hacknix.keychain.keys.postfix-null-client-cert = {
-      inherit user group;
-      destDir = "${cfg.stateDir}/keys";
-      text = cfg.smtpTlsKeyLiteral;
-    };
 
     services.postfix = {
       enable = true;
@@ -126,7 +107,7 @@ in
       relayPort = cfg.relayPort;
 
       sslCert = "${cfg.smtpTlsCertFile}";
-      sslKey = key.path;
+      sslKey = cfg.smtpTlsKeyFile;
 
       config = {
         # Override setting in postfix module when TLS certs are
@@ -153,14 +134,7 @@ in
         smtp_tls_loglevel = 1
       '';
     };
-
-    systemd.services.postfix = rec {
-      wants = [ "postfix-null-client-cert-key.service" ];
-      after = wants;
-    };
-
   };
 
   meta.maintainers = lib.maintainers.dhess;
-
 }

@@ -4,9 +4,7 @@ let
   enabled = cfg.enable;
 
   defaultPrivateKey = "${cfg.sshKeyDir}/remote-builder";
-
   extraMachinesPath = "nix/extra-machines";
-  sshKeyName = host: user: "${user}_at_${host}";
   mkBuildMachines = remoteBuildHosts:
     lib.mapAttrsToList
       (
@@ -16,36 +14,12 @@ let
               supportedFeatures
               ;
             sshUser = "ssh://${sshUserName}";
-            sshKey =
-              if (sshKeyLiteral != null) then
-                (
-                  let
-                    keyname = sshKeyName host sshUserName;
-                  in
-                  config.hacknix.keychain.keys.${keyname}.path
-                )
-              else defaultPrivateKey;
+            sshKey = defaultPrivateKey;
           }
       )
       remoteBuildHosts;
   buildMachines = mkBuildMachines cfg.buildMachines;
   extraBuildMachines = mkBuildMachines cfg.extraBuildMachines;
-  genKeys = remoteBuildHosts:
-    lib.mapAttrs'
-      (
-        host: descriptor:
-          let
-            keyName = sshKeyName host descriptor.sshUserName;
-          in
-          lib.nameValuePair keyName {
-            destDir = cfg.sshKeyDir;
-            text = descriptor.sshKeyLiteral;
-            user = cfg.sshKeyFileOwner;
-            group = "root";
-            permissions = "0400";
-          }
-      )
-      (lib.filterAttrs (_: v: v.sshKeyLiteral != null) remoteBuildHosts);
 in
 {
 
@@ -64,14 +38,11 @@ in
       accept the remote build host's host key; but if you configure
       this module properly, that will not be necessary.)
 
-      This service will create a default SSH keypair. The default
-      keypair's private key will be used to connect to any remote
-      builder for which an SSH private key literal is not provided by
-      a particular build machine config (i.e., when that machine
-      config's <literal>sshKeyLiteral</literal> option is
-      <literal>null</literal>). The public half of the key pair can be
-      found in the <literal>sshKeyDir</literal>, so that you can find
-      it and install it on the remote builder(s).
+      This service will create an SSH keypair. The generated private
+      key will be used to connect to remote builders. The public half
+      of the key pair can be found in the
+      <literal>sshKeyDir</literal>, so that you can find it and
+      install it on the remote builder(s).
     '';
 
     sshKeyDir = lib.mkOption {
@@ -169,11 +140,6 @@ in
       // (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.extraBuildMachines);
     programs.ssh.extraConfig = (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.buildMachines)
       + (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.extraBuildMachines);
-
-    hacknix.keychain.keys = (genKeys cfg.buildMachines)
-      // (genKeys cfg.extraBuildMachines);
-
-    users.users."${cfg.sshKeyFileOwner}".extraGroups = if cfg.sshKeyFileOwner == "root" then [ ] else [ "keys" ];
 
     # We need to generate our own machines file for the extra
     # machines. Unfortunately, this functionality is not exported from

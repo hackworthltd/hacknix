@@ -20,7 +20,10 @@ makeTest {
       myHostname = "mx.acme.com";
       virtual.transport = "lmtp:localhost:24";
       submission.smtpd.tlsCertFile = cert-chain;
-      submission.smtpd.tlsKeyLiteral = builtins.readFile bob-certKey;
+
+      # This file doesn't actually exist, but Postfix should start
+      # anyway.
+      submission.smtpd.tlsKeyFile = "/var/lib/postfix/tls.key";
     };
   };
 

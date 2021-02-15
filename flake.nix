@@ -40,7 +40,7 @@
     spago2nix.url = github:justinwoo/spago2nix;
     spago2nix.flake = false;
 
-    sops-nix.url = github:hackworthltd/sops-nix;
+    sops-nix.url = github:Mic92/sops-nix;
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -193,8 +193,8 @@
       # moment, so we simply export them as a single module, for now.
       nixosModule = {
         imports = [
+          ./nix/modules/config/providers/ec2/default.nix
           ./nix/modules/config/providers/linode/default.nix
-
           ./nix/modules/config/providers/vultr/cloud/default.nix
 
           ./nix/modules/config/defaults/default.nix
@@ -240,7 +240,6 @@
           ./nix/modules/config/nix/auto-gc
           ./nix/modules/config/remote-builds/remote-build-host
           ./nix/modules/config/remote-builds/build-host
-          ./nix/modules/core/keychain
           ./nix/modules/core/module-hashes.nix
           ./nix/modules/dns/unbound-multi-instance
           ./nix/modules/email/dovecot
@@ -252,16 +251,13 @@
           ./nix/modules/networking/accept
           ./nix/modules/networking/pcap-prep
           ./nix/modules/networking/virtual-ips
-          ./nix/modules/networking/wireguard-dhess
 
-          ./nix/modules/services/apcupsd-net
           ./nix/modules/services/hydra-manual-setup
           ./nix/modules/services/netsniff-ng
           ./nix/modules/services/systemd-digitalocean
           ./nix/modules/services/tarsnapper
           ./nix/modules/services/traefik-forward-auth
           ./nix/modules/services/tftpd-hpa
-          ./nix/modules/services/znc
         ];
         nixpkgs.overlays = [ self.overlay ];
       };

@@ -1,6 +1,7 @@
 { testingPython, ... }:
 with testingPython;
 let
+  keyfile = "/var/lib/keys/tarsnapper.key";
 in
 makeTest rec {
   name = "tarsnapper";
@@ -10,9 +11,17 @@ makeTest rec {
   nodes = {
     machine = { config, pkgs, ... }: {
       nixpkgs.config.allowUnfree = true;
+
+      system.activationScripts.install-dummy-key = pkgs.lib.stringAfter [ "users" "groups" ] ''
+        install -d -m 0750 -o root -g wheel /var/lib/keys
+        echo "notarealkey" > ${keyfile}
+        chmod 0400 ${keyfile}
+        chown root:wheel ${keyfile}
+      '';
+
       services.tarsnapper = {
         enable = true;
-        keyLiteral = "notarealkey";
+        inherit keyfile;
         period = "*:45:00";
         email.from = "root@localhost";
         email.toSuccess = "backups@localhost";

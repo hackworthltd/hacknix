@@ -330,15 +330,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1612630064,
-        "narHash": "sha256-yD0vXLZIYRwseiKt3Qgfw8WIJIYDe6vVKXmRy5iQzrs=",
-        "owner": "hackworthltd",
+        "lastModified": 1612860094,
+        "narHash": "sha256-vOSnxAi8GRbHr5aspPinYdP13IRcLzlAi65ZVsGN/kk=",
+        "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "ecb42cdcf9f29d8f769c224e71aeb79a679371ca",
+        "rev": "d578742590a40676e5ff12a9d04b883237166280",
         "type": "github"
       },
       "original": {
-        "owner": "hackworthltd",
+        "owner": "Mic92",
         "repo": "sops-nix",
         "type": "github"
       }

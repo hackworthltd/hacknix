@@ -81,7 +81,7 @@ let
     -----END RSA PRIVATE KEY-----
   '';
 
-  imports = [ ../include/user-account.nix ../include/deploy-keys.nix ];
+  imports = [ ../include/user-account.nix ];
 
 in
 makeTest {
@@ -90,8 +90,6 @@ makeTest {
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   machine = { pkgs, config, ... }: {
-    # Use the test key deployment system.
-    deployment.reallyReallyEnable = true;
     inherit imports;
 
     services.postfix.enable = true;

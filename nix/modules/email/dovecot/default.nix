@@ -691,8 +691,11 @@ in
         ExecReload = "${dovecotPkg}/sbin/doveadm reload";
         Restart = "on-failure";
         RestartSec = "1s";
-        StartLimitInterval = "1min";
         RuntimeDirectory = [ "dovecot2" ];
+      };
+
+      unitConfig = {
+        StartLimitIntervalSec = 60;
       };
 
       # When copying sieve scripts preserve the original time stamp

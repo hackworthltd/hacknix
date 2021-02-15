@@ -13,11 +13,6 @@ let
     let
       clientsList = lib.mapAttrsToList (_: client: client) cfg.clients;
       genClientConf = client:
-        let
-          keys = config.hacknix.keychain.keys;
-          keyName = clientKeyName client.name;
-          keyPath = keys."${keyName}".path;
-        in
         ''
           client ${client.name} {
             ipaddr = ${client.ipv4}
@@ -29,7 +24,7 @@ let
               lifetime = 0
               idle_timeout = 30
             }
-            $INCLUDE ${keyPath}
+            $INCLUDE ${client.secretFile}
           }
 
           client ${client.name}_ipv6 {
@@ -42,7 +37,7 @@ let
               lifetime = 0
               idle_timeout = 30
             }
-            $INCLUDE ${keyPath}
+            $INCLUDE ${client.secretFile}
           }
         '';
     in
@@ -61,7 +56,7 @@ let
       let
         radiusdConfPath = "${radiusdConf}";
         clientsConfPath = "${clientsConf}";
-        serverKeyPath = config.hacknix.keychain.keys."${serverKeyName}".path;
+        serverKeyPath = cfg.tls.serverCertificateKeyFile;
         caPath = "${cfg.tls.caPath}";
         serverCertPath = "${cfg.tls.serverCertificate}";
         dhPath = "${pkgs.ffdhe3072Pem}";
@@ -102,27 +97,5 @@ lib.mkIf (cfg.enable) {
 
   systemd.services.freeradius = {
     restartTriggers = [ config.environment.etc."raddb".source ];
-  };
-
-  hacknix.keychain.keys = (
-    lib.mapAttrs'
-      (
-        _: client:
-          lib.nameValuePair (clientKeyName client.name) {
-            destDir = cfg.secretsDir;
-            text = "secret = ${client.secretLiteral}";
-            user = "radius";
-            group = "wheel";
-            permissions = "0400";
-          }
-      ) cfg.clients
-  ) // {
-    "${serverKeyName}" = {
-      destDir = cfg.secretsDir;
-      text = cfg.tls.serverCertificateKeyLiteral;
-      user = "radius";
-      group = "wheel";
-      permissions = "0400";
-    };
   };
 }

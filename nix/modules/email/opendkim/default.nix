@@ -9,7 +9,6 @@ with lib;
 let
   opendkimEnabled = config.services.opendkim.enable;
   cfg = config.services.qx-opendkim;
-  keyDir = "/var/lib/opendkim/keys";
   keyTableRow = types.submodule
     (
       { name, ... }: {
@@ -43,16 +42,12 @@ let
             '';
           };
 
-          privateKeyLiteral = mkOption {
-            type = pkgs.lib.types.nonEmptyStr;
-            example = "<privatekey>";
+          privateKeyFile = mkOption {
+            type = pkgs.lib.types.nonStorePath;
+            example = "/var/lib/opendkim/example.com.key";
             description = ''
-              The private key used to sign the signature, represented as a
-              literal string.
-
-              A file containing the contents of this key will be securely
-              deployed to the host in a persistent storage location. It
-              will not be copied to the Nix store.
+              A path to the file containing the private key used to
+              sign the signature for this domain.
             '';
           };
         };
@@ -84,24 +79,14 @@ let
       };
     };
   };
-  keyFileName = keyName: "opendkim-${keyName}-private";
 
   # Note that this file doesn't contain any key material, only paths
   # to files containing key material.
   keyTableFile = pkgs.writeText "opendkim.key.table"
     (
       concatMapStringsSep "\n"
-        (row: "${row.keyName}    ${row.domain}:${row.selector}:${row.keyFile}")
-        (
-          mapAttrsToList
-            (
-              name: row:
-                let
-                  keyFile = config.hacknix.keychain.keys."${keyFileName name}".path;
-                in
-                row // { inherit keyFile; }
-            ) cfg.keyTable
-        )
+        (row: "${row.keyName}    ${row.domain}:${row.selector}:${row.privateKeyFile}")
+        (mapAttrsToList (_: row: row) cfg.keyTable)
     );
   signingTableFile = pkgs.writeText "opendkim.signing.table"
     (
@@ -265,7 +250,6 @@ in
         name = "opendkim";
         group = cfg.group;
         uid = config.ids.uids.opendkim;
-        extraGroups = [ "keys" ];
       };
     };
 
@@ -278,23 +262,9 @@ in
 
     environment.systemPackages = [ pkgs.opendkim ];
 
-    hacknix.keychain.keys = mapAttrs'
-      (
-        name: row:
-          nameValuePair (keyFileName name) {
-            destDir = keyDir;
-            text = row.privateKeyLiteral;
-            user = cfg.user;
-            group = cfg.group;
-            permissions = "0400";
-          }
-      ) cfg.keyTable;
-
     systemd.services.opendkim = rec {
       description = "OpenDKIM signing and verification daemon";
-      wants = mapAttrsToList (name: _: "${keyFileName name}-key.service")
-        cfg.keyTable;
-      after = [ "network.target" ] ++ wants;
+      after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       script =
         "${pkgs.opendkim}/bin/opendkim -f -l -x ${configFile} -p ${cfg.socket}";
