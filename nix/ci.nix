@@ -1,1 +1,1 @@
-(import ./flake-compat.nix).defaultNix.hydraJobs
+(import ./flake-compat.nix).defaultNix.ciJobs
