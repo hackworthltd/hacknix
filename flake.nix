@@ -347,5 +347,7 @@
               }
               { });
       };
+
+      ciJobs = self.lib.mapAttrs (k: v: v // { recurseForDerivations = true; }) self.hydraJobs;
     };
 }
