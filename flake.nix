@@ -295,10 +295,10 @@
 
       hydraJobs = {
         build = self.packages;
-        nixosConfigurations = self.lib.flakes.nixosConfigurations.build self.nixosConfigurations;
-        darwinConfigurations = self.lib.flakes.nixosConfigurations.build self.darwinConfigurations;
+        nixosConfigurations.x86_64-linux = self.lib.flakes.nixosConfigurations.build self.nixosConfigurations;
+        darwinConfigurations.x86_64-darwin = self.lib.flakes.nixosConfigurations.build self.darwinConfigurations;
 
-        amazonImages =
+        amazonImages.x86_64-linux =
           let
             extraModules = [
               {
@@ -318,7 +318,7 @@
           in
           self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
 
-        isoImages =
+        isoImages.x86_64-linux =
           let
             extraModules = [
               ({ config, ... }:
@@ -348,6 +348,6 @@
               { });
       };
 
-      ciJobs = self.lib.mapAttrs (k: v: v // { recurseForDerivations = true; }) self.hydraJobs;
+      ciJobs = self.lib.flakes.recurseIntoHydraJobs self.hydraJobs;
     };
 }
