@@ -1,37 +1,5 @@
 {
   "nodes": {
-    "aws-export-credentials": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1610462124,
-        "narHash": "sha256-kuWL2EpcQKOGaj4idLA/JQNSKHqqa82P3xiKZdoqe9w=",
-        "owner": "benkehoe",
-        "repo": "aws-export-credentials",
-        "rev": "967c0e5bc4db27f08446e15a14fadd8feb5ad0e9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "benkehoe",
-        "repo": "aws-export-credentials",
-        "type": "github"
-      }
-    },
-    "aws-sso-credential-process": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1605057290,
-        "narHash": "sha256-uYdlk3LcdEJCZb0lQWh8ZzgnWhSNlFftwdds+uyQ5RA=",
-        "owner": "benkehoe",
-        "repo": "aws-sso-credential-process",
-        "rev": "3a59c030c820a6faa23adb1454c036fd3d929e8f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "benkehoe",
-        "repo": "aws-sso-credential-process",
-        "type": "github"
-      }
-    },
     "badhosts": {
       "flake": false,
       "locked": {
@@ -51,15 +19,16 @@
     "chamber": {
       "flake": false,
       "locked": {
-        "lastModified": 1602373352,
-        "narHash": "sha256-n1VmBFk9AY7LZXUsvHIQUScpHk52RtkIMi3cW4RKA8Y=",
+        "lastModified": 1613841193,
+        "narHash": "sha256-y/eiba730E6tSA3OxQAHNFaUVknP5sZxMsX2xj4TaOU=",
         "owner": "hackworthltd",
         "repo": "chamber",
-        "rev": "7c5297b63fe63fa49b7e70dd2de0c32adacb0de1",
+        "rev": "a07d4ab905659fc0080b751b8ccca7dce7c3bab7",
         "type": "github"
       },
       "original": {
         "owner": "hackworthltd",
+        "ref": "aws-sdk-go-v1.37.15",
         "repo": "chamber",
         "type": "github"
       }
@@ -306,8 +275,6 @@
     },
     "root": {
       "inputs": {
-        "aws-export-credentials": "aws-export-credentials",
-        "aws-sso-credential-process": "aws-sso-credential-process",
         "badhosts": "badhosts",
         "chamber": "chamber",
         "emacs-overlay": "emacs-overlay",

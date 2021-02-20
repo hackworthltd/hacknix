@@ -9,10 +9,10 @@ let
 in
 buildGoModule rec {
   pname = "chamber";
-  version = "2.8.2";
+  version = "2.9.1";
 
   deleteVendor = true;
-  vendorSha256 = "05lipdkrr3v64ppj13gp48zfk0w946qfpavg6w2y591az4pyx7zl";
+  vendorSha256 = "sha256-bXliUugkvS+dIo4BecvjjK7QSVFm90tNjcQFD8OJ2x8=";
 
   inherit src;
 
