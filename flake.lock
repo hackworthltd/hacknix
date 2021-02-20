@@ -290,16 +290,16 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1613744885,
-        "narHash": "sha256-7gSYJmC4vD/teQudpX/L1fRv+7s0GAO4TbLUYWUqWs8=",
-        "owner": "NixOS",
+        "lastModified": 1613831649,
+        "narHash": "sha256-XaQ3lLCCI2ve9fiFYoLgCJIbYe+UixskOxtetRbq1e4=",
+        "owner": "hackworthltd",
         "repo": "nixpkgs",
-        "rev": "e88bfd7c92849e4da5dd8dbed0f06b46261e3c72",
+        "rev": "73adc17abe3bfc57a850b4c188095346a3de4a72",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "owner": "hackworthltd",
+        "ref": "fix-python-watchdog",
         "repo": "nixpkgs",
         "type": "github"
       }
