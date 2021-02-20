@@ -18,16 +18,10 @@
 
     hacknix-lib.url = github:hackworthltd/hacknix-lib;
 
-    aws-export-credentials.url = github:benkehoe/aws-export-credentials;
-    aws-export-credentials.flake = false;
-
-    aws-sso-credential-process.url = github:benkehoe/aws-sso-credential-process;
-    aws-sso-credential-process.flake = false;
-
     badhosts.url = github:StevenBlack/hosts;
     badhosts.flake = false;
 
-    chamber.url = github:hackworthltd/chamber;
+    chamber.url = github:hackworthltd/chamber/aws-sdk-go-v1.37.15;
     chamber.flake = false;
 
     emacs-overlay.url = github:nix-community/emacs-overlay;
@@ -114,8 +108,6 @@
           (hacknix-lib.lib.flakes.filterPackagesByPlatform system
             {
               inherit (pkgs) awscli2;
-              inherit (pkgs) aws-export-credentials;
-              inherit (pkgs) aws-sso-credential-process;
 
               inherit (pkgs) badhosts-unified;
               inherit (pkgs)
