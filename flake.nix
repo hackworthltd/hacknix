@@ -40,6 +40,9 @@
 
     sops-nix.url = github:Mic92/sops-nix;
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-direnv.url = github:nix-community/nix-direnv;
+    nix-direnv.flake = false;
   };
 
   outputs =
@@ -51,6 +54,7 @@
     , hydra
     , emacs-overlay
     , sops-nix
+    , nix-direnv
     , ...
     }@inputs:
     let
@@ -88,6 +92,8 @@
           sops-nix.overlay
           overlaysFromDir
           (final: prev: {
+            nix-direnv = final.callPackage nix-direnv { };
+
             lib = (prev.lib or { }) // {
               hacknix = (prev.lib.hacknix or { }) // {
                 flake = (prev.lib.hacknix.flake or { }) // {
@@ -135,6 +141,7 @@
               inherit (pkgs) hydra-unstable;
               inherit (pkgs) libprelude;
               inherit (pkgs) macnix-rebuild;
+              inherit (pkgs) nix-direnv;
               inherit (pkgs) nmrpflash;
               inherit (pkgs) spago2nix;
               inherit (pkgs) traefik-forward-auth;
