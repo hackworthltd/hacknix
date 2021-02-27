@@ -12,7 +12,7 @@ in
 {
   options = {
     services.auto-gc = {
-      enable = mkEnableOption "automatic nix garbage collection.";
+      nixAutoGcEnable = mkEnableOption "automatic nix garbage collection.";
 
       nixAutoMaxFreedGB = mkOption {
         type = types.int;
@@ -26,11 +26,7 @@ in
         description = "The minimum amount to trigger an auto GC at";
       };
 
-      nixHourlyGcEnable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to perform an hourly GC.  Default true.";
-      };
+      nixHourlyGcEnable = mkEnableOption "an hourly nix garbage collection";
 
       nixHourlyMaxFreedGB = mkOption {
         type = types.int;
@@ -44,11 +40,7 @@ in
         description = "The minimum amount to trigger the /nix/store mount hourly timed GC at";
       };
 
-      nixWeeklyGcFull = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to perform a full GC weekly.  Default false.";
-      };
+      nixWeeklyGcFull = mkEnableOption "a weekly full nix garbage collection.";
 
       nixWeeklyGcOnCalendar = mkOption {
         type = types.str;
@@ -59,7 +51,7 @@ in
   };
 
   config = {
-    nix = mkIf cfg.enable {
+    nix = mkIf cfg.nixAutoGcEnable {
       # This GC is run automatically by nix-build
       extraOptions = ''
         # Try to ensure between ${toString cfg.nixAutoMinFreeGB}G and ${toString cfg.nixAutoMaxFreedGB}G of free space by
