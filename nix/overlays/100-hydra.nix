@@ -4,14 +4,6 @@ let
   hydra-unstable = prev.hydra-unstable.overrideAttrs (
     drv: {
       patches = [
-        # Fix for latest nixUnstable.
-        (
-          final.fetchpatch {
-            url = "https://github.com/NixOS/hydra/pull/840.diff";
-            sha256 = "sha256-KPc1q36Mi/aJvm3n8ZxIdMHZwLNYnhz3NRsCR/iEtqU=";
-          }
-        )
-
         # Secure GitHub token handling.
         (
           final.fetchpatch {
