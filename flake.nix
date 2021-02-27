@@ -6,7 +6,7 @@
 
     # Follow our fork until
     # https://github.com/NixOS/nixpkgs/issues/113777 is resolved.
-    nixpkgs.url = github:hackworthltd/nixpkgs/fix-python-watchdog;
+    nixpkgs.url = github:hackworthltd/nixpkgs/fix-python-watchdog-v2;
 
     nix-darwin.url = github:LnL7/nix-darwin;
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
