@@ -242,16 +242,16 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1613831649,
-        "narHash": "sha256-XaQ3lLCCI2ve9fiFYoLgCJIbYe+UixskOxtetRbq1e4=",
+        "lastModified": 1614450831,
+        "narHash": "sha256-kU+bGESpIKfeGW/pKKWSvxDMYsi2Rxu6/v7r/oSTN9c=",
         "owner": "hackworthltd",
         "repo": "nixpkgs",
-        "rev": "73adc17abe3bfc57a850b4c188095346a3de4a72",
+        "rev": "f53fef4f5c2076f21e0497bd76ced9d9ee8a20a8",
         "type": "github"
       },
       "original": {
         "owner": "hackworthltd",
-        "ref": "fix-python-watchdog",
+        "ref": "fix-python-watchdog-v2",
         "repo": "nixpkgs",
         "type": "github"
       }
