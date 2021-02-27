@@ -2,6 +2,12 @@
 let
   cfg = config.hacknix.remote-build-host;
   enabled = cfg.enable;
+  authorizedKeys = map
+    (key: ''
+      command="nix-store --serve --write" ${key}
+    '')
+    ((map builtins.readFile cfg.user.sshPublicKeyFiles)
+      ++ cfg.user.sshPublicKeys);
 in
 {
 
@@ -75,8 +81,7 @@ in
     users.users."${cfg.user.name}" = {
       useDefaultShell = true;
       description = "Nix remote builder";
-      openssh.authorizedKeys.keyFiles = cfg.user.sshPublicKeyFiles;
-      openssh.authorizedKeys.keys = cfg.user.sshPublicKeys;
+      openssh.authorizedKeys.keys = authorizedKeys;
     };
 
     # Useful utilities.
