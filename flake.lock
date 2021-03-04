@@ -135,15 +135,17 @@
       "inputs": {
         "nix": "nix",
         "nixpkgs": [
+          "hydra",
+          "nix",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1614243559,
-        "narHash": "sha256-WR9eUQdKVemJqO2hlZl1qdkkJndauQIP1fPFHq1BNpQ=",
+        "lastModified": 1614870421,
+        "narHash": "sha256-Qt7KWe2b4AynijohDUChA2sXUSK7auISSN/Z8zJm0tU=",
         "owner": "NixOS",
         "repo": "hydra",
-        "rev": "3cd312fc4c44927c1bd92c07dba10940bb4e2d7e",
+        "rev": "572a0c0abd9dc7fed881e225419d0889151e4e08",
         "type": "github"
       },
       "original": {
