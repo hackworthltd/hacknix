@@ -131,46 +131,6 @@
         "type": "github"
       }
     },
-    "hydra": {
-      "inputs": {
-        "nix": "nix",
-        "nixpkgs": [
-          "hydra",
-          "nix",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1614870421,
-        "narHash": "sha256-Qt7KWe2b4AynijohDUChA2sXUSK7auISSN/Z8zJm0tU=",
-        "owner": "NixOS",
-        "repo": "hydra",
-        "rev": "572a0c0abd9dc7fed881e225419d0889151e4e08",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "hydra",
-        "type": "github"
-      }
-    },
-    "nix": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_2"
-      },
-      "locked": {
-        "lastModified": 1613747933,
-        "narHash": "sha256-Q6VuNRdr87B4F3ILiM6IlQ+bkIYbQTs6EEAtwNrvl1Y=",
-        "owner": "NixOS",
-        "repo": "nix",
-        "rev": "548437c2347159c4c79352283dd12ce58324f1d6",
-        "type": "github"
-      },
-      "original": {
-        "id": "nix",
-        "type": "indirect"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -245,21 +205,6 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1602702596,
-        "narHash": "sha256-fqJ4UgOb4ZUnCDIapDb4gCrtAah5Rnr2/At3IzMitig=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "ad0d20345219790533ebe06571f82ed6b034db31",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "ref": "nixos-20.09-small",
-        "type": "indirect"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
         "lastModified": 1614450831,
         "narHash": "sha256-kU+bGESpIKfeGW/pKKWSvxDMYsi2Rxu6/v7r/oSTN9c=",
         "owner": "hackworthltd",
@@ -283,10 +228,9 @@
         "flake-utils": "flake-utils",
         "gitignore-nix": "gitignore-nix",
         "hacknix-lib": "hacknix-lib",
-        "hydra": "hydra",
         "nix-darwin": "nix-darwin_2",
         "nix-direnv": "nix-direnv",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_2",
         "sops-nix": "sops-nix",
         "spago2nix": "spago2nix",
         "traefik-forward-auth": "traefik-forward-auth"
