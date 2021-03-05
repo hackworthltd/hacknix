@@ -29,8 +29,6 @@
     gitignore-nix.url = github:hercules-ci/gitignore.nix;
     gitignore-nix.flake = false;
 
-    hydra.url = github:NixOS/hydra;
-
     traefik-forward-auth.url = github:thomseddon/traefik-forward-auth;
     traefik-forward-auth.flake = false;
 
@@ -50,7 +48,6 @@
     , nixpkgs
     , nix-darwin
     , hacknix-lib
-    , hydra
     , emacs-overlay
     , sops-nix
     , nix-direnv
@@ -91,25 +88,6 @@
           overlaysFromDir
           (final: prev: {
             nix-direnv = final.callPackage nix-direnv { };
-
-            hydra = hydra.packages.x86_64-linux.hydra.overrideAttrs (
-              drv: {
-                patches = [
-                  # Secure GitHub token handling.
-                  (
-                    final.fetchpatch {
-                      url =
-                        "https://raw.githubusercontent.com/Holo-Host/holo-nixpkgs/00da3ac8e1e0dfe900df4a88eb0bced556abe525/overlays/holo-nixpkgs/hydra/secure-github.diff";
-                      sha256 = "0prinqi5smjkrc6jv8bs9gmnz3yga8ba9aacpg6cf1v1iq130iws";
-                    }
-                  )
-
-                  # We have some git repos with private submodules. Allow Hydra
-                  # to continue evaluating when it can't check these out.
-                  ./nix/patches/hydra/ignore-submodule-failures.patch
-                ];
-              }
-            );
 
             lib = (prev.lib or { }) // {
               hacknix = (prev.lib.hacknix or { }) // {
@@ -155,7 +133,6 @@
               inherit (pkgs) ffmpeg-full;
               inherit (pkgs) fsatrace;
               inherit (pkgs) hostapd;
-              inherit (pkgs) hydra;
               inherit (pkgs) libprelude;
               inherit (pkgs) macnix-rebuild;
               inherit (pkgs) nix-direnv;
