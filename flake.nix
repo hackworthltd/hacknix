@@ -2,11 +2,8 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    #nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
-
-    # Follow our fork until
-    # https://github.com/NixOS/nixpkgs/issues/113777 is resolved.
-    nixpkgs.url = github:hackworthltd/nixpkgs/fix-python-watchdog-v2;
+    # Use nixpkgs trunk until nixpkgs-unstable is fixed.
+    nixpkgs.url = github:NixOS/nixpkgs;
 
     nix-darwin.url = github:LnL7/nix-darwin;
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
