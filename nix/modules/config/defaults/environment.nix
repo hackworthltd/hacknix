@@ -13,7 +13,7 @@ in
 
   config = mkIf enabled {
 
-    environment.systemPackages = with pkgs; [ emacs26-nox git wget ];
+    environment.systemPackages = with pkgs; [ emacs-nox git wget ];
 
     environment.shellAliases = {
       l = "ls -F";
