@@ -31,6 +31,7 @@ let
           sha256 = "sha256-N2y8KjXAOSsP5/8W+8GzA/2Z1N2ZEatVge6daa3IiYI=";
         };
         patches = [ ];
+        doCheck = false;
       });
       docker = super.docker.overridePythonAttrs (oldAttrs: {
         doCheck = false;
