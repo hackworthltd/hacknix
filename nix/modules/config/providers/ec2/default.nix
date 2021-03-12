@@ -22,6 +22,6 @@ in
 
   config = lib.mkIf cfg.enable {
     ec2.hvm = true;
-    systemd.services.amazon-init.wantedBy = pkgs.lib.mkForce [ ];
+    virtualisation.amazon-init = false;
   };
 }
