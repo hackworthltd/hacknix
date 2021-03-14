@@ -2,8 +2,7 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    # Use nixpkgs trunk until nixpkgs-unstable is fixed.
-    nixpkgs.url = github:NixOS/nixpkgs;
+    nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
 
     nix-darwin.url = github:LnL7/nix-darwin;
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
