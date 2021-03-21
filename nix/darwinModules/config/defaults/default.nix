@@ -22,16 +22,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    hacknix-nix-darwin.defaults.nix.enable = true;
+
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowBroken = true;
 
     # We now rely on Nix Flakes for darwin-rebuild.
     darwin-rebuild.nixPackage = pkgs.nixUnstable;
-
-    nix.package = pkgs.nixFlakes;
-    nix.extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
 
     nix.trustedUsers = [ "@admin" ];
 
