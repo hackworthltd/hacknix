@@ -25,7 +25,9 @@ in
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowBroken = true;
 
-    # We now rely on Nix Flakes.
+    # We now rely on Nix Flakes for darwin-rebuild.
+    darwin-rebuild.nixPackage = pkgs.nixUnstable;
+
     nix.package = pkgs.nixFlakes;
     nix.extraOptions = ''
       experimental-features = nix-command flakes
