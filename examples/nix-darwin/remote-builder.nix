@@ -12,6 +12,11 @@
         environment.darwinConfig = "${pkgs.lib.hacknix.path}/examples/nix-darwin/remote-builder.nix";
 
         nix.maxJobs = 12;
+
+        # Disable Nix flakes for remote builders, as stable Nix is
+        # more reliable with Hercules CI and Hydra.
+        hacknix-nix-darwin.defaults.nix.enable = lib.mkForce false;
+
         hacknix-nix-darwin.remote-build-host = {
           enable = true;
           user.sshPublicKeys = lib.singleton sshPublicKey;
