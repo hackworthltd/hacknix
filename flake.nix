@@ -127,7 +127,6 @@
               inherit (pkgs) fsatrace;
               inherit (pkgs) hostapd;
               inherit (pkgs) libprelude;
-              inherit (pkgs) macnix-rebuild;
               inherit (pkgs) nix-direnv;
               inherit (pkgs) nmrpflash;
               inherit (pkgs) spago2nix;
