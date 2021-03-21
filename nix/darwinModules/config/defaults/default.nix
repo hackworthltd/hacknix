@@ -122,19 +122,6 @@ in
       echo "ok"
     '';
 
-    # Make sure our `darwin-rebuild` convenience wrapper is in the
-    # system path.
-    environment.systemPackages = [ pkgs.macnix-rebuild ];
-
-    # XXX dhess - this assumes `environment.darwinConfig` is set by
-    # the top-level config. Fix this.
-    #
-    # XXX dhess - Now that we're using Nix Flakes, we should change
-    # this somehow.
-    nix.nixPath = [
-      "darwin-config=${config.environment.darwinConfig}"
-    ];
-
     # Increase maxfiles and maxproc. (Note: I don't know of a way to
     # do this just per-user, so it must be done system-wide, it
     # seems.)
