@@ -3,16 +3,13 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
-
-    nix-darwin.url = github:LnL7/nix-darwin;
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    hacknix-lib.url = github:hackworthltd/hacknix-lib;
+    hacknix-lib.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = github:numtide/flake-utils;
 
     flake-compat.url = github:edolstra/flake-compat;
     flake-compat.flake = false;
-
-    hacknix-lib.url = github:hackworthltd/hacknix-lib;
 
     badhosts.url = github:StevenBlack/hosts;
     badhosts.flake = false;
@@ -42,7 +39,6 @@
     { self
     , flake-utils
     , nixpkgs
-    , nix-darwin
     , hacknix-lib
     , emacs-overlay
     , sops-nix
