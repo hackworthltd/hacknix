@@ -31,7 +31,6 @@ in
     nix.package = pkgs.nixFlakes;
     nix.extraOptions = ''
       experimental-features = nix-command flakes
-      pre-build-hook =
     '';
 
     nix.trustedUsers = [ "@admin" ];
