@@ -3,11 +3,11 @@
     "badhosts": {
       "flake": false,
       "locked": {
-        "lastModified": 1616381781,
-        "narHash": "sha256-+loZFodSCAlK80DM6u8HZL1R0O+2mA65XXZSBim95Fo=",
+        "lastModified": 1616507523,
+        "narHash": "sha256-JDIt/uydRleYp0aVNeYViWWqkILE5+tGGk+S/j601ps=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "0977726aa3fe7e02b72f175816b1a354e86485de",
+        "rev": "ab40f585ed41183bfe834a718194c199a206b21a",
         "type": "github"
       },
       "original": {
