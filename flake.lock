@@ -157,11 +157,11 @@
     "nix-direnv": {
       "flake": false,
       "locked": {
-        "lastModified": 1616653974,
-        "narHash": "sha256-87x+MRQ1SjtN+wNCy42VJwlRwgQzHjNEK3J1bkvo7eQ=",
+        "lastModified": 1617101901,
+        "narHash": "sha256-2kPVK46UnrpvMOvRDHu6nEpWsSr+I26ae3BgkVjIw4E=",
         "owner": "nix-community",
         "repo": "nix-direnv",
-        "rev": "c3ff5993f8309956c39a07c7e7dd924ec0cb86f9",
+        "rev": "c61bdfb7b996b537e1de0f3362e7bb0a00663e9a",
         "type": "github"
       },
       "original": {
