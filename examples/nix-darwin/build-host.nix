@@ -2,6 +2,7 @@
 , ...
 }:
 {
+  system = "x86_64-darwin";
   modules = lib.singleton
     ({ pkgs, ... }: {
       # For now, setting this is required.

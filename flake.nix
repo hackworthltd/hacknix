@@ -285,7 +285,7 @@
       hydraJobs = {
         build = self.packages;
         nixosConfigurations.x86_64-linux = self.lib.flakes.nixosConfigurations.build self.nixosConfigurations;
-        darwinConfigurations.x86_64-darwin = self.lib.flakes.nixosConfigurations.build self.darwinConfigurations;
+        darwinConfigurations.x86_64-darwin = self.lib.flakes.darwinConfigurations.build self.darwinConfigurations;
 
         amazonImages.x86_64-linux =
           let
