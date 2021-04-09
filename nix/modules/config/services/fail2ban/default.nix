@@ -70,7 +70,7 @@ in
   config = mkIf fail2ban-enabled {
 
     hacknix.assertions.moduleHashes."services/security/fail2ban.nix" =
-      "6157c74bc79132b82db31768980cf3d95c76e906c6acf3fa2eedbb4df93060d5";
+      "7394caa6961ab1dc9c138ec4724612105355e3115d848acd13d17df73d4d7d60";
 
     services.fail2ban.jails.DEFAULT = mkForce ''
       ignoreip = ${ignoreip}
