@@ -124,6 +124,7 @@
               inherit (pkgs) delete-tweets;
               inherit (pkgs) emacsGcc;
               inherit (pkgs) ffmpeg-full;
+              inherit (pkgs) flyctl;
               inherit (pkgs) fsatrace;
               inherit (pkgs) hostapd;
               inherit (pkgs) libprelude;
