@@ -250,6 +250,7 @@ in
         name = "opendkim";
         group = cfg.group;
         uid = config.ids.uids.opendkim;
+        isSystemUser = true;
       };
     };
 

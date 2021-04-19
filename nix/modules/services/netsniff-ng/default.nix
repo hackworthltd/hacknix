@@ -235,6 +235,7 @@ in
         name = defaultUser;
         description = "Packet capture user";
         group = cfg.group;
+        isSystemUser = true;
       };
     };
 
@@ -264,7 +265,8 @@ in
 
                         }
                       )
-                ) cfg.instances
+                )
+                cfg.instances
             ) ++ (
               mapAttrsToList
                 (
@@ -285,7 +287,8 @@ in
 
                         }
                       )
-                ) cfg.instances
+                )
+                cfg.instances
             )
           )
       );
@@ -309,7 +312,8 @@ in
 
                       }
                     )
-              ) cfg.instances
+              )
+              cfg.instances
           )
       );
 

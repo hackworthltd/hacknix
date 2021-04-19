@@ -633,7 +633,7 @@ in
   config = mkIf cfg.enable {
 
     hacknix.assertions.moduleHashes."services/mail/dovecot.nix" =
-      "ec9609e635a2d0710a996e0a015d0c511a9d40bbb838a43125c90bf40518c9cc";
+      "4f3707da38fbc7979797a1c3090d32791ac0421e641a22402c5ccee1ec4c09ef";
 
     security.pam.services.dovecot2 = mkIf cfg.enablePAM { };
 
@@ -646,6 +646,7 @@ in
         uid = config.ids.uids.dovenull2;
         description = "Dovecot user for untrusted logins";
         group = "dovenull";
+        isSystemUser = true;
       };
     } // optionalAttrs (cfg.user == "dovecot2") {
       dovecot2 = {
@@ -653,6 +654,7 @@ in
         uid = config.ids.uids.dovecot2;
         description = "Dovecot user";
         group = cfg.group;
+        isSystemUser = true;
       };
     } // optionalAttrs (cfg.createMailUser && cfg.mailUser != null) {
       "${cfg.mailUser}" = {

@@ -82,6 +82,7 @@ in
       useDefaultShell = true;
       description = "Nix remote builder";
       openssh.authorizedKeys.keys = authorizedKeys;
+      isSystemUser = true;
     };
 
     # Useful utilities.
