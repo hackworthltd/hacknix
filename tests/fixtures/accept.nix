@@ -271,8 +271,6 @@ makeTest (
     };
 
     testScript = { nodes, ... }: ''
-      import re
-
       start_all()
 
       server.wait_for_unit("nginx.service")
