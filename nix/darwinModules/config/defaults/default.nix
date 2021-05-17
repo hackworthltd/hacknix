@@ -113,15 +113,6 @@ in
       echo "ok"
     '';
 
-    system.activationScripts.postActivation.text = ''
-      printf "Disabling Spotlight on /nix... "
-      mdutil -i off /nix &> /dev/null
-      mdutil -d /nix &> /dev/null
-      mdutil -E /nix &> /dev/null
-      touch /nix/.metadata_never_index
-      echo "ok"
-    '';
-
     # Increase maxfiles and maxproc. (Note: I don't know of a way to
     # do this just per-user, so it must be done system-wide, it
     # seems.)
