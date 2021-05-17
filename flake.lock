@@ -172,16 +172,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1621262352,
-        "narHash": "sha256-W4wTPCPaCcuFpXUacYEKsXqFHpyqyGRBVXtWL3ifSZg=",
+        "lastModified": 1621270295,
+        "narHash": "sha256-xkdHqm5fCQJcEC0fVPgX7lUs1EQUCkb0PKLKGoYBt4U=",
         "owner": "hackworthltd",
         "repo": "nixpkgs",
-        "rev": "fb23f0d47514e7b85b6c9acf9d2698618ad102b7",
+        "rev": "1f22c6786cee6aec1c81c43ace93f9619edc76c6",
         "type": "github"
       },
       "original": {
         "owner": "hackworthltd",
-        "ref": "fix-nix-big-sur",
+        "ref": "fix-nix-big-sur-v3",
         "repo": "nixpkgs",
         "type": "github"
       }
