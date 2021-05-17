@@ -2,7 +2,7 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
+    nixpkgs.url = github:hackworthltd/nixpkgs/fix-nix-big-sur;
     hacknix-lib.url = github:hackworthltd/hacknix-lib;
     hacknix-lib.inputs.nixpkgs.follows = "nixpkgs";
 
