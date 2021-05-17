@@ -6,6 +6,8 @@
     hacknix-lib.url = github:hackworthltd/hacknix-lib;
     hacknix-lib.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix.url = github:NixOS/nix/a22cad62d49428ce5d5afb8a5c19841f50f3c76a;
+
     flake-utils.url = github:numtide/flake-utils;
 
     flake-compat.url = github:edolstra/flake-compat;
@@ -43,6 +45,7 @@
     , emacs-overlay
     , sops-nix
     , nix-direnv
+    , nix
     , ...
     }@inputs:
     let
@@ -77,20 +80,31 @@
           hacknix-lib.overlay
           emacs-overlay.overlay
           sops-nix.overlay
+          nix.overlay
           overlaysFromDir
-          (final: prev: {
-            nix-direnv = final.callPackage nix-direnv { };
+          (final: prev:
+            let
+              nix = prev.nixStable;
+              nixUnstable = prev.nix;
+            in
+            {
+              nix-direnv = final.callPackage nix-direnv { };
 
-            lib = (prev.lib or { }) // {
-              hacknix = (prev.lib.hacknix or { }) // {
-                flake = (prev.lib.hacknix.flake or { }) // {
-                  inherit inputs;
-                  inherit (self) darwinModule;
-                  inherit (self) nixosModule;
+              inherit nix;
+              inherit nixUnstable;
+              nixFlakes = nixUnstable;
+              nixExperimental = nixUnstable;
+
+              lib = (prev.lib or { }) // {
+                hacknix = (prev.lib.hacknix or { }) // {
+                  flake = (prev.lib.hacknix.flake or { }) // {
+                    inherit inputs;
+                    inherit (self) darwinModule;
+                    inherit (self) nixosModule;
+                  };
                 };
               };
-            };
-          })
+            })
         ];
 
       packages = forAllSupportedSystems

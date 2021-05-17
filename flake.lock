@@ -35,11 +35,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1621188884,
-        "narHash": "sha256-s0kH/ugeCVhsJTRKyj4vRSoq1INoYIyzg7gCiO8Qd9g=",
+        "lastModified": 1621245326,
+        "narHash": "sha256-tGsrUnp3Zl8rvDq/JXOSK9IPkT0ZRqaXTZddix/V16Q=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "e65a4fdf5acea4de3b390fbfa2f7636905ad0957",
+        "rev": "a8663485e83d0975f9ef0288194838078dab90cd",
         "type": "github"
       },
       "original": {
@@ -133,6 +133,43 @@
         "type": "github"
       }
     },
+    "lowdown-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1617481909,
+        "narHash": "sha256-SqnfOFuLuVRRNeVJr1yeEPJue/qWoCp5N6o5Kr///p4=",
+        "owner": "kristapsdz",
+        "repo": "lowdown",
+        "rev": "148f9b2f586c41b7e36e73009db43ea68c7a1a4d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kristapsdz",
+        "ref": "VERSION_0_8_4",
+        "repo": "lowdown",
+        "type": "github"
+      }
+    },
+    "nix": {
+      "inputs": {
+        "lowdown-src": "lowdown-src",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1621242948,
+        "narHash": "sha256-SWGZt1IPb1uqUcO5qqFLMF3SeYSNJVwXSocTbV9OG/w=",
+        "owner": "NixOS",
+        "repo": "nix",
+        "rev": "a22cad62d49428ce5d5afb8a5c19841f50f3c76a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nix",
+        "rev": "a22cad62d49428ce5d5afb8a5c19841f50f3c76a",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -172,6 +209,21 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1614309161,
+        "narHash": "sha256-93kRxDPyEW9QIpxU71kCaV1r+hgOgP6/aVgC7vvO8IU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0e499fde7af3c28d63e9b13636716b86c3162b93",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-20.09-small",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1621169420,
         "narHash": "sha256-NKFX7QhxRQkaw0+NjcZ6N+cYpDs7gkpMHxNC8QHkprg=",
         "owner": "NixOS",
@@ -195,8 +247,9 @@
         "flake-utils": "flake-utils",
         "gitignore-nix": "gitignore-nix",
         "hacknix-lib": "hacknix-lib",
+        "nix": "nix",
         "nix-direnv": "nix-direnv",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "sops-nix": "sops-nix",
         "spago2nix": "spago2nix",
         "traefik-forward-auth": "traefik-forward-auth"
