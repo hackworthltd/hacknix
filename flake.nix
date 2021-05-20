@@ -117,9 +117,7 @@
               inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
               inherit (pkgs) badhosts-all;
 
-              inherit (pkgs) delete-tweets;
               inherit (pkgs) emacsGcc;
-              inherit (pkgs) ffmpeg-full;
               inherit (pkgs) flyctl;
               inherit (pkgs) fsatrace;
               inherit (pkgs) hostapd;
@@ -132,17 +130,6 @@
               inherit (pkgs) tsoff;
               inherit (pkgs) wpa_supplicant;
               inherit (pkgs) yubikey-manager;
-
-              # Various buildEnv's that we use, usually only on macOS (though many
-              # of them should work on any pltform).
-              inherit (pkgs) anki-env;
-              inherit (pkgs) mactools-env;
-              inherit (pkgs) maths-env;
-              inherit (pkgs) nixtools-env;
-              inherit (pkgs) shell-env;
-
-              # These aren't actually derivations, and therefore, we
-              # can't export them from packages. They are in the overlay, however.
 
               # We don't override these, but just want to make sure they build.
               inherit (pkgs) neovim;
