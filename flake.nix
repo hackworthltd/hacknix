@@ -14,9 +14,6 @@
     badhosts.url = github:StevenBlack/hosts;
     badhosts.flake = false;
 
-    chamber.url = github:hackworthltd/chamber/aws-sdk-go-v1.37.15;
-    chamber.flake = false;
-
     emacs-overlay.url = github:nix-community/emacs-overlay;
 
     gitignore-nix.url = github:hercules-ci/gitignore.nix;
@@ -120,7 +117,6 @@
               inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
               inherit (pkgs) badhosts-all;
 
-              inherit (pkgs) chamber;
               inherit (pkgs) delete-tweets;
               inherit (pkgs) emacsGcc;
               inherit (pkgs) ffmpeg-full;
