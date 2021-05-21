@@ -8,18 +8,9 @@ in
     enable = lib.mkEnableOption ''
       the hacknix Nix configuration defaults.
 
-      At the moment, all this option does is enable Nix flakes support
-      for the system Nix version.
+      At the moment, this does nothing.
     '';
   };
 
-  config = lib.mkIf cfg.enable {
-    # Enable flakes support.
-    nix = {
-      package = pkgs.nixFlakes;
-      extraOptions = ''
-        experimental-features = nix-command flakes
-      '';
-    };
-  };
+  config = lib.mkIf cfg.enable { };
 }
