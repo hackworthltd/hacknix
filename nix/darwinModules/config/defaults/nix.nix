@@ -12,11 +12,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # Enable Nix flakes support. Most macOS machines are interactive
-    # machines, not remote builders, so this is a good default.
-    nix.package = pkgs.nixUnstable;
-    nix.extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
+    # No config currently.
   };
 }
