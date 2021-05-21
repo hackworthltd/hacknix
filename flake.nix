@@ -125,7 +125,6 @@
               inherit (pkgs) badhosts-all;
 
               inherit (pkgs) emacsGcc;
-              inherit (pkgs) flyctl;
               inherit (pkgs) fsatrace;
               inherit (pkgs) hostapd;
               inherit (pkgs) libprelude;
