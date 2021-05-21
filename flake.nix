@@ -107,9 +107,6 @@
           in
           (self.lib.flakes.filterPackagesByPlatform system
             {
-              inherit (pkgs) awscli2;
-              inherit (pkgs) aws-sam-cli;
-
               inherit (pkgs) badhosts-unified;
               inherit (pkgs)
                 badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social
@@ -128,7 +125,6 @@
               inherit (pkgs) badhosts-all;
 
               inherit (pkgs) emacsGcc;
-              inherit (pkgs) flyctl;
               inherit (pkgs) fsatrace;
               inherit (pkgs) hostapd;
               inherit (pkgs) libprelude;
@@ -139,12 +135,8 @@
               inherit (pkgs) trimpcap;
               inherit (pkgs) tsoff;
               inherit (pkgs) wpa_supplicant;
-              inherit (pkgs) yubikey-manager;
 
               inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
-
-              # We don't override these, but just want to make sure they build.
-              inherit (pkgs) neovim;
 
               # From sops-nix.
               inherit (pkgs) sops-init-gpg-key sops-install-secrets sops-pgp-hook ssh-to-pgp;
@@ -238,7 +230,6 @@
 
           ./nix/modules/services/hydra-manual-setup
           ./nix/modules/services/netsniff-ng
-          ./nix/modules/services/systemd-digitalocean
           ./nix/modules/services/tarsnapper
           ./nix/modules/services/traefik-forward-auth
           ./nix/modules/services/tftpd-hpa
@@ -348,18 +339,6 @@
                 };
               };
             mapTestOn {
-              dlnCleanSourceNix = all;
-              dlnCleanSourceHaskell = all;
-              dlnCleanSourceSystemCruft = all;
-              dlnCleanSourceEditors = all;
-              dlnCleanSourceMaintainer = all;
-              dlnCleanSourceAllExtraneous = all;
-              dlnCleanPackageNix = all;
-              dlnCleanPackageHaskell = all;
-              dlnCleanPackageSystemCruft = all;
-              dlnCleanPackageEditors = all;
-              dlnCleanPackageMaintainer = all;
-              dlnCleanPackageAllExtraneous = all;
               dlnAttrSets = all;
               dlnIPAddr = all;
               dlnMisc = all;
