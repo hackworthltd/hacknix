@@ -230,7 +230,6 @@
 
           ./nix/modules/services/hydra-manual-setup
           ./nix/modules/services/netsniff-ng
-          ./nix/modules/services/systemd-digitalocean
           ./nix/modules/services/tarsnapper
           ./nix/modules/services/traefik-forward-auth
           ./nix/modules/services/tftpd-hpa
