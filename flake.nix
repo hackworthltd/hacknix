@@ -107,8 +107,6 @@
           in
           (self.lib.flakes.filterPackagesByPlatform system
             {
-              inherit (pkgs) aws-sam-cli;
-
               inherit (pkgs) badhosts-unified;
               inherit (pkgs)
                 badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social
