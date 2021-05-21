@@ -138,9 +138,6 @@
 
               inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
-              # We don't override these, but just want to make sure they build.
-              inherit (pkgs) neovim;
-
               # From sops-nix.
               inherit (pkgs) sops-init-gpg-key sops-install-secrets sops-pgp-hook ssh-to-pgp;
 
