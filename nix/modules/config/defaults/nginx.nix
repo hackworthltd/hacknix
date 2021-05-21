@@ -34,15 +34,11 @@ in
 
       serverTokens = false;
 
-      ## Mozilla recommendations. See
-      ## https://mozilla.github.io/server-side-tls/ssl-config-generator/?server=nginx-1.10.3&openssl=1.0.1e&hsts=yes&profile=modern
+      # Mozilla recommendations. See
+      # https://ssl-config.mozilla.org/#server=nginx&version=1.17.7&config=intermediate&openssl=1.1.1d&guideline=5.6
 
       sslCiphers = pkgs.lib.security.sslModernCiphers;
-
-      sslProtocols = "TLSv1.2";
-
-      # Everything that isn't covered by an nginx module option.
-
+      sslProtocols = "TLSv1.2 TLSv1.3";
       appendHttpConfig = ''
         ssl_session_timeout 1d;
         ssl_session_cache shared:SSL:50m;
@@ -52,8 +48,6 @@ in
         # HSTS (ngx_http_headers_module is required) (15768000 seconds = 6 months)
         add_header Strict-Transport-Security max-age=15768000;
 
-        # OCSP Stapling ---
-        # fetch OCSP records from URL in ssl_certificate and cache them
         ssl_stapling on;
         ssl_stapling_verify on;
       '';
