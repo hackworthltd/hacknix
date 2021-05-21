@@ -107,7 +107,6 @@
           in
           (self.lib.flakes.filterPackagesByPlatform system
             {
-              inherit (pkgs) awscli2;
               inherit (pkgs) aws-sam-cli;
 
               inherit (pkgs) badhosts-unified;
