@@ -135,7 +135,6 @@
               inherit (pkgs) trimpcap;
               inherit (pkgs) tsoff;
               inherit (pkgs) wpa_supplicant;
-              inherit (pkgs) yubikey-manager;
 
               inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
