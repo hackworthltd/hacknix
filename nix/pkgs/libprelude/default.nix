@@ -15,12 +15,12 @@
 
 stdenv.mkDerivation rec {
   name = "libprelude-${version}";
-  version = "5.0.0";
+  version = "5.2.0";
 
   src = fetchurl {
     url =
-      "https://www.prelude-siem.org/attachments/download/1025/libprelude-5.0.0.tar.gz";
-    sha256 = "12n4ai46l88qgm9xrz8k23nkygk9nyrczy8jk8bmkq9jksjvr58g";
+      "https://www.prelude-siem.org/attachments/download/1395/libprelude-5.2.0.tar.gz";
+    sha256 = "sha256-GH4CWl1RIZgQEjV1syqgtAA3cJoHOndbw+WmWqbWpm4=";
   };
 
   nativeBuildInputs = [ bison flex gawk pkgconfig swig ];
