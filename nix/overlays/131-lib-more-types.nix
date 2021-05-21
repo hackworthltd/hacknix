@@ -1,4 +1,4 @@
-# # Additional useful types, mostly for NixOS modules.
+# Additional useful types, mostly for NixOS modules.
 
 # The key type defined here is based on keyOptionType in NixOps. As it
 # is a derivative work of NixOps, it is covered by the GNU LGPL; see
