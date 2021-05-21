@@ -140,6 +140,8 @@
 
               inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
+              inherit (pkgs) vault-plugin-secrets-github;
+
               # From sops-nix.
               inherit (pkgs) sops-init-gpg-key sops-install-secrets sops-pgp-hook ssh-to-pgp;
 
