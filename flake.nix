@@ -348,18 +348,6 @@
                 };
               };
             mapTestOn {
-              dlnCleanSourceNix = all;
-              dlnCleanSourceHaskell = all;
-              dlnCleanSourceSystemCruft = all;
-              dlnCleanSourceEditors = all;
-              dlnCleanSourceMaintainer = all;
-              dlnCleanSourceAllExtraneous = all;
-              dlnCleanPackageNix = all;
-              dlnCleanPackageHaskell = all;
-              dlnCleanPackageSystemCruft = all;
-              dlnCleanPackageEditors = all;
-              dlnCleanPackageMaintainer = all;
-              dlnCleanPackageAllExtraneous = all;
               dlnAttrSets = all;
               dlnIPAddr = all;
               dlnMisc = all;
