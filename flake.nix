@@ -3,8 +3,8 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
-    hacknix-lib.url = github:hackworthltd/hacknix-lib;
-    hacknix-lib.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin.url = github:hackworthltd/nix-darwin/fixes-v6;
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = github:numtide/flake-utils;
 
@@ -36,28 +36,29 @@
     { self
     , flake-utils
     , nixpkgs
-    , hacknix-lib
+    , nix-darwin
     , emacs-overlay
     , sops-nix
     , nix-direnv
     , ...
     }@inputs:
     let
+      bootstrap = (import ./nix/overlays/000-bootstrap.nix) { } nixpkgs;
+
       supportedSystems = [ "x86_64-linux" "x86_64-darwin" ];
-      forAllSupportedSystems = hacknix-lib.lib.flakes.forAllSystems supportedSystems;
+      forAllSupportedSystems = bootstrap.lib.flakes.forAllSystems supportedSystems;
 
       testSystems = [ "x86_64-linux" ];
-      forAllTestSystems = hacknix-lib.lib.flakes.forAllSystems testSystems;
-
-      config = {
-        allowUnfree = true;
-        allowBroken = true;
-      };
+      forAllTestSystems = bootstrap.lib.flakes.forAllSystems testSystems;
 
       # Memoize nixpkgs for a given system;
       pkgsFor = forAllSupportedSystems (system:
         import nixpkgs {
-          inherit system config;
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+          };
           overlays = [ self.overlay ];
         }
       );
@@ -68,17 +69,23 @@
 
       overlay =
         let
-          overlaysFromDir = hacknix-lib.lib.overlays.combineFromDir ./nix/overlays;
+          overlaysFromDir = bootstrap.lib.overlays.combineFromDir ./nix/overlays;
         in
-        hacknix-lib.lib.overlays.combine [
-          hacknix-lib.overlay
-          emacs-overlay.overlay
-          sops-nix.overlay
-          overlaysFromDir
+        bootstrap.lib.overlays.combine [
           (final: prev: {
             nix-direnv = final.callPackage nix-direnv { };
 
             lib = (prev.lib or { }) // {
+
+              flakes = (prev.lib.flakes or { }) // {
+                # For some reason, the nixpkgs flake doesn't roll its local
+                # lib.nixosSystem into nixpkgs.lib. We expose it here.
+                inherit (nixpkgs.lib) nixosSystem;
+
+                # Ditto for nix-darwin's lib.darwinSystem function.
+                inherit (nix-darwin.lib) darwinSystem;
+              };
+
               hacknix = (prev.lib.hacknix or { }) // {
                 flake = (prev.lib.hacknix.flake or { }) // {
                   inherit inputs;
@@ -88,6 +95,9 @@
               };
             };
           })
+          emacs-overlay.overlay
+          sops-nix.overlay
+          overlaysFromDir
         ];
 
       packages = forAllSupportedSystems
@@ -95,7 +105,7 @@
           let
             pkgs = pkgsFor.${system};
           in
-          (hacknix-lib.lib.flakes.filterPackagesByPlatform system
+          (self.lib.flakes.filterPackagesByPlatform system
             {
               inherit (pkgs) awscli2;
               inherit (pkgs) aws-sam-cli;
@@ -130,6 +140,8 @@
               inherit (pkgs) tsoff;
               inherit (pkgs) wpa_supplicant;
               inherit (pkgs) yubikey-manager;
+
+              inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
               # We don't override these, but just want to make sure they build.
               inherit (pkgs) neovim;
@@ -312,13 +324,49 @@
 
         tests = forAllTestSystems
           (system:
-            self.lib.testing.nixos.importFromDirectory ./tests/fixtures
+            (self.lib.testing.nixos.importFromDirectory ./tests/fixtures
               {
                 inherit system;
                 pkgs = pkgsFor.${system};
                 extraConfigurations = [ self.nixosModule ];
               }
-              { });
+              { })
+            // (with import (nixpkgs + "/pkgs/top-level/release-lib.nix")
+              {
+                supportedSystems = [ system ];
+                scrubJobs = true;
+                nixpkgsArgs = {
+                  config = {
+                    allowUnfree = false;
+                    allowBroken = true;
+                    inHydra = true;
+                  };
+                  overlays = [
+                    self.overlay
+                    (import ./lib-tests)
+                  ];
+                };
+              };
+            mapTestOn {
+              dlnCleanSourceNix = all;
+              dlnCleanSourceHaskell = all;
+              dlnCleanSourceSystemCruft = all;
+              dlnCleanSourceEditors = all;
+              dlnCleanSourceMaintainer = all;
+              dlnCleanSourceAllExtraneous = all;
+              dlnCleanPackageNix = all;
+              dlnCleanPackageHaskell = all;
+              dlnCleanPackageSystemCruft = all;
+              dlnCleanPackageEditors = all;
+              dlnCleanPackageMaintainer = all;
+              dlnCleanPackageAllExtraneous = all;
+              dlnAttrSets = all;
+              dlnIPAddr = all;
+              dlnMisc = all;
+              dlnFfdhe = all;
+              dlnTypes = all;
+            })
+          );
       };
 
       ciJobs = self.lib.flakes.recurseIntoHydraJobs self.hydraJobs;

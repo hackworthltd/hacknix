@@ -1,0 +1,3 @@
+{
+  value = "/run/keys/foo";
+}

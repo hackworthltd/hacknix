@@ -1,6 +1,6 @@
 final: prev:
 let
-  # Like their hacknix-lib equivalents, except these automatically
+  # Like their lib.flakes equivalents, except these automatically
   # append the hacknix modules (or darwinModules) to the
   # configuration.
   nixosSystem' = extraModules:
