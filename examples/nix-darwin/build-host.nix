@@ -25,5 +25,10 @@
           };
         };
       };
+
+      services.vault-agent = {
+        enable = true;
+        server.address = "http://example.com";
+      };
     });
 }

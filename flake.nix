@@ -268,6 +268,8 @@
           ./nix/darwinModules/config/defaults/nix.nix
           ./nix/darwinModules/config/remote-builds/build-host
           ./nix/darwinModules/config/remote-builds/remote-build-host
+
+          ./nix/darwinModules/config/services/vault-agent
         ];
         nixpkgs.overlays = [ self.overlay ];
       };
