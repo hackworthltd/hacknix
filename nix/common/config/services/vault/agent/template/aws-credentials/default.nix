@@ -6,6 +6,7 @@
 }:
 let
   cfg = config.services.vault-agent.template.aws-credentials;
+  enabled = cfg != { };
 
   # A limitation of AWS STS tokens.
   maxTTL = 60 * 60 * 12;
@@ -46,9 +47,9 @@ let
     )
     listOfCreds;
 
-  mkdirs = pkgs.writeShellScript "make-aws-credentials-dirs" (lib.concatMapStringsSep "\n"
+  mkdirsCmds = lib.concatMapStringsSep "\n"
     (creds: "${pkgs.coreutils}/bin/install -d -m 0700 -o ${creds.owner} -g ${creds.group} ${creds.dir}")
-    listOfCreds);
+    listOfCreds;
 
   assertions = lib.flatten (map
     (creds: [
@@ -171,12 +172,9 @@ in
     description = "Configure AWS credentials templates.";
   };
 
-  config = lib.mkIf (cfg != { }) {
+  config = lib.mkIf enabled {
     inherit assertions;
-
     services.vault-agent.config = vaultConfig;
-    systemd.services.vault-agent.serviceConfig = {
-      ExecStartPre = mkdirs;
-    };
+    services.vault-agent.preCommands = mkdirsCmds;
   };
 }

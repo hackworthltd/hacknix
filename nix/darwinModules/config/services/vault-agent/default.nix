@@ -8,7 +8,7 @@ let
 
   configFile = pkgs.writeText "vault-agent.hcl" (cfg.config + ''
     exit_after_auth = false
-    pid_file = "./vault-agent.pid"
+    pid_file = "${cfg.dataDir}/vault-agent.pid"
 
     vault {
       address = "${cfg.server.address}"
@@ -20,6 +20,11 @@ in
   options.services.vault-agent = {
     enable = lib.mkEnableOption ''
       a Vault Agent for local services on this host.
+
+      Note that, by default, this agent will not listen for incoming
+      connections. You should not enable that unless you know what
+      you're doing; this Vault Agent service is intended for use with
+      machine services only.
     '';
 
     server = {
@@ -47,32 +52,44 @@ in
 
     config = lib.mkOption {
       type = pkgs.lib.types.lines;
+      default = "";
       description = ''
         The Vault Agent HCL config file.
       '';
     };
+
+    dataDir = lib.mkOption {
+      readOnly = true;
+      default = "/var/lib/vault-agent";
+      description = "The working directory for the agent";
+      type = pkgs.lib.types.str;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    systemd.services.vault-agent = {
-      before = (lib.optional config.services.vault.enable "vault.service");
-      wantedBy = [ "multi-user.target" ];
-
+    launchd.daemons.vault-agent = {
       path = with pkgs; [
+        getent # Vault appears to need this in agent mode.
         vault
-
-        # Vault appears to need this in agent mode.
-        getent
       ];
+      environment = {
+        HOME = cfg.dataDir;
+      };
 
       script = ''
+        ${pkgs.coreutils}/bin/install -o root -g wheel -m 0750 -d ${cfg.dataDir}
+        /bin/wait4path ${pkgs.vault}/bin/vault
         ${cfg.preCommands}
-        ${pkgs.vault}/bin/vault agent -config ${configFile}
+        exec ${pkgs.vault}/bin/vault agent -config ${configFile}
       '';
 
       serviceConfig = {
-        Restart = "always";
-        RestartSec = "30s";
+        ProcessType = "Interactive";
+        ThrottleInterval = 30;
+        KeepAlive = true;
+        StandardErrorPath = "${cfg.dataDir}/vault-agent.log";
+        StandardOutPath = "${cfg.dataDir}/vault-agent.log";
+        Label = "com.hashicorp.vault-agent";
       };
     };
   };
