@@ -196,9 +196,6 @@
           ./nix/modules/config/services/fail2ban
           ./nix/modules/config/services/freeradius
 
-          ./nix/modules/config/services/vault/agent/auth/approle
-          ./nix/modules/config/services/vault/agent/template/aws-credentials
-
           ./nix/modules/config/hardware/amd/common.nix
           ./nix/modules/config/hardware/amd/jaguar.nix
           ./nix/modules/config/hardware/apu2/apu3c4.nix
@@ -244,6 +241,9 @@
           ./nix/modules/services/traefik-forward-auth
           ./nix/modules/services/tftpd-hpa
           ./nix/modules/services/vault/agent
+
+          ./nix/common/config/services/vault/agent/template/aws-credentials
+          ./nix/common/config/services/vault/agent/auth/approle
         ];
         nixpkgs.overlays = [ self.overlay ];
       };
@@ -270,6 +270,9 @@
           ./nix/darwinModules/config/remote-builds/remote-build-host
 
           ./nix/darwinModules/config/services/vault-agent
+
+          ./nix/common/config/services/vault/agent/template/aws-credentials
+          ./nix/common/config/services/vault/agent/auth/approle
         ];
         nixpkgs.overlays = [ self.overlay ];
       };

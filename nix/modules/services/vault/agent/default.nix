@@ -37,6 +37,14 @@ in
       '';
     };
 
+    preCommands = lib.mkOption {
+      type = pkgs.lib.types.lines;
+      default = "";
+      description = ''
+        Extra commands to run before starting Vault Agent.
+      '';
+    };
+
     config = lib.mkOption {
       type = pkgs.lib.types.lines;
       description = ''
@@ -57,11 +65,14 @@ in
         getent
       ];
 
+      script = ''
+        ${cfg.preCommands}
+        ${pkgs.vault}/bin/vault agent -config ${configFile}
+      '';
+
       serviceConfig = {
         Restart = "always";
         RestartSec = "30s";
-        ExecStart =
-          "${pkgs.vault}/bin/vault agent -config ${configFile}";
       };
     };
   };

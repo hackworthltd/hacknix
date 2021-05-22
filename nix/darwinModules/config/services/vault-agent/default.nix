@@ -7,17 +7,6 @@ let
   cfg = config.services.vault-agent;
 
   configFile = pkgs.writeText "vault-agent.hcl" (cfg.config + ''
-    auto_auth {
-      method {
-        type = "approle"
-        config = {
-          role_id_file_path = "${cfg.approle.roleIdPath}"
-          secret_id_file_path = "${cfg.approle.secretIdPath}"
-          remove_secret_id_file_after_reading = false
-        }
-      }
-    }
-
     exit_after_auth = false
     pid_file = "${cfg.dataDir}/vault-agent.pid"
 
@@ -51,35 +40,6 @@ in
         TLS certificate verification against the upstream server's
         certificates.
       '';
-    };
-
-    approle = {
-      roleIdPath = lib.mkOption {
-        readOnly = true;
-        type = pkgs.lib.types.nonStorePath;
-        default = "/var/lib/vault-agent/role-id";
-        description = ''
-          The path to a file containing the machine's AppRole role ID.
-
-          Do <strong>not</strong> keep this file in the Nix store, as
-          it is considered a secret.
-        '';
-      };
-
-      secretIdPath = lib.mkOption {
-        readOnly = true;
-        type = pkgs.lib.types.nonStorePath;
-        default = "/var/lib/vault-agent/secret-id";
-        description = ''
-          The path to a file containing the machine's AppRole secret ID.
-
-          This secret should not be wrapped, nor should it have a
-          limited number of uses. The Vault Agent will need to use it
-          every time the service is restarted.
-
-          Do <strong>not</strong> keep this file in the Nix store.
-        '';
-      };
     };
 
     preCommands = lib.mkOption {
@@ -117,7 +77,7 @@ in
       };
 
       script = ''
-        /usr/bin/install -o root -g wheel -m 0750 -d ${cfg.dataDir}
+        ${pkgs.coreutils}/bin/install -o root -g wheel -m 0750 -d ${cfg.dataDir}
         /bin/wait4path ${pkgs.vault}/bin/vault
         ${cfg.preCommands}
         exec ${pkgs.vault}/bin/vault agent -config ${configFile}
@@ -132,25 +92,5 @@ in
         Label = "com.hashicorp.vault-agent";
       };
     };
-
-    system.activationScripts.postActivation.text = ''
-      if [ -f ${cfg.approle.roleIdPath} ]; then
-        printf "Setting secure permissions on Vault Agent AppRole role ID file..."
-        chown root:wheel ${cfg.approle.roleIdPath}
-        chmod 0440 ${cfg.approle.roleIdPath}
-        echo "done"
-      else
-        echo "WARNING: Vault Agent AppRole role ID file is missing. Vault Agent will fail to start."
-      fi
-
-      if [ -f ${cfg.approle.secretIdPath} ]; then
-        printf "Setting secure permissions on Vault Agent AppRole secret ID file..."
-        chown root:wheel ${cfg.approle.secretIdPath}
-        chmod 0440 ${cfg.approle.secretIdPath}
-        echo "done"
-      else
-        echo "WARNING: Vault Agent AppRole secret ID file is missing. Vault Agent will fail to start."
-      fi
-    '';
   };
 }
