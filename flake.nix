@@ -240,6 +240,7 @@
           ./nix/modules/services/tarsnapper
           ./nix/modules/services/traefik-forward-auth
           ./nix/modules/services/tftpd-hpa
+          ./nix/modules/services/vault/agent
         ];
         nixpkgs.overlays = [ self.overlay ];
       };
