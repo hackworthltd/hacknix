@@ -195,6 +195,7 @@
 
           ./nix/modules/config/services/fail2ban
           ./nix/modules/config/services/freeradius
+          ./nix/modules/config/services/avahi-reflector
 
           ./nix/modules/config/hardware/amd/common.nix
           ./nix/modules/config/hardware/amd/jaguar.nix
@@ -219,18 +220,25 @@
           ./nix/modules/config/hardware/jetson-tx1.nix
           ./nix/modules/config/hardware/mbr.nix
           ./nix/modules/config/hardware/uefi.nix
+
           ./nix/modules/config/networking/tcp-bbr
+
           ./nix/modules/config/nix/auto-gc
+
           ./nix/modules/config/remote-builds/remote-build-host
           ./nix/modules/config/remote-builds/build-host
+
           ./nix/modules/core/module-hashes.nix
+
           ./nix/modules/dns/unbound-multi-instance
+
           ./nix/modules/email/dovecot
           ./nix/modules/email/null-client
           ./nix/modules/email/opendkim
           ./nix/modules/email/postfix-mta
           ./nix/modules/email/relay-host
           ./nix/modules/email/service-status-email
+
           ./nix/modules/networking/accept
           ./nix/modules/networking/pcap-prep
           ./nix/modules/networking/virtual-ips
