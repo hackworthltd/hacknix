@@ -196,6 +196,9 @@
           ./nix/modules/config/services/fail2ban
           ./nix/modules/config/services/freeradius
 
+          ./nix/modules/config/services/vault/agent/auth/approle
+          ./nix/modules/config/services/vault/agent/template/aws-credentials
+
           ./nix/modules/config/hardware/amd/common.nix
           ./nix/modules/config/hardware/amd/jaguar.nix
           ./nix/modules/config/hardware/apu2/apu3c4.nix
