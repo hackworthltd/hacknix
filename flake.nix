@@ -127,6 +127,7 @@
               inherit (pkgs) badhosts-all;
 
               inherit (pkgs) emacsGcc;
+              inherit (pkgs) ffmpeg-full;
               inherit (pkgs) fsatrace;
               inherit (pkgs) hostapd;
               inherit (pkgs) libprelude;
