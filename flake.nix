@@ -242,8 +242,9 @@
           ./nix/modules/services/tftpd-hpa
           ./nix/modules/services/vault/agent
 
-          ./nix/common/config/services/vault/agent/template/aws-credentials
           ./nix/common/config/services/vault/agent/auth/approle
+          ./nix/common/config/services/vault/agent/template
+          ./nix/common/config/services/vault/agent/template/aws-credentials
         ];
         nixpkgs.overlays = [ self.overlay ];
       };
@@ -271,8 +272,9 @@
 
           ./nix/darwinModules/config/services/vault-agent
 
-          ./nix/common/config/services/vault/agent/template/aws-credentials
           ./nix/common/config/services/vault/agent/auth/approle
+          ./nix/common/config/services/vault/agent/template
+          ./nix/common/config/services/vault/agent/template/aws-credentials
         ];
         nixpkgs.overlays = [ self.overlay ];
       };

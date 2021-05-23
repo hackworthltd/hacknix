@@ -35,6 +35,19 @@
         roleIdPath = "/var/lib/vault-agent/roleid";
         secretIdPath = "/var/lib/vault-agent/secretid";
       };
+      services.vault-agent.templates.nix-access-tokens = {
+        destination = "/etc/nix/access-tokens";
+        template = ''
+          access-tokens = github.com={{ with secret "github/token/repos" }}{{ .Data.token }}{{ end }}
+        '';
+        command = ''
+          chmod dhess:admin /Users/dhess/.config/nix.conf
+        '';
+        createDir = {
+          owner = "dhess";
+          group = "admin";
+        };
+      };
       services.vault-agent.template.aws-credentials.binary-cache = {
         vaultPath = "aws/sts/nix-binary-cache";
         dir = "/root/.aws";
