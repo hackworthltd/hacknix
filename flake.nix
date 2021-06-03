@@ -293,25 +293,25 @@
         nixosConfigurations.x86_64-linux = self.lib.flakes.nixosConfigurations.build self.nixosConfigurations;
         darwinConfigurations.x86_64-darwin = self.lib.flakes.darwinConfigurations.build self.darwinConfigurations;
 
-        amazonImages.x86_64-linux =
-          let
-            extraModules = [
-              {
-                ec2.hvm = true;
-                amazonImage.format = "qcow2";
-                amazonImage.sizeMB = 4096;
-              }
-            ];
-            mkSystem = self.lib.hacknix.amazonImage extraModules;
-            configs =
-              self.lib.flakes.nixosConfigurations.importFromDirectory
-                mkSystem
-                ./examples/nixos
-                {
-                  inherit (self) lib;
-                };
-          in
-          self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
+        # amazonImages.x86_64-linux =
+        #   let
+        #     extraModules = [
+        #       {
+        #         ec2.hvm = true;
+        #         amazonImage.format = "qcow2";
+        #         amazonImage.sizeMB = 4096;
+        #       }
+        #     ];
+        #     mkSystem = self.lib.hacknix.amazonImage extraModules;
+        #     configs =
+        #       self.lib.flakes.nixosConfigurations.importFromDirectory
+        #         mkSystem
+        #         ./examples/nixos
+        #         {
+        #           inherit (self) lib;
+        #         };
+        #   in
+        #   self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
 
         isoImages.x86_64-linux =
           let
