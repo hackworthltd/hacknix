@@ -319,6 +319,7 @@
               ({ config, ... }:
                 {
                   isoImage.isoBaseName = self.lib.mkForce "${config.networking.hostName}_hacknix-example-iso";
+                  networking.wireless.enable = self.lib.mkForce false;
                 })
             ];
             mkSystem = self.lib.hacknix.isoImage extraModules;
