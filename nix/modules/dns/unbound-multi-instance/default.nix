@@ -90,13 +90,13 @@ let
           chown unbound ${stateDir} ${rootTrustAnchorFile}
         ''}
         touch ${stateDir}/dev/random
-        ${pkgs.utillinux}/bin/mount --bind -n /dev/urandom ${stateDir}/dev/random
+        ${pkgs.util-linux}/bin/mount --bind -n /dev/urandom ${stateDir}/dev/random
       '';
 
       serviceConfig = {
         ExecStart =
           "${pkgs.unbound}/bin/unbound -d -c ${stateDir}/${confFileName}";
-        ExecStopPost = "${pkgs.utillinux}/bin/umount ${stateDir}/dev/random";
+        ExecStopPost = "${pkgs.util-linux}/bin/umount ${stateDir}/dev/random";
 
         ProtectSystem = true;
         ProtectHome = true;

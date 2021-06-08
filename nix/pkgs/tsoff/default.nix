@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
   src = ./.;
 
   buildInputs =
-    [ makeWrapper perl perlPackages.GetoptLong perlPackages.PodUsage ];
+    [ makeWrapper perl perlPackages.GetoptLong ];
 
   installPhase =
     let

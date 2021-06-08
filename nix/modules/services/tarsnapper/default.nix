@@ -128,7 +128,7 @@ in
         nettools
         tarsnap
         tarsnapper
-        utillinux
+        util-linux
       ];
 
       script = ''
