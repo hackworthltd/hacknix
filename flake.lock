@@ -18,11 +18,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1623488513,
-        "narHash": "sha256-F62TEVC+D3o+y+zifSMZ7x/FhxRtaLN9zN6Bi3ffCus=",
+        "lastModified": 1623609074,
+        "narHash": "sha256-5r7rpljW3Ck/8I6UFt1QlPUiB7Fa8E2KtRW9u83YC4Y=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "6b6945c6066590764f09a5429af92c2ab1b35f67",
+        "rev": "d9baacb691afe81a61b5b9f5fd42473710c59581",
         "type": "github"
       },
       "original": {
@@ -102,11 +102,11 @@
     "nix-direnv": {
       "flake": false,
       "locked": {
-        "lastModified": 1623393475,
-        "narHash": "sha256-QR+UOLCyrwHwRZcLUfmVWoIIzTJI61CJSGHiSTBN8K4=",
+        "lastModified": 1623578147,
+        "narHash": "sha256-tv7LT18lQCHFkld27JNFThJ55mnWIs/9/gAHXe4fcnA=",
         "owner": "nix-community",
         "repo": "nix-direnv",
-        "rev": "6c32d2d5ffe9cc35babf0ee653e9bdc41da83347",
+        "rev": "4eab19bf22d83395d80b02aed887a24c1cef9ae3",
         "type": "github"
       },
       "original": {
