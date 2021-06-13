@@ -236,6 +236,7 @@
           ./nix/modules/networking/pcap-prep
           ./nix/modules/networking/virtual-ips
 
+          ./nix/modules/services/cloudflared
           ./nix/modules/services/hydra-manual-setup
           ./nix/modules/services/netsniff-ng
           ./nix/modules/services/tarsnapper
