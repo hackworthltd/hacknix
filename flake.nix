@@ -27,9 +27,6 @@
 
     sops-nix.url = github:Mic92/sops-nix;
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    nix-direnv.url = github:nix-community/nix-direnv;
-    nix-direnv.flake = false;
   };
 
   outputs =
@@ -39,7 +36,6 @@
     , nix-darwin
     , emacs-overlay
     , sops-nix
-    , nix-direnv
     , ...
     }@inputs:
     let
@@ -73,8 +69,6 @@
         in
         bootstrap.lib.overlays.combine [
           (final: prev: {
-            nix-direnv = final.callPackage nix-direnv { };
-
             lib = (prev.lib or { }) // {
 
               flakes = (prev.lib.flakes or { }) // {
@@ -131,7 +125,6 @@
               inherit (pkgs) fsatrace;
               inherit (pkgs) hostapd;
               inherit (pkgs) libprelude;
-              inherit (pkgs) nix-direnv;
               inherit (pkgs) nmrpflash;
               inherit (pkgs) spago2nix;
               inherit (pkgs) traefik-forward-auth;

@@ -18,11 +18,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1624036681,
-        "narHash": "sha256-ds/rYRG/IvY9UD19l5AnPUh5ZnOpHK2uuGsR40Epgf0=",
+        "lastModified": 1624097579,
+        "narHash": "sha256-vy447LhWdLaikwXx3BtNdlY4rmgNM35fwZzZ5SyY/4M=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "b1af115868519a4022c2ad55337128b79fa24ce1",
+        "rev": "eb561e58db5ab3b52b1157da189c48a27fb7dca9",
         "type": "github"
       },
       "original": {
@@ -99,22 +99,6 @@
         "type": "github"
       }
     },
-    "nix-direnv": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1623875555,
-        "narHash": "sha256-lk+SZUDO5bXp1gvkrOO9Z44cePPoadDFY3O/UWrqgM0=",
-        "owner": "nix-community",
-        "repo": "nix-direnv",
-        "rev": "ccc2e4c5db2869184a7181109cee0d42cd62120f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nix-direnv",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1623862044,
@@ -139,7 +123,6 @@
         "flake-utils": "flake-utils",
         "gitignore-nix": "gitignore-nix",
         "nix-darwin": "nix-darwin",
-        "nix-direnv": "nix-direnv",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix",
         "spago2nix": "spago2nix",
