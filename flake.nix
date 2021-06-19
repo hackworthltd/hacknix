@@ -126,6 +126,7 @@
               inherit (pkgs) hostapd;
               inherit (pkgs) libprelude;
               inherit (pkgs) nmrpflash;
+              inherit (pkgs) purescript_0_13_8;
               inherit (pkgs) spago2nix;
               inherit (pkgs) traefik-forward-auth;
               inherit (pkgs) trimpcap;
