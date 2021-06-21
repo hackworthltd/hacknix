@@ -42,26 +42,32 @@
       bootstrap = (import ./nix/overlays/000-bootstrap.nix) { } nixpkgs;
 
       supportedSystems = [ "x86_64-linux" "x86_64-darwin" ];
-      forAllSupportedSystems = bootstrap.lib.flakes.forAllSystems supportedSystems;
+      forAllSupportedSystems = flake-utils.lib.eachSystem supportedSystems;
 
       testSystems = [ "x86_64-linux" ];
-      forAllTestSystems = bootstrap.lib.flakes.forAllSystems testSystems;
+      forAllTestSystems = flake-utils.lib.eachSystem testSystems;
 
-      # Memoize nixpkgs for a given system;
-      pkgsFor = forAllSupportedSystems (system:
-        import nixpkgs {
+      linuxSystems = [ "x86_64-linux" ];
+      forAllLinuxSystems = flake-utils.lib.eachSystem linuxSystems;
+
+      macSystems = [ "x86_64-darwin" ];
+      forAllMacSystems = flake-utils.lib.eachSystem macSystems;
+
+      pkgsFor = system: import nixpkgs
+        {
           inherit system;
           config = {
             allowUnfree = true;
             allowBroken = true;
           };
           overlays = [ self.overlay ];
-        }
-      );
+        };
+
+      lib = (pkgsFor "x86_64-linux").lib;
 
     in
     {
-      lib = pkgsFor.x86_64-linux.lib;
+      inherit lib;
 
       overlay =
         let
@@ -93,78 +99,6 @@
           sops-nix.overlay
           overlaysFromDir
         ];
-
-      packages = forAllSupportedSystems
-        (system:
-          let
-            pkgs = pkgsFor.${system};
-          in
-          (self.lib.flakes.filterPackagesByPlatform system
-            {
-              inherit (pkgs) aws-sam-cli;
-
-              inherit (pkgs) badhosts-unified;
-              inherit (pkgs)
-                badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social
-                ;
-              inherit (pkgs)
-                badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social
-                ;
-              inherit (pkgs) badhosts-gambling-nsfw badhosts-gambling-social;
-              inherit (pkgs) badhosts-nsfw-social;
-              inherit (pkgs)
-                badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social
-                ;
-              inherit (pkgs) badhosts-fakenews-nsfw-social;
-              inherit (pkgs) badhosts-gambling-nsfw-social;
-              inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
-              inherit (pkgs) badhosts-all;
-
-              inherit (pkgs) emacsGcc;
-              inherit (pkgs) ffmpeg-full;
-              inherit (pkgs) fsatrace;
-              inherit (pkgs) hostapd;
-              inherit (pkgs) libprelude;
-              inherit (pkgs) nmrpflash;
-              inherit (pkgs) purescript_0_13_8;
-              inherit (pkgs) spago2nix;
-              inherit (pkgs) traefik-forward-auth;
-              inherit (pkgs) trimpcap;
-              inherit (pkgs) tsoff;
-              inherit (pkgs) wpa_supplicant;
-
-              inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
-
-              inherit (pkgs) vault-plugin-secrets-github;
-              inherit (pkgs) vault-plugins register-vault-plugins;
-
-              inherit (pkgs) terraform-provider-cloudflare terraform-provider-gandi terraform-provider-github terraform-provider-keycloak;
-
-              # From sops-nix.
-              inherit (pkgs) sops-init-gpg-key sops-install-secrets sops-pgp-hook ssh-to-pgp;
-
-              # These aren't actually derivations, and therefore, we
-              # can't export them from packages. They are in the overlay, however.
-              # inherit (pkgs) mkCacert;
-              # inherit (pkgs) gitignoreSource gitignoreFilter;
-              # inherit (pkgs) hashedCertDir;
-              # inherit (pkgs) lib;
-            }) //
-          # For some reason, the filterPackagesByPlatform doesn't
-          # filter these Linux kernels from the macOS package set, so
-          # we do these here separately.
-          (if pkgs.stdenv.isLinux then
-            {
-              # Linux kernels.
-              inherit (pkgs) linux_ath10k;
-              inherit (pkgs) linux_ath10k_ct;
-
-              # These aren't actually derivations, and therefore, we
-              # can't export them from packages. They are in the overlay, however.
-              # inherit (pkgs) linuxPackages_ath10k;
-              # inherit (pkgs) linuxPackages_ath10k_ct;
-            } else { })
-        );
 
       # Ideally, this would be refactored into multiple stand-alone
       # modules, but many of these modules are interdependent at the
@@ -282,58 +216,141 @@
           {
             inherit (self) lib;
           };
+    }
 
-      hydraJobs = {
-        build = self.packages;
-        nixosConfigurations.x86_64-linux = self.lib.flakes.nixosConfigurations.build self.nixosConfigurations;
-        darwinConfigurations.x86_64-darwin = self.lib.flakes.darwinConfigurations.build self.darwinConfigurations;
+    // forAllSupportedSystems (system:
+    let
+      pkgs = pkgsFor system;
+    in
+    {
+      packages = self.lib.flakes.filterPackagesByPlatform system
+        {
+          inherit (pkgs) aws-sam-cli;
 
-        # amazonImages.x86_64-linux =
-        #   let
-        #     extraModules = [
-        #       {
-        #         ec2.hvm = true;
-        #         amazonImage.format = "qcow2";
-        #         amazonImage.sizeMB = 4096;
-        #       }
-        #     ];
-        #     mkSystem = self.lib.hacknix.amazonImage extraModules;
-        #     configs =
-        #       self.lib.flakes.nixosConfigurations.importFromDirectory
-        #         mkSystem
-        #         ./examples/nixos
-        #         {
-        #           inherit (self) lib;
-        #         };
-        #   in
-        #   self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
+          inherit (pkgs) badhosts-unified;
+          inherit (pkgs)
+            badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social
+            ;
+          inherit (pkgs)
+            badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social
+            ;
+          inherit (pkgs) badhosts-gambling-nsfw badhosts-gambling-social;
+          inherit (pkgs) badhosts-nsfw-social;
+          inherit (pkgs)
+            badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social
+            ;
+          inherit (pkgs) badhosts-fakenews-nsfw-social;
+          inherit (pkgs) badhosts-gambling-nsfw-social;
+          inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
+          inherit (pkgs) badhosts-all;
 
-        isoImages.x86_64-linux =
-          let
-            extraModules = [
-              ({ config, ... }:
+          inherit (pkgs) emacsGcc;
+          inherit (pkgs) ffmpeg-full;
+          inherit (pkgs) fsatrace;
+          inherit (pkgs) hostapd;
+          inherit (pkgs) libprelude;
+          inherit (pkgs) nmrpflash;
+          inherit (pkgs) purescript_0_13_8;
+          inherit (pkgs) spago2nix;
+          inherit (pkgs) traefik-forward-auth;
+          inherit (pkgs) trimpcap;
+          inherit (pkgs) tsoff;
+          inherit (pkgs) wpa_supplicant;
+
+          inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
+
+          inherit (pkgs) vault-plugin-secrets-github;
+          inherit (pkgs) vault-plugins register-vault-plugins;
+
+          inherit (pkgs) terraform-provider-cloudflare terraform-provider-gandi terraform-provider-github terraform-provider-keycloak;
+
+          # From sops-nix.
+          inherit (pkgs) sops-init-gpg-key sops-install-secrets sops-pgp-hook ssh-to-pgp;
+
+          # These aren't actually derivations, and therefore, we
+          # can't export them from packages. They are in the overlay, however.
+          # inherit (pkgs) mkCacert;
+          # inherit (pkgs) gitignoreSource gitignoreFilter;
+          # inherit (pkgs) hashedCertDir;
+          # inherit (pkgs) lib;
+        }
+
+      // (self.lib.optionalAttrs (system == "x86_64-linux") {
+        # Linux kernels.
+        inherit (pkgs) linux_ath10k;
+        inherit (pkgs) linux_ath10k_ct;
+
+        # These aren't actually derivations, and therefore, we
+        # can't export them from packages. They are in the overlay, however.
+        # inherit (pkgs) linuxPackages_ath10k;
+        # inherit (pkgs) linuxPackages_ath10k_ct;
+      });
+    })
+
+    // {
+      hydraJobs =
+        {
+          inherit (self) packages;
+        }
+
+        // forAllLinuxSystems (system: {
+          nixosConfigurations =
+            self.lib.flakes.nixosConfigurations.build
+              self.nixosConfigurations;
+
+          amazonImages =
+            let
+              extraModules = [
                 {
-                  isoImage.isoBaseName = self.lib.mkForce "${config.networking.hostName}_hacknix-example-iso";
-                  networking.wireless.enable = self.lib.mkForce false;
-                })
-            ];
-            mkSystem = self.lib.hacknix.isoImage extraModules;
-            configs =
-              self.lib.flakes.nixosConfigurations.importFromDirectory
-                mkSystem
-                ./examples/nixos
-                {
-                  inherit (self) lib;
-                };
-          in
-          self.lib.flakes.nixosConfigurations.buildISOImages configs;
+                  ec2.hvm = true;
+                  amazonImage.format = "qcow2";
+                  amazonImage.sizeMB = 4096;
+                }
+              ];
+              mkSystem = self.lib.hacknix.amazonImage extraModules;
+              configs =
+                self.lib.flakes.nixosConfigurations.importFromDirectory
+                  mkSystem
+                  ./examples/nixos
+                  {
+                    inherit (self) lib;
+                  };
+            in
+            self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
 
-        tests = forAllTestSystems
-          (system:
+          isoImages =
+            let
+              extraModules = [
+                ({ config, ... }:
+                  {
+                    isoImage.isoBaseName = self.lib.mkForce "${config.networking.hostName}_hacknix-example-iso";
+                    networking.wireless.enable = self.lib.mkForce false;
+                  })
+              ];
+              mkSystem = self.lib.hacknix.isoImage extraModules;
+              configs =
+                self.lib.flakes.nixosConfigurations.importFromDirectory
+                  mkSystem
+                  ./examples/nixos
+                  {
+                    inherit (self) lib;
+                  };
+            in
+            self.lib.flakes.nixosConfigurations.buildISOImages configs;
+        })
+
+        // forAllMacSystems (system: {
+          darwinConfigurations = self.lib.flakes.darwinConfigurations.build self.darwinConfigurations;
+        })
+
+        // forAllTestSystems (system: {
+          tests =
+            let
+              pkgs = pkgsFor system;
+            in
             (self.lib.testing.nixos.importFromDirectory ./tests/fixtures
               {
-                inherit system;
-                pkgs = pkgsFor.${system};
+                inherit system pkgs;
                 extraConfigurations = [ self.nixosModule ];
               }
               { })
@@ -359,9 +376,8 @@
               dlnMisc = all;
               dlnFfdhe = all;
               dlnTypes = all;
-            })
-          );
-      };
+            });
+        });
 
       ciJobs = self.lib.flakes.recurseIntoHydraJobs self.hydraJobs;
     };
