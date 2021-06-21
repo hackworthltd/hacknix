@@ -298,25 +298,25 @@
             self.lib.flakes.nixosConfigurations.build
               self.nixosConfigurations;
 
-          # amazonImages =
-          #   let
-          #     extraModules = [
-          #       {
-          #         ec2.hvm = true;
-          #         amazonImage.format = "qcow2";
-          #         amazonImage.sizeMB = 4096;
-          #       }
-          #     ];
-          #     mkSystem = self.lib.hacknix.amazonImage extraModules;
-          #     configs =
-          #       self.lib.flakes.nixosConfigurations.importFromDirectory
-          #         mkSystem
-          #         ./examples/nixos
-          #         {
-          #           inherit (self) lib;
-          #         };
-          #   in
-          #   self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
+          amazonImages =
+            let
+              extraModules = [
+                {
+                  ec2.hvm = true;
+                  amazonImage.format = "qcow2";
+                  amazonImage.sizeMB = 4096;
+                }
+              ];
+              mkSystem = self.lib.hacknix.amazonImage extraModules;
+              configs =
+                self.lib.flakes.nixosConfigurations.importFromDirectory
+                  mkSystem
+                  ./examples/nixos
+                  {
+                    inherit (self) lib;
+                  };
+            in
+            self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
 
           isoImages =
             let
