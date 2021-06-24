@@ -70,7 +70,7 @@ in
   config = mkIf fail2ban-enabled {
 
     hacknix.assertions.moduleHashes."services/security/fail2ban.nix" =
-      "d3eb5a350270edeaec13f77f8126c38cc38b1784c8a34c8724113f9817eab671";
+      "4ea77f057e18e9edfc5ec369e68135402f0991fbf82b66e21fda0ee9d59aed36";
 
     services.fail2ban.extraPackages = with pkgs; [
       ipset

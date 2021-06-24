@@ -19,9 +19,6 @@
     gitignore-nix.url = github:hercules-ci/gitignore.nix;
     gitignore-nix.flake = false;
 
-    traefik-forward-auth.url = github:thomseddon/traefik-forward-auth;
-    traefik-forward-auth.flake = false;
-
     spago2nix.url = github:justinwoo/spago2nix;
     spago2nix.flake = false;
 
@@ -168,7 +165,6 @@
           ./nix/modules/services/hydra-manual-setup
           ./nix/modules/services/netsniff-ng
           ./nix/modules/services/tarsnapper
-          ./nix/modules/services/traefik-forward-auth
           ./nix/modules/services/tftpd-hpa
           ./nix/modules/services/vault/agent
 
@@ -252,7 +248,6 @@
           inherit (pkgs) nmrpflash;
           inherit (pkgs) purescript_0_13_8;
           inherit (pkgs) spago2nix;
-          inherit (pkgs) traefik-forward-auth;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;
           inherit (pkgs) wpa_supplicant;
