@@ -7,16 +7,16 @@
 
 buildGoModule rec {
   pname = "vault-plugin-secrets-github";
-  version = "1.1.1";
+  version = "1.2.0";
 
   src = fetchFromGitHub {
     owner = "martinbaillie";
     repo = "vault-plugin-secrets-github";
     rev = "v${version}";
-    sha256 = "sha256-B4hN7k+39C8/Jung7hWaCgzIwW9WnCtku+6wfUSSytE=";
+    sha256 = "09i3prx4d0bc8g62gmvwbh02d1z209kynkckc465y5a5h21mqkjx";
   };
 
-  vendorSha256 = "sha256-pI5UN/FHw5hTFwXPQBmj+0DHhjQmv6QvWgi/sU5XoZE=";
+  vendorSha256 = "11ypzwnbaklcwmj5p84m647lal3mxnbswcby78bb0akq3935sl50";
 
   nativeBuildInputs = [
     which

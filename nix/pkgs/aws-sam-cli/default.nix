@@ -82,7 +82,10 @@ py.pkgs.buildPythonApplication rec {
       --replace "docker~=4.2.0" "docker>=4.2.0" \
       --replace "python-dateutil~=2.6, <2.8.1" "python-dateutil~=2.6" \
       --replace "requests==2.23.0" "requests~=2.24" \
-      --replace "watchdog==0.10.3" "watchdog"
+      --replace "watchdog==0.10.3" "watchdog" \
+      --replace "Flask~=1.1.2" "Flask" \
+      --replace "tomlkit==0.7.0" "tomlkit" \
+      --replace "click~=7.1" "click"
   '';
 
   meta = with lib; {
