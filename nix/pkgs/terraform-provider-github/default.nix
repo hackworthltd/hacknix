@@ -5,13 +5,13 @@
 
 buildGoModule rec {
   pname = "terraform-provider-github";
-  version = "4.5.0";
+  version = "4.12.1";
 
   src = fetchFromGitHub {
     owner = "integrations";
     repo = "terraform-provider-github";
     rev = "v${version}";
-    sha256 = "sha256-Zbhzf4FkpQdH7RFmGtaXz2dJ2c0Wh5Rneo57wp2j16A=";
+    sha256 = "1l9lh1hq8kbz0399mhcnx86h07n11x0d82pkg5n2drx3j1mf6wqa";
   };
 
   vendorSha256 = null;
