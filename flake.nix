@@ -257,7 +257,7 @@
           inherit (pkgs) vault-plugin-secrets-github;
           inherit (pkgs) vault-plugins register-vault-plugins;
 
-          inherit (pkgs) terraform-provider-cloudflare terraform-provider-gandi terraform-provider-github terraform-provider-keycloak;
+          inherit (pkgs) terraform-provider-postgresql terraform-provider-cloudflare terraform-provider-gandi terraform-provider-github terraform-provider-keycloak;
 
           # From sops-nix.
           inherit (pkgs) sops-init-gpg-key sops-install-secrets sops-pgp-hook ssh-to-pgp;
