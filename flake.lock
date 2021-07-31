@@ -85,11 +85,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1627746696,
-        "narHash": "sha256-w9p1eOG3O48AV38TNeT9VFOu58BjB1IjoCEPLP+PfHM=",
+        "lastModified": 1627749524,
+        "narHash": "sha256-COpv/THM+dlnM3WIMHWLh+BRCJW6uunbvfNZVdj8jas=",
         "owner": "hackworthltd",
         "repo": "nix-darwin",
-        "rev": "7b6190e3dae4ba0158e299e4ee75cbf7bf83b9d5",
+        "rev": "d6425180ecbf9ae0cd252b71c470c3a50560ef93",
         "type": "github"
       },
       "original": {
