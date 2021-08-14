@@ -21,7 +21,7 @@ let
       frei0r = if final.stdenv.isDarwin then null else final.frei0r;
 
       # Broken on macOS.
-      samba = false;
+      samba = null;
 
       # Broken.
       rav1e = null;
