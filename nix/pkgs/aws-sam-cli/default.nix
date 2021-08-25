@@ -17,13 +17,6 @@ let
           sha256 = "sha256-G5i60jr9t2g3beFIp7zDNVTuFqR6eZbZcErjosBlyrE=";
         };
       });
-      aws-sam-translator = super.aws-sam-translator.overridePythonAttrs (oldAttrs: rec {
-        version = "1.34.0";
-        src = oldAttrs.src.override {
-          inherit version;
-          sha256 = "sha256-hXxioD47tKP3B06Gf1LO1jbcBhksghbgBzISLyGiBsI=";
-        };
-      });
       watchdog = super.watchdog.overridePythonAttrs (oldAttrs: rec {
         version = "1.0.2";
         src = oldAttrs.src.override {
@@ -42,11 +35,15 @@ let
 in
 py.pkgs.buildPythonApplication rec {
   pname = "aws-sam-cli";
-  version = "1.20.0";
+
+  # Note: upstream versions after 1.23.0 require watchdog > 2, which
+  # is problematic on macOS and is precisely the reason this version
+  # override package exists.
+  version = "1.23.0";
 
   src = py.pkgs.fetchPypi {
     inherit pname version;
-    sha256 = "sha256-N4npYbkOUGGTmeDR5Yx0Z8ECkOW5kioRlACYXU/gA2c=";
+    sha256 = "sha256-rgQhxqwGOvAejpBdSQ2U7JB50uHvMcE8+IkOhsA1GEg=";
   };
 
   # Tests are not included in the PyPI package
@@ -85,7 +82,8 @@ py.pkgs.buildPythonApplication rec {
       --replace "watchdog==0.10.3" "watchdog" \
       --replace "Flask~=1.1.2" "Flask" \
       --replace "tomlkit==0.7.0" "tomlkit" \
-      --replace "click~=7.1" "click"
+      --replace "click~=7.1" "click" \
+      --replace "aws-sam-translator==1.35.0" "aws-sam-translator>=1.35.0"
   '';
 
   meta = with lib; {
