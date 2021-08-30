@@ -5,16 +5,16 @@
 
 buildGoModule rec {
   pname = "terraform-provider-keycloak";
-  version = "3.1.1";
+  version = "3.3.0";
 
   src = fetchFromGitHub {
     owner = "mrparkers";
     repo = "terraform-provider-keycloak";
     rev = "v${version}";
-    sha256 = "0qh0y1j3y5hzcr8h8wzralv7h8dmrg8jnjccz0fzcmhbkazfrs4p";
+    sha256 = "sha256-FcCLQVRpiM6oLUYJxc4Cn/0aXYkM1wPQfr1qLPd6r1o=";
   };
 
-  vendorSha256 = "0il4rvwa23zghrq0b8qrzgxyjy0211v9z2a4ln2xmlhcz0105zg8";
+  vendorSha256 = "sha256-oPLZsxAXXf9TGQY+qeAYG37Oioqfqeg0hIZ4afk2zz8=";
 
   doCheck = false;
 

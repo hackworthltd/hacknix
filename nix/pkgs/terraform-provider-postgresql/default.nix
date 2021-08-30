@@ -5,13 +5,13 @@
 
 buildGoModule rec {
   pname = "terraform-provider-postgresql";
-  version = "1.13.0";
+  version = "1.14.0";
 
   src = fetchFromGitHub {
     owner = "cyrilgdn";
     repo = "terraform-provider-postgresql";
     rev = "v${version}";
-    sha256 = "13zadcwx1ji074l41c6bvnvggn63xhjlhs7gg156hiqq2vx0xyd2";
+    sha256 = "sha256-2VDPKpBedX0Q6xWwUL/2afGvtvlRSQhK+wdXTLyI6CM=";
   };
 
   vendorSha256 = null;

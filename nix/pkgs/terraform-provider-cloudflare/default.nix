@@ -5,16 +5,16 @@
 
 buildGoModule rec {
   pname = "terraform-provider-cloudflare";
-  version = "2.23.0";
+  version = "2.26.1";
 
   src = fetchFromGitHub {
     owner = "cloudflare";
     repo = "terraform-provider-cloudflare";
     rev = "v${version}";
-    sha256 = "0cyw6lddw3pj5lqra78qn0nd16ffay86vc8sqa68grx7ik9jgn7l";
+    sha256 = "sha256-7j7ZufKa+nGoN4izZ0Dl8SPFfPCI/2gITBnaOfB1Q6k=";
   };
 
-  vendorSha256 = "19fdwif81lqp848jhawd09b0lalslrwadd519vsdw03v2wp4p962";
+  vendorSha256 = "sha256-8ia/4hLdbWSxel+CF4pkWiK7LlA95w3hSc9k3AH9hCU=";
 
   postInstall = "mv $out/bin/terraform-provider-cloudflare{,_v${version}}";
 
