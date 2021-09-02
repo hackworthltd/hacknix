@@ -50,7 +50,6 @@ let
 
         unwanted-reply-threshold: 10000000
 
-        verbosity: 3
         prefetch: yes
         prefetch-key: yes
 
