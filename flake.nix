@@ -119,7 +119,6 @@
           ./nix/modules/config/defaults/tmux.nix
           ./nix/modules/config/defaults/users.nix
 
-          ./nix/modules/config/services/fail2ban
           ./nix/modules/config/services/freeradius
 
           ./nix/modules/config/hardware/amd/common.nix
