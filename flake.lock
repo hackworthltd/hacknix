@@ -3,11 +3,11 @@
     "badhosts": {
       "flake": false,
       "locked": {
-        "lastModified": 1630603482,
-        "narHash": "sha256-zNBlp903ZJQliikqqX6hiwWfA15oeyejCh1KvUqbcC4=",
+        "lastModified": 1630903166,
+        "narHash": "sha256-sAhkFCv6eXVRywd5ElwbJ+N+UrnlHWgbWy1zevgkeR8=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "c2403d7e75b19b2294f162d1120879d05edd2bd1",
+        "rev": "f17ce97e53985753bd1f6b4c725d84fc21e9aa20",
         "type": "github"
       },
       "original": {
@@ -18,11 +18,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1630862826,
-        "narHash": "sha256-WSy09LBJBfWVQjlwDlOKFNC4vBw192rEvPs7t4T2Dw0=",
+        "lastModified": 1630946153,
+        "narHash": "sha256-sywRzLIVz3rGv/e2OJ3heQj8HgtL0zw9OK1ofqODyxA=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "20545a6bd911e28afa74a4ccced2f64fc67932ef",
+        "rev": "f9d3ef7af22226d830341824655e929088b60e80",
         "type": "github"
       },
       "original": {
