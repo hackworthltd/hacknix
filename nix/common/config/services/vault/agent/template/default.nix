@@ -158,7 +158,7 @@ in
           access-tokens = github.com={{ with secret "github/token/repos" }}{{ .Data.token }}{{ end }}
         '';
         command = ''
-          chmod dhess:dhess /home/dhess/.config/nix.conf
+          ${pkgs.coreutils}/bin/chmod dhess:dhess /home/dhess/.config/nix.conf
         '';
         createDir = {
           owner = "dhess";

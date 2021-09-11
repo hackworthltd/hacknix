@@ -27,7 +27,7 @@ let
   # owner when it writes the file, so in reality, this race should
   # only occur upon first launch.
   fixCredsOwner = creds: pkgs.writeShellScript "fix-aws-credentials-owner" ''
-    chown ${creds.owner}:${creds.group} ${credentialsFile creds}
+    ${pkgs.coreutils}/bin/chown ${creds.owner}:${creds.group} ${credentialsFile creds}
   '';
 
   error_on_missing_key = creds: if creds.exitOnMissingKey then "true" else "false";

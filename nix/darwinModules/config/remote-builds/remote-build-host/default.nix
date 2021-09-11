@@ -133,9 +133,9 @@ in
     system.activationScripts.postActivation.text = ''
       printf "configuring ssh keys for ${cfg.user.name}... "
       mkdir -p ~${cfg.user.name}/.ssh
-      chmod 0700 ~${cfg.user.name}/.ssh
+      ${pkgs.coreutils}/bin/chmod 0700 ~${cfg.user.name}/.ssh
       cp -f /etc/per-user/${cfg.user.name}/ssh/authorized_keys ~${cfg.user.name}/.ssh/authorized_keys
-      chown -R ${cfg.user.name}:${cfg.user.name} ~${cfg.user.name}
+      ${pkgs.coreutils}/bin/chown -R ${cfg.user.name}:${cfg.user.name} ~${cfg.user.name}
       echo "ok"
     '';
   };

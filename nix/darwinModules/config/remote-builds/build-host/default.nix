@@ -89,10 +89,10 @@ in
 
     system.activationScripts.postActivation.text = ''
       mkdir -p ~root/.ssh
-      chmod 0700 ~root/.ssh
+      ${pkgs.coreutils}/bin/chmod 0700 ~root/.ssh
       cp -f ${sshConfig} ~root/.ssh/config
-      chown -R root:wheel ~root/.ssh/config
-      chmod 0400 ~root/.ssh/config
+      ${pkgs.coreutils}/bin/chown -R root:wheel ~root/.ssh/config
+      ${pkgs.coreutils}/bin/chmod 0400 ~root/.ssh/config
 
       printf "Creating remote builder ssh key directory and setting permissions... "
       install -m 0755 -o root -g wheel -d ${cfg.sshKeyDir}
@@ -105,10 +105,10 @@ in
       fi
 
       printf "Setting permissions on default remote builder keypair... "
-      chown root:wheel ${defaultPrivateKey}
-      chown root:wheel ${defaultPrivateKey}.pub
-      chmod 0400 ${defaultPrivateKey}
-      chmod 0444 ${defaultPrivateKey}.pub
+      ${pkgs.coreutils}/bin/chown root:wheel ${defaultPrivateKey}
+      ${pkgs.coreutils}/bin/chown root:wheel ${defaultPrivateKey}.pub
+      ${pkgs.coreutils}/bin/chmod 0400 ${defaultPrivateKey}
+      ${pkgs.coreutils}/bin/chmod 0444 ${defaultPrivateKey}.pub
       echo "ok"
     '';
   };

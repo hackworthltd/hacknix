@@ -41,7 +41,7 @@
           access-tokens = github.com={{ with secret "github/token/repos" }}{{ .Data.token }}{{ end }}
         '';
         command = ''
-          chmod dhess:admin /Users/dhess/.config/nix.conf
+          ${pkgs.coreutils}/bin/chmod dhess:admin /Users/dhess/.config/nix.conf
         '';
         createDir = {
           owner = "dhess";
