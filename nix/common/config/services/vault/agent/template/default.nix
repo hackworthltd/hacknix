@@ -8,6 +8,8 @@ let
   cfg = config.services.vault-agent.templates;
   enabled = cfg != { };
 
+  defaultGroup = if pkgs.stdenv.isDarwin then "wheel" else "root";
+
   error_on_missing_key = secret: if secret.exitOnMissingKey then "true" else "false";
 
   listOfSecrets = lib.mapAttrsToList (_: secrets: secrets) cfg;
@@ -125,7 +127,7 @@ let
 
         group = lib.mkOption {
           type = pkgs.lib.types.nonEmptyStr;
-          default = "root";
+          default = defaultGroup;
           example = "alice";
           description = ''
             The filesystem group of the secret file's directory.
