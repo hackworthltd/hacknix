@@ -83,7 +83,9 @@ in
       description = "Nix remote builder";
       openssh.authorizedKeys.keys = authorizedKeys;
       isSystemUser = true;
+      group = "${cfg.user.name}";
     };
+    users.groups."${cfg.user.name}" = { };
 
     # Useful utilities.
     environment.systemPackages = with pkgs; [ htop glances ];
