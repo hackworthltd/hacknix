@@ -231,6 +231,8 @@ in
       description = "unbound daemon user";
       isSystemUser = true;
     };
+    users.users.unbound.group = "unbound";
+    users.groups.unbound = { };
 
     systemd.services = mapAttrs' mkUnboundService instances;
 
