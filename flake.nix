@@ -245,7 +245,6 @@
           inherit (pkgs) fsatrace;
           inherit (pkgs) hostapd;
           inherit (pkgs) libprelude;
-          inherit (pkgs) nixUnstable;
           inherit (pkgs) nmrpflash;
           inherit (pkgs) purescript_0_13_8;
           inherit (pkgs) spago2nix;
