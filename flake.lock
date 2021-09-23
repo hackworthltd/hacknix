@@ -18,11 +18,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1632330967,
-        "narHash": "sha256-bNcrnPaox8/Dd2dxEde3Dbjv95HzA6v3n8EfrorgyXY=",
+        "lastModified": 1632388060,
+        "narHash": "sha256-OM/xn3v44w1e5m/IbT6usem9EorkWGBCWLrxa6dG8DE=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "4fef1820fe8d3272838e0c42e7267f9f81123b0e",
+        "rev": "497d716a8b365161e9538522eba9fd798435f3a4",
         "type": "github"
       },
       "original": {
@@ -124,8 +124,7 @@
         "gitignore-nix": "gitignore-nix",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
-        "sops-nix": "sops-nix",
-        "spago2nix": "spago2nix"
+        "sops-nix": "sops-nix"
       }
     },
     "sops-nix": {
@@ -145,22 +144,6 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
-        "type": "github"
-      }
-    },
-    "spago2nix": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1631778242,
-        "narHash": "sha256-Beyls5A0aVNTeIQmk3bfq/KS0paK6xPtvC6syEeVZjM=",
-        "owner": "justinwoo",
-        "repo": "spago2nix",
-        "rev": "874efd1d8e25521463d3f6e60493e629f2ab1cd5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "justinwoo",
-        "repo": "spago2nix",
         "type": "github"
       }
     }

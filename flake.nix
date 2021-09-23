@@ -19,9 +19,6 @@
     gitignore-nix.url = github:hercules-ci/gitignore.nix;
     gitignore-nix.flake = false;
 
-    spago2nix.url = github:justinwoo/spago2nix;
-    spago2nix.flake = false;
-
     sops-nix.url = github:Mic92/sops-nix;
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -246,8 +243,6 @@
           inherit (pkgs) hostapd;
           inherit (pkgs) libprelude;
           inherit (pkgs) nmrpflash;
-          inherit (pkgs) purescript_0_13_8;
-          inherit (pkgs) spago2nix;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;
           inherit (pkgs) wpa_supplicant;
