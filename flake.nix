@@ -2,7 +2,8 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
+    # Use main branch until isMachO issue is fixed.
+    nixpkgs.url = github:NixOS/nixpkgs;
     nix-darwin.url = github:hackworthltd/nix-darwin/fixes-v9;
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
