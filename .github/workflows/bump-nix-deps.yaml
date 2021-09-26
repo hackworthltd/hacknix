@@ -1,11 +1,11 @@
-name: Update dependencies
+name: Update Nix dependencies
 
 on:
   schedule:
     - cron: '0 23 * * *'
 
 jobs:
-  update-dependencies:
+  update-nix-dependencies:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.4
@@ -22,6 +22,6 @@ jobs:
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3.10.1
       with:
-        commit-message: "chore: update dependencies"
-        title: "chore: update dependencies"
-        branch: "chore/update-dependencies"
+        commit-message: "chore: update Nix dependencies"
+        title: "chore: update Nix dependencies"
+        branch: "chore/update-nix-dependencies"
