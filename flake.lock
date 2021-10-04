@@ -3,11 +3,11 @@
     "badhosts": {
       "flake": false,
       "locked": {
-        "lastModified": 1633192785,
-        "narHash": "sha256-bpAku5Z1tcwGr7wuZMrpwdy/8SRJ2HFKtE/Cxl1MqVg=",
+        "lastModified": 1633276993,
+        "narHash": "sha256-0d4BbJuXvfNDyI4E6ijBGKdWKsPp3K8iQzGf11f1H/s=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "65e47216e79ffbdb434d39b6f5945aa65b2a0e10",
+        "rev": "a3bdc8b71b5577b252e2df018966d084a18a0545",
         "type": "github"
       },
       "original": {
@@ -134,11 +134,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1633033239,
-        "narHash": "sha256-n/EA5NwIg4Nm1vK4l33LRd0DqQrc8K0RTnDhvcAK/V8=",
+        "lastModified": 1633273832,
+        "narHash": "sha256-oOjpMVYpkIUpiML61PeqTk+sg4juRvF7P6jroI/YvTw=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "095fca05818c7f4c2285387b2eb94e13b683101a",
+        "rev": "2e86e1698d53e5bd71d9de5f8b7e8f2f5458633c",
         "type": "github"
       },
       "original": {
