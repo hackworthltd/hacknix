@@ -3,11 +3,11 @@
     "badhosts": {
       "flake": false,
       "locked": {
-        "lastModified": 1634051569,
-        "narHash": "sha256-AXmjOozeBit1doPY7UbUS+rjtQyI55GHOCT7+mmjk6E=",
+        "lastModified": 1634096062,
+        "narHash": "sha256-cU7V+XthBEeRWpL5QJ41SkkhcMPEgQb9JRO3ZJoEnhA=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "9b07d2e3264461f55665448dfb39cb74c2f931e7",
+        "rev": "cb107d03b59d7d7d1495190e1b8c96c8456fea43",
         "type": "github"
       },
       "original": {
@@ -18,11 +18,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1634061406,
-        "narHash": "sha256-86gSyt7LUxyfjorub/c5l/GVDMCsiko93MyTGBwoRL0=",
+        "lastModified": 1634151232,
+        "narHash": "sha256-cF4eMrDL2AxU1NEq5i9gz44XFTKaZc5ZM29jqJpRn2M=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "92e3fac02c18b788cc0866c6322dfcd47f226753",
+        "rev": "0952bf80e04f05671631344b0d39a489b781284a",
         "type": "github"
       },
       "original": {
@@ -65,11 +65,11 @@
     "gitignore-nix": {
       "flake": false,
       "locked": {
-        "lastModified": 1632996366,
-        "narHash": "sha256-G5Rg90C9I5FFoG6kcgGFLFAxXp1bb5SDQpw4SmDNZNA=",
+        "lastModified": 1634151530,
+        "narHash": "sha256-l1wnu/jSxhj6+MGurKupKkWZh3Om/6FuYc/FdSlkyRI=",
         "owner": "hercules-ci",
         "repo": "gitignore.nix",
-        "rev": "80463148cd97eebacf80ba68cf0043598f0d7438",
+        "rev": "9e80c4d83026fa6548bc53b1a6fab8549a6991f6",
         "type": "github"
       },
       "original": {
