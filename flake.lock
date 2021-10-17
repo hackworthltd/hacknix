@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "arion-flake": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1630129451,
+        "narHash": "sha256-YKtjgfiaO4awMl8fqlMlCr0dYtiOsKXplCQINTRGG5Y=",
+        "owner": "hercules-ci",
+        "repo": "arion",
+        "rev": "ac20241a410874b09fd6ec29b3acb69abbf05314",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "arion",
+        "type": "github"
+      }
+    },
     "badhosts": {
       "flake": false,
       "locked": {
@@ -117,6 +137,7 @@
     },
     "root": {
       "inputs": {
+        "arion-flake": "arion-flake",
         "badhosts": "badhosts",
         "emacs-overlay": "emacs-overlay",
         "flake-compat": "flake-compat",
