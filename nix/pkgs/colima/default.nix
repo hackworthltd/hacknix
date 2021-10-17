@@ -3,7 +3,7 @@
 , fetchFromGitHub
 , installShellFiles
 , docker
-, minikube
+, kubectl
 , lima
 , makeWrapper
 }:
@@ -32,7 +32,7 @@ buildGoModule rec {
 
   postInstall = ''
     wrapProgram $out/bin/colima \
-      --prefix PATH : ${lib.makeBinPath [ lima docker minikube ]}
+      --prefix PATH : ${lib.makeBinPath [ lima docker kubectl ]}
     installShellCompletion --cmd colima \
       --bash <($out/bin/colima completion bash) \
       --fish <($out/bin/colima completion fish) \
