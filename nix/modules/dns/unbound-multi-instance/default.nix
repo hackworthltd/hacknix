@@ -223,7 +223,7 @@ in
     # them here.
 
     hacknix.assertions.moduleHashes."services/networking/unbound.nix" =
-      "f210068eed29d4fcf2362833c003de7c082ab573a7adf9e66f80ccb1fcad9809";
+      "f6684205a3787d32d49020cfe8295a5b2f7ad116e9c265289a69fd25e7046612";
 
     environment.systemPackages = [ pkgs.unbound ];
 
