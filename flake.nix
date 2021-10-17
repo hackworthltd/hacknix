@@ -257,6 +257,7 @@
           inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
           inherit (pkgs) badhosts-all;
 
+          inherit (pkgs) colima;
           inherit (pkgs) cortextools;
           inherit (pkgs) emacsGcc;
           inherit (pkgs) ffmpeg-full;
