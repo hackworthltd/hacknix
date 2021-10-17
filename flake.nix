@@ -263,6 +263,7 @@
           inherit (pkgs) fsatrace;
           inherit (pkgs) hostapd;
           inherit (pkgs) libprelude;
+          inherit (pkgs) lima;
           inherit (pkgs) nmrpflash;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;
