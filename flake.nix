@@ -6,6 +6,9 @@
     nix-darwin.url = github:hackworthltd/nix-darwin/fixes-v9;
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    arion-flake.url = github:hercules-ci/arion;
+    arion-flake.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-utils.url = github:numtide/flake-utils;
 
     flake-compat.url = github:edolstra/flake-compat;
@@ -25,6 +28,7 @@
 
   outputs =
     { self
+    , arion-flake
     , flake-utils
     , nixpkgs
     , nix-darwin
@@ -86,9 +90,26 @@
                   inherit (self) darwinModule;
                   inherit (self) nixosModule;
                 };
+
+                arion.mkMeta = { modules, ... }: arion-flake.lib.eval {
+                  inherit modules;
+                  pkgs = final;
+                };
+
+                arion.buildImage = { name, meta, ... }:
+                  let
+                    descriptor = builtins.elemAt meta.config.docker-compose.raw.x-arion.images 0;
+                    inherit (descriptor) imageName imageExe imageTag;
+                  in
+                  final.runCommand "${baseNameOf name}.tar.gz"
+                    {
+                      passthru = { inherit imageTag; };
+                      nativeBuildInputs = [ final.pigz ];
+                    } "${imageExe} | pigz -nT > $out";
               };
             };
           })
+          arion-flake.overlay
           emacs-overlay.overlay
           sops-nix.overlay
           overlaysFromDir
@@ -265,16 +286,47 @@
           # inherit (pkgs) lib;
         }
 
-      // (self.lib.optionalAttrs (system == "x86_64-linux") {
-        # Linux kernels.
-        inherit (pkgs) linux_ath10k;
-        inherit (pkgs) linux_ath10k_ct;
+      // (self.lib.optionalAttrs (system == "x86_64-linux") (
+        let
+          arion-example = {
+            services.webserver = { pkgs, ... }: {
+              image.nixBuild = true;
+              nixos.useSystemd = true;
+              nixos.configuration.imports = [
+                self.nixosModule
+              ];
+              nixos.configuration.boot.tmpOnTmpfs = true;
+              nixos.configuration.services.nginx.enable = true;
+              nixos.configuration.services.nginx.virtualHosts.localhost.root = "${pkgs.nix.doc}/share/doc/nix/manual";
 
-        # These aren't actually derivations, and therefore, we
-        # can't export them from packages. They are in the overlay, however.
-        # inherit (pkgs) linuxPackages_ath10k;
-        # inherit (pkgs) linuxPackages_ath10k_ct;
-      });
+              service.useHostStore = false;
+              service.ports = [
+                "8000:80" # host:container
+              ];
+            };
+          };
+          arion-example-meta = pkgs.lib.hacknix.arion.mkMeta {
+            modules = [ arion-example ];
+          };
+          arion-example-image = pkgs.lib.hacknix.arion.buildImage {
+            name = "arion-example";
+            meta = arion-example-meta;
+          };
+        in
+        {
+          # Linux kernels.
+          inherit (pkgs) linux_ath10k;
+          inherit (pkgs) linux_ath10k_ct;
+
+          # Arion Docker image examples.
+          inherit arion-example-image;
+
+          # These aren't actually derivations, and therefore, we
+          # can't export them from packages. They are in the overlay, however.
+          # inherit (pkgs) linuxPackages_ath10k;
+          # inherit (pkgs) linuxPackages_ath10k_ct;
+        }
+      ));
     })
 
     // {
