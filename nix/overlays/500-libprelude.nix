@@ -4,7 +4,7 @@ let
   libprelude =
     final.callPackage ../pkgs/libprelude {
       gawk = gawk_4_2_1;
-      ruby = final.ruby_2_6;
+      ruby = final.ruby_2_7;
     };
 
 in
