@@ -38,11 +38,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1635274108,
-        "narHash": "sha256-VddqKcLlfapgG7KkWnKUAtC7lSqf/wzNIiS/KSITOfU=",
+        "lastModified": 1635359786,
+        "narHash": "sha256-G4m8sNfO/IFtcC6gOTi3NQjvEhaXoRRW1MtWswyq7JI=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "a20606a8d924d8ba5e9833669576d3c9bb363047",
+        "rev": "d4dbd9ee5d450e17b3a0846345df78f3105e282a",
         "type": "github"
       },
       "original": {
@@ -105,27 +105,27 @@
         ]
       },
       "locked": {
-        "lastModified": 1631876560,
-        "narHash": "sha256-UiWBbJ/fEFig2k+575E12UOcCF9W3rK4Htz0jgViy5s=",
+        "lastModified": 1635368700,
+        "narHash": "sha256-WM3skaKXN+Pz8QmrJBj1LWqDtMLIDyCrJmoMxg5riCc=",
         "owner": "hackworthltd",
         "repo": "nix-darwin",
-        "rev": "5154c5b01b78029b69b9d3e5c54bbda70d0af058",
+        "rev": "6da0244e807690a46e600a59cec79f5a6d1217b9",
         "type": "github"
       },
       "original": {
         "owner": "hackworthltd",
-        "ref": "fixes-v9",
+        "ref": "fixes-v10",
         "repo": "nix-darwin",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1635247071,
-        "narHash": "sha256-NjWixz/Yb55hE3c9FxQjah3Ijlwvz6zRTXLaQClE0x0=",
+        "lastModified": 1635295995,
+        "narHash": "sha256-sGYiXjFlxTTMNb4NSkgvX+knOOTipE6gqwPUQpxNF+c=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f112b512e1710da6c8beb8e541a8ad9fcd81e6e6",
+        "rev": "22a500a3f87bbce73bd8d777ef920b43a636f018",
         "type": "github"
       },
       "original": {
