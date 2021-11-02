@@ -261,8 +261,8 @@
 
           inherit (pkgs) colima;
           inherit (pkgs) cortextools;
-          inherit (pkgs) emacsGcc;
           inherit (pkgs) emacsMacport;
+          inherit (pkgs) emacsPgtkGcc;
           inherit (pkgs) ffmpeg-full;
           inherit (pkgs) fsatrace;
           inherit (pkgs) glances;
