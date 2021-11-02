@@ -39,7 +39,7 @@
     let
       bootstrap = (import ./nix/overlays/000-bootstrap.nix) { } nixpkgs;
 
-      supportedSystems = [ "x86_64-linux" "x86_64-darwin" ];
+      supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
       forAllSupportedSystems = flake-utils.lib.eachSystem supportedSystems;
 
       testSystems = [ "x86_64-linux" ];
@@ -48,7 +48,7 @@
       linuxSystems = [ "x86_64-linux" ];
       forAllLinuxSystems = flake-utils.lib.eachSystem linuxSystems;
 
-      macSystems = [ "x86_64-darwin" ];
+      macSystems = [ "x86_64-darwin" "aarch64-darwin" ];
       forAllMacSystems = flake-utils.lib.eachSystem macSystems;
 
       pkgsFor = system: import nixpkgs
@@ -85,6 +85,8 @@
               };
 
               hacknix = (prev.lib.hacknix or { }) // {
+                # Hack to fix some issues with aarch64-darwin packages.
+                pkgs_x86 = prev.lib.optionalAttrs (final.stdenv.hostPlatform.system == "aarch64-darwin") (pkgsFor "x86_64-darwin");
                 flake = (prev.lib.hacknix.flake or { }) // {
                   inherit inputs;
                   inherit (self) darwinModule;
@@ -260,10 +262,15 @@
           inherit (pkgs) colima;
           inherit (pkgs) cortextools;
           inherit (pkgs) emacsGcc;
+          inherit (pkgs) emacsMacport;
           inherit (pkgs) ffmpeg-full;
           inherit (pkgs) fsatrace;
+          inherit (pkgs) glances;
           inherit (pkgs) hostapd;
+          inherit (pkgs) lean;
+          inherit (pkgs) nix-index;
           inherit (pkgs) nmrpflash;
+          inherit (pkgs) tarsnap;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;
           inherit (pkgs) wpa_supplicant;
