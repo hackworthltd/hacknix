@@ -62,13 +62,13 @@ let
   # type, filter the set so that it only contains Macs.
   onlyMacs = final.lib.filterAttrs (
     _: v:
-      final.lib.all (s: s == "x86_64-darwin") v.systems
+      final.lib.all (s: s == "x86_64-darwin" || s == "aarch64-darwin") v.systems
   );
 
   # The opposite of `onlyMacs`.
   allButMacs = final.lib.filterAttrs (
     _: v:
-      final.lib.all (s: s != "x86_64-darwin") v.systems
+      final.lib.all (s: s != "x86_64-darwin" && s != "aarch64-darwin") v.systems
   );
 
 
