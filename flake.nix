@@ -283,13 +283,11 @@
           inherit (pkgs) terraform-provider-postgresql terraform-provider-cloudflare terraform-provider-gandi terraform-provider-github terraform-provider-keycloak;
 
           # From sops-nix.
-          inherit (pkgs) sops-init-gpg-key sops-install-secrets sops-pgp-hook ssh-to-pgp;
+          inherit (pkgs) sops-init-gpg-key sops-pgp-hook ssh-to-pgp;
 
           # These aren't actually derivations, and therefore, we
           # can't export them from packages. They are in the overlay, however.
-          # inherit (pkgs) mkCacert;
           # inherit (pkgs) gitignoreSource gitignoreFilter;
-          # inherit (pkgs) hashedCertDir;
           # inherit (pkgs) lib;
         }
 
@@ -321,6 +319,9 @@
           };
         in
         {
+          # Only available for Linux, but not detected properly by `filterPackagesByPlatform`.
+          inherit (pkgs) sops-install-secrets;
+
           # Linux kernels.
           inherit (pkgs) linux_ath10k;
           inherit (pkgs) linux_ath10k_ct;
