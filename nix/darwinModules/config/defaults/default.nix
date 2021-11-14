@@ -27,8 +27,9 @@ in
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowBroken = true;
 
-    # We now rely on Nix Flakes for darwin-rebuild.
-    darwin-rebuild.nixPackage = pkgs.nixUnstable;
+    # Workaround until this is fixed:
+    # https://github.com/LnL7/nix-darwin/issues/373
+    nix.package = pkgs.nixUnstable;
 
     nix.trustedUsers = [ "@admin" ];
 
