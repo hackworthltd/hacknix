@@ -611,7 +611,7 @@ in
   config = mkIf enabled {
 
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
-      "a327ceb4dc6fee03eb9ad35e090c3e71f48bb45d9710579664377df84b5b2cb6";
+      "71a3e9c852b71e65179d15ab7a7c271708d329dc84161d3be7e4a6b3690125b4";
     hacknix.assertions.moduleHashes."security/acme.nix" =
       "18de5d0f00b96028b7083ad53423ff7768aceb7946dee42c2ac17212f9640f77";
 
