@@ -29,8 +29,12 @@ makeTest rec {
     };
   };
 
+  # Disabled. See:
+  # https://github.com/hackworthltd/hacknix/issues/443
   testScript = { nodes, ... }: ''
     start_all()
+
+    server.fail("echo 'This test is broken'")
 
     server.wait_for_unit("multi-user.target")
     server.succeed(
