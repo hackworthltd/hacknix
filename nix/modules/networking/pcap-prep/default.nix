@@ -33,7 +33,7 @@ in
               )
           );
         default = { };
-        example = literalExample ''
+        example = literalExpression ''
           eno3 = {
             rxRingEntries = 512;
             usecBetweenRxInterrupts = 100;
@@ -78,7 +78,8 @@ in
 
                         }
                       )
-                ) cfg.interfaces
+                )
+                cfg.interfaces
             )
           )
       );
@@ -118,7 +119,8 @@ in
                           '';
                         }
                       )
-                ) cfg.interfaces
+                )
+                cfg.interfaces
             )
           )
       );

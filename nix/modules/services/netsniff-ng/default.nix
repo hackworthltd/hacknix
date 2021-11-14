@@ -168,7 +168,7 @@ in
               )
           );
         default = { };
-        example = literalExample ''
+        example = literalExpression ''
           full-cap = {
             inputInterface = "eno1";
             interval = "1MiB";

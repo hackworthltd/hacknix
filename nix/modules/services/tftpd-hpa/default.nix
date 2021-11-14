@@ -63,7 +63,7 @@ in
 
       extraOptions = mkOption {
         default = [ ];
-        example = literalExample ''
+        example = literalExpression ''
           [ "--blocksize 1468" ]
         '';
         type = types.listOf pkgs.lib.types.nonEmptyStr;

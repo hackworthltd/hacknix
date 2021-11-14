@@ -217,7 +217,7 @@ in
     relayClientCerts = mkOption {
       type = types.lines;
       default = "";
-      example = literalExample ''
+      example = literalExpression ''
         D7:04:2F:A7:0B:8C:A5:21:FA:31:77:E1:41:8A:EE:80 lutzpc.at.home
       '';
       description = ''
@@ -246,7 +246,7 @@ in
           "permit_tls_clientcerts"
           "reject_unknown_reverse_client_hostname"
         ];
-        example = literalExample [
+        example = literalExpression [
           "permit_mynetworks"
           "reject_unknown_client_hostname"
         ];
@@ -276,7 +276,7 @@ in
           "reject_non_fqdn_helo_hostname"
         ];
         example =
-          literalExample [ "permit_mynetworks" "reject_invalid_helo_hostname" ];
+          literalExpression [ "permit_mynetworks" "reject_invalid_helo_hostname" ];
         description = ''
           Postfix's <literal>smtpd_helo_restrictions</literal> setting.
 
@@ -292,7 +292,7 @@ in
           "check_sender_mx_access hash:/etc/postfix/bogus_mx"
         ];
         example =
-          literalExample [ "permit_mynetworks" "reject_invalid_helo_hostname" ];
+          literalExpression [ "permit_mynetworks" "reject_invalid_helo_hostname" ];
         description = ''
           Postfix's <literal>smtpd_sender_restrictions</literal> setting.
 
@@ -309,7 +309,7 @@ in
           "reject_non_fqdn_recipient"
           "reject_unauth_destination"
         ];
-        example = literalExample [
+        example = literalExpression [
           "permit_mynetworks"
           "permit_sasl_authenticated"
           "defer_unauth_destination"
@@ -351,7 +351,7 @@ in
           "reject_unverified_recipient"
           "check_recipient_access hash:/etc/postfix/recipient_access"
         ];
-        example = literalExample [
+        example = literalExpression [
           "permit_mynetworks"
           "permit_sasl_authenticated"
           "defer_unauth_destination"
@@ -377,7 +377,7 @@ in
       dataRestrictions = mkOption {
         type = types.nullOr (types.listOf pkgs.lib.types.nonEmptyStr);
         default = [ "reject_unauth_pipelining" ];
-        example = literalExample [ "reject_multi_recipient_bounce" ];
+        example = literalExpression [ "reject_multi_recipient_bounce" ];
         description = ''
           Postfix's <literal>smtpd_data_restrictions</literal> setting.
 
@@ -440,7 +440,7 @@ in
         clientRestrictions = mkOption {
           type = types.listOf pkgs.lib.types.nonEmptyStr;
           default = [ "permit_sasl_authenticated" "reject" ];
-          example = literalExample [
+          example = literalExpression [
             "permit_sasl_authenticated"
             "permit_tls_clientcerts"
             "reject"
@@ -568,7 +568,7 @@ in
       mailboxDomains = mkOption {
         type = types.nonEmptyListOf pkgs.lib.types.nonEmptyStr;
         default = [ "$mydomain" ];
-        example = literalExample [ "$mydomain" "another.local.tld" ];
+        example = literalExpression [ "$mydomain" "another.local.tld" ];
         description = ''
           Postfix's <literal>virtual_mailbox_domains</literal> setting.
         '';
@@ -577,7 +577,7 @@ in
       aliasDomains = mkOption {
         type = types.listOf pkgs.lib.types.nonEmptyStr;
         default = [ ];
-        example = literalExample [ "another.local.tld" ];
+        example = literalExpression [ "another.local.tld" ];
         description = ''
           Postfix's <literal>virtual_alias_domains</literal> setting.
         '';

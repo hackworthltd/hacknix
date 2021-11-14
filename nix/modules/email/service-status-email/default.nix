@@ -66,7 +66,7 @@ in
 
         default = { };
 
-        example = literalExample ''
+        example = literalExpression ''
           {
             root = { address = "root"; };
             hostmaster = { address = "hostmaster@example.com"; };
@@ -116,7 +116,8 @@ in
               Group = "systemd-journal";
             };
           }
-      ) gcfg.recipients;
+      )
+      gcfg.recipients;
   };
 
   meta.maintainers = lib.maintainers.dhess;
