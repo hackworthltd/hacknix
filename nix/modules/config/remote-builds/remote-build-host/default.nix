@@ -38,7 +38,7 @@ in
       sshPublicKeyFiles = lib.mkOption {
         type = lib.types.listOf lib.types.path;
         default = [ ];
-        example = lib.literalExample [ ./remote-builder.pub ];
+        example = lib.literalExpression [ ./remote-builder.pub ];
         description = ''
           The public SSH key files used to identify the remote builder
           user. The corresponding private keys should be installed on

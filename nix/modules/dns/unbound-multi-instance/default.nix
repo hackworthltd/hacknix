@@ -114,7 +114,7 @@ in
         Zero or more Unbound service instances.
       '';
       default = { };
-      example = literalExample {
+      example = literalExpression {
         adblock = {
           allowedAccess = [ "10.0.0.0/8" ];
           listenAddresses = [ "10.8.8.8" "2001:db8::1" ];

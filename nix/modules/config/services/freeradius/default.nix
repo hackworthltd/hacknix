@@ -133,7 +133,7 @@ in
     postAuthConfig = lib.mkOption {
       type = lib.types.str;
       default = "";
-      example = lib.literalExample ''
+      example = lib.literalExpression ''
         update reply {
           Tunnel-Type := VLAN
           Tunnel-Medium-Type := IEEE-802

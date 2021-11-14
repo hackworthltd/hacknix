@@ -64,7 +64,7 @@ let
 
       template = lib.mkOption {
         type = pkgs.lib.types.lines;
-        example = lib.literalExample ''
+        example = lib.literalExpression ''
           token {{ with secret "github/token/foo" }}{{ .Data.token }}{{ end }}
         '';
         description = ''
@@ -83,7 +83,7 @@ let
 
       command = lib.mkOption {
         type = pkgs.lib.types.lines;
-        example = lib.literalExample ''
+        example = lib.literalExpression ''
           chown alice:alice /path/to/secret
         '';
         description = ''

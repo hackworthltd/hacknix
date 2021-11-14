@@ -299,7 +299,7 @@ let
       extraConfig = final.lib.mkOption {
         type = final.lib.types.lines;
         default = "";
-        example = final.lib.literalExample ''
+        example = final.lib.literalExpression ''
           option ubnt.unifi-address 192.168.0.8;
         '';
         description = ''

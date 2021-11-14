@@ -41,7 +41,7 @@ in
 
       initialPasswordLiteral = mkOption {
         type = pkgs.lib.types.nonEmptyStr;
-        example = literalExample "passw0rd";
+        example = literalExpression "passw0rd";
         description = ''
           The Hydra admin user's initial password, as a string
           literal.
