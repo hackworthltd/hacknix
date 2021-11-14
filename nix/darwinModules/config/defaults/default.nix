@@ -27,10 +27,6 @@ in
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowBroken = true;
 
-    # Workaround until this is fixed:
-    # https://github.com/LnL7/nix-darwin/issues/373
-    nix.package = pkgs.nixUnstable;
-
     nix.trustedUsers = [ "@admin" ];
 
     # See https://gist.github.com/LnL7/1cfca66d17eba1f9936175926bf39de8.
