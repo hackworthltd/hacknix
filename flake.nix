@@ -283,7 +283,7 @@
           inherit (pkgs) terraform-provider-postgresql terraform-provider-cloudflare terraform-provider-gandi terraform-provider-github terraform-provider-keycloak;
 
           # From sops-nix.
-          inherit (pkgs) sops-init-gpg-key sops-pgp-hook ssh-to-pgp;
+          inherit (pkgs) sops-init-gpg-key sops-import-keys-hook ssh-to-pgp;
 
           # These aren't actually derivations, and therefore, we
           # can't export them from packages. They are in the overlay, however.
