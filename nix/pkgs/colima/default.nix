@@ -15,11 +15,11 @@ buildGoModule rec {
   src = fetchFromGitHub {
     owner = "abiosoft";
     repo = pname;
-    rev = "57469b9e8c02404498e134f1afb0f824424fa768";
-    sha256 = "sha256-uKMuFXNW1/SWXVs9pIFgeyf6rfeZYNZv8YTlcEv35XI=";
+    rev = "519a3722a03807d878dd8ddc21b2d188a982ba42";
+    sha256 = "sha256-npXdx1Qw0NLGJEtt7DP2L0uNdbYVm3AOazoWyFx8Nso=";
   };
 
-  vendorSha256 = "sha256-Dl638NSrBP9jDceQQeeRz+Re1M8z2+AagIDVm+wo+48=";
+  vendorSha256 = "sha256-F1ym88JrJWzsBg89Y1ufH4oefIRBwTGOw72BrjtpvBw=";
 
   nativeBuildInputs = [ makeWrapper installShellFiles ];
 
