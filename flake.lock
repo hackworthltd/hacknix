@@ -23,11 +23,11 @@
     "badhosts": {
       "flake": false,
       "locked": {
-        "lastModified": 1638242425,
-        "narHash": "sha256-O3992kJadzNyT4CPS4Hv9BNShx6Qmst9LMzqANlUMvM=",
+        "lastModified": 1638751299,
+        "narHash": "sha256-y0GpSlUBJb7qbXdLm7m5dSGk4gKYw25MWoSg4RS/m90=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "9ac56f6b39644cb9a30451cf5195a80714eba3c2",
+        "rev": "71def412efc8225bb8aa01c9ba867607bd5b347c",
         "type": "github"
       },
       "original": {
@@ -38,11 +38,11 @@
     },
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1638701787,
-        "narHash": "sha256-5Xry40Fruw0p4LQN9XGaxEZFzECB+0Xjvwi3cKO3oFM=",
+        "lastModified": 1638785903,
+        "narHash": "sha256-Fdcppk+4AIZilRpbSCVPWuDy1/GbV64Slyahf5XR4J4=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "90629e4e1facfacc649c667c157eb5be5dac1e59",
+        "rev": "d266fd6e14cde2a2aa17fd821dd1e7ca6b62f012",
         "type": "github"
       },
       "original": {
@@ -121,11 +121,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1638432899,
-        "narHash": "sha256-iZ+rgyRx3JVyylXYxSyW01liDWEn+O8cKnin6cMzOFU=",
+        "lastModified": 1638761670,
+        "narHash": "sha256-LywnGCbjfMHp4lwAmIXozB/rAqPkCG0J8HhMPwXsR1U=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "56cbe42f1668338d05febfbb866e32f2c865609a",
+        "rev": "02336c5c5f719cd6bd4cfc5a091a1ccee6f06b1d",
         "type": "github"
       },
       "original": {
