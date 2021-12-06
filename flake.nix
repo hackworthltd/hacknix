@@ -270,7 +270,6 @@
           inherit (pkgs) lean;
           inherit (pkgs) nix-index;
           inherit (pkgs) nmrpflash;
-          inherit (pkgs) qemu;
           inherit (pkgs) tarsnap;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;
