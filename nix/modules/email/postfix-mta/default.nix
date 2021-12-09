@@ -613,7 +613,7 @@ in
     hacknix.assertions.moduleHashes."services/mail/postfix.nix" =
       "71a3e9c852b71e65179d15ab7a7c271708d329dc84161d3be7e4a6b3690125b4";
     hacknix.assertions.moduleHashes."security/acme.nix" =
-      "2c733f0d27ace6e01f5320f0a9b7c2c7363b1ec989a220fd6a0611254c7815f3";
+      "3f8fdb5687c45e798964f6b0d3259c30abd62dac26e8cd3665cc9446fb8728bd";
 
     hacknix.defaults.acme.enable = true;
 
