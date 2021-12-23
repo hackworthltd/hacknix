@@ -126,11 +126,5 @@ in
 
     # Well-known remote hosts.
     programs.ssh.knownHosts = pkgs.lib.ssh.wellKnownHosts;
-
-    # Enable x86_64-darwin support on aarch64-darwin hosts.
-    # Note: this requires that you've installed Rosetta 2.
-    nix.extraOptions = lib.optionalString (pkgs.stdenv.hostPlatform.system == "aarch64-darwin") ''
-      extra-platforms = x86_64-darwin aarch64-darwin
-    '';
   };
 }
