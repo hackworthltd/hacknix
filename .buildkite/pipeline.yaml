@@ -2,5 +2,5 @@ steps:
   - command: nix-buildkite
     label: ":nixos: :buildkite:"
     plugins:
-      - circuithub/nix-buildkite#9eaba517ab02048376f32c6f42eb5d9a10c19548:
+      - hackworthltd/nix-buildkite#030fd12db5b205ab62ff6170510172adaaaa0a6d:
           file: nix/buildkite.nix
