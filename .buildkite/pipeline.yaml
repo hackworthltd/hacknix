@@ -4,4 +4,5 @@ steps:
     plugins:
       circuithub/nix-buildkite:
         file: nix/buildkite.nix
-
+  - command: buildkite-agent pipeline upload
+    label: ":pipeline:"
