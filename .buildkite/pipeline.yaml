@@ -1,6 +1,9 @@
+env:
+  CACHIX_NAME: hackworthltd
+
 steps:
   - command: nix-buildkite
     label: ":nixos: :buildkite:"
     plugins:
-      - hackworthltd/nix-buildkite#030fd12db5b205ab62ff6170510172adaaaa0a6d:
+      - hackworthltd/nix-buildkite#acf95d04c79f2bb42b2f56a61ac95bd408fb07fd:
           file: nix/buildkite.nix
