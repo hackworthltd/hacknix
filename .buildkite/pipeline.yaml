@@ -5,5 +5,5 @@ steps:
   - command: nix-buildkite
     label: ":nixos: :buildkite:"
     plugins:
-      - hackworthltd/nix-buildkite#acf95d04c79f2bb42b2f56a61ac95bd408fb07fd:
+      - hackworthltd/nix-buildkite#a0dde6ac1a66ed56744ab4c737f0ce2cc409da60:
           file: nix/buildkite.nix
