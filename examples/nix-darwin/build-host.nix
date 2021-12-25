@@ -54,5 +54,11 @@
         owner = "root";
         group = "root";
       };
+      services.vault-agent.template.cachix.hackworthltd = {
+        vaultPath = "secret/cachix/hackworthltd/write";
+        dir = "/home/dhess/.config/cachix";
+        owner = "dhess";
+        group = "admin";
+      };
     });
 }

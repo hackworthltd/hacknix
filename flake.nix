@@ -190,6 +190,7 @@
           ./nix/common/config/services/vault/agent/auth/approle
           ./nix/common/config/services/vault/agent/template
           ./nix/common/config/services/vault/agent/template/aws-credentials
+          ./nix/common/config/services/vault/agent/template/cachix
         ];
         nixpkgs.overlays = [ self.overlay ];
       };
@@ -220,6 +221,7 @@
           ./nix/common/config/services/vault/agent/auth/approle
           ./nix/common/config/services/vault/agent/template
           ./nix/common/config/services/vault/agent/template/aws-credentials
+          ./nix/common/config/services/vault/agent/template/cachix
         ];
         nixpkgs.overlays = [ self.overlay ];
       };
