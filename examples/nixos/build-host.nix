@@ -60,7 +60,18 @@
           vaultPath = "secret/cachix/hackworthltd/write";
           dir = "/home/dhess/.config/cachix";
           owner = "dhess";
-          group = "admin";
+          group = "dhess";
+        };
+        services.vault-agent.template.github-credentials.dhess = {
+          dir = "/home/dhess";
+          owner = "dhess";
+          group = "dhess";
+          credentials = {
+            github = {
+              vaultPath = "github/token/dhess";
+              username = "hackworthltd";
+            };
+          };
         };
       });
 }
