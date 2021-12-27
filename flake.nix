@@ -253,7 +253,6 @@
           inherit (pkgs) cortextools;
           inherit (pkgs) ffmpeg-full;
           inherit (pkgs) fsatrace;
-          inherit (pkgs) glances;
           inherit (pkgs) hostapd;
           inherit (pkgs) lean;
           inherit (pkgs) nix-index;
