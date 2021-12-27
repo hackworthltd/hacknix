@@ -1,13 +1,11 @@
 agents:
   public: "true"
 
-env:
-  CACHIX_NAME: hackworthltd
-
 steps:
   - command: nix-buildkite
     label: ":nixos: :buildkite:"
     plugins:
-      - hackworthltd/nix-buildkite#a0dde6ac1a66ed56744ab4c737f0ce2cc409da60:
+      - hackworthltd/nix-buildkite#hackworthltd-v4:
           file: nix/ci.nix
-
+          post-build-hook:
+            buildkite-public-post-build-hook
