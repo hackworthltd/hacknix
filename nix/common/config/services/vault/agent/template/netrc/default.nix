@@ -12,7 +12,7 @@ let
 
   templateContents = app: lib.concatMapStrings
     (creds: ''
-      machine ${creds.hostname} password {{ with secret "${creds.vaultPath}" }}{{ .Data.token }}{{ end }}
+      machine ${creds.hostname} password {{ with secret "${creds.vaultPath}" }}{{ .Data.data.token }}{{ end }}
     ''
     )
     (lib.mapAttrsToList (_: creds: creds) app.credentials);
