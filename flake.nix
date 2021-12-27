@@ -192,6 +192,7 @@
           ./nix/common/config/services/vault/agent/template/aws-credentials
           ./nix/common/config/services/vault/agent/template/cachix
           ./nix/common/config/services/vault/agent/template/github-credentials
+          ./nix/common/config/services/vault/agent/template/netrc
         ];
         nixpkgs.overlays = [ self.overlay ];
       };
@@ -227,6 +228,8 @@
           # Doesn't work yet as nix-darwin doesn't include a
           # programs.git module.
           #./nix/common/config/services/vault/agent/template/github-credentials
+
+          ./nix/common/config/services/vault/agent/template/netrc
         ];
         nixpkgs.overlays = [ self.overlay ];
       };

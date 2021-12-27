@@ -60,5 +60,16 @@
         owner = "dhess";
         group = "admin";
       };
+      services.vault-agent.template.netrc.nix = {
+        dir = "/etc/nix";
+        owner = "root";
+        group = "wheel";
+        credentials = {
+          hackworthltd = {
+            vaultPath = "secret/cachix/hackworthltd";
+            hostname = "hackworthltd.cachix.org";
+          };
+        };
+      };
     });
 }
