@@ -14,9 +14,6 @@
     flake-compat.url = github:edolstra/flake-compat;
     flake-compat.flake = false;
 
-    badhosts.url = github:StevenBlack/hosts;
-    badhosts.flake = false;
-
     emacs-overlay.url = github:nix-community/emacs-overlay;
 
     gitignore-nix.url = github:hercules-ci/gitignore.nix;
@@ -251,23 +248,6 @@
       packages = self.lib.flakes.filterPackagesByPlatform system
         {
           inherit (pkgs) aws-sam-cli;
-
-          inherit (pkgs) badhosts-unified;
-          inherit (pkgs)
-            badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social
-            ;
-          inherit (pkgs)
-            badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social
-            ;
-          inherit (pkgs) badhosts-gambling-nsfw badhosts-gambling-social;
-          inherit (pkgs) badhosts-nsfw-social;
-          inherit (pkgs)
-            badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social
-            ;
-          inherit (pkgs) badhosts-fakenews-nsfw-social;
-          inherit (pkgs) badhosts-gambling-nsfw-social;
-          inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
-          inherit (pkgs) badhosts-all;
 
           inherit (pkgs) colima;
           inherit (pkgs) cortextools;
