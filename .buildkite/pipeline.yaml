@@ -1,3 +1,6 @@
+agents:
+  public: "true"
+
 env:
   CACHIX_NAME: hackworthltd
 
