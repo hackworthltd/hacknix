@@ -14,9 +14,6 @@
     flake-compat.url = github:edolstra/flake-compat;
     flake-compat.flake = false;
 
-    badhosts.url = github:StevenBlack/hosts;
-    badhosts.flake = false;
-
     emacs-overlay.url = github:nix-community/emacs-overlay;
 
     gitignore-nix.url = github:hercules-ci/gitignore.nix;
@@ -252,30 +249,10 @@
         {
           inherit (pkgs) aws-sam-cli;
 
-          inherit (pkgs) badhosts-unified;
-          inherit (pkgs)
-            badhosts-fakenews badhosts-gambling badhosts-nsfw badhosts-social
-            ;
-          inherit (pkgs)
-            badhosts-fakenews-gambling badhosts-fakenews-nsfw badhosts-fakenews-social
-            ;
-          inherit (pkgs) badhosts-gambling-nsfw badhosts-gambling-social;
-          inherit (pkgs) badhosts-nsfw-social;
-          inherit (pkgs)
-            badhosts-fakenews-gambling-nsfw badhosts-fakenews-gambling-social
-            ;
-          inherit (pkgs) badhosts-fakenews-nsfw-social;
-          inherit (pkgs) badhosts-gambling-nsfw-social;
-          inherit (pkgs) badhosts-fakenews-gambling-nsfw-social;
-          inherit (pkgs) badhosts-all;
-
           inherit (pkgs) colima;
           inherit (pkgs) cortextools;
-          inherit (pkgs) emacsMacport;
-          inherit (pkgs) emacsPgtkGcc;
           inherit (pkgs) ffmpeg-full;
           inherit (pkgs) fsatrace;
-          inherit (pkgs) glances;
           inherit (pkgs) hostapd;
           inherit (pkgs) lean;
           inherit (pkgs) nix-index;
@@ -301,50 +278,60 @@
           # inherit (pkgs) lib;
         }
 
-      // (self.lib.optionalAttrs (system == "x86_64-linux") (
-        let
-          arion-example = {
-            services.webserver = { pkgs, ... }: {
-              image.nixBuild = true;
-              nixos.useSystemd = true;
-              nixos.configuration.imports = [
-                self.nixosModule
-              ];
-              nixos.configuration.boot.tmpOnTmpfs = true;
-              nixos.configuration.services.nginx.enable = true;
-              nixos.configuration.services.nginx.virtualHosts.localhost.root = "${pkgs.nix.doc}/share/doc/nix/manual";
+      // (self.lib.optionalAttrs (system == "x86_64-linux")
+        (
+          let
+            arion-example = {
+              services.webserver = { pkgs, ... }: {
+                image.nixBuild = true;
+                nixos.useSystemd = true;
+                nixos.configuration.imports = [
+                  self.nixosModule
+                ];
+                nixos.configuration.boot.tmpOnTmpfs = true;
+                nixos.configuration.services.nginx.enable = true;
+                nixos.configuration.services.nginx.virtualHosts.localhost.root = "${pkgs.nix.doc}/share/doc/nix/manual";
 
-              service.useHostStore = false;
-              service.ports = [
-                "8000:80" # host:container
-              ];
+                service.useHostStore = false;
+                service.ports = [
+                  "8000:80" # host:container
+                ];
+              };
             };
-          };
-          arion-example-meta = pkgs.lib.hacknix.arion.mkMeta {
-            modules = [ arion-example ];
-          };
-          arion-example-image = pkgs.lib.hacknix.arion.buildImage {
-            name = "arion-example";
-            meta = arion-example-meta;
-          };
+            arion-example-meta = pkgs.lib.hacknix.arion.mkMeta {
+              modules = [ arion-example ];
+            };
+            arion-example-image = pkgs.lib.hacknix.arion.buildImage {
+              name = "arion-example";
+              meta = arion-example-meta;
+            };
+          in
+          {
+            # Only available for Linux, but not detected properly by `filterPackagesByPlatform`.
+            inherit (pkgs) sops-install-secrets;
+
+            # Linux kernels.
+            inherit (pkgs) linux_ath10k;
+            inherit (pkgs) linux_ath10k_ct;
+
+            # Arion Docker image examples.
+            inherit arion-example-image;
+
+            # These aren't actually derivations, and therefore, we
+            # can't export them from packages. They are in the overlay, however.
+            # inherit (pkgs) linuxPackages_ath10k;
+            # inherit (pkgs) linuxPackages_ath10k_ct;
+          }
+        )
+
+      // (self.lib.optionalAttrs (system == "aarch64-darwin") (
+        let
         in
         {
-          # Only available for Linux, but not detected properly by `filterPackagesByPlatform`.
-          inherit (pkgs) sops-install-secrets;
-
-          # Linux kernels.
-          inherit (pkgs) linux_ath10k;
-          inherit (pkgs) linux_ath10k_ct;
-
-          # Arion Docker image examples.
-          inherit arion-example-image;
-
-          # These aren't actually derivations, and therefore, we
-          # can't export them from packages. They are in the overlay, however.
-          # inherit (pkgs) linuxPackages_ath10k;
-          # inherit (pkgs) linuxPackages_ath10k_ct;
+          inherit (pkgs) emacsPgtkGcc;
         }
-      ));
+      ))
+      );
     })
 
     // {

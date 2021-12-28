@@ -20,22 +20,6 @@
         "type": "github"
       }
     },
-    "badhosts": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1640457021,
-        "narHash": "sha256-+qTmSQBsE2nGLrP3TztfRWomZwG20ynPSkZu2JLKcYs=",
-        "owner": "StevenBlack",
-        "repo": "hosts",
-        "rev": "b6fd01f620ad79dbee93f4fff42f1923e7c25a54",
-        "type": "github"
-      },
-      "original": {
-        "owner": "StevenBlack",
-        "repo": "hosts",
-        "type": "github"
-      }
-    },
     "emacs-overlay": {
       "locked": {
         "lastModified": 1640454400,
@@ -138,7 +122,6 @@
     "root": {
       "inputs": {
         "arion-flake": "arion-flake",
-        "badhosts": "badhosts",
         "emacs-overlay": "emacs-overlay",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
