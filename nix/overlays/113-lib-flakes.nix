@@ -81,13 +81,33 @@ let
       modules = (config.modules or [ ]) ++ extraModules;
     });
 
-  /* Given a flake's hydraJobs, recurse into it setting
-     `recurseForDerivation` along the way. This is useful for
-     converting a flake's hydraJobs to something that
-     `nix-build/nix-instantiate` can build.
-  */
 
+  # Given a flake's hydraJobs, recurse into it setting
+  # `recurseForDerivation` along the way. This is useful for
+  # converting a flake's hydraJobs to something that
+  # `nix-build/nix-instantiate` can build.
+  #
+  # Also cleans derviation names by converting code points that some
+  # nix tools tend to choke on (e.g., ":") to something more
+  # universally acceptable.
   recurseIntoHydraJobs = set:
+    let
+      scrubForNix = name: builtins.replaceStrings [ ":" ] [ "-" ] name;
+      recurse = path: set:
+        let
+          g =
+            name: value: final.lib.nameValuePair (scrubForNix name) (
+              if final.lib.isAttrs value
+              then ((recurse (path ++ [ name ]) value) // { recurseForDerivations = true; })
+              else value
+            );
+        in
+        final.lib.mapAttrs' g set;
+    in
+    recurse [ ] set;
+
+  # Same as `recurseIntoHydraJobs`, but without the name scrubbing.
+  recurseIntoHydraJobs' = set:
     let
       recurse = path: set:
         let
@@ -100,7 +120,6 @@ let
         final.lib.mapAttrs g set;
     in
     recurse [ ] set;
-
 in
 {
   lib = (prev.lib or { }) // {
