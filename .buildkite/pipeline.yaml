@@ -8,4 +8,4 @@ steps:
       - hackworthltd/nix-buildkite#hackworthltd-v4:
           file: nix/ci.nix
           post-build-hook:
-            buildkite-public-post-build-hook
+            /run/current-system/sw/bin/buildkite-public-post-build-hook
