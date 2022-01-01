@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
-    nix-darwin.url = github:hackworthltd/nix-darwin/fixes-v12;
+    nix-darwin.url = github:hackworthltd/nix-darwin/fixes-v13;
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     arion-flake.url = github:hercules-ci/arion;
@@ -269,7 +269,7 @@
           inherit (pkgs) vault-plugin-secrets-github;
           inherit (pkgs) vault-plugins register-vault-plugins;
 
-          inherit (pkgs) terraform-provider-postgresql terraform-provider-cloudflare terraform-provider-gandi terraform-provider-github terraform-provider-keycloak;
+          inherit (pkgs) terraform-provider-gandi;
 
           # From sops-nix.
           inherit (pkgs) sops-init-gpg-key sops-import-keys-hook ssh-to-pgp;
