@@ -227,8 +227,6 @@
     {
       packages = self.lib.flakes.filterPackagesByPlatform system
         {
-          inherit (pkgs) aws-sam-cli;
-
           inherit (pkgs) colima;
           inherit (pkgs) cortextools;
           inherit (pkgs) ffmpeg-full;
