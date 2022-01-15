@@ -10,13 +10,13 @@
 
 buildGoModule rec {
   pname = "colima";
-  version = "0.3.0-pre";
+  version = "0.3.2";
 
   src = fetchFromGitHub {
     owner = "abiosoft";
     repo = pname;
-    rev = "e1df01257a5aa73a373e04f965d803697df41564";
-    sha256 = "sha256-HineaXtLXdsOAG7TRct+OCQmXI2FWWDGYflOlcxiIvk=";
+    rev = "v${version}";
+    sha256 = "sha256-hZ5BqNHQAMzL69ptpbTT+fN4NdV4AFhboCL2t1sF5AQ=";
   };
 
   vendorSha256 = "sha256-Dl638NSrBP9jDceQQeeRz+Re1M8z2+AagIDVm+wo+48=";
