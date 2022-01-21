@@ -228,17 +228,10 @@
       packages = self.lib.flakes.filterPackagesByPlatform system
         {
           inherit (pkgs) colima;
-          inherit (pkgs) cortextools;
-          inherit (pkgs) ffmpeg-full;
-          inherit (pkgs) fsatrace;
-          inherit (pkgs) hostapd;
-          inherit (pkgs) lean;
           inherit (pkgs) nix-index;
           inherit (pkgs) nmrpflash;
-          inherit (pkgs) tarsnap;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;
-          inherit (pkgs) wpa_supplicant;
 
           inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
@@ -263,15 +256,6 @@
           {
             # Only available for Linux, but not detected properly by `filterPackagesByPlatform`.
             inherit (pkgs) sops-install-secrets;
-
-            # Linux kernels.
-            inherit (pkgs) linux_ath10k;
-            inherit (pkgs) linux_ath10k_ct;
-
-            # These aren't actually derivations, and therefore, we
-            # can't export them from packages. They are in the overlay, however.
-            # inherit (pkgs) linuxPackages_ath10k;
-            # inherit (pkgs) linuxPackages_ath10k_ct;
           }
         )
 
