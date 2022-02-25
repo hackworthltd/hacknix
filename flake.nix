@@ -359,7 +359,30 @@
               dlnFfdhe = all;
               dlnTypes = all;
             });
-        });
+        })
+
+        // {
+          required =
+            let
+              pkgs = pkgsFor "x86_64-linux";
+            in
+            pkgs.releaseTools.aggregate {
+              name = "required";
+              constituents = builtins.map builtins.attrValues (with self.hydraJobs; [
+                packages.x86_64-linux
+                packages.aarch64-darwin
+
+                nixosConfigurations.x86_64-linux
+                amazonImages.x86_64-linux
+                isoImages.x86_64-linux
+                darwinConfigurations.aarch64-darwin
+
+                # These break evaluation for some reason.
+                #tests.x86_64-linux
+              ]);
+              meta.description = "Required CI builds";
+            };
+        };
 
       ciJobs = self.lib.flakes.recurseIntoHydraJobs self.hydraJobs;
     };
