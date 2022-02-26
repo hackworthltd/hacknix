@@ -7,7 +7,7 @@ in
 
   options.networking.virtual-ips.interface = lib.mkOption {
     type = pkgs.lib.types.nonEmptyStr;
-    default = "dummy0";
+    default = "vif0";
     readOnly = true;
     description = ''
       A read-only attribute that provides the name of the device used
@@ -45,25 +45,23 @@ in
   };
 
   config = lib.mkIf enabled {
-    boot.kernelModules = [ "dummy" ];
-    networking.interfaces."${cfg.interface}" = {
-      useDHCP = false;
-      ipv4.addresses = map
-        (
-          address: {
-            inherit address;
-            prefixLength = 32;
-          }
-        )
-        cfg.v4;
-      ipv6.addresses = map
-        (
-          address: {
-            inherit address;
-            prefixLength = 128;
-          }
-        )
-        cfg.v6;
+    systemd.network = {
+      enable = true;
+      netdevs."10-${cfg.interface}" = {
+        netdevConfig = {
+          Kind = "dummy";
+          Name = cfg.interface;
+        };
+      };
+      networks."10-${cfg.interface}" = {
+        matchConfig = {
+          Kind = "dummy";
+          Name = cfg.interface;
+        };
+        address =
+          (builtins.map (ip: "${ip}/32") cfg.v4)
+          ++ (builtins.map (ip: "${ip}/128") cfg.v6);
+      };
     };
   };
 }

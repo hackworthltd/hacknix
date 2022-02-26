@@ -193,19 +193,8 @@ makeTest (
             }
           ];
         };
-        boot.kernelModules = [ "dummy" ];
-        networking.interfaces.dummy0.ipv4.addresses = [
-          {
-            address = "10.0.0.8";
-            prefixLength = 32;
-          }
-        ];
-        networking.interfaces.dummy0.ipv6.addresses = [
-          {
-            address = "fd00:1234:0:567a::1000";
-            prefixLength = 128;
-          }
-        ];
+        networking.virtual-ips.v4 = [ "10.0.0.8" ];
+        networking.virtual-ips.v6 = [ "fd00:1234:0:567a::1000" ];
       };
 
       client1 = { config, pkgs, lib, ... }: {
