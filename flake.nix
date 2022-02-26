@@ -2,8 +2,10 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
-    nix-darwin.url = github:hackworthltd/nix-darwin/fixes-v14;
+    # Pin to 67574bd99457d0971357baded8274c4442d8c2f7 until this is fixed:
+    # https://github.com/NixOS/nixpkgs/pull/161391#issuecomment-1052190023
+    nixpkgs.url = github:NixOS/nixpkgs/67574bd99457d0971357baded8274c4442d8c2f7;
+    nix-darwin.url = github:hackworthltd/nix-darwin/fixes-v15;
 
     flake-utils.url = github:numtide/flake-utils;
 
