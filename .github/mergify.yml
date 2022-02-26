@@ -2,7 +2,6 @@ pull_request_rules:
   - name: Automerge
     conditions:
       - base=main
-      - approved-reviews-by=dhess
       - label="Ready to merge"
       - "#review-threads-unresolved=0"
       - "#changes-requested-reviews-by=0"
