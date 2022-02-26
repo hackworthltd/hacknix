@@ -503,7 +503,7 @@ let
         description = ''
           The user name to be used for builds on the remote builder.
           Note that this user must be a member of
-          <option>nix.trustedUsers</option> on the remote host.
+          <option>nix.settings.trusted-users</option> on the remote host.
 
           Note: this value should be just the bare user name; do not
           include a <literal>ssh://</literal> prefix.

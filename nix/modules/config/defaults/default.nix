@@ -35,7 +35,7 @@ in
     # https://github.com/grahamc/network/blob/1d73f673b05a7f976d82ae0e0e61a65d045b3704/modules/standard/default.nix#L56
 
     nix = {
-      useSandbox = true;
+      settings.sandbox = true;
       nixPath = [
         (
           let
