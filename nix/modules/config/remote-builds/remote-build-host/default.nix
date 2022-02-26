@@ -18,7 +18,7 @@ in
 
       Enabling this option will create a user dedicated to remote
       builds. This user will be added to
-      <literal>nix.trustedUsers</literal>.
+      <literal>nix.settings.trusted-users</literal>.
     '';
 
     user = {
@@ -76,7 +76,7 @@ in
 
     hacknix.defaults.ssh.enable = true;
 
-    nix.trustedUsers = [ cfg.user.name ];
+    nix.settings.trusted-users = [ cfg.user.name ];
 
     users.users."${cfg.user.name}" = {
       useDefaultShell = true;

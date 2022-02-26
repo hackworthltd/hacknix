@@ -26,12 +26,12 @@ in
 
       Enabling this option will create a user account that is
       dedicated to remote builds. This user will be added to
-      <literal>nix.trustedUsers</literal>.
+      <literal>nix.settings.trusted-users</literal>.
 
       The remote build user's SSH environment will be configured so
       that it can only run the Nix commands needed to host remote Nix
       builds. The remote build user will be added to
-      <option>nix.trustedUsers</option>, as required for it to host
+      <option>nix.settings.trusted-users</option>, as required for it to host
       remote Nix builds, but is otherwise non-privileged.
     '';
 
