@@ -40,23 +40,21 @@ makeTest rec {
 
     server2 = { pkgs, config, ... }: {
       networking.firewall.allowedUDPPorts = [ 69 ];
-      boot.kernelModules = [ "dummy" ];
-      networking.interfaces.dummy0.ipv4.addresses = [
-        {
-          address = "192.168.1.100";
-          prefixLength = 32;
-        }
-      ];
+      networking.virtual-ips.v4 = [ "192.168.1.100" ];
       services.tftpd-hpa = {
         enable = true;
         listenAddress = "192.168.1.100";
       };
 
       systemd.services.tftpd-hpa = {
-        # Need to make sure we've created the root directory before
-        # this starts.
-        wants = [ "make-tftp-root.service" ];
-        after = [ "make-tftp-root.service" ];
+        wants = [
+          "make-tftp-root.service"
+          "systemd-network-wait-online@vif0.service"
+        ];
+        after = [
+          "make-tftp-root.service"
+          "systemd-network-wait-online@vif0.service"
+        ];
       };
 
       systemd.services.make-tftp-root = {
