@@ -34,14 +34,11 @@
       supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
       forAllSupportedSystems = flake-utils.lib.eachSystem supportedSystems;
 
-      testSystems = [ "x86_64-linux" ];
-      forAllTestSystems = flake-utils.lib.eachSystem testSystems;
+      linuxCISystems = [ "x86_64-linux" ];
+      forAllLinuxCISystems = flake-utils.lib.eachSystem linuxCISystems;
 
-      linuxSystems = [ "x86_64-linux" ];
-      forAllLinuxSystems = flake-utils.lib.eachSystem linuxSystems;
-
-      macSystems = [ "x86_64-darwin" "aarch64-darwin" ];
-      forAllMacSystems = flake-utils.lib.eachSystem macSystems;
+      macCISystems = [ "aarch64-darwin" ];
+      forAllMacCISystems = flake-utils.lib.eachSystem macCISystems;
 
       pkgsFor = system: import nixpkgs
         {
@@ -275,7 +272,7 @@
           inherit (self) packages;
         }
 
-        // forAllLinuxSystems (system: {
+        // forAllLinuxCISystems (system: {
           nixosConfigurations =
             self.lib.flakes.nixosConfigurations.build
               self.nixosConfigurations;
@@ -321,11 +318,12 @@
             self.lib.flakes.nixosConfigurations.buildISOImages configs;
         })
 
-        // forAllMacSystems (system: {
-          darwinConfigurations = self.lib.flakes.darwinConfigurations.build self.darwinConfigurations;
-        })
+        # Evaluation issues since we dropped x86_64-darwin.
+        # // {
+        #   darwinConfigurations = self.lib.flakes.darwinConfigurations.build self.darwinConfigurations;
+        # }
 
-        // forAllTestSystems (system: {
+        // forAllLinuxCISystems (system: {
           tests =
             let
               pkgs = pkgsFor system;
@@ -375,7 +373,9 @@
                 nixosConfigurations.x86_64-linux
                 amazonImages.x86_64-linux
                 isoImages.x86_64-linux
-                darwinConfigurations.aarch64-darwin
+
+                # Evaluation issues since we dropped x86_64-darwin.
+                #darwinConfigurations
 
                 # These break evaluation for some reason.
                 #tests.x86_64-linux
