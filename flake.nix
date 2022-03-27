@@ -31,7 +31,7 @@
     let
       bootstrap = (import ./nix/overlays/000-bootstrap.nix) { } nixpkgs;
 
-      supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      supportedSystems = [ "x86_64-linux" "aarch64-darwin" ];
       forAllSupportedSystems = flake-utils.lib.eachSystem supportedSystems;
 
       linuxCISystems = [ "x86_64-linux" ];
@@ -74,8 +74,6 @@
               };
 
               hacknix = (prev.lib.hacknix or { }) // {
-                # Hack to fix some issues with aarch64-darwin packages.
-                pkgs_x86 = prev.lib.optionalAttrs (final.stdenv.hostPlatform.system == "aarch64-darwin") (pkgsFor "x86_64-darwin");
                 flake = (prev.lib.hacknix.flake or { }) // {
                   inherit inputs;
                   inherit (self) darwinModule;
@@ -153,7 +151,6 @@
           ./nix/modules/networking/virtual-ips
 
           ./nix/modules/services/cloudflared
-          ./nix/modules/services/hydra-manual-setup
           ./nix/modules/services/netsniff-ng
           ./nix/modules/services/tarsnapper
           ./nix/modules/services/tftpd-hpa
@@ -225,7 +222,6 @@
       packages = self.lib.flakes.filterPackagesByPlatform system
         {
           inherit (pkgs) colima;
-          inherit (pkgs) nix-index;
           inherit (pkgs) nmrpflash;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;
