@@ -74,8 +74,6 @@
               };
 
               hacknix = (prev.lib.hacknix or { }) // {
-                # Hack to fix some issues with aarch64-darwin packages.
-                pkgs_x86 = prev.lib.optionalAttrs (final.stdenv.hostPlatform.system == "aarch64-darwin") (pkgsFor "x86_64-darwin");
                 flake = (prev.lib.hacknix.flake or { }) // {
                   inherit inputs;
                   inherit (self) darwinModule;
@@ -225,7 +223,6 @@
       packages = self.lib.flakes.filterPackagesByPlatform system
         {
           inherit (pkgs) colima;
-          inherit (pkgs) nix-index;
           inherit (pkgs) nmrpflash;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;

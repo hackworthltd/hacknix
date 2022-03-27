@@ -89,8 +89,6 @@ in
       '';
     };
 
-    programs.nix-index.enable = true;
-
     # Move the Apple-supplied /etc/z* files out of the way. Note that
     # this often needs to be done after a macOS upgrade, so we
     # overwrite old versions, if they exist.
