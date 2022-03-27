@@ -31,7 +31,7 @@
     let
       bootstrap = (import ./nix/overlays/000-bootstrap.nix) { } nixpkgs;
 
-      supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      supportedSystems = [ "x86_64-linux" "aarch64-darwin" ];
       forAllSupportedSystems = flake-utils.lib.eachSystem supportedSystems;
 
       linuxCISystems = [ "x86_64-linux" ];
@@ -318,10 +318,9 @@
             self.lib.flakes.nixosConfigurations.buildISOImages configs;
         })
 
-        # Evaluation issues since we dropped x86_64-darwin.
-        # // {
-        #   darwinConfigurations = self.lib.flakes.darwinConfigurations.build self.darwinConfigurations;
-        # }
+        // {
+          darwinConfigurations = self.lib.flakes.darwinConfigurations.build self.darwinConfigurations;
+        }
 
         // forAllLinuxCISystems (system: {
           tests =
@@ -373,9 +372,7 @@
                 nixosConfigurations.x86_64-linux
                 amazonImages.x86_64-linux
                 isoImages.x86_64-linux
-
-                # Evaluation issues since we dropped x86_64-darwin.
-                #darwinConfigurations
+                darwinConfigurations
 
                 # These break evaluation for some reason.
                 #tests.x86_64-linux
