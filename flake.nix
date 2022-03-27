@@ -31,7 +31,7 @@
     let
       bootstrap = (import ./nix/overlays/000-bootstrap.nix) { } nixpkgs;
 
-      supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      supportedSystems = [ "x86_64-linux" "aarch64-darwin" ];
       forAllSupportedSystems = flake-utils.lib.eachSystem supportedSystems;
 
       linuxCISystems = [ "x86_64-linux" ];
