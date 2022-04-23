@@ -221,7 +221,6 @@
     {
       packages = self.lib.flakes.filterPackagesByPlatform system
         {
-          inherit (pkgs) colima;
           inherit (pkgs) nmrpflash;
           inherit (pkgs) trimpcap;
           inherit (pkgs) tsoff;
