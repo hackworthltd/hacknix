@@ -6,6 +6,9 @@
 let
   cfg = config.services.vault-agent;
 
+  ca_cert = lib.optionalString (cfg.server.caCertPath != null) ''
+    ca_cert = "${cfg.server.caCertPath}"
+  '';
   configFile = pkgs.writeText "vault-agent.hcl" (cfg.config + ''
     exit_after_auth = false
     pid_file = "./vault-agent.pid"
@@ -13,6 +16,7 @@ let
     vault {
       address = "${cfg.server.address}"
       tls_skip_verify = ${if cfg.server.tlsSkipVerify then "true" else "false"}
+      ${ca_cert}
     }
   '');
 in
@@ -28,6 +32,16 @@ in
         example = "https://vault.example.com";
         description = ''
           The URL of the upstream Vault server.
+        '';
+      };
+
+      caCertPath = lib.mkOption {
+        type = pkgs.lib.types.nullOr pkgs.lib.types.path;
+        default = null;
+        example = "/etc/ssl/vault-ca.pem";
+        description = ''
+          A path on the target machine to the CA certificate used to
+          validate TLS connections to the upstream Vault server.
         '';
       };
 
