@@ -140,12 +140,6 @@
           ./nix/modules/config/remote-builds/build-host
           ./nix/modules/core/module-hashes.nix
           ./nix/modules/dns/unbound-multi-instance
-          ./nix/modules/email/dovecot
-          ./nix/modules/email/null-client
-          ./nix/modules/email/opendkim
-          ./nix/modules/email/postfix-mta
-          ./nix/modules/email/relay-host
-          ./nix/modules/email/service-status-email
           ./nix/modules/networking/accept
           ./nix/modules/networking/pcap-prep
           ./nix/modules/networking/virtual-ips
