@@ -22,7 +22,7 @@ python2Packages.buildPythonApplication rec {
     homepage = "https://www.netresec.com/?page=TrimPCAP";
     description = "Trim pcap files";
     license = licenses.gpl2;
-    maintainers = maintainers.dhess;
+    maintainers = [ maintainers.dhess ];
     platforms = platforms.all;
   };
 }

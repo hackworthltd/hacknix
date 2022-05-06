@@ -120,6 +120,6 @@ in
       gcfg.recipients;
   };
 
-  meta.maintainers = lib.maintainers.dhess;
+  meta.maintainers = [ lib.maintainers.dhess ];
 
 }

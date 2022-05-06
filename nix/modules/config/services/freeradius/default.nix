@@ -22,7 +22,7 @@ let
   raddb = import ./conf/raddb.nix { inherit lib pkgs config; };
 in
 {
-  meta.maintainers = lib.maintainers.dhess;
+  meta.maintainers = [ lib.maintainers.dhess ];
 
   options.hacknix.freeradius = {
     enable = lib.mkEnableOption ''
