@@ -45,7 +45,7 @@ let
   acmeCertPrivate = "${acmeCertDir}/key.pem";
 in
 {
-  meta.maintainers = lib.maintainers.dhess;
+  meta.maintainers = [ lib.maintainers.dhess ];
 
   options.services.postfix-mta = {
 

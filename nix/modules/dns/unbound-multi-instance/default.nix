@@ -238,6 +238,6 @@ in
 
   };
 
-  meta.maintainers = lib.maintainers.dhess;
+  meta.maintainers = [ lib.maintainers.dhess ];
 
 }
