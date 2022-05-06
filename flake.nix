@@ -227,9 +227,6 @@
 
           inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
-          inherit (pkgs) vault-plugin-secrets-github;
-          inherit (pkgs) vault-plugins register-vault-plugins;
-
           inherit (pkgs) terraform-provider-gandi;
 
           # From sops-nix.
