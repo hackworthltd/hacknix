@@ -140,12 +140,6 @@
           ./nix/modules/config/remote-builds/build-host
           ./nix/modules/core/module-hashes.nix
           ./nix/modules/dns/unbound-multi-instance
-          ./nix/modules/email/dovecot
-          ./nix/modules/email/null-client
-          ./nix/modules/email/opendkim
-          ./nix/modules/email/postfix-mta
-          ./nix/modules/email/relay-host
-          ./nix/modules/email/service-status-email
           ./nix/modules/networking/accept
           ./nix/modules/networking/pcap-prep
           ./nix/modules/networking/virtual-ips
@@ -226,11 +220,6 @@
           inherit (pkgs) tsoff;
 
           inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
-
-          inherit (pkgs) vault-plugin-secrets-github;
-          inherit (pkgs) vault-plugins register-vault-plugins;
-
-          inherit (pkgs) terraform-provider-gandi;
 
           # From sops-nix.
           inherit (pkgs) sops-init-gpg-key sops-import-keys-hook ssh-to-pgp;
