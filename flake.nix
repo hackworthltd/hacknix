@@ -221,8 +221,6 @@
 
           inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
-          inherit (pkgs) terraform-provider-gandi;
-
           # From sops-nix.
           inherit (pkgs) sops-init-gpg-key sops-import-keys-hook ssh-to-pgp;
 
