@@ -9,3 +9,5 @@ steps:
           file: nix/ci.nix
           post-build-hook:
             /run/current-system/sw/bin/buildkite-public-post-build-hook
+  - command: nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)' | cachix --verbose --config /var/lib/cachix/hackworthltd/cachix.dhall push hackworthltd
+    label: ":nixos: Archive Nix flake inputs"
