@@ -141,11 +141,9 @@
           ./nix/modules/core/module-hashes.nix
           ./nix/modules/dns/unbound-multi-instance
           ./nix/modules/networking/accept
-          ./nix/modules/networking/pcap-prep
           ./nix/modules/networking/virtual-ips
 
           ./nix/modules/services/cloudflared
-          ./nix/modules/services/netsniff-ng
           ./nix/modules/services/tarsnapper
           ./nix/modules/services/tftpd-hpa
           ./nix/modules/services/vault/agent
@@ -216,8 +214,6 @@
       packages = self.lib.flakes.filterPackagesByPlatform system
         {
           inherit (pkgs) nmrpflash;
-          inherit (pkgs) trimpcap;
-          inherit (pkgs) tsoff;
 
           inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
