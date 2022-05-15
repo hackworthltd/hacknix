@@ -1,5 +1,6 @@
 agents:
   public: "true"
+  os: "linux"
 
 steps:
   - command: nix-buildkite
