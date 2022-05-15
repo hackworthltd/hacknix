@@ -12,7 +12,7 @@ let
 
   templateContents = app: lib.concatMapStrings
     (creds: ''
-      machine ${creds.hostname} password {{ with secret "${creds.vaultPath}" }}{{ .Data.data.token }}{{ end }}
+      machine ${creds.hostname} login ${creds.login} password {{ with secret "${creds.vaultPath}" }}{{ .Data.data.token }}{{ end }}
     ''
     )
     (lib.mapAttrsToList (_: creds: creds) app.credentials);
@@ -61,6 +61,15 @@ let
           <literal>netrc</literal> credentials. Note that the
           password/token must be stored in a key/value pair whose key
           is named <literal>token</literal>.
+        '';
+      };
+
+      login = lib.mkOption {
+        type = pkgs.lib.types.nonEmptyStr;
+        example = "alice";
+        description = ''
+          The login name for these credentials. Note that some clients
+          may ignore this field, in which case you can use a nonce.
         '';
       };
 
