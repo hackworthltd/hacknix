@@ -67,6 +67,7 @@
         credentials = {
           hackworthltd = {
             vaultPath = "secret/cachix/hackworthltd";
+            login = "dhess";
             hostname = "hackworthltd.cachix.org";
           };
         };
