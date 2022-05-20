@@ -256,46 +256,6 @@
           nixosConfigurations =
             self.lib.flakes.nixosConfigurations.build
               self.nixosConfigurations;
-
-          amazonImages =
-            let
-              extraModules = [
-                {
-                  ec2.hvm = true;
-                  amazonImage.format = "qcow2";
-                  amazonImage.sizeMB = 4096;
-                }
-              ];
-              mkSystem = self.lib.hacknix.amazonImage extraModules;
-              configs =
-                self.lib.flakes.nixosConfigurations.importFromDirectory
-                  mkSystem
-                  ./examples/nixos
-                  {
-                    inherit (self) lib;
-                  };
-            in
-            self.lib.flakes.nixosConfigurations.buildAmazonImages configs;
-
-          isoImages =
-            let
-              extraModules = [
-                ({ config, ... }:
-                  {
-                    isoImage.isoBaseName = self.lib.mkForce "${config.networking.hostName}_hacknix-example-iso";
-                    networking.wireless.enable = self.lib.mkForce false;
-                  })
-              ];
-              mkSystem = self.lib.hacknix.isoImage extraModules;
-              configs =
-                self.lib.flakes.nixosConfigurations.importFromDirectory
-                  mkSystem
-                  ./examples/nixos
-                  {
-                    inherit (self) lib;
-                  };
-            in
-            self.lib.flakes.nixosConfigurations.buildISOImages configs;
         })
 
         # Evaluation issues since we dropped x86_64-darwin.
@@ -351,8 +311,6 @@
                 packages.aarch64-darwin
 
                 nixosConfigurations.x86_64-linux
-                amazonImages.x86_64-linux
-                isoImages.x86_64-linux
 
                 # Evaluation issues since we dropped x86_64-darwin.
                 #darwinConfigurations
