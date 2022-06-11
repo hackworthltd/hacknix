@@ -40,11 +40,11 @@ let
               machine.succeed("usermod -a -G wheel alice")
 
               # Make sure it's working like we expect.
-              machine.wait_until_tty_matches(1, "login: ")
+              machine.wait_until_tty_matches("1", "login: ")
               machine.send_chars("alice\n")
-              machine.wait_until_tty_matches(1, "Password: ")
+              machine.wait_until_tty_matches("1", "Password: ")
               machine.send_chars("${alicePassword}\n")
-              machine.wait_until_tty_matches(1, "alice\@machine")
+              machine.wait_until_tty_matches("1", "alice\@machine")
               machine.send_chars("printenv > /tmp/alice.printenv\n")
               machine.wait_for_file("/tmp/alice.printenv")
               aliceEnv = machine.succeed("cat /tmp/alice.printenv")
@@ -54,9 +54,9 @@ let
 
               # Now sudo and check the sudo environment.
               machine.send_chars("sudo -s\n")
-              machine.wait_until_tty_matches(1, "password for alice")
+              machine.wait_until_tty_matches("1", "password for alice")
               machine.send_chars("${alicePassword}\n")
-              machine.wait_until_tty_matches(1, "root\@machine")
+              machine.wait_until_tty_matches("1", "root\@machine")
               machine.send_chars("printenv > /tmp/sudo.printenv\n")
               machine.wait_for_file("/tmp/sudo.printenv")
 
@@ -69,15 +69,15 @@ let
           
           with subtest("Sudo tty-tickets"):
               # Login on tty1 and sudo.
-              machine.wait_until_tty_matches(1, "login: ")
+              machine.wait_until_tty_matches("1", "login: ")
               machine.send_chars("alice\n")
-              machine.wait_until_tty_matches(1, "Password: ")
+              machine.wait_until_tty_matches("1", "Password: ")
               machine.send_chars("${alicePassword}\n")
-              machine.wait_until_tty_matches(1, "alice\@machine")
+              machine.wait_until_tty_matches("1", "alice\@machine")
               machine.send_chars("sudo -s\n")
-              machine.wait_until_tty_matches(1, "password for alice")
+              machine.wait_until_tty_matches("1", "password for alice")
               machine.send_chars("${alicePassword}\n")
-              machine.wait_until_tty_matches(1, "root\@machine")
+              machine.wait_until_tty_matches("1", "root\@machine")
 
               # Now login on tty2 and make sure sudo still asks for a
               # password.
@@ -85,15 +85,15 @@ let
               machine.wait_until_succeeds("[ $(fgconsole) = 2 ]")
               machine.wait_for_unit("getty@tty2.service")
               machine.wait_until_succeeds("pgrep -f 'agetty.*tty2'")
-              machine.wait_until_tty_matches(2, "login: ")
+              machine.wait_until_tty_matches("2", "login: ")
               machine.send_chars("alice\n")
-              machine.wait_until_tty_matches(2, "Password: ")
+              machine.wait_until_tty_matches("2", "Password: ")
               machine.send_chars("${alicePassword}\n")
-              machine.wait_until_tty_matches(2, "alice\@machine")
+              machine.wait_until_tty_matches("2", "alice\@machine")
               machine.send_chars("sudo -s\n")
-              machine.wait_until_tty_matches(2, "password for alice")
+              machine.wait_until_tty_matches("2", "password for alice")
               machine.send_chars("${alicePassword}\n")
-              machine.wait_until_tty_matches(2, "root\@machine")
+              machine.wait_until_tty_matches("2", "root\@machine")
 
           with subtest("/etc/sudo.env permissions"):
               perms = machine.succeed("getfacl /etc/sudo.env")
