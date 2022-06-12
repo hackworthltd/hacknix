@@ -10,8 +10,6 @@
     flake-compat.url = github:edolstra/flake-compat;
     flake-compat.flake = false;
 
-    emacs-overlay.url = github:nix-community/emacs-overlay;
-
     gitignore-nix.url = github:hercules-ci/gitignore.nix;
     gitignore-nix.flake = false;
 
@@ -24,7 +22,6 @@
     , flake-utils
     , nixpkgs
     , nix-darwin
-    , emacs-overlay
     , sops-nix
     , ...
     }@inputs:
@@ -82,7 +79,6 @@
               };
             };
           })
-          emacs-overlay.overlay
           sops-nix.overlay
           overlaysFromDir
         ];
@@ -235,14 +231,6 @@
             inherit (pkgs) sops-install-secrets;
           }
         )
-
-      // (self.lib.optionalAttrs (system == "aarch64-darwin") (
-        let
-        in
-        {
-          inherit (pkgs) emacsPgtkGcc;
-        }
-      ))
       );
     })
 
