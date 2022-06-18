@@ -1,27 +1,26 @@
 final: prev:
 let
+  hacknixExtraModules = [
+    final.lib.hacknix.flake.nixosModule
+    final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
+  ];
+
   # Like their lib.flakes equivalents, except these automatically
   # append the hacknix modules (or darwinModules) to the
   # configuration.
   nixosSystem' = extraModules:
-    final.lib.flakes.nixosSystem' ([
-      final.lib.hacknix.flake.nixosModule
-      final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
-    ] ++ extraModules);
+    final.lib.flakes.nixosSystem' (hacknixExtraModules ++ extraModules);
   nixosSystem = nixosSystem' [ ];
   amazonImage = extraModules:
-    final.lib.flakes.amazonImage ([
-      final.lib.hacknix.flake.nixosModule
-      final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
-    ] ++ extraModules);
+    final.lib.flakes.amazonImage (hacknixExtraModules ++ extraModules);
   isoImage = extraModules:
-    final.lib.flakes.isoImage ([
-      final.lib.hacknix.flake.nixosModule
-      final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
-    ] ++ extraModules);
+    final.lib.flakes.isoImage (hacknixExtraModules ++ extraModules);
   darwinSystem' = extraModules:
     final.lib.flakes.darwinSystem' ([ final.lib.hacknix.flake.darwinModule ] ++ extraModules);
   darwinSystem = darwinSystem' [ ];
+  nixosGenerate' = extraModules:
+    final.lib.flakes.nixosGenerate' (hacknixExtraModules ++ extraModules);
+  nixosGenerate = nixosGenerate' [ ];
 
   # Given a set of remote build hosts of the hacknix remoteBuildHost
   # type, create SSH config for the remote build host hostname and
@@ -70,8 +69,6 @@ let
     _: v:
       final.lib.all (s: s != "x86_64-darwin" && s != "aarch64-darwin") v.systems
   );
-
-
 in
 {
   lib = (prev.lib or { }) // {
@@ -80,6 +77,7 @@ in
 
       inherit nixosSystem' nixosSystem amazonImage isoImage;
       inherit darwinSystem' darwinSystem;
+      inherit nixosGenerate' nixosGenerate;
 
       remote-build-host = (prev.lib.hacknix.remote-build-host or { }) // {
         inherit sshExtraConfig;

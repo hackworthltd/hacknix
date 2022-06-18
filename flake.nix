@@ -15,6 +15,9 @@
 
     sops-nix.url = github:Mic92/sops-nix;
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-generators.url = github:nix-community/nixos-generators;
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -23,6 +26,7 @@
     , nixpkgs
     , nix-darwin
     , sops-nix
+    , nixos-generators
     , ...
     }@inputs:
     let
@@ -68,6 +72,8 @@
 
                 # Ditto for nix-darwin's lib.darwinSystem function.
                 inherit (nix-darwin.lib) darwinSystem;
+
+                inherit (nixos-generators) nixosGenerate;
               };
 
               hacknix = (prev.lib.hacknix or { }) // {
@@ -167,6 +173,7 @@
           ./examples/nixos
           {
             inherit (self) lib;
+            system = "x86_64-linux";
           };
 
       darwinModule = {
@@ -205,6 +212,15 @@
     // forAllSupportedSystems (system:
     let
       pkgs = pkgsFor system;
+
+      nixosGenerators =
+        self.lib.flakes.nixosGenerators.importFromDirectory
+          self.lib.hacknix.nixosGenerate
+          ./examples/nixos
+          {
+            inherit pkgs;
+            format = "lxc";
+          };
     in
     {
       packages = self.lib.flakes.filterPackagesByPlatform system
@@ -227,6 +243,8 @@
           let
           in
           {
+            inherit (nixosGenerators) remote-build-host build-host;
+
             # Only available for Linux, but not detected properly by `filterPackagesByPlatform`.
             inherit (pkgs) sops-install-secrets;
           }
