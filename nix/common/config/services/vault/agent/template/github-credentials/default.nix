@@ -199,7 +199,7 @@ in
 
   config = lib.mkIf enabled {
     services.vault-agent.config = vaultConfig;
-    programs.git.config.enable = true;
+    programs.git.enable = true;
     programs.git.config.credential.helper = "store";
   };
 }
