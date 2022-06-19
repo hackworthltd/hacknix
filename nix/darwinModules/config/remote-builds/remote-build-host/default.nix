@@ -132,10 +132,8 @@ in
 
     system.activationScripts.postActivation.text = ''
       printf "configuring ssh keys for ${cfg.user.name}... "
-      mkdir -p ~${cfg.user.name}/.ssh
-      ${pkgs.coreutils}/bin/chmod 0700 ~${cfg.user.name}/.ssh
-      cp -f /etc/per-user/${cfg.user.name}/ssh/authorized_keys ~${cfg.user.name}/.ssh/authorized_keys
-      ${pkgs.coreutils}/bin/chown -R ${cfg.user.name}:${cfg.user.name} ~${cfg.user.name}
+      ${pkgs.coreutils}/bin/install -o ${cfg.user.name} -g ${cfg.user.name} -m 0700 -d ~${cfg.user.name}/.ssh
+      ${pkgs.coreutils}/bin/install -o ${cfg.user.name} -g ${cfg.user.name} -m 0644 /etc/per-user/${cfg.user.name}/ssh/authorized_keys ~${cfg.user.name}/.ssh/authorized_keys
       echo "ok"
     '';
   };
