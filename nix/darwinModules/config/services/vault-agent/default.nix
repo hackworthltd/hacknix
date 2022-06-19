@@ -78,6 +78,13 @@ in
       description = "The working directory for the agent";
       type = pkgs.lib.types.str;
     };
+
+    logFile = lib.mkOption {
+      default = "/var/log/vault-agent.log";
+      example = "/var/lib/vault-agent/vault-agent.log";
+      description = "The Vault Agent logfile";
+      type = pkgs.lib.types.str;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -101,8 +108,8 @@ in
         ProcessType = "Interactive";
         ThrottleInterval = 30;
         KeepAlive = true;
-        StandardErrorPath = "${cfg.dataDir}/vault-agent.log";
-        StandardOutPath = "${cfg.dataDir}/vault-agent.log";
+        StandardErrorPath = cfg.logFile;
+        StandardOutPath = cfg.logFile;
         Label = "com.hashicorp.vault-agent";
       };
     };
