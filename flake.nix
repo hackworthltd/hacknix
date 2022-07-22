@@ -32,10 +32,17 @@
     let
       bootstrap = (import ./nix/overlays/000-bootstrap.nix) { } nixpkgs;
 
-      supportedSystems = [ "x86_64-linux" "aarch64-darwin" ];
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
       forAllSupportedSystems = flake-utils.lib.eachSystem supportedSystems;
 
-      linuxCISystems = [ "x86_64-linux" ];
+      linuxCISystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
       forAllLinuxCISystems = flake-utils.lib.eachSystem linuxCISystems;
 
       macCISystems = [ "aarch64-darwin" ];
@@ -238,7 +245,7 @@
           # inherit (pkgs) lib;
         }
 
-      // (self.lib.optionalAttrs (system == "x86_64-linux")
+      // (self.lib.optionalAttrs (system == "x86_64-linux" || system == "aarch64-linux")
         (
           let
           in
@@ -314,6 +321,7 @@
               name = "required";
               constituents = builtins.map builtins.attrValues (with self.hydraJobs; [
                 packages.x86_64-linux
+                packages.aarch64-linux
                 packages.aarch64-darwin
 
                 nixosConfigurations.x86_64-linux
