@@ -329,8 +329,8 @@
                 # Evaluation issues since we dropped x86_64-darwin.
                 #darwinConfigurations
 
-                # These break evaluation for some reason.
-                #tests.x86_64-linux
+                tests.x86_64-linux
+                tests.aarch64-linux
               ]);
               meta.description = "Required CI builds";
             };
