@@ -2,7 +2,7 @@
 # nix-instantiate --eval --strict resolvesToStorePath.nix
 # if the resulting list is empty, all tests passed
 
-with import <nixpkgs> {};
+with import <nixpkgs> { };
 let
   inherit (pkgs.lib) all any id isStorePath runTests;
   inherit (pkgs.lib.secrets) resolvesToStorePath secretPath;

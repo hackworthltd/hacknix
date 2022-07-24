@@ -2,7 +2,7 @@
 # nix-instantiate --eval --strict attrsets.nix
 # if the resulting list is empty, all tests passed
 
-with import <nixpkgs> {};
+with import <nixpkgs> { };
 
 with pkgs.lib;
 with pkgs.lib.attrsets;
@@ -22,7 +22,7 @@ runTests rec {
   };
 
   test-allAttrs-trivially-true = rec {
-    example = {};
+    example = { };
     expr = allAttrs (v: v.name == "bob") example;
     expected = true;
   };
@@ -46,7 +46,7 @@ runTests rec {
   };
 
   test-anyAttrs-trivially-false = rec {
-    example = {};
+    example = { };
     expr = anyAttrs (v: v.name == "bob") example;
     expected = false;
   };
@@ -70,7 +70,7 @@ runTests rec {
   };
 
   test-noAttrs-trivially-true = rec {
-    example = {};
+    example = { };
     expr = noAttrs (v: v.name == "bob") example;
     expected = true;
   };

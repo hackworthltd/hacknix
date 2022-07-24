@@ -1,5 +1,5 @@
-{ pkgs ? import <nixpkgs> {}
-, modules ? []
+{ pkgs ? import <nixpkgs> { }
+, modules ? [ ]
 }:
 
 {
