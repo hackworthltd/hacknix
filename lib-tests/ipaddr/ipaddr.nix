@@ -2,7 +2,7 @@
 # nix-instantiate --eval --strict ipaddr.nix
 # if the resulting list is empty, all tests passed
 
-with import <nixpkgs> {};
+with import <nixpkgs> { };
 
 with pkgs.lib;
 with pkgs.lib.ipaddr;
@@ -26,27 +26,27 @@ runTests rec {
 
   test-parseIPv4-3 = {
     expr = parseIPv4 "10.0.10/24";
-    expected = [];
+    expected = [ ];
   };
 
   test-parseIPv4-4 = {
     expr = parseIPv4 "256.255.255.255";
-    expected = [];
+    expected = [ ];
   };
 
   test-parseIPv4-5 = {
     expr = parseIPv4 "10.0.10.1/33";
-    expected = [];
+    expected = [ ];
   };
 
   test-parseIPv4-6 = {
     expr = parseIPv4 "-10.0.10.1";
-    expected = [];
+    expected = [ ];
   };
 
   test-parseIPv4-7 = {
     expr = parseIPv4 "10.0.10.1.33";
-    expected = [];
+    expected = [ ];
   };
 
   test-parseIPv4-8 = {
@@ -579,7 +579,7 @@ runTests rec {
 
   test-parsedIPv4PrefixLength-1 = {
     expr = parsedIPv4PrefixLength (parseIPv4 "10.0.10.1");
-    expected = [];
+    expected = [ ];
   };
 
   test-c4CIDRSuffix-2 = {
@@ -727,19 +727,19 @@ runTests rec {
   test-parseIPv6-bad-cidr-1 = rec {
     addrs = map (x: x + "/129") goodAddrs;
     expr = flatten (map parseIPv6 addrs);
-    expected = [];
+    expected = [ ];
   };
 
   test-parseIPv6-bad-cidr-2 = rec {
     addrs = map (x: x + "/a") goodAddrs;
     expr = flatten (map parseIPv6 addrs);
-    expected = [];
+    expected = [ ];
   };
 
   test-parseIPv6-bad-cidr-3 = rec {
     addrs = map (x: x + "/2a") goodAddrs;
     expr = flatten (map parseIPv6 addrs);
-    expected = [];
+    expected = [ ];
   };
 
   badAddrs = [
@@ -833,7 +833,7 @@ runTests rec {
 
   test-parseIPv6-bad = {
     expr = flatten (map parseIPv6 badAddrs);
-    expected = [];
+    expected = [ ];
   };
 
   test-isIPv6 = {
@@ -1104,17 +1104,17 @@ runTests rec {
 
   test-parsedIPv6PrefixLength-5 = {
     expr = parsedIPv6PrefixLength (parseIPv6 "1234::1");
-    expected = [];
+    expected = [ ];
   };
 
   test-parsedIPv6PrefixLength-6 = {
     expr = parsedIPv6PrefixLength (parseIPv6 "::1");
-    expected = [];
+    expected = [ ];
   };
 
   test-parsedIPv6PrefixLength-7 = {
     expr = parsedIPv6PrefixLength (parseIPv6 "::");
-    expected = [];
+    expected = [ ];
   };
 
   test-parsedIPv6Addr-1 = {

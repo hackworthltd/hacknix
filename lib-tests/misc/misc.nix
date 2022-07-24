@@ -2,7 +2,7 @@
 # nix-instantiate --eval --strict misc.nix
 # if the resulting list is empty, all tests passed
 
-with import <nixpkgs> {};
+with import <nixpkgs> { };
 
 with pkgs.lib;
 

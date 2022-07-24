@@ -18,6 +18,11 @@
 
     nixos-generators.url = github:nix-community/nixos-generators;
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+
+    pre-commit-hooks-nix.url = github:cachix/pre-commit-hooks.nix;
+    pre-commit-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
+    # Fixes aarch64-darwin support.
+    pre-commit-hooks-nix.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs =
@@ -27,6 +32,7 @@
     , nix-darwin
     , sops-nix
     , nixos-generators
+    , pre-commit-hooks-nix
     , ...
     }@inputs:
     let
@@ -259,10 +265,66 @@
       );
     })
 
+    // forAllSupportedSystems
+      (system:
+      let
+        pkgs = pkgsFor system;
+
+        pre-commit-hooks =
+          let
+          in
+          pre-commit-hooks-nix.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              nixpkgs-fmt.enable = true;
+
+              prettier = {
+                enable = true;
+                excludes = [ ".github/" ];
+              };
+
+              actionlint = {
+                enable = true;
+                name = "actionlint";
+                entry = "${pkgs.actionlint}/bin/actionlint";
+                language = "system";
+                files = "^.github/workflows/";
+              };
+            };
+
+            tools = {
+              inherit (pkgs) nixpkgs-fmt;
+              inherit (pkgs.nodePackages) prettier;
+            };
+
+            excludes = [
+              "CODE_OF_CONDUCT.md"
+              "LICENSE"
+              ".mergify.yml"
+              ".buildkite/"
+            ];
+
+          };
+      in
+      {
+        checks = {
+          source-code-checks = pre-commit-hooks;
+        };
+
+        devShell = pkgs.mkShell {
+          buildInputs = (with pkgs; [
+            actionlint
+            nodePackages.prettier
+            nixpkgs-fmt
+            rnix-lsp
+          ]);
+        };
+      })
+
     // {
       hydraJobs =
         {
-          inherit (self) packages;
+          inherit (self) packages checks;
         }
 
         // forAllLinuxCISystems (system: {
@@ -323,6 +385,9 @@
                 packages.x86_64-linux
                 packages.aarch64-linux
                 packages.aarch64-darwin
+                checks.x86_64-linux
+                checks.aarch64-linux
+                checks.aarch64-darwin
 
                 nixosConfigurations.x86_64-linux
 

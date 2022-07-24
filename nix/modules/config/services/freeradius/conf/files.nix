@@ -14,7 +14,8 @@ let
             ${rfc3580Mac}
                     Reply-Message = "Device with MAC Address %{Calling-Station-Id} authorized for network access"    
           ''
-        ) config.hacknix.freeradius.users.authorizedMacs
+        )
+        config.hacknix.freeradius.users.authorizedMacs
     );
 in
 { inherit files authorizedMacs; }
