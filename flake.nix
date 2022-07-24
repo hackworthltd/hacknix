@@ -318,6 +318,8 @@
             nixpkgs-fmt
             rnix-lsp
           ]);
+
+          inherit (pre-commit-hooks) shellHook;
         };
       })
 
