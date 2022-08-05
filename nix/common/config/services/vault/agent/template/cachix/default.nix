@@ -27,7 +27,7 @@ let
       template {
         destination = "${cachixFile creds}"
         source = "${template creds}"
-        perms = "0400"
+        perms = "0440"
         create_dest_dirs = false
         error_on_missing_key = ${error_on_missing_key creds}
         command = "${fixCachixFileOwner creds}"
@@ -37,7 +37,7 @@ let
     listOfCreds;
 
   mkdirsCmds = lib.concatMapStringsSep "\n"
-    (creds: "${pkgs.coreutils}/bin/install -d -m 0700 -o ${creds.owner} -g ${creds.group} ${creds.dir}")
+    (creds: "${pkgs.coreutils}/bin/install -d -m 0750 -o ${creds.owner} -g ${creds.group} ${creds.dir}")
     listOfCreds;
 
   tokens = { name, ... }: {
