@@ -8,7 +8,7 @@
       # For now, setting this is required.
       environment.darwinConfig = "${pkgs.lib.hacknix.path}/examples/nix-darwin/build-host.nix";
 
-      nix.maxJobs = 16;
+      nix.settings.max-jobs = 16;
       hacknix-nix-darwin.build-host = {
         enable = true;
         buildMachines = {
