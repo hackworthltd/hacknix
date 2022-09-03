@@ -109,7 +109,7 @@ in
       }
     ];
 
-    nix.trustedUsers = [ cfg.user.name ];
+    nix.settings.trusted-users = [ cfg.user.name ];
 
     users.knownGroups = lib.singleton cfg.user.name;
     users.knownUsers = lib.singleton cfg.user.name;

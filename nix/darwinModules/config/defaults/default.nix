@@ -27,7 +27,7 @@ in
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowBroken = true;
 
-    nix.trustedUsers = [ "@admin" ];
+    nix.settings.trusted-users = [ "@admin" ];
 
     # See https://gist.github.com/LnL7/1cfca66d17eba1f9936175926bf39de8.
     #
@@ -46,8 +46,8 @@ in
     # We always run nix-daemon (multi-user mode).
     services.nix-daemon.enable = true;
     services.activate-system.enable = true;
-    users.nix.configureBuildUsers = true;
-    users.nix.nrBuildUsers = 32;
+    nix.configureBuildUsers = true;
+    nix.nrBuildUsers = 32;
 
     # Configure bash to work with Nix. bash isn't really supported by
     # Apple anymore, so we don't go out of our way here to do anything
