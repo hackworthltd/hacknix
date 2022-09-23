@@ -11,7 +11,7 @@ let
             inherit hostName systems maxJobs speedFactor mandatoryFeatures
               supportedFeatures
               ;
-            sshUser = "ssh://${sshUserName}";
+            sshUser = sshUserName;
             sshKey = defaultPrivateKey;
           }
       )
