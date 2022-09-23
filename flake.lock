@@ -52,16 +52,15 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1662213991,
-        "narHash": "sha256-oTz2xnMIdVWY7Izgw48zv5iznSXNblTp376MN24oW4s=",
-        "owner": "hackworthltd",
+        "lastModified": 1663677921,
+        "narHash": "sha256-NfQnUfRrjv8DXeugdbQC5El+MMhShP42ohc8iM+UAdM=",
+        "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "335e7ba231e5132f824dd31ee9d4f80c5599a4b1",
+        "rev": "088c98a584a38b5f844bb9e9cd32eb28479ca6d7",
         "type": "github"
       },
       "original": {
-        "owner": "hackworthltd",
-        "ref": "fixes-v18",
+        "owner": "LnL7",
         "repo": "nix-darwin",
         "type": "github"
       }

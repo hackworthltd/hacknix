@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
-    nix-darwin.url = github:hackworthltd/nix-darwin/fixes-v18;
+    nix-darwin.url = github:LnL7/nix-darwin;
 
     flake-utils.url = github:numtide/flake-utils;
 
