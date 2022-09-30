@@ -5,7 +5,7 @@ let
     makeTest {
       name = "system-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
-      machine = { config, pkgs, ... }: machineAttrs;
+      nodes.machine = { config, pkgs, ... }: machineAttrs;
       testScript = { ... }: ''
         machine.wait_for_unit("multi-user.target")
 

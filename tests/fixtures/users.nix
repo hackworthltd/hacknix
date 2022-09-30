@@ -6,14 +6,14 @@ let
       name = "users-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
-      machine = { config, pkgs, ... }:
+      nodes.machine = { config, pkgs, ... }:
         {
           imports = [ ../include/users.nix ];
         } // machineAttrs;
 
       testScript = { nodes, ... }:
         let
-          alicePassword = nodes.machine.config.users.users.alice.password;
+          alicePassword = nodes.machine.users.users.alice.password;
         in
         ''
           machine.wait_for_unit("multi-user.target")

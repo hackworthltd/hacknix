@@ -5,7 +5,7 @@ let
     makeTest {
       name = "environment-${name}";
       meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
-      machine = { config, pkgs, ... }:
+      nodes.machine = { config, pkgs, ... }:
         {
           imports = [ ../include/users.nix ];
         } // machineAttrs;

@@ -5,7 +5,7 @@ makeTest {
 
   meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
-  machine = { pkgs, config, ... }: {
+  nodes.machine = { pkgs, config, ... }: {
     hacknix.hardware.hwutils.enable = true;
   };
 

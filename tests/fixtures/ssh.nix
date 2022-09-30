@@ -66,9 +66,9 @@ let
 
       testScript = { nodes, ... }:
         let
-          alice = nodes.server.config.users.users.alice;
-          bob = nodes.server.config.users.users.bob;
-          root = nodes.server.config.users.users.root;
+          alice = nodes.server.users.users.alice;
+          bob = nodes.server.users.users.bob;
+          root = nodes.server.users.users.root;
         in
         ''
           start_all()
