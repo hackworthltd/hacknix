@@ -86,13 +86,13 @@ makeTest rec {
     client.wait_for_unit("multi-user.target")
 
     client.succeed(
-        "${nodes.client.pkgs.tftp-hpa}/bin/tftp server1 -c get canary1"
+        "${pkgs.tftp-hpa}/bin/tftp server1 -c get canary1"
     )
     client.succeed("diff canary1 ${canary1}")
 
     client.succeed("ping -c 1 192.168.1.100 >&2")
     client.succeed(
-        "${nodes.client.pkgs.tftp-hpa}/bin/tftp 192.168.1.100 -c get canary2"
+        "${pkgs.tftp-hpa}/bin/tftp 192.168.1.100 -c get canary2"
     )
     client.succeed("diff canary2 ${canary2}")
 

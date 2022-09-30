@@ -44,11 +44,11 @@ makeTest rec {
     agent.wait_for_unit("multi-user.target")
 
     agent.wait_until_succeeds(
-        "${nodes.agent.pkgs.netcat}/bin/nc -z server 8200",
+        "${pkgs.netcat}/bin/nc -z server 8200",
         timeout=10
     )
     agent.succeed(
-        "VAULT_AGENT_ADDR=http://127.0.0.1:8200 ${nodes.agent.pkgs.vault}/bin/vault status"
+        "VAULT_AGENT_ADDR=http://127.0.0.1:8200 ${pkgs.vault}/bin/vault status"
     )
   '';
 }

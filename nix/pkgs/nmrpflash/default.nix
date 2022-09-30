@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchFromGitHub, pkgconfig, libpcap, libnl }:
+{ stdenv, lib, fetchFromGitHub, pkg-config, libpcap, libnl }:
 
 stdenv.mkDerivation rec {
   name = "nmrpflash";
@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
 
   patches = [ ./Makefile.patch ];
 
-  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkgconfig ];
+  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config ];
 
   buildInputs = [ libpcap ] ++ lib.optionals stdenv.isLinux [ libnl ];
 

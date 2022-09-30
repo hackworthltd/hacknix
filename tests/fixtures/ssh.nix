@@ -99,7 +99,7 @@ let
               )
           
           with subtest("Disallow user password"):
-              sshcmd = "${nodes.client.pkgs.sshpass}/bin/sshpass -p ${alice.password} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l alice"
+              sshcmd = "${pkgs.sshpass}/bin/sshpass -p ${alice.password} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l alice"
               client.fail(sshcmd + " server true")
 
               # Make sure the same command succeeds on the misconfigured server.
