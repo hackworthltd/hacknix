@@ -1,14 +1,10 @@
-{ testingPython, ... }:
-with testingPython;
+{ hostPkgs, ... }:
 let
-  canary1 = pkgs.copyPathToStore ../testfiles/canary1;
-  canary2 = pkgs.copyPathToStore ../testfiles/canary2;
-
+  canary1 = hostPkgs.copyPathToStore ../testfiles/canary1;
+  canary2 = hostPkgs.copyPathToStore ../testfiles/canary2;
 in
-makeTest rec {
-  name = "tftpd-hpa";
-
-  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
+{
+  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
     server1 = { pkgs, config, ... }: {
@@ -74,6 +70,8 @@ makeTest rec {
       # Firewalling and tftp are complicated on the client end. We're
       # not trying to test that here.
       networking.firewall.enable = false;
+
+      environment.systemPackages = [ pkgs.tftp-hpa ];
     };
 
   };
@@ -86,13 +84,13 @@ makeTest rec {
     client.wait_for_unit("multi-user.target")
 
     client.succeed(
-        "${pkgs.tftp-hpa}/bin/tftp server1 -c get canary1"
+        "tftp server1 -c get canary1"
     )
     client.succeed("diff canary1 ${canary1}")
 
     client.succeed("ping -c 1 192.168.1.100 >&2")
     client.succeed(
-        "${pkgs.tftp-hpa}/bin/tftp 192.168.1.100 -c get canary2"
+        "tftp 192.168.1.100 -c get canary2"
     )
     client.succeed("diff canary2 ${canary2}")
 

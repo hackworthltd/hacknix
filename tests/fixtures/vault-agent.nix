@@ -1,11 +1,6 @@
-{ testingPython, ... }:
-with testingPython;
-let
-in
-makeTest rec {
-  name = "vault-agent";
-
-  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
+{ hostPkgs, ... }:
+{
+  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
     server = { pkgs, config, lib, ... }: {
@@ -30,11 +25,14 @@ makeTest rec {
           }
         '';
       };
+
+      environment.systemPackages = with pkgs; [
+        netcat
+        vault
+      ];
     };
   };
 
-  # Disabled. See:
-  # https://github.com/hackworthltd/hacknix/issues/443
   testScript = { nodes, ... }: ''
     start_all()
 
@@ -44,11 +42,11 @@ makeTest rec {
     agent.wait_for_unit("multi-user.target")
 
     agent.wait_until_succeeds(
-        "${pkgs.netcat}/bin/nc -z server 8200",
+        "nc -z server 8200",
         timeout=10
     )
     agent.succeed(
-        "VAULT_AGENT_ADDR=http://127.0.0.1:8200 ${pkgs.vault}/bin/vault status"
+        "VAULT_AGENT_ADDR=http://127.0.0.1:8200 vault status"
     )
   '';
 }

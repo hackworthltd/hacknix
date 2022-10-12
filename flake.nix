@@ -347,10 +347,10 @@
             in
             (self.lib.testing.nixos.importFromDirectory ./tests/fixtures
               {
-                inherit system pkgs;
-                extraConfigurations = [ self.nixosModule ];
+                hostPkgs = pkgs;
+                defaults.imports = [ self.nixosModule ];
               }
-              { })
+            )
             // (with import (nixpkgs + "/pkgs/top-level/release-lib.nix")
               {
                 supportedSystems = [ system ];

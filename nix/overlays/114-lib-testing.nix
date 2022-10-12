@@ -2,14 +2,15 @@ final: prev:
 let
   # A convenience function for importing directories full of NixOS
   # Python-style tests.
-  importFromDirectory = dir: { system, pkgs, extraConfigurations ? [ ] }: testArgs:
+  importFromDirectory = dir: { hostPkgs, defaults ? { } }:
     let
-      testingPython = import (final.path + "/nixos/lib/testing-python.nix") {
-        inherit system pkgs extraConfigurations;
-      };
-      callTest = test: test ({ inherit testingPython; } // testArgs);
+      nixos-lib = import (final.path + "/nixos/lib") { };
     in
-    final.lib.mapAttrs (_: test: callTest test)
+    final.lib.mapAttrs
+      (name: test: nixos-lib.runTest {
+        imports = [ test ];
+        inherit name defaults hostPkgs;
+      })
       (final.lib.sources.importDirectory dir);
 
 in

@@ -1,9 +1,6 @@
-{ testingPython, ... }:
-with testingPython;
-makeTest {
-  name = "hwutils";
-
-  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
+{ hostPkgs, ... }:
+{
+  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes.machine = { pkgs, config, ... }: {
     hacknix.hardware.hwutils.enable = true;

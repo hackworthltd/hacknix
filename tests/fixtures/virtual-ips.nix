@@ -1,10 +1,6 @@
-{ testingPython, ... }:
-with testingPython;
-let
-in
-makeTest rec {
-  name = "virtual-ips";
-  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
+{ hostPkgs, ... }:
+{
+  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
     host = { config, pkgs, ... }: {

@@ -1,7 +1,6 @@
-{ testingPython, ... }:
-with testingPython;
+{ hostPkgs, ... }:
 let
-  alicePrivateKey = pkgs.writeText "alice.key" ''
+  alicePrivateKey = hostPkgs.writeText "alice.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
     QyNTUxOQAAACB+blDZpS7Cb0ti9RZ4V+nQ2OSp2D4Xr/PHjtr7lDAeawAAAJCwjwJbsI8C
@@ -12,7 +11,7 @@ let
   '';
   alicePublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH5uUNmlLsJvS2L1FnhX6dDY5KnYPhev88eO2vuUMB5r alice";
-  bobPrivateKey = pkgs.writeText "bob.key" ''
+  bobPrivateKey = hostPkgs.writeText "bob.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
     QyNTUxOQAAACAk3+h091DYdMygZn4/yQVfxL3AVPIMr7REdD6kPhWdfwAAAIgIfUUECH1F
@@ -23,7 +22,7 @@ let
   '';
   bobPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICTf6HT3UNh0zKBmfj/JBV/EvcBU8gyvtER0PqQ+FZ1/ bob";
-  rootPrivateKey = pkgs.writeText "root.key" ''
+  rootPrivateKey = hostPkgs.writeText "root.key" ''
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
     QyNTUxOQAAACD56cAoUUa7vCw5aQ7jXgUfUvnFM1PKOiSVYKkCds2eBQAAAIhcJUFJXCVB
@@ -34,89 +33,89 @@ let
   '';
   rootPublicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPnpwChRRru8LDlpDuNeBR9S+cUzU8o6JJVgqQJ2zZ4F root";
+in
+{
+  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
-  imports = [ ../include/users.nix ../include/root-user.nix ];
-
-  makeSshTest = name: machineAttrs:
-    makeTest {
-      name = "ssh-${name}";
-      meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
-
-      nodes = {
-        server = { pkgs, config, ... }:
-          {
-            inherit imports;
-            users.users.root.openssh.authorizedKeys.keys = [ rootPublicKey ];
-            users.users.alice.openssh.authorizedKeys.keys = [ alicePublicKey ];
-            users.users.bob.openssh.authorizedKeys.keys = [ bobPublicKey ];
-          } // machineAttrs;
-        badserver = { pkgs, config, ... }: {
+  nodes =
+    let
+      imports = [ ../include/users.nix ../include/root-user.nix ];
+    in
+    {
+      server1 = { pkgs, config, ... }:
+        {
           inherit imports;
+          hacknix.defaults.enable = true;
           users.users.root.openssh.authorizedKeys.keys = [ rootPublicKey ];
           users.users.alice.openssh.authorizedKeys.keys = [ alicePublicKey ];
           users.users.bob.openssh.authorizedKeys.keys = [ bobPublicKey ];
-          services.openssh.enable = true;
-          services.openssh.passwordAuthentication = true;
-          services.openssh.permitRootLogin = "yes";
         };
-        client = { pkgs, config, ... }: {
+      server2 = { pkgs, config, ... }:
+        {
           inherit imports;
+          hacknix.defaults.ssh.enable = true;
+          users.users.root.openssh.authorizedKeys.keys = [ rootPublicKey ];
+          users.users.alice.openssh.authorizedKeys.keys = [ alicePublicKey ];
+          users.users.bob.openssh.authorizedKeys.keys = [ bobPublicKey ];
         };
+      client = { pkgs, config, ... }: {
+        inherit imports;
+        environment.systemPackages = with pkgs; [ sshpass ];
       };
-
-      testScript = { nodes, ... }:
-        let
-          alice = nodes.server.users.users.alice;
-          bob = nodes.server.users.users.bob;
-          root = nodes.server.users.users.root;
-        in
-        ''
-          start_all()
-          server.wait_for_unit("sshd.service")
-
-          with subtest("User authkey"):
-              client.succeed(
-                  "cat ${alicePrivateKey} > alice.key"
-              )
-              client.succeed("chmod 0600 alice.key")
-              client.succeed(
-                  "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i alice.key -l alice server true"
-              )
-
-              client.succeed("cat ${bobPrivateKey} > bob.key")
-              client.succeed("chmod 0600 bob.key")
-              client.succeed(
-                  "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i bob.key -l bob server true"
-              )
-
-          with subtest("root authkey"):
-              client.succeed(
-                  "cat ${rootPrivateKey} > root.key"
-              )
-              client.succeed("chmod 0600 root.key")
-              client.succeed(
-                  "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i root.key -l root server true"
-              )
-          
-          with subtest("Disallow user password"):
-              sshcmd = "${pkgs.sshpass}/bin/sshpass -p ${alice.password} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l alice"
-              client.fail(sshcmd + " server true")
-
-              # Make sure the same command succeeds on the misconfigured server.
-              client.succeed(sshcmd + " badserver true")
-          
-          with subtest("Disallow root password"):
-              sshcmd = "${pkgs.sshpass}/bin/sshpass -p ${root.password} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l root"
-              client.fail(sshcmd + " server true")
-
-              # Make sure the same command succeeds on the misconfigured server.
-              client.succeed(sshcmd + " badserver true")
-        '';
     };
-in
-rec {
-  globalEnableTest =
-    makeSshTest "global-enable" { hacknix.defaults.enable = true; };
-  sshEnableTest =
-    makeSshTest "ssh-enable" { hacknix.defaults.ssh.enable = true; };
+
+  testScript = { nodes, ... }:
+    let
+      alice = nodes.server1.users.users.alice;
+      bob = nodes.server1.users.users.bob;
+      root = nodes.server1.users.users.root;
+    in
+    ''
+      start_all()
+      server1.wait_for_unit("sshd.service")
+      server2.wait_for_unit("sshd.service")
+
+      with subtest("User authkey"):
+          client.succeed(
+              "cat ${alicePrivateKey} > alice.key"
+          )
+          client.succeed("chmod 0600 alice.key")
+          client.succeed(
+              "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i alice.key -l alice server1 true"
+          )
+          client.succeed(
+              "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i alice.key -l alice server2 true"
+          )
+
+          client.succeed("cat ${bobPrivateKey} > bob.key")
+          client.succeed("chmod 0600 bob.key")
+          client.succeed(
+              "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i bob.key -l bob server1 true"
+          )
+          client.succeed(
+              "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i bob.key -l bob server2 true"
+          )
+
+      with subtest("root authkey"):
+          client.succeed(
+              "cat ${rootPrivateKey} > root.key"
+          )
+          client.succeed("chmod 0600 root.key")
+          client.succeed(
+              "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i root.key -l root server1 true"
+          )
+          client.succeed(
+              "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i root.key -l root server2 true"
+          )
+          
+      with subtest("Disallow user password"):
+          sshcmd = "sshpass -p ${alice.password} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l alice"
+          client.fail(sshcmd + " server1 true")
+          client.fail(sshcmd + " server2 true")
+          
+      with subtest("Disallow root password"):
+          sshcmd = "sshpass -p ${root.password} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l root"
+          client.fail(sshcmd + " server1 true")
+          client.fail(sshcmd + " server2 true")
+    '';
 }

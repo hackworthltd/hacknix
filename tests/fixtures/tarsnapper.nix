@@ -1,12 +1,9 @@
-{ testingPython, ... }:
-with testingPython;
+{ hostPkgs, ... }:
 let
   keyfile = "/var/lib/keys/tarsnapper.key";
 in
-makeTest rec {
-  name = "tarsnapper";
-
-  meta = with pkgs.lib.maintainers; { maintainers = [ dhess ]; };
+{
+  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
 
   nodes = {
     machine = { config, pkgs, ... }: {
