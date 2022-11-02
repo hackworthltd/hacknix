@@ -2,7 +2,9 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
+    # Use nixpkgs main branch until openssl-3.0.7 is on -unstable.
+    #nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
+    nixpkgs.url = github:NixOS/nixpkgs;
     nix-darwin.url = github:LnL7/nix-darwin;
 
     flake-utils.url = github:numtide/flake-utils;
