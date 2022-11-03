@@ -19,12 +19,6 @@ let
       ${ca_cert}
     }
   '');
-
-  # Rotate nightly, 7 days max.
-  newsyslogConf = pkgs.writeText "vault-agent.conf" ''
-    # logfilename          [owner:group]    mode count size when  flags [/pid_file] [sig_num]
-    ${cfg.logFile}         root:wheel       644  7     *    $D0   J
-  '';
 in
 {
   options.services.vault-agent = {
@@ -121,7 +115,9 @@ in
     };
 
     system.activationScripts.postActivation.text = ''
-      ${pkgs.coreutils}/bin/ln -sf ${newsyslogConf} /etc/newsyslog.d/vault-agent.conf
+      if [ -e /etc/newsyslog.d/vault-agent.conf ]; then
+        rm -f /etc/newsyslog.d/vault-agent.conf
+      fi
     '';
   };
 }
