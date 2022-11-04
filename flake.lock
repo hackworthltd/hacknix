@@ -52,11 +52,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1667294277,
-        "narHash": "sha256-YhVGYUpPZNpJZ8z3Sq9aT6n1/B8vKtfRfwaCtbsosxk=",
+        "lastModified": 1667419884,
+        "narHash": "sha256-oLNw87ZI5NxTMlNQBv1wG2N27CUzo9admaFlnmavpiY=",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "b7177030643374e698c29e993c2808efa7b85aaf",
+        "rev": "cfc0125eafadc9569d3d6a16ee928375b77e3100",
         "type": "github"
       },
       "original": {
@@ -133,15 +133,16 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1667409386,
-        "narHash": "sha256-qciUMKht9cbVEPjLw13sgoNdO7a3q8bJoME2gOJ142k=",
+        "lastModified": 1667580403,
+        "narHash": "sha256-IoCMTRO51HNtpEzGSdaFprj3E8lH1aut+3tkh/spRTk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "03439e3ce35fa6ea854a95383ab62792b16d5a84",
+        "rev": "f0adf4fcae2aecdd6ade53cb5d4b94d3b7446efd",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -156,11 +157,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1667404488,
-        "narHash": "sha256-BIZEKjAz2+W3T2Vl8KrLKxJHq11owgZv/ErjIwfSc1c=",
+        "lastModified": 1667569243,
+        "narHash": "sha256-oJ9zVRE6EFa6Pgh0ZWPAbtDrVu1mxp9lH88LZH6MlfQ=",
         "owner": "cachix",
         "repo": "pre-commit-hooks.nix",
-        "rev": "7ba4a4da868d0292453d47a01f6a3b7af22e8fd1",
+        "rev": "3eb97d920682777005930ebe01797dc54b1ccb32",
         "type": "github"
       },
       "original": {
@@ -189,11 +190,11 @@
         "nixpkgs-22_05": "nixpkgs-22_05"
       },
       "locked": {
-        "lastModified": 1667102919,
-        "narHash": "sha256-DP5j4TwXe96eZf0PLgYSj1Hdyt7SPUoQ003iNBQSKpQ=",
+        "lastModified": 1667427533,
+        "narHash": "sha256-MsgTnQEi1g7f8anlW5klHW2pJgam4CLbJaYyBw2ed58=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "448ec3e7eb7c7e4563cc2471db748a71baaf9698",
+        "rev": "486b4455da16272c1ed31bc82adcdbe7af829465",
         "type": "github"
       },
       "original": {
