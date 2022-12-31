@@ -2,7 +2,8 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
+    # Use our fork until vaultenv is fixed upstream.
+    nixpkgs.url = github:hackworthltd/nixpkgs/hackworthltd-nixpkgs-unstable;
     nix-darwin.url = github:LnL7/nix-darwin;
 
     flake-utils.url = github:numtide/flake-utils;
@@ -261,7 +262,10 @@
             inherit (pkgs) sops-install-secrets;
           }
         )
-      );
+      )
+      // {
+        inherit (pkgs) vaultenv;
+      };
     })
 
     // forAllSupportedSystems
