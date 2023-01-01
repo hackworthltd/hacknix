@@ -265,6 +265,9 @@
       )
       // {
         inherit (pkgs) vaultenv;
+
+        # Until upstream is caught up.
+        inherit (pkgs) lima;
       };
     })
 
