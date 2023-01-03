@@ -249,8 +249,12 @@
           # can't export them from packages. They are in the overlay, however.
           # inherit (pkgs) gitignoreSource gitignoreFilter;
           # inherit (pkgs) lib;
-        }
 
+
+          # nixpkgs can't build with vz support on macOS, so we provide
+          # the option to use the upstream binary.
+          inherit (pkgs) lima-binary;
+        }
       // (self.lib.optionalAttrs (system == "x86_64-linux" || system == "aarch64-linux")
         (
           let
@@ -268,10 +272,6 @@
 
         # Until upstream is caught up.
         inherit (pkgs) lima;
-
-        # nixpkgs can't build with vz support on macOS, so we provide
-        # the option to use the upstream binary.
-        inherit (pkgs) lima-binary;
       };
     })
 
