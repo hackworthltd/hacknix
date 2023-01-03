@@ -272,6 +272,7 @@
 
         # Until upstream is caught up.
         inherit (pkgs) lima;
+        inherit (pkgs) colima;
       };
     })
 
