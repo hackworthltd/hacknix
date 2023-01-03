@@ -268,6 +268,10 @@
 
         # Until upstream is caught up.
         inherit (pkgs) lima;
+
+        # nixpkgs can't build with vz support on macOS, so we provide
+        # the option to use the upstream binary.
+        inherit (pkgs) lima-binary;
       };
     })
 
