@@ -2,8 +2,7 @@
   description = "Hackworth Ltd's nixpkgs overlays and NixOS modules.";
 
   inputs = {
-    # Use main branch until vaultenv is fixed in nixpkgs-unstable.
-    nixpkgs.url = github:NixOS/nixpkgs;
+    nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
     nix-darwin.url = github:LnL7/nix-darwin;
 
     flake-utils.url = github:numtide/flake-utils;
