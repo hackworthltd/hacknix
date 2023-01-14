@@ -15,7 +15,7 @@ runTests rec {
   storePaths = [
     ./resolvesToStorePath.nix
     ../default.nix
-    pkgs.python
+    pkgs.python3
     "${builtins.storeDir}/d945ibfx9x185xf04b890y4f9g3cbb63-python-2.7.11/bin/python"
     "${builtins.storeDir}/d945ibfx9x185xf04b890y4f9g3cbb63-python-2.7.11/bin/"
     "${builtins.storeDir}/d945ibfx9x185xf04b890y4f9g3cbb63-python-2.7.11/bin"
@@ -55,7 +55,7 @@ runTests rec {
   };
 
   test-bad-secretPath = {
-    expr = secretPath pkgs.python == "/illegal-secret-path";
+    expr = secretPath pkgs.python3 == "/illegal-secret-path";
     expected = true;
   };
 
