@@ -9,6 +9,7 @@ args // {
       in
       {
         networking.hostName = "build-host";
+        system.stateVersion = "23.05";
         hacknix.defaults.enable = true;
         hacknix.build-host.enable = true;
         hacknix.build-host.buildMachines = {
