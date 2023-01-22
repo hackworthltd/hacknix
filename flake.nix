@@ -317,6 +317,10 @@
                   inherit (pkgs) lib;
                 };
 
+            # This is convenient for using this flake's utilities
+            # downstream.
+            inherit (pkgs) lib;
+
             hydraJobs = {
               inherit (inputs.self) checks;
               inherit (inputs.self) packages;
