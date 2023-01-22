@@ -13,8 +13,8 @@ in
   config = mkIf enabled {
 
     services.openssh.enable = true;
-    services.openssh.passwordAuthentication = false;
-    services.openssh.permitRootLogin = lib.mkForce "prohibit-password";
+    services.openssh.settings.PasswordAuthentication = false;
+    services.openssh.settings.PermitRootLogin = lib.mkForce "prohibit-password";
 
     # Prevent users from installing their own authorized_keys.
 
