@@ -126,12 +126,13 @@
           );
 
           devShells.default = pkgs.mkShell {
-            buildInputs = (with pkgs; [
-              actionlint
-              nodePackages.prettier
-              nixpkgs-fmt
-              rnix-lsp
-            ]);
+            buildInputs = (with pkgs;
+              [
+                actionlint
+                nodePackages.prettier
+                nixpkgs-fmt
+                rnix-lsp
+              ]);
 
 
             shellHook = ''
@@ -193,7 +194,7 @@
               # Ideally, this would be refactored into multiple stand-alone
               # modules, but many of these modules are interdependent at the
               # moment, so we simply export them as a single module, for now.
-              hacknix = {
+              default = {
                 imports = [
                   ./nix/modules/config/providers/ec2/default.nix
                   ./nix/modules/config/providers/linode/default.nix
@@ -269,7 +270,7 @@
             };
 
             darwinModules = {
-              hacknix = {
+              default = {
                 imports = [
                   ./nix/darwinModules/config/defaults/default.nix
                   ./nix/darwinModules/config/defaults/nix.nix
@@ -306,7 +307,6 @@
                 ./examples/nixos
                 {
                   inherit (pkgs) lib;
-                  system = "x86_64-linux";
                 };
 
             darwinConfigurations =
@@ -328,16 +328,57 @@
               darwinConfigurations = pkgs.lib.flakes.darwinConfigurations.build
                 inputs.self.darwinConfigurations;
 
+              # Bespoke tests which don't fit into `checks`, because
+              # they depend on the nixpkgs release-lib framework.
+              tests = {
+                tests =
+                  (pkgs.lib.testing.nixos.importFromDirectory ./tests/fixtures
+                    {
+                      hostPkgs = pkgs;
+                      defaults.imports = [ inputs.self.nixosModules.default ];
+                    }
+                  )
+                  // (with import (inputs.nixpkgs + "/pkgs/top-level/release-lib.nix")
+                    {
+                      supportedSystems = [ "x86_64-linux" ];
+                      scrubJobs = true;
+                      nixpkgsArgs = {
+                        config = {
+                          allowUnfree = false;
+                          allowBroken = true;
+                          inHydra = true;
+                        };
+                        overlays = [
+                          inputs.self.overlays.default
+                          (import ./lib-tests)
+                        ];
+                      };
+                    };
+                  mapTestOn {
+                    dlnAttrSets = all;
+                    dlnIPAddr = all;
+                    dlnMisc = all;
+                    dlnFfdhe = all;
+                    dlnTypes = all;
+                  });
+              };
+
               required = pkgs.releaseTools.aggregate {
                 name = "required-nix-ci";
                 constituents = builtins.map builtins.attrValues (with inputs.self.hydraJobs; [
-                  packages
+                  packages.x86_64-linux
+                  packages.aarch64-linux
+                  packages.aarch64-darwin
                   checks.x86_64-linux
                   checks.aarch64-linux
                   checks.aarch64-darwin
 
                   nixosConfigurations
                   darwinConfigurations
+
+                  # These don't evaluate correctly for some reason.
+
+                  #tests
                 ]);
                 meta.description = "Required Nix CI builds";
               };

@@ -1,7 +1,7 @@
 final: prev:
 let
   hacknixExtraModules = [
-    final.lib.hacknix.flake.nixosModules.hacknix
+    final.lib.hacknix.flake.nixosModules.default
     final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
   ];
 
@@ -16,7 +16,7 @@ let
   isoImage = extraModules:
     final.lib.flakes.isoImage (hacknixExtraModules ++ extraModules);
   darwinSystem' = extraModules:
-    final.lib.flakes.darwinSystem' ([ final.lib.hacknix.flake.darwinModules.hacknix ] ++ extraModules);
+    final.lib.flakes.darwinSystem' ([ final.lib.hacknix.flake.darwinModules.default ] ++ extraModules);
   darwinSystem = darwinSystem' [ ];
   nixosGenerate' = extraModules:
     final.lib.flakes.nixosGenerate' (hacknixExtraModules ++ extraModules);
