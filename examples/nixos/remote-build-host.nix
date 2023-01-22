@@ -1,5 +1,6 @@
 args:
 args // {
+  system = "x86_64-linux";
   modules = [
     ({ pkgs, ... }:
       let
