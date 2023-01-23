@@ -18,7 +18,6 @@
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
     pre-commit-hooks-nix.url = github:cachix/pre-commit-hooks.nix;
-    pre-commit-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
