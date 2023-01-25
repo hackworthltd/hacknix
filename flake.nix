@@ -122,6 +122,8 @@
               # nixpkgs can't build with vz support on macOS, so we provide
               # the option to use the upstream binary.
               inherit (pkgs) lima-binary;
+
+              inherit (pkgs) tart;
             }
           );
 
