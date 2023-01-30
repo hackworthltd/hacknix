@@ -33,7 +33,7 @@
         imports = [
           inputs.pre-commit-hooks-nix.flakeModule
         ];
-        systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
+        systems = [ "x86_64-linux" "aarch64-darwin" ];
 
         perSystem = { config, pkgs, system, ... }: {
           # We need a `pkgs` that includes our own overlays within
@@ -93,7 +93,7 @@
             # can't export them from packages. They are in the overlay, however.
             # inherit (pkgs) gitignoreSource gitignoreFilter;
             # inherit (pkgs) lib;
-          } // (pkgs.lib.optionalAttrs (system == "x86_64-linux" || system == "aarch64-linux")
+          } // (pkgs.lib.optionalAttrs (system == "x86_64-linux")
             (
               let
                 nixosGenerators =
@@ -236,8 +236,6 @@
                   ./nix/modules/config/hardware/supermicro/sys-5018d-mtln4f.nix
                   ./nix/modules/config/hardware/supermicro/mb-x10.nix
                   ./nix/modules/config/hardware/hwutils.nix
-                  ./nix/modules/config/hardware/jetson-tk1.nix
-                  ./nix/modules/config/hardware/jetson-tx1.nix
                   ./nix/modules/config/hardware/mbr.nix
                   ./nix/modules/config/hardware/uefi.nix
 
@@ -373,10 +371,8 @@
                 name = "required-nix-ci";
                 constituents = builtins.map builtins.attrValues (with inputs.self.hydraJobs; [
                   packages.x86_64-linux
-                  packages.aarch64-linux
                   packages.aarch64-darwin
                   checks.x86_64-linux
-                  checks.aarch64-linux
                   checks.aarch64-darwin
 
                   nixosConfigurations
