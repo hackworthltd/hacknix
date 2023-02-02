@@ -5,7 +5,7 @@ pull_request_rules:
       - base=main
       - label="Ready to merge"
       - "#changes-requested-reviews-by=0"
-      - check-success="buildkite/hacknix/pr/required"
+      - check-success="buildkite/hacknix/pr/required-nix-ci"
     actions:
       queue:
         name: default
@@ -31,4 +31,4 @@ queue_rules:
     allow_inplace_checks: false
     conditions:
       - base=main
-      - check-success="buildkite/hacknix/pr/required"
+      - check-success="buildkite/hacknix/pr/required-nix-ci"
