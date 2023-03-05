@@ -1,12 +1,8 @@
 final: prev:
 let
-  lima = final.callPackage ../pkgs/lima {
-    inherit (final.darwin) sigtool;
-  };
+  lima-bin = final.callPackage ../pkgs/lima/bin.nix { };
 
-  lima-binary = final.callPackage ../pkgs/lima/binary.nix { };
-
-  colima-lima = if final.stdenv.isDarwin then final.lima-binary else final.lima;
+  colima-lima = if final.stdenv.isDarwin then final.lima-bin else final.lima;
 
   colima = prev.colima.overrideAttrs (old: {
     postInstall = ''
@@ -21,7 +17,6 @@ let
   });
 in
 {
-  inherit lima;
-  inherit lima-binary;
+  inherit lima-bin;
   inherit colima;
 }
