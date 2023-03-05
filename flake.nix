@@ -113,14 +113,13 @@
           ) // (pkgs.lib.optionalAttrs (system == "x86_64-linux" || system == "aarch64-darwin")
             {
               # Until upstream is caught up.
-              inherit (pkgs) lima;
               inherit (pkgs) colima;
             }
           ) // (pkgs.lib.optionalAttrs (system == "aarch64-darwin")
             {
               # nixpkgs can't build with vz support on macOS, so we provide
               # the option to use the upstream binary.
-              inherit (pkgs) lima-binary;
+              inherit (pkgs) lima-bin;
 
               inherit (pkgs) tart;
             }
