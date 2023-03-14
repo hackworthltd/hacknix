@@ -5,11 +5,11 @@
 
 stdenvNoCC.mkDerivation rec {
   pname = "tart";
-  version = "0.36.3";
+  version = "1.0.5";
 
   src = fetchzip {
     url = "https://github.com/cirruslabs/${pname}/releases/download/${version}/${pname}.tar.gz";
-    sha256 = "sha256-yff/HwH3PXljPOIEgxtQG+PasMnwJ7+8mifWqqFKUr4=";
+    sha256 = "sha256-bajZVudVUxLDPrOUqdeRa6iKUzI9DwxCTlMHCkebqkM=";
     stripRoot = false;
   };
 
