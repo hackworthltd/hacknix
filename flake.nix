@@ -176,7 +176,7 @@
                       };
                     };
                   })
-                  inputs.sops-nix.overlay
+                  inputs.sops-nix.overlays.default
                   overlaysFromDir
                 ];
             };
