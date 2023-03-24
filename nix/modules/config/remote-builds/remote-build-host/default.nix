@@ -76,6 +76,8 @@ in
 
     hacknix.defaults.ssh.enable = true;
 
+    programs.ssh.knownHosts = pkgs.lib.ssh.wellKnownHosts;
+
     nix.settings.trusted-users = [ cfg.user.name ];
 
     users.users."${cfg.user.name}" = {

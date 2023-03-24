@@ -85,7 +85,9 @@ in
 
     nix.distributedBuilds = true;
     nix.buildMachines = mkBuildMachines cfg.buildMachines;
-    programs.ssh.knownHosts = pkgs.lib.hacknix.remote-build-host.knownHosts cfg.buildMachines;
+    programs.ssh.knownHosts =
+      pkgs.lib.ssh.wellKnownHosts
+      // (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.buildMachines);
 
     system.activationScripts.postActivation.text = ''
       mkdir -p ~root/.ssh
