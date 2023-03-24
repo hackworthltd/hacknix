@@ -136,7 +136,9 @@ in
     nix.distributedBuilds = true;
     nix.buildMachines = buildMachines;
 
-    programs.ssh.knownHosts = (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.buildMachines)
+    programs.ssh.knownHosts =
+      pkgs.lib.ssh.wellKnownHosts
+      // (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.buildMachines)
       // (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.extraBuildMachines);
     programs.ssh.extraConfig = (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.buildMachines)
       + (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.extraBuildMachines);
