@@ -108,6 +108,8 @@
               {
                 inherit (nixosGenerators) remote-build-host build-host;
                 inherit (pkgs) sops-install-secrets;
+
+                inherit (pkgs) containerlab;
               }
             )
           ) // (pkgs.lib.optionalAttrs (system == "aarch64-darwin")
