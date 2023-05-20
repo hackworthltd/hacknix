@@ -120,6 +120,20 @@
             }
           );
 
+          apps =
+            let
+              mkApp = pkg: script: {
+                type = "app";
+                program = "${pkg}/bin/${script}";
+              };
+            in
+            (pkgs.lib.mapAttrs (name: pkg: mkApp pkg name) {
+              inherit (pkgs)
+                cachix-archive-flake-inputs
+                cachix-push-attr
+                cachix-push-flake-dev-shell;
+            });
+
           devShells.default = pkgs.mkShell {
             buildInputs = (with pkgs;
               [
