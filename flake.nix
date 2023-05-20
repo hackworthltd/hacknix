@@ -85,6 +85,8 @@
 
             inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
 
+            inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
+
             # From sops-nix.
             inherit (pkgs) sops-init-gpg-key sops-import-keys-hook ssh-to-pgp;
 
@@ -117,6 +119,20 @@
               inherit (pkgs) tart;
             }
           );
+
+          apps =
+            let
+              mkApp = pkg: script: {
+                type = "app";
+                program = "${pkg}/bin/${script}";
+              };
+            in
+            (pkgs.lib.mapAttrs (name: pkg: mkApp pkg name) {
+              inherit (pkgs)
+                cachix-archive-flake-inputs
+                cachix-push-attr
+                cachix-push-flake-dev-shell;
+            });
 
           devShells.default = pkgs.mkShell {
             buildInputs = (with pkgs;
