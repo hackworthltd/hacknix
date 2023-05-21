@@ -2,7 +2,6 @@ final: prev:
 let
   hacknixExtraModules = [
     final.lib.hacknix.flake.nixosModules.default
-    final.lib.hacknix.flake.inputs.sops-nix.nixosModules.sops
   ];
 
   # Like their lib.flakes equivalents, except these automatically
