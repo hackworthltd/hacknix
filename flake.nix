@@ -11,9 +11,6 @@
     gitignore-nix.url = github:hercules-ci/gitignore.nix;
     gitignore-nix.flake = false;
 
-    sops-nix.url = github:Mic92/sops-nix;
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
     nixos-generators.url = github:nix-community/nixos-generators;
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -87,9 +84,6 @@
 
             inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
 
-            # From sops-nix.
-            inherit (pkgs) sops-init-gpg-key sops-import-keys-hook ssh-to-pgp;
-
             # These aren't actually derivations, and therefore, we
             # can't export them from packages. They are in the overlay, however.
             # inherit (pkgs) gitignoreSource gitignoreFilter;
@@ -109,7 +103,6 @@
               in
               {
                 inherit (nixosGenerators) remote-build-host build-host;
-                inherit (pkgs) sops-install-secrets;
 
                 inherit (pkgs) containerlab;
               }
@@ -194,7 +187,6 @@
                       };
                     };
                   })
-                  inputs.sops-nix.overlays.default
                   overlaysFromDir
                 ];
             };
