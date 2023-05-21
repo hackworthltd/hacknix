@@ -125,16 +125,7 @@ in
       home = "/Users/${cfg.user.name}";
       shell = "/bin/zsh";
       isHidden = true;
+      openssh.authorizedKeys.keys = authorizedKeys;
     };
-
-    environment.etc."per-user/${cfg.user.name}/ssh/authorized_keys".text =
-      lib.concatStringsSep "\n" authorizedKeys;
-
-    system.activationScripts.postActivation.text = ''
-      printf "configuring ssh keys for ${cfg.user.name}... "
-      ${pkgs.coreutils}/bin/install -o ${cfg.user.name} -g ${cfg.user.name} -m 0700 -d ~${cfg.user.name}/.ssh
-      ${pkgs.coreutils}/bin/install -o ${cfg.user.name} -g ${cfg.user.name} -m 0644 /etc/per-user/${cfg.user.name}/ssh/authorized_keys ~${cfg.user.name}/.ssh/authorized_keys
-      echo "ok"
-    '';
   };
 }
