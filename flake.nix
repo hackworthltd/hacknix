@@ -2,6 +2,8 @@
   description = "Hackworth Ltd Nix.";
 
   inputs = {
+    haskell-nix.url = "github:input-output-hk/haskell.nix";
+
     nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
     nix-darwin.url = github:LnL7/nix-darwin;
 
@@ -84,6 +86,8 @@
 
             inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
 
+            inherit (pkgs) cachix;
+
             # These aren't actually derivations, and therefore, we
             # can't export them from packages. They are in the overlay, however.
             # inherit (pkgs) gitignoreSource gitignoreFilter;
@@ -165,6 +169,12 @@
                 in
                 bootstrap.lib.overlays.combine [
                   (final: prev: {
+                    cachix = (final.haskell-nix.hackage-package {
+                      name = "cachix";
+                      version = "1.5";
+                      compiler-nix-name = "ghc945";
+                    }).components.exes.cachix;
+
                     lib = (prev.lib or { }) // {
 
                       flakes = (prev.lib.flakes or { }) // {
@@ -188,6 +198,7 @@
                     };
                   })
                   overlaysFromDir
+                  inputs.haskell-nix.overlay
                 ];
             };
 
