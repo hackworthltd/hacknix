@@ -6,7 +6,7 @@ steps:
   - command: nix-buildkite
     label: ":nixos: :buildkite:"
     plugins:
-      - circuithub/nix-buildkite:
+      - hackworthltd/nix#v1.0.0:
           file: nix/ci.nix
 
   - command: nix flake archive .#
