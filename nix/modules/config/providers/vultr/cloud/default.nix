@@ -11,7 +11,6 @@ in
 
   config = lib.mkIf enabled {
     boot.loader.grub.enable = true;
-    boot.loader.grub.version = 2;
     boot.loader.grub.devices = [ "/dev/vda" ];
     boot.initrd.availableKernelModules =
       [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
