@@ -55,6 +55,21 @@ in
       '';
     };
 
+    createSshKey = lib.mkOption {
+      type = pkgs.lib.types.bool;
+      default = true;
+      description = ''
+        Whether to automatically create an SSH keypair for the remote
+        build host user.
+
+        If this option is set to <literal>false</literal>, then you
+        must provide a private SSH key in the
+        <option>sshKeyDir</option>, in a file named
+        <literal>remote-builder</literal>, and you must set the proper
+        private key file permissions and ownership.
+      '';
+    };
+
     sshKeyFileOwner = lib.mkOption {
       type = pkgs.lib.types.nonEmptyStr;
       default = "root";
@@ -71,6 +86,10 @@ in
         you'll want to set this option to
         <literal>hydra-queue-runner</literal>; otherwise, the default
         value (<literal>root</literal>) is usually the one you want.
+
+        Note that this option is ignored if
+        <option>createSshKey</option> is set to
+        <literal>false</literal>.
       '';
     };
 
@@ -164,11 +183,13 @@ in
         extraBuildMachines;
     };
 
-    systemd.tmpfiles.rules = [
-      "d ${cfg.sshKeyDir}            0755 root root -  -"
-    ];
+    systemd.tmpfiles.rules =
+      if cfg.createSshKey then [
+        "d ${cfg.sshKeyDir}            0755 root root -  -"
+      ] else [ ];
 
     systemd.services.create-remote-builder-key = {
+      enable = cfg.createSshKey;
       description = "Create a default remote builder SSH keypair";
       wantedBy = [ "multi-user.target" ];
       script = ''

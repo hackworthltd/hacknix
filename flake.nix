@@ -263,6 +263,7 @@
                   ./nix/common/config/services/vault/agent/template/flyctl
                   ./nix/common/config/services/vault/agent/template/github-credentials
                   ./nix/common/config/services/vault/agent/template/netrc
+                  ./nix/common/config/services/vault/agent/template/remote-builder-ssh
                 ];
                 nixpkgs.overlays = [ inputs.self.overlays.default ];
               };
@@ -285,10 +286,9 @@
                   ./nix/common/config/services/vault/agent/template/aws-credentials
                   ./nix/common/config/services/vault/agent/template/cachix
                   ./nix/common/config/services/vault/agent/template/flyctl
-
                   ./nix/common/config/services/vault/agent/template/github-credentials
-
                   ./nix/common/config/services/vault/agent/template/netrc
+                  ./nix/common/config/services/vault/agent/template/remote-builder-ssh
                 ];
                 nixpkgs.overlays = [ inputs.self.overlays.default ];
               };

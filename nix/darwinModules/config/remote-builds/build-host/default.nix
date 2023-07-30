@@ -55,6 +55,21 @@ in
       '';
     };
 
+    createSshKey = lib.mkOption {
+      type = pkgs.lib.types.bool;
+      default = true;
+      description = ''
+        Whether to automatically create an SSH keypair for the remote
+        build host user.
+
+        If this option is set to <literal>false</literal>, then you
+        must provide a private SSH key in the
+        <option>sshKeyDir</option>, in a file named
+        <literal>remote-builder</literal>, and you must set the proper
+        private key file permissions and ownership.
+      '';
+    };
+
     buildMachines = lib.mkOption {
       default = { };
       description = ''
@@ -95,7 +110,7 @@ in
       cp -f ${sshConfig} ~root/.ssh/config
       ${pkgs.coreutils}/bin/chown -R root:wheel ~root/.ssh/config
       ${pkgs.coreutils}/bin/chmod 0400 ~root/.ssh/config
-
+    '' + lib.optionalString cfg.createSshKey ''
       printf "Creating remote builder ssh key directory and setting permissions... "
       install -m 0755 -o root -g wheel -d ${cfg.sshKeyDir}
       echo "ok"
