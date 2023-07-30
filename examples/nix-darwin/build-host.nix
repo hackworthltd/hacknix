@@ -9,8 +9,10 @@
       environment.darwinConfig = "${pkgs.lib.hacknix.path}/examples/nix-darwin/build-host.nix";
 
       nix.settings.max-jobs = 16;
+
       hacknix-nix-darwin.build-host = {
         enable = true;
+        createSshKey = false;
         buildMachines = {
           remote-builder = {
             hostName = "remote-builder.example.com";
@@ -25,6 +27,9 @@
           };
         };
       };
+
+      # Use Vault to issue SSH CA-signed keys for the remote builder.
+      services.vault-agent.template.remote-builder-ssh.enable = true;
 
       services.vault-agent = {
         enable = true;

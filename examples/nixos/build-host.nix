@@ -11,7 +11,9 @@ args // {
         networking.hostName = "build-host";
         system.stateVersion = "23.05";
         hacknix.defaults.enable = true;
+
         hacknix.build-host.enable = true;
+        hacknix.build-host.createSshKey = false;
         hacknix.build-host.buildMachines = {
           remote-builder = {
             hostName = "remote-builder.example.com";
@@ -24,6 +26,10 @@ args // {
             sshUserName = "remote-builder";
           };
         };
+
+        # Use Vault to issue SSH CA-signed keys for the remote builder.
+        services.vault-agent.template.remote-builder-ssh.enable = true;
+
         users.users.root.openssh.authorizedKeys.keys = [
           sshPublicKey
         ];
