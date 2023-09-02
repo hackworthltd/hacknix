@@ -73,6 +73,7 @@
                 "CODE_OF_CONDUCT.md"
                 "LICENSE"
                 ".buildkite/"
+                "flake.lock"
               ];
             };
           };
