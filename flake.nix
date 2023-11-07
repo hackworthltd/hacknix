@@ -108,10 +108,6 @@
                 #inherit (nixosGenerators) remote-build-host build-host;
               }
             )
-          ) // (pkgs.lib.optionalAttrs (system == "aarch64-darwin")
-            {
-              inherit (pkgs) tart;
-            }
           );
 
           apps =
