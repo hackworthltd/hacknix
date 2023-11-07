@@ -103,9 +103,9 @@
 
               in
               {
-                inherit (nixosGenerators) remote-build-host build-host;
-
-                inherit (pkgs) containerlab;
+                # Currently broken due to this change:
+                # https://github.com/NixOS/nixpkgs/pull/258447
+                #inherit (nixosGenerators) remote-build-host build-host;
               }
             )
           ) // (pkgs.lib.optionalAttrs (system == "aarch64-darwin")
