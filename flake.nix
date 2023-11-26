@@ -79,6 +79,8 @@
           };
 
           packages = {
+            inherit (pkgs) vervet;
+
             inherit (pkgs) nmrpflash;
 
             inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
