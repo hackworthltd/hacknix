@@ -100,15 +100,6 @@ in
   };
 
   config = lib.mkIf enabled {
-    assertions = [
-      {
-        assertion = cfg.user.sshPublicKeyFiles != [ ] || cfg.user.sshPublicKeys
-          != [ ];
-        message =
-          "Either `hacknix-nix-darwin.remote-build-host.user.sshPublicKeyFiles` or `hacknix-nix-darwin.remote-build-host.user.sshPublicKeys` must be non-empty";
-      }
-    ];
-
     nix.settings.trusted-users = [ cfg.user.name ];
 
     users.knownGroups = lib.singleton cfg.user.name;

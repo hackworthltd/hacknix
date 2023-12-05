@@ -64,16 +64,6 @@ in
   };
 
   config = lib.mkIf enabled {
-
-    assertions = [
-      {
-        assertion = cfg.user.sshPublicKeyFiles != [ ] || cfg.user.sshPublicKeys
-          != [ ];
-        message =
-          "Either `hacknix.remote-build-host.user.sshPublicKeyFiles` or `hacknix.remote-build-host.user.sshPublicKeys` must be non-empty";
-      }
-    ];
-
     hacknix.defaults.ssh.enable = true;
 
     programs.ssh.knownHosts = pkgs.lib.ssh.wellKnownHosts;
