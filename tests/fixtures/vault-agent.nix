@@ -4,6 +4,7 @@
 
   nodes = {
     server = { pkgs, config, lib, ... }: {
+      nixpkgs.config.allowUnfree = true;
       networking.firewall.allowedTCPPorts = [ 8200 ];
       services.vault = {
         enable = true;
@@ -12,6 +13,7 @@
     };
 
     agent = { pkgs, config, ... }: {
+      nixpkgs.config.allowUnfree = true;
       services.vault-agent = {
         enable = true;
         server.address = "http://server:8200";
