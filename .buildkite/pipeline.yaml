@@ -1,5 +1,5 @@
 agents:
-  public: "true"
+  visibility: "public"
   os: "linux"
 
 steps:

@@ -1,10 +1,10 @@
 agents:
-  public: "true"
+  visibility: "public"
   os: "linux"
 
 env:
   CACHIX_CACHE_NAME: hackworthltd
-  CACHIX_CONFIG_PATH: /var/lib/cachix/hackworthltd/cachix.dhall
+  CACHIX_CONFIG_PATH: /etc/secrets/cachix.dhall
 
 steps:
   - label: ":nixos: Archive Nix flake inputs to public cache"
