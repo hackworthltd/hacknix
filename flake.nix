@@ -263,6 +263,7 @@
                   ./nix/common/config/services/vault/agent/template/github-credentials
                   ./nix/common/config/services/vault/agent/template/netrc
                   ./nix/common/config/services/vault/agent/template/remote-builder-ssh
+                  ./nix/common/config/services/vault/agent/template/ssh-ca-host-key
                 ];
                 nixpkgs.overlays = [ inputs.self.overlays.default ];
               };
@@ -288,6 +289,7 @@
                   ./nix/common/config/services/vault/agent/template/github-credentials
                   ./nix/common/config/services/vault/agent/template/netrc
                   ./nix/common/config/services/vault/agent/template/remote-builder-ssh
+                  ./nix/common/config/services/vault/agent/template/ssh-ca-host-key
                 ];
                 nixpkgs.overlays = [ inputs.self.overlays.default ];
               };

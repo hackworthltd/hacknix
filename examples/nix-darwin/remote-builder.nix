@@ -18,5 +18,22 @@
           enable = true;
           user.sshPublicKeys = lib.singleton sshPublicKey;
         };
+
+        services.vault-agent = {
+          enable = true;
+          server.address = "http://example.com";
+        };
+        services.vault-agent.auth.approle = {
+          enable = true;
+          roleIdPath = "/var/lib/vault-agent/roleid";
+          secretIdPath = "/var/lib/vault-agent/secretid";
+        };
+        services.vault-agent.template.ssh-ca-host-key = {
+          enable = true;
+          vaultIssuePath = "ssh-host/issue/internal";
+          hostnames = [
+            "remote-builder.example.com"
+          ];
+        };
       });
 }
