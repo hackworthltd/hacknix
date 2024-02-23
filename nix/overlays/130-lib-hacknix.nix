@@ -54,7 +54,9 @@ let
           publicKey = descriptor.hostPublicKeyLiteral;
         }
       )
-      remoteBuildHosts;
+      (final.lib.filterAttrs
+        (name: descriptor: descriptor.hostPublicKeyLiteral != null)
+        remoteBuildHosts);
 
   # Given a set of remote build hosts of the hacknix remoteBuildHost
   # type, filter the set so that it only contains Macs.
