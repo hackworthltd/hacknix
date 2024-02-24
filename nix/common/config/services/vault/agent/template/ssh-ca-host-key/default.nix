@@ -76,7 +76,7 @@ in
     };
 
     hostnames = lib.mkOption {
-      type = pkgs.lib.types.listOf pkgs.lib.types.nonEmptyStr;
+      type = pkgs.lib.types.nonEmptyListOf pkgs.lib.types.nonEmptyStr;
       example = [
         "localhost"
         "foo.example.com"
