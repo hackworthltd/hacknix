@@ -2,7 +2,7 @@ args:
 args // {
   system = "x86_64-linux";
   modules = [
-    ({ pkgs, ... }:
+    ({ pkgs, config, ... }:
       let
         sshPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBp7K+EqL+5Ry40pQrHRDd9H/jh/eaYYYV0uxH9cxa0q";
       in
@@ -30,6 +30,11 @@ args // {
             "remote-builder.example.com"
           ];
         };
+
+        services.openssh.extraConfig = ''
+          HostKey ${config.services.vault-agent.template.ssh-ca-host-key.privateKeyFile}
+          HostCertificate ${config.services.vault-agent.template.ssh-ca-host-key.publicKeyFile}
+        '';
       })
   ];
 }

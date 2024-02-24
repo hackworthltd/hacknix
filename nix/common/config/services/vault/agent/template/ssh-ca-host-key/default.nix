@@ -76,7 +76,7 @@ in
     };
 
     hostnames = lib.mkOption {
-      type = pkgs.lib.types.listOf pkgs.lib.types.nonEmptyStr;
+      type = pkgs.lib.types.nonEmptyListOf pkgs.lib.types.nonEmptyStr;
       example = [
         "localhost"
         "foo.example.com"
@@ -152,7 +152,7 @@ in
     };
   };
 
-  config = (lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.vault-agent.config = ''
       template {
         destination = "${cfg.privateKeyFile}.json"
@@ -163,20 +163,6 @@ in
         command = "${splitKey}/bin/split-key"
       }
     '';
-  }) // (lib.mkIf (cfg.enable && pkgs.stdenv.isLinux) {
-    services.openssh.extraConfig = ''
-      HostKey ${cfg.privateKeyFile}
-      HostCertificate ${cfg.publicKeyFile}
-    '';
-  }) // (lib.mkIf (cfg.enable && pkgs.stdenv.isDarwin) {
-    environment.etc = {
-      "ssh/sshd_config.d/999-ssh-ca-host-keys.conf" = {
-        text = ''
-          HostKey ${cfg.privateKeyFile}
-          HostCertificate ${cfg.publicKeyFile}
-        '';
-      };
-    };
-  });
+  };
 }
 

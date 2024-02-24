@@ -4,7 +4,7 @@
 {
   system = "aarch64-darwin";
   modules = lib.singleton
-    ({ pkgs, ... }:
+    ({ pkgs, config, ... }:
       let
         sshPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkRyutu3OMvSDFQOsOtls4A5krFlYEPbiPG/qUyxGdb example remote-builder key";
       in
@@ -35,5 +35,15 @@
             "remote-builder.example.com"
           ];
         };
+
+        environment.etc = {
+          "ssh/sshd_config.d/999-ssh-ca-host-keys.conf" = {
+            text = ''
+              HostKey ${config.services.vault-agent.template.ssh-ca-host-key.privateKeyFile}
+              HostCertificate ${config.services.vault-agent.template.ssh-ca-host-key.publicKeyFile}
+            '';
+          };
+        };
       });
 }
+
