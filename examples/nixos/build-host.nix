@@ -25,6 +25,18 @@ args // {
             supportedFeatures = [ "big-parallel" "kvm" "nixos-test" ];
             sshUserName = "remote-builder";
           };
+
+          # A build machine with no associated public key. This might
+          # be useful when using an SSH CA for host keys.
+          remote-builder-no-hostkey = {
+            hostName = "remote-builder-no-hostkey.example.com";
+            alternateHostNames = [ "192.0.2.2" "2001:db8::2" ];
+            systems = [ "x86_64-linux" "i686-linux" ];
+            maxJobs = 4;
+            speedFactor = 1;
+            supportedFeatures = [ "big-parallel" "kvm" "nixos-test" ];
+            sshUserName = "remote-builder";
+          };
         };
 
         # Use Vault to issue SSH CA-signed keys for the remote builder.
