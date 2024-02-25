@@ -334,38 +334,42 @@
 
               # Bespoke tests which don't fit into `checks`, because
               # they depend on the nixpkgs release-lib framework.
-              tests = {
-                tests =
-                  (pkgs.lib.testing.nixos.importFromDirectory ./tests/fixtures
-                    {
-                      hostPkgs = pkgs;
-                      defaults.imports = [ inputs.self.nixosModules.default ];
-                    }
-                  )
-                  // (with import (inputs.nixpkgs + "/pkgs/top-level/release-lib.nix")
-                    {
-                      supportedSystems = [ "x86_64-linux" ];
-                      scrubJobs = true;
-                      nixpkgsArgs = {
-                        config = {
-                          allowUnfree = false;
-                          allowBroken = true;
-                          inHydra = true;
-                        };
-                        overlays = [
-                          inputs.self.overlays.default
-                          (import ./lib-tests)
-                        ];
-                      };
-                    };
-                  mapTestOn {
-                    dlnAttrSets = all;
-                    dlnIPAddr = all;
-                    dlnMisc = all;
-                    dlnFfdhe = all;
-                    dlnTypes = all;
-                  });
-              };
+              #
+              # Note: disabled for now, as we're moving to a
+              # containerized CI environment that can't run VMs.
+
+              # tests = {
+              #   tests =
+              #     (pkgs.lib.testing.nixos.importFromDirectory ./tests/fixtures
+              #       {
+              #         hostPkgs = pkgs;
+              #         defaults.imports = [ inputs.self.nixosModules.default ];
+              #       }
+              #     )
+              #     // (with import (inputs.nixpkgs + "/pkgs/top-level/release-lib.nix")
+              #       {
+              #         supportedSystems = [ "x86_64-linux" ];
+              #         scrubJobs = true;
+              #         nixpkgsArgs = {
+              #           config = {
+              #             allowUnfree = false;
+              #             allowBroken = true;
+              #             inHydra = true;
+              #           };
+              #           overlays = [
+              #             inputs.self.overlays.default
+              #             (import ./lib-tests)
+              #           ];
+              #         };
+              #       };
+              #     mapTestOn {
+              #       dlnAttrSets = all;
+              #       dlnIPAddr = all;
+              #       dlnMisc = all;
+              #       dlnFfdhe = all;
+              #       dlnTypes = all;
+              #     });
+              # };
 
               required = pkgs.releaseTools.aggregate {
                 name = "required-nix-ci";
