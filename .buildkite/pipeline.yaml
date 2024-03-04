@@ -1,6 +1,5 @@
 agents:
-  visibility: "public"
-  os: "linux"
+  queue: "nix-eval"
 
 steps:
   - command: nix flake archive .#
@@ -11,4 +10,4 @@ steps:
     plugins:
       - hackworthltd/nix#v1.0.0:
           file: nix/ci.nix
-
+          agent-tags: queue=nix-build
