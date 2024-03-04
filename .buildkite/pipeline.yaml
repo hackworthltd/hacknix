@@ -4,6 +4,8 @@ agents:
 steps:
   - command: nix flake archive .#
     label: ":nixos: Archive Nix flake inputs"
+    agents:
+      queue: "nix-build"
 
   - command: nix-buildkite
     label: ":nixos: :buildkite:"
