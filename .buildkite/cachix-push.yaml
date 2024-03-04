@@ -1,0 +1,25 @@
+agents:
+  queue: "cachix-push"
+  os: "linux"
+
+env:
+  CACHIX_CACHE_NAME: hackworthltd
+
+steps:
+  - label: ":nixos: Archive Nix flake inputs to Cachix"
+    command: nix run .#cachix-archive-flake-inputs .# $CACHIX_CACHE_NAME
+
+  - label: ":nixos: Push project to Cachix"
+    command: nix run .#cachix-push-attr ciJobs $CACHIX_CACHE_NAME
+
+  - wait
+
+  - label: ":nixos: :linux: Push Nix shell to Cachix"
+    command: nix run .#cachix-push-flake-dev-shell hacknix-dev-shell $CACHIX_CACHE_NAME
+
+  # Disabled until macOS agents use new system.
+
+  # - label: ":nixos: :macos: Push Nix shell to Cachix"
+  #   command: nix run .#cachix-push-flake-dev-shell hacknix-dev-shell $CACHIX_CACHE_NAME
+  #   agents:
+  #     os: "darwin"
