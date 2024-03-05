@@ -25,6 +25,7 @@ if [[ ! -v CACHIX_AUTH_TOKEN ]]; then
     CACHIX_AUTH_TOKEN_FILE="$HOME/cachix-$CACHIX_CACHE_NAME"
     if [[ -f "$CACHIX_AUTH_TOKEN_FILE" ]]; then
         CACHIX_AUTH_TOKEN=$(tr -d '\n' < "$CACHIX_AUTH_TOKEN_FILE")
+        export CACHIX_AUTH_TOKEN
     else
         echo "CACHIX_AUTH_TOKEN environment variable is not set and no token file can be located, aborting." >&2
         exit 2
