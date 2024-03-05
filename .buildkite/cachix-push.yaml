@@ -17,9 +17,7 @@ steps:
   - label: ":nixos: :linux: Push Nix shell to Cachix"
     command: nix run .#cachix-push-flake-dev-shell hacknix-dev-shell $CACHIX_CACHE_NAME
 
-  # Disabled until macOS agents use new system.
-
-  # - label: ":nixos: :macos: Push Nix shell to Cachix"
-  #   command: nix run .#cachix-push-flake-dev-shell hacknix-dev-shell $CACHIX_CACHE_NAME
-  #   agents:
-  #     os: "darwin"
+  - label: ":nixos: :macos: Push Nix shell to Cachix"
+    command: nix run .#cachix-push-flake-dev-shell hacknix-dev-shell $CACHIX_CACHE_NAME
+    agents:
+      os: "darwin"
