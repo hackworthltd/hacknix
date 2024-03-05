@@ -12,7 +12,6 @@ let
 
   template = creds: pkgs.writeText "cachix.ctmpl" ''
     {{ with secret "${creds.vaultPath}" }}{{ .Data.data.token }}{{ end }}
-    }
   '';
 
   fixCachixFileOwner = creds: pkgs.writeShellScript "fix-cachix-file-owner" ''
