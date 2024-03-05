@@ -8,10 +8,10 @@ let
   cfg = config.services.vault-agent.template.cachix;
   enabled = cfg != { };
 
-  cachixFile = creds: "${creds.dir}/cachix.dhall";
+  cachixFile = creds: "${creds.dir}/cachix-${creds.name}";
 
-  template = creds: pkgs.writeText "cachix.dhall.ctmpl" ''
-    { authToken = {{ with secret "${creds.vaultPath}" }}"{{ .Data.data.token }}"{{ end }}, binaryCaches = [] : List { name : Text, secretKey : Text }
+  template = creds: pkgs.writeText "cachix.ctmpl" ''
+    {{ with secret "${creds.vaultPath}" }}{{ .Data.data.token }}{{ end }}
     }
   '';
 
@@ -63,14 +63,7 @@ let
         type = pkgs.lib.types.nonStorePath;
         example = "/home/dhess/.config/cachix";
         description = ''
-          The directory where the Cachix config will be persisted. In
-          this directory, this module will persist the Cachix config
-          in a file whose name is <literal>cachix.dhall</literal>.
-
-          Note that, unfortunately, Vault can't handle paths like
-          <literal>~user</literal>, so if you want to set this to a
-          particular user's home directory, you'll need to specify the
-          literal pathname here.
+          The directory where the Cachix token will be persisted.
         '';
       };
 
@@ -78,7 +71,7 @@ let
         type = pkgs.lib.types.nonEmptyStr;
         example = "dhess";
         description = ''
-          The filesystem owner of the Cachix config file that Vault
+          The filesystem owner of the Cachix token file that Vault
           Agent will persist to disk.
         '';
       };
@@ -87,7 +80,7 @@ let
         type = pkgs.lib.types.nonEmptyStr;
         example = "dhess";
         description = ''
-          The filesystem group of the Cachix config file that Vault
+          The filesystem group of the Cachix token file that Vault
           Agent will persist to disk.
         '';
       };
@@ -98,7 +91,7 @@ let
         example = false;
         description = ''
           If true (the default), a failure to render the Cachix
-          config will cause Vault Agent to exit with an error.
+          token will cause Vault Agent to exit with an error.
           This is a safeguard against silent failure. As this is
           extremely unlikely to occur in normal operation, you should
           probably keep the default value.
