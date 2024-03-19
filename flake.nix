@@ -239,8 +239,6 @@
 
                   ./nix/modules/core/module-hashes.nix
 
-                  ./nix/modules/dns/unbound-multi-instance
-
                   ./nix/modules/networking/accept
                   ./nix/modules/networking/virtual-ips
 
