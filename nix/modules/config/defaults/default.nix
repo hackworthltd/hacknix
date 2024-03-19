@@ -20,7 +20,6 @@ in
       acme.enable = true;
       environment.enable = true;
       networking.enable = true;
-      nginx.enable = true;
       nix.enable = true;
       security.enable = true;
       ssh.enable = true;

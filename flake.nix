@@ -200,7 +200,6 @@
                   ./nix/modules/config/defaults/acme.nix
                   ./nix/modules/config/defaults/environment.nix
                   ./nix/modules/config/defaults/networking.nix
-                  ./nix/modules/config/defaults/nginx.nix
                   ./nix/modules/config/defaults/nix.nix
                   ./nix/modules/config/defaults/security.nix
                   ./nix/modules/config/defaults/ssh.nix
