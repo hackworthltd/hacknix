@@ -103,12 +103,6 @@ args // {
             };
           };
         };
-        services.vault-agent.template.flyctl.dhess = {
-          vaultPath = "secret/flyctl/dhess";
-          path = "/home/dhess/.fly/config.yml";
-          owner = "dhess";
-          group = "dhess";
-        };
       })
   ];
 }
