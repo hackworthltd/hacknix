@@ -109,9 +109,12 @@
               in
               {
                 remote-build-host-lxc = lxc.remote-build-host;
-                remote-build-host-qcow = qcow.remote-build-host;
                 build-host-lxc = lxc.build-host;
-                build-host-qcow = qcow.build-host;
+
+                # Disabled until we have `kvm` support in CI again.
+
+                #remote-build-host-qcow = qcow.remote-build-host;
+                #build-host-qcow = qcow.build-host;
               }
             )
           );
