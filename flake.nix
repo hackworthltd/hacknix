@@ -90,20 +90,28 @@
           } // (pkgs.lib.optionalAttrs (system == "x86_64-linux")
             (
               let
-                nixosGenerators =
+                lxc =
                   pkgs.lib.flakes.nixosGenerators.importFromDirectory
                     pkgs.lib.hacknix.nixosGenerate
                     ./examples/nixos
                     {
-                      inherit pkgs;
                       format = "lxc";
+                    };
+
+                qcow =
+                  pkgs.lib.flakes.nixosGenerators.importFromDirectory
+                    pkgs.lib.hacknix.nixosGenerate
+                    ./examples/nixos
+                    {
+                      format = "qcow";
                     };
 
               in
               {
-                # Currently broken due to this change:
-                # https://github.com/NixOS/nixpkgs/pull/258447
-                #inherit (nixosGenerators) remote-build-host build-host;
+                remote-build-host-lxc = lxc.remote-build-host;
+                remote-build-host-qcow = qcow.remote-build-host;
+                build-host-lxc = lxc.build-host;
+                build-host-qcow = qcow.build-host;
               }
             )
           );
