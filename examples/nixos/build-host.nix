@@ -39,6 +39,10 @@ args // {
           };
         };
 
+        environment.systemPackages = with pkgs; [
+          cachix-archive-flake-inputs
+        ];
+
         # Use Vault to issue SSH CA-signed keys for the remote builder.
         services.vault-agent.template.remote-builder-ssh.enable = true;
 
