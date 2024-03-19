@@ -196,15 +196,10 @@
               # moment, so we simply export them as a single module, for now.
               default = {
                 imports = [
-                  ./nix/modules/config/providers/ec2/default.nix
-                  ./nix/modules/config/providers/linode/default.nix
-                  ./nix/modules/config/providers/vultr/cloud/default.nix
-
                   ./nix/modules/config/defaults/default.nix
                   ./nix/modules/config/defaults/acme.nix
                   ./nix/modules/config/defaults/environment.nix
                   ./nix/modules/config/defaults/networking.nix
-                  ./nix/modules/config/defaults/nginx.nix
                   ./nix/modules/config/defaults/nix.nix
                   ./nix/modules/config/defaults/security.nix
                   ./nix/modules/config/defaults/ssh.nix
@@ -212,8 +207,6 @@
                   ./nix/modules/config/defaults/system.nix
                   ./nix/modules/config/defaults/tmux.nix
                   ./nix/modules/config/defaults/users.nix
-
-                  ./nix/modules/config/services/freeradius
 
                   ./nix/modules/config/hardware/amd/common.nix
                   ./nix/modules/config/hardware/amd/jaguar.nix
@@ -246,12 +239,9 @@
 
                   ./nix/modules/core/module-hashes.nix
 
-                  ./nix/modules/dns/unbound-multi-instance
-
                   ./nix/modules/networking/accept
                   ./nix/modules/networking/virtual-ips
 
-                  ./nix/modules/services/tarsnapper
                   ./nix/modules/services/tftpd-hpa
                   ./nix/modules/services/vault/agent
 
@@ -259,7 +249,6 @@
                   ./nix/common/config/services/vault/agent/template
                   ./nix/common/config/services/vault/agent/template/aws-credentials
                   ./nix/common/config/services/vault/agent/template/cachix
-                  ./nix/common/config/services/vault/agent/template/flyctl
                   ./nix/common/config/services/vault/agent/template/github-credentials
                   ./nix/common/config/services/vault/agent/template/netrc
                   ./nix/common/config/services/vault/agent/template/remote-builder-ssh
@@ -285,7 +274,6 @@
                   ./nix/common/config/services/vault/agent/template
                   ./nix/common/config/services/vault/agent/template/aws-credentials
                   ./nix/common/config/services/vault/agent/template/cachix
-                  ./nix/common/config/services/vault/agent/template/flyctl
                   ./nix/common/config/services/vault/agent/template/github-credentials
                   ./nix/common/config/services/vault/agent/template/netrc
                   ./nix/common/config/services/vault/agent/template/remote-builder-ssh
