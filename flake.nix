@@ -196,10 +196,6 @@
               # moment, so we simply export them as a single module, for now.
               default = {
                 imports = [
-                  ./nix/modules/config/providers/ec2/default.nix
-                  ./nix/modules/config/providers/linode/default.nix
-                  ./nix/modules/config/providers/vultr/cloud/default.nix
-
                   ./nix/modules/config/defaults/default.nix
                   ./nix/modules/config/defaults/acme.nix
                   ./nix/modules/config/defaults/environment.nix
