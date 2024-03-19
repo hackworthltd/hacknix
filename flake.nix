@@ -242,7 +242,6 @@
                   ./nix/modules/networking/accept
                   ./nix/modules/networking/virtual-ips
 
-                  ./nix/modules/services/tarsnapper
                   ./nix/modules/services/tftpd-hpa
                   ./nix/modules/services/vault/agent
 
