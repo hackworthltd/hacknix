@@ -27,9 +27,4 @@ in
   ## Types tests.
 
   dlnTypes = callPackage ./types { inherit selfPath; };
-
-
-  ## Security tests.
-
-  dlnFfdhe = callPackage ./security/ffdhe { };
 }

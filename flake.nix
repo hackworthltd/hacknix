@@ -81,8 +81,6 @@
           packages = {
             inherit (pkgs) vervet;
 
-            inherit (pkgs) ffdhe2048Pem ffdhe3072Pem ffdhe4096Pem;
-
             inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
 
             # These aren't actually derivations, and therefore, we
@@ -352,7 +350,6 @@
               #       dlnAttrSets = all;
               #       dlnIPAddr = all;
               #       dlnMisc = all;
-              #       dlnFfdhe = all;
               #       dlnTypes = all;
               #     });
               # };
