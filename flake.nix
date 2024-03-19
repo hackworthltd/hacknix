@@ -208,8 +208,6 @@
                   ./nix/modules/config/defaults/tmux.nix
                   ./nix/modules/config/defaults/users.nix
 
-                  ./nix/modules/config/services/freeradius
-
                   ./nix/modules/config/hardware/amd/common.nix
                   ./nix/modules/config/hardware/amd/jaguar.nix
                   ./nix/modules/config/hardware/apu2/apu3c4.nix
