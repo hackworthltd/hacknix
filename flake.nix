@@ -14,6 +14,9 @@
     nixos-generators.url = github:nix-community/nixos-generators;
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     pre-commit-hooks-nix.url = github:cachix/pre-commit-hooks.nix;
     pre-commit-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -29,6 +32,7 @@
 
         imports = [
           inputs.pre-commit-hooks-nix.flakeModule
+          inputs.treefmt-nix.flakeModule
         ];
         systems = [ "x86_64-linux" "aarch64-darwin" ];
 
@@ -53,11 +57,11 @@
             settings = {
               src = ./.;
               hooks = {
+                treefmt.enable = true;
                 nixpkgs-fmt.enable = true;
 
                 prettier = {
                   enable = true;
-                  excludes = [ ".github/" ];
                 };
 
                 actionlint = {
@@ -119,6 +123,14 @@
             )
           );
 
+          treefmt.config = {
+            projectRootFile = "flake.nix";
+            programs = {
+              prettier.enable = true;
+              nixpkgs-fmt.enable = true;
+            };
+          };
+
           apps =
             let
               mkApp = pkg: script: {
@@ -134,6 +146,10 @@
             });
 
           devShells.default = pkgs.mkShell {
+            inputsFrom = [
+              config.treefmt.build.devShell
+            ];
+
             buildInputs = (with pkgs;
               [
                 actionlint
