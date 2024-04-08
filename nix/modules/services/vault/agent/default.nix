@@ -19,6 +19,10 @@ let
       ${ca_cert}
     }
   '');
+
+  # This directory isn't actually used for anything, but the agent
+  # expects it to exist and for the `HOME` env var to be set, anyway.
+  homeDir = "/var/lib/vault-agent";
 in
 {
   options.services.vault-agent = {
@@ -68,9 +72,15 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    systemd.tmpfiles.rules = [
+      "d ${homeDir}                0700 root root -  -"
+    ];
+
     systemd.services.vault-agent = {
       before = (lib.optional config.services.vault.enable "vault.service");
       wantedBy = [ "multi-user.target" ];
+
+      environment.HOME = homeDir;
 
       path = with pkgs; [
         vault
