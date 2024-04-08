@@ -13,3 +13,18 @@ steps:
       - hackworthltd/nix#v1.0.0:
           file: nix/ci.nix
           agent-tags: queue=nix-build,os=linux
+
+  - wait
+
+  - label: ":nixos: :linux: Cache the Nix shell"
+    command: |
+      nix develop --print-build-logs --profile /tmp/hacknix --command echo "done"
+    agents:
+      queue: "nix-build"
+
+  - label: ":nixos: :macos: Cache the Nix shell"
+    command: |
+      nix develop --print-build-logs --profile /tmp/hacknix --command echo "done"
+    agents:
+      queue: "nix-build"
+      os: "darwin"
