@@ -12,4 +12,4 @@ steps:
     plugins:
       - hackworthltd/nix#v1.0.0:
           file: nix/ci.nix
-          agent-tags: queue=nix-build
+          agent-tags: queue=nix-build,os=linux
