@@ -8,6 +8,8 @@
       # For now, setting this is required.
       environment.darwinConfig = "${pkgs.lib.hacknix.path}/examples/nix-darwin/build-host.nix";
 
+      system.stateVersion = 5;
+
       nix.settings.max-jobs = 16;
 
       hacknix-nix-darwin.build-host = {
