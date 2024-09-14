@@ -12,6 +12,8 @@
         # For now, setting this is required.
         environment.darwinConfig = "${pkgs.lib.hacknix.path}/examples/nix-darwin/remote-builder.nix";
 
+        system.stateVersion = 5;
+
         nix.settings.max-jobs = 12;
 
         hacknix-nix-darwin.remote-build-host = {
