@@ -45,7 +45,6 @@ in
 
     # We always run nix-daemon (multi-user mode).
     services.nix-daemon.enable = true;
-    services.activate-system.enable = true;
     nix.configureBuildUsers = true;
     nix.nrBuildUsers = 32;
 
