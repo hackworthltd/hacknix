@@ -55,57 +55,35 @@ in
     programs.bash.enableCompletion = false;
 
     # Configure zsh to work with Nix. Note that the Apple-supplied
-    # versions (which we rename *.apple, see below) often contain
-    # important settings, so we hook them from the versions that
-    # nix-darwin creates. This means that some of the things that
-    # nix-darwin sets up may be overridden by the Apple version of the
-    # configuration script (e.g., the zsh history settings).
-    # Generally, though, this should be safe, as it's unlikely that
-    # Apple would interfere with any Nix-specific settings.
+    # versions often contain important settings, so we hook them from
+    # the versions that nix-darwin creates. This means that some of
+    # the things that nix-darwin sets up may be overridden by the
+    # Apple version of the configuration script (e.g., the zsh history
+    # settings). Generally, though, this should be safe, as it's
+    # unlikely that Apple would interfere with any Nix-specific
+    # settings.
     programs.zsh = {
       enable = true;
       enableCompletion = true;
 
       shellInit = ''
-        # Hook the Apple version of this config file.
-        if test -h /etc/zshenv.apple; then
-          source /etc/zshenv.apple
+        if test -h /etc/zshenv.backup-before-nix; then
+          source /etc/zshenv.backup-before-nix
         fi
       '';
 
       loginShellInit = ''
-        # Hook the Apple version of this config file.
-        if test -h /etc/zprofile.apple; then
-          source /etc/zprofile.apple
+        if test -h /etc/zprofile.backup-before-nix; then
+          source /etc/zprofile.backup-before-nix
         fi
       '';
 
       interactiveShellInit = ''
-        # Hook the Apple version of this config file.
-        if test -h /etc/zshrc.apple; then
-          source /etc/zshrc.apple
+        if test -h /etc/zshrc.backup-before-nix; then
+          source /etc/zshrc.backup-before-nix
         fi
       '';
     };
-
-    # Move the Apple-supplied /etc/z* files out of the way. Note that
-    # this often needs to be done after a macOS upgrade, so we
-    # overwrite old versions, if they exist.
-    system.activationScripts.preActivation.text = ''
-      printf "Preserving Apple /etc zsh files that will be replaced... "
-      for f in $(find /etc/static/z* -type l); do
-        l=/etc/''${f#/etc/static/}
-        [[ ! -L "$l" ]] && echo "moving $l to $l.apple" && mv $l $l.apple
-      done
-      echo "ok"
-
-      printf "Preserving Apple /etc/bash* files that will be replaced... "
-      for f in $(find /etc/static/bash* -type l); do
-        l=/etc/''${f#/etc/static/}
-        [[ ! -L "$l" ]] && echo "moving $l to $l.apple" && mv $l $l.apple
-      done
-      echo "ok"
-    '';
 
     # Increase maxfiles and maxproc. (Note: I don't know of a way to
     # do this just per-user, so it must be done system-wide, it
