@@ -154,8 +154,9 @@
               [
                 actionlint
                 nodePackages.prettier
-                nixpkgs-fmt
-                nil
+                nixd
+                nodejs
+                vscode-langservers-extracted
               ]);
 
 
