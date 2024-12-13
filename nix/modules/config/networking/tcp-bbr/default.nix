@@ -1,6 +1,11 @@
 # Enable TCP BBR congestion control.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let

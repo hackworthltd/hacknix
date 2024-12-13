@@ -1,6 +1,11 @@
 # Configuration common to MBR/GRUB systems.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -17,8 +22,7 @@ in
     assertions = [
       {
         assertion = !uefi_enabled;
-        message =
-          "Both 'hacknix.hardware.mbr' and 'hacknix.hardware.uefi' cannot be enabled";
+        message = "Both 'hacknix.hardware.mbr' and 'hacknix.hardware.uefi' cannot be enabled";
       }
     ];
 

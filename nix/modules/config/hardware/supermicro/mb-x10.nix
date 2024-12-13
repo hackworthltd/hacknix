@@ -1,6 +1,11 @@
 # SuperMicro X10 motherboard config.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -18,6 +23,11 @@ in
     '';
   };
 
-  config =
-    mkIf enabled { boot.kernelModules = [ "coretemp" "jc42" "nct6775" ]; };
+  config = mkIf enabled {
+    boot.kernelModules = [
+      "coretemp"
+      "jc42"
+      "nct6775"
+    ];
+  };
 }

@@ -2,24 +2,29 @@
 
 final: prev:
 let
-  inherit (final.lib) all ipaddr mkOption stringToCharacters types;
+  inherit (final.lib)
+    all
+    ipaddr
+    mkOption
+    stringToCharacters
+    types
+    ;
   inherit (final.lib.secrets) resolvesToStorePath;
 
-  addCheckDesc = desc: elemType: check: types.addCheck elemType check
-    // { description = "${elemType.description} (with check: ${desc})"; };
+  addCheckDesc =
+    desc: elemType: check:
+    types.addCheck elemType check // { description = "${elemType.description} (with check: ${desc})"; };
 
   ## String types.
 
-  nonEmptyStr = addCheckDesc "non-empty" types.str
-    (x: x != "" && ! (all (c: c == " " || c == "\t") (stringToCharacters x)));
-
+  nonEmptyStr = addCheckDesc "non-empty" types.str (
+    x: x != "" && !(all (c: c == " " || c == "\t") (stringToCharacters x))
+  );
 
   ## Path types.
 
   storePath = addCheckDesc "in the Nix store" types.path resolvesToStorePath;
-  nonStorePath = addCheckDesc "not in the Nix store" types.path
-    (x: ! resolvesToStorePath x);
-
+  nonStorePath = addCheckDesc "not in the Nix store" types.path (x: !resolvesToStorePath x);
 
   ## IP addresses.
 
@@ -27,8 +32,12 @@ let
   ipv4CIDR = addCheckDesc "valid IPv4 address with CIDR suffix" types.str ipaddr.isIPv4CIDR;
   ipv4NoCIDR = addCheckDesc "valid IPv4 address, no CIDR suffix" types.str ipaddr.isIPv4NoCIDR;
   ipv4RFC1918 = addCheckDesc "valid RFC 1918 IPv4 address" types.str ipaddr.isIPv4RFC1918;
-  ipv4RFC1918CIDR = addCheckDesc "valid RFC 1918 IPv4 address with CIDR suffix" types.str ipaddr.isIPv4RFC1918CIDR;
-  ipv4RFC1918NoCIDR = addCheckDesc "valid RFC 1918 IPv4 address, no CIDR suffix" types.str ipaddr.isIPv4RFC1918NoCIDR;
+  ipv4RFC1918CIDR =
+    addCheckDesc "valid RFC 1918 IPv4 address with CIDR suffix" types.str
+      ipaddr.isIPv4RFC1918CIDR;
+  ipv4RFC1918NoCIDR =
+    addCheckDesc "valid RFC 1918 IPv4 address, no CIDR suffix" types.str
+      ipaddr.isIPv4RFC1918NoCIDR;
 
   ipv6 = addCheckDesc "valid IPv6 address" types.str ipaddr.isIPv6;
   ipv6CIDR = addCheckDesc "valid IPv6 address with CIDR suffix" types.str ipaddr.isIPv6CIDR;
@@ -79,19 +88,24 @@ let
     };
   };
 
-
   ## Integer types.
 
   # Port 0 is sometimes used to indicate a "don't-care".
   port = types.ints.between 0 65535;
 in
-rec
-{
+rec {
   lib = (prev.lib or { }) // {
     types = (prev.lib.types or { }) // {
       inherit nonEmptyStr;
       inherit storePath nonStorePath;
-      inherit ipv4 ipv4CIDR ipv4NoCIDR ipv4RFC1918 ipv4RFC1918CIDR ipv4RFC1918NoCIDR;
+      inherit
+        ipv4
+        ipv4CIDR
+        ipv4NoCIDR
+        ipv4RFC1918
+        ipv4RFC1918CIDR
+        ipv4RFC1918NoCIDR
+        ;
       inherit ipv6 ipv6CIDR ipv6NoCIDR;
       inherit addrOptsV4 addrOptsV6;
       inherit port;

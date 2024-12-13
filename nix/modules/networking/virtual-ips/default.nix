@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.networking.virtual-ips;
   enabled = cfg.v4 != [ ] || cfg.v6 != [ ];
@@ -58,9 +63,7 @@ in
           Kind = "dummy";
           Name = cfg.interface;
         };
-        address =
-          (builtins.map (ip: "${ip}/32") cfg.v4)
-          ++ (builtins.map (ip: "${ip}/128") cfg.v6);
+        address = (builtins.map (ip: "${ip}/32") cfg.v4) ++ (builtins.map (ip: "${ip}/128") cfg.v6);
       };
     };
   };

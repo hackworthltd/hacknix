@@ -1,6 +1,11 @@
 # Configuration common to Intel Coffee Lake physical hardware systems.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -14,6 +19,10 @@ in
 
   config = mkIf enabled {
     hacknix.hardware.intel.common.enable = true;
-    boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" ];
+    boot.initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "nvme"
+    ];
   };
 }

@@ -1,6 +1,11 @@
 # Configuration common to modern Intel physical hardware systems.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -9,8 +14,7 @@ let
 in
 {
   options.hacknix.hardware.intel.common = {
-    enable = mkEnableOption
-      "a Intel hardware configuration common to modern Intel platforms.";
+    enable = mkEnableOption "a Intel hardware configuration common to modern Intel platforms.";
   };
 
   config = mkIf enabled {

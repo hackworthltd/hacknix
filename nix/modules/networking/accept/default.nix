@@ -1,30 +1,31 @@
 # # Punch holes in the firewall on a protocol/port/IP basis.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
   cfg = config.networking.firewall;
   enable = cfg.accept != [ ] && cfg.enable;
-  ipt = cmd: protocol: interface: src: dest:
+  ipt =
+    cmd: protocol: interface: src: dest:
     let
-      sourcePortFilter =
-        optionalString (src.port != null) "--sport ${toString src.port}";
+      sourcePortFilter = optionalString (src.port != null) "--sport ${toString src.port}";
       sourceIPFilter = optionalString (src.ip != null) "--source ${src.ip}";
-      destPortFilter =
-        optionalString (dest.port != null) "--dport ${toString dest.port}";
-      destIPFilter =
-        optionalString (dest.ip != null) "--destination ${dest.ip}";
+      destPortFilter = optionalString (dest.port != null) "--dport ${toString dest.port}";
+      destIPFilter = optionalString (dest.ip != null) "--destination ${dest.ip}";
       ifFilter = optionalString (interface != null) "-i ${interface}";
     in
     ''
       ${cmd} -A nixos-fw -p ${protocol} ${ifFilter} ${sourceIPFilter} ${sourcePortFilter} ${destIPFilter} ${destPortFilter} -j nixos-fw-accept
     '';
   extraCommands = ''
-    ${concatMapStrings (r: ipt "iptables" r.protocol r.interface r.src r.dest)
-      cfg.accept}
-    ${concatMapStrings (r: ipt "ip6tables" r.protocol r.interface r.src r.dest)
-      cfg.accept6}
+    ${concatMapStrings (r: ipt "iptables" r.protocol r.interface r.src r.dest) cfg.accept}
+    ${concatMapStrings (r: ipt "ip6tables" r.protocol r.interface r.src r.dest) cfg.accept6}
   '';
 in
 {

@@ -1,9 +1,11 @@
 args:
 
-args // {
+args
+// {
   system = "x86_64-linux";
   modules = [
-    ({ pkgs, ... }:
+    (
+      { pkgs, ... }:
       let
         sshPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBp7K+EqL+5Ry40pQrHRDd9H/jh/eaYYYV0uxH9cxa0q";
       in
@@ -17,12 +19,22 @@ args // {
         hacknix.build-host.buildMachines = {
           remote-builder = {
             hostName = "remote-builder.example.com";
-            alternateHostNames = [ "192.0.2.1" "2001:db8::1" ];
+            alternateHostNames = [
+              "192.0.2.1"
+              "2001:db8::1"
+            ];
             hostPublicKeyLiteral = sshPublicKey;
-            systems = [ "x86_64-linux" "i686-linux" ];
+            systems = [
+              "x86_64-linux"
+              "i686-linux"
+            ];
             maxJobs = 4;
             speedFactor = 1;
-            supportedFeatures = [ "big-parallel" "kvm" "nixos-test" ];
+            supportedFeatures = [
+              "big-parallel"
+              "kvm"
+              "nixos-test"
+            ];
             sshUserName = "remote-builder";
           };
 
@@ -30,11 +42,21 @@ args // {
           # be useful when using an SSH CA for host keys.
           remote-builder-no-hostkey = {
             hostName = "remote-builder-no-hostkey.example.com";
-            alternateHostNames = [ "192.0.2.2" "2001:db8::2" ];
-            systems = [ "x86_64-linux" "i686-linux" ];
+            alternateHostNames = [
+              "192.0.2.2"
+              "2001:db8::2"
+            ];
+            systems = [
+              "x86_64-linux"
+              "i686-linux"
+            ];
             maxJobs = 4;
             speedFactor = 1;
-            supportedFeatures = [ "big-parallel" "kvm" "nixos-test" ];
+            supportedFeatures = [
+              "big-parallel"
+              "kvm"
+              "nixos-test"
+            ];
             sshUserName = "remote-builder";
           };
         };
@@ -107,6 +129,7 @@ args // {
             };
           };
         };
-      })
+      }
+    )
   ];
 }

@@ -1,6 +1,11 @@
 # Configuration common to modern AMD physical hardware systems.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -10,16 +15,14 @@ let
 in
 {
   options.hacknix.hardware.amd.common = {
-    enable = mkEnableOption
-      "AMD hardware configuration common to modern AMD platforms.";
+    enable = mkEnableOption "AMD hardware configuration common to modern AMD platforms.";
   };
 
   config = mkIf enabled {
     assertions = [
       {
         assertion = !intelEnabled;
-        message =
-          "Both `hacknix.hardware.amd.common` and `hacknix.hardware.intel.common` cannot be enabled";
+        message = "Both `hacknix.hardware.amd.common` and `hacknix.hardware.intel.common` cannot be enabled";
       }
     ];
 

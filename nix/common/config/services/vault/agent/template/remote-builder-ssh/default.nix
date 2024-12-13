@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 let
   cfg = config.services.vault-agent.template.remote-builder-ssh;
@@ -148,4 +149,3 @@ in
     '';
   };
 }
-

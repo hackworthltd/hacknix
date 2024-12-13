@@ -1,7 +1,12 @@
 # Things that should generally be installed on physical hardware
 # systems.
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 let

@@ -13,7 +13,9 @@ in
   config = mkIf enabled {
 
     boot.tmp.cleanOnBoot = true;
-    boot.kernel.sysctl = { "kernel.unprivileged_bpf_disabled" = 1; };
+    boot.kernel.sysctl = {
+      "kernel.unprivileged_bpf_disabled" = 1;
+    };
 
   };
 }

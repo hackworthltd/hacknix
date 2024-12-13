@@ -6,30 +6,28 @@ let
   # Note that f takes prev: self: arguments, scoped within the
   # Haskell package set hp.
 
-  properExtend = hp: f: hp.override (
-    oldArgs: {
-      overrides =
-        final.lib.composeExtensions (oldArgs.overrides or (_: _: { }))
-          f;
-    }
-  );
-
+  properExtend =
+    hp: f:
+    hp.override (oldArgs: {
+      overrides = final.lib.composeExtensions (oldArgs.overrides or (_: _: { })) f;
+    });
 
   ## Sometimes you don't want any haddocks to be generated for an
   ## entire package set, rather than just a package here or there.
-  noHaddocks = hp: (
-    properExtend hp (
-      self: prev: (
-        {
-          mkDerivation = args: prev.mkDerivation (
-            args // {
+  noHaddocks =
+    hp:
+    (properExtend hp (
+      self: prev: ({
+        mkDerivation =
+          args:
+          prev.mkDerivation (
+            args
+            // {
               doHaddock = false;
             }
           );
-        }
-      )
-    )
-  );
+      })
+    ));
 in
 {
   haskell = (prev.haskell or { }) // {

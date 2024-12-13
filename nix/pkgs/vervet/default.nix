@@ -1,12 +1,13 @@
-{ buildGoModule
-, fetchFromGitHub
-, installShellFiles
-, lib
-, stdenv
-, pkg-config
-, pcsclite
-, PCSC
-, withApplePCSC ? stdenv.isDarwin
+{
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+  lib,
+  stdenv,
+  pkg-config,
+  pcsclite,
+  PCSC,
+  withApplePCSC ? stdenv.isDarwin,
 }:
 buildGoModule rec {
   pname = "vervet";
@@ -27,17 +28,17 @@ buildGoModule rec {
 
   subPackages = [ "." ];
 
-  nativeBuildInputs = [ pkg-config installShellFiles ];
+  nativeBuildInputs = [
+    pkg-config
+    installShellFiles
+  ];
 
-  buildInputs = [ ]
-    ++ (if withApplePCSC then [ PCSC ] else [ pcsclite ]);
+  buildInputs = [ ] ++ (if withApplePCSC then [ PCSC ] else [ pcsclite ]);
 
   meta = with lib; {
-    description =
-      "Vault YubiKey OpenPGP unseal utility";
+    description = "Vault YubiKey OpenPGP unseal utility";
     homepage = "https://github.com/onryo/vervet";
     license = licenses.mpl20;
     maintainers = with maintainers; [ dhess ];
   };
 }
-

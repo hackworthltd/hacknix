@@ -4,7 +4,13 @@
 
 with import <nixpkgs> { };
 let
-  inherit (pkgs.lib) all any id isStorePath runTests;
+  inherit (pkgs.lib)
+    all
+    any
+    id
+    isStorePath
+    runTests
+    ;
   inherit (pkgs.lib.secrets) resolvesToStorePath secretPath;
 
   allTrue = all id;

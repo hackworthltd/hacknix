@@ -1,23 +1,34 @@
 { hostPkgs, ... }:
 {
-  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
-
-  nodes = {
-    host = { config, pkgs, ... }: {
-      networking.virtual-ips.v4 = [ "10.0.0.1" "192.168.8.77" ];
-      networking.virtual-ips.v6 =
-        [ "fd00:1234:5678::1" "fd00:1234:5678::2000:8" ];
-    };
+  meta = with hostPkgs.lib.maintainers; {
+    maintainers = [ dhess ];
   };
 
-  testScript = { nodes, ... }: ''
-    start_all()
+  nodes = {
+    host =
+      { config, pkgs, ... }:
+      {
+        networking.virtual-ips.v4 = [
+          "10.0.0.1"
+          "192.168.8.77"
+        ];
+        networking.virtual-ips.v6 = [
+          "fd00:1234:5678::1"
+          "fd00:1234:5678::2000:8"
+        ];
+      };
+  };
 
-    host.wait_for_unit("multi-user.target")
+  testScript =
+    { nodes, ... }:
+    ''
+      start_all()
 
-    host.succeed("ping -c 1 10.0.0.1 >&2")
-    host.succeed("ping -c 1 192.168.8.77 >&2")
-    host.succeed("ping -c 1 fd00:1234:5678::1 >&2")
-    host.succeed("ping -c 1 fd00:1234:5678::2000:8 >&2")
-  '';
+      host.wait_for_unit("multi-user.target")
+
+      host.succeed("ping -c 1 10.0.0.1 >&2")
+      host.succeed("ping -c 1 192.168.8.77 >&2")
+      host.succeed("ping -c 1 fd00:1234:5678::1 >&2")
+      host.succeed("ping -c 1 fd00:1234:5678::2000:8 >&2")
+    '';
 }

@@ -33,25 +33,29 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-{ config, lib, modulesPath, ... }:
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 let
   inherit (lib) types mkOption;
   cfg = config.hacknix.assertions;
-  mkAssertion = path: expectedHash:
+  mkAssertion =
+    path: expectedHash:
     let
       contents = builtins.readFile "${toString modulesPath}/${toString path}";
       hash = builtins.hashString "sha256" contents;
     in
     {
       assertion = hash == expectedHash;
-      message = "Hash mismatch for `${path}': "
-        + "Expected `${expectedHash}' but got `${hash}'.";
+      message = "Hash mismatch for `${path}': " + "Expected `${expectedHash}' but got `${hash}'.";
     };
   hashType = lib.mkOptionType {
     name = "sha256";
     description = "base-16 SHA-256 hash";
-    check = val:
-      lib.isString val && builtins.match "[a-fA-F0-9]{64}" val != null;
+    check = val: lib.isString val && builtins.match "[a-fA-F0-9]{64}" val != null;
     merge = lib.mergeOneOption;
   };
 in

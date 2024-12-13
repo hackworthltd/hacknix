@@ -1,7 +1,12 @@
 # Configuration common to Intel Centerton (Atom Processor S Series)
 # hardware systems.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -15,7 +20,12 @@ in
 
   config = mkIf enabled {
     hacknix.hardware.intel.common.enable = true;
-    boot.initrd.availableKernelModules =
-      [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
+    boot.initrd.availableKernelModules = [
+      "ahci"
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
   };
 }

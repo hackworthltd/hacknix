@@ -17,10 +17,10 @@ let
 
   combine = builtins.foldl' composeExtensions (_: _: { });
 
-  combineFromFiles = overlaysFiles:
-    combine (map import overlaysFiles);
+  combineFromFiles = overlaysFiles: combine (map import overlaysFiles);
 
-  combineFromDir = dir:
+  combineFromDir =
+    dir:
     let
       files = prev.lib.filesystem.listFilesRecursive dir;
     in
@@ -33,7 +33,12 @@ in
       inherit forAllSystems;
     };
     overlays = (prev.lib.overlays or { }) // {
-      inherit composeExtensions combine combineFromFiles combineFromDir;
+      inherit
+        composeExtensions
+        combine
+        combineFromFiles
+        combineFromDir
+        ;
     };
   };
 }

@@ -7,15 +7,19 @@ let
   '';
 in
 {
-  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
+  meta = with hostPkgs.lib.maintainers; {
+    maintainers = [ dhess ];
+  };
 
-  nodes.machine = { config, pkgs, ... }:
+  nodes.machine =
+    { config, pkgs, ... }:
     {
       hacknix.defaults.enable = true;
       imports = [ ../include/users.nix ];
     };
 
-  testScript = { nodes, ... }:
+  testScript =
+    { nodes, ... }:
     let
       alicePassword = nodes.machine.users.users.alice.password;
     in

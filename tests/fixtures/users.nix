@@ -1,14 +1,18 @@
 { hostPkgs, ... }:
 {
-  meta = with hostPkgs.lib.maintainers; { maintainers = [ dhess ]; };
+  meta = with hostPkgs.lib.maintainers; {
+    maintainers = [ dhess ];
+  };
 
-  nodes.machine = { config, pkgs, ... }:
+  nodes.machine =
+    { config, pkgs, ... }:
     {
       imports = [ ../include/users.nix ];
       hacknix.defaults.enable = true;
     };
 
-  testScript = { nodes, ... }:
+  testScript =
+    { nodes, ... }:
     let
       alicePassword = nodes.machine.users.users.alice.password;
     in

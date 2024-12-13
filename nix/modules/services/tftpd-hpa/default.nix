@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 let
@@ -49,8 +54,7 @@ in
       };
 
       listenAddress = mkOption {
-        type = types.nullOr
-          (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
+        type = types.nullOr (types.either pkgs.lib.types.ipv4NoCIDR pkgs.lib.types.ipv6NoCIDR);
         default = null;
         example = "2001:db8::2";
         description = ''
@@ -90,12 +94,12 @@ in
       # appear to be running as root in `ps`.
 
       script = ''
-        ${pkgs.tftp-hpa}/bin/in.tftpd --user ${user} --listen ${addressOption} ${
-          concatStringsSep " " cfg.extraOptions
-        } --secure ${cfg.root}
+        ${pkgs.tftp-hpa}/bin/in.tftpd --user ${user} --listen ${addressOption} ${concatStringsSep " " cfg.extraOptions} --secure ${cfg.root}
       '';
 
-      serviceConfig = { Type = "forking"; };
+      serviceConfig = {
+        Type = "forking";
+      };
     };
 
     users.users."${user}" = {

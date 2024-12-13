@@ -14,8 +14,12 @@ runTests rec {
 
   test-allAttrs-true = rec {
     example = {
-      foo = { name = "bob"; };
-      bar = { name = "bob"; };
+      foo = {
+        name = "bob";
+      };
+      bar = {
+        name = "bob";
+      };
     };
     expr = allAttrs (v: v.name == "bob") example;
     expected = true;
@@ -29,8 +33,12 @@ runTests rec {
 
   test-allAttrs-false = rec {
     example = {
-      foo = { name = "bob"; };
-      bar = { name = "steve"; };
+      foo = {
+        name = "bob";
+      };
+      bar = {
+        name = "steve";
+      };
     };
     expr = allAttrs (v: v.name == "bob") example;
     expected = false;
@@ -38,8 +46,12 @@ runTests rec {
 
   test-anyAttrs-true = rec {
     example = {
-      foo = { name = "bob"; };
-      bar = { name = "steve"; };
+      foo = {
+        name = "bob";
+      };
+      bar = {
+        name = "steve";
+      };
     };
     expr = anyAttrs (v: v.name == "bob") example;
     expected = true;
@@ -53,8 +65,12 @@ runTests rec {
 
   test-anyAttrs-false = rec {
     example = {
-      foo = { name = "bob"; };
-      bar = { name = "steve"; };
+      foo = {
+        name = "bob";
+      };
+      bar = {
+        name = "steve";
+      };
     };
     expr = anyAttrs (v: v.name == "alice") example;
     expected = false;
@@ -62,8 +78,12 @@ runTests rec {
 
   test-noAttrs-true = rec {
     example = {
-      foo = { name = "bob"; };
-      bar = { name = "steve"; };
+      foo = {
+        name = "bob";
+      };
+      bar = {
+        name = "steve";
+      };
     };
     expr = noAttrs (v: v.name == "alice") example;
     expected = true;
@@ -77,8 +97,12 @@ runTests rec {
 
   test-noAttrs-false = rec {
     example = {
-      foo = { name = "bob"; };
-      bar = { name = "steve"; };
+      foo = {
+        name = "bob";
+      };
+      bar = {
+        name = "steve";
+      };
     };
     expr = noAttrs (v: v.name == "steve") example;
     expected = false;
@@ -86,11 +110,18 @@ runTests rec {
 
   test-mapValuesToList = rec {
     example = {
-      foo = { name = "bob"; };
-      bar = { name = "steve"; };
+      foo = {
+        name = "bob";
+      };
+      bar = {
+        name = "steve";
+      };
     };
     expr = sort lessThan (mapValuesToList (x: x.name) example);
-    expected = [ "bob" "steve" ];
+    expected = [
+      "bob"
+      "steve"
+    ];
   };
 
 }

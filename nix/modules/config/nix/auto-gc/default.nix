@@ -4,10 +4,20 @@
 # This file is copyright Input Output HK and is covered by the Apache
 # License 2.0, a copy of which is included in this directory.
 
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
   cfg = config.services.auto-gc;
-  inherit (lib) types mkIf mkOption mkEnableOption;
+  inherit (lib)
+    types
+    mkIf
+    mkOption
+    mkEnableOption
+    ;
 in
 {
   options = {
@@ -68,7 +78,9 @@ in
         echo "Automatic GC: ''${free}M available"
         # Set the max absolute level to free to nixHourlyMaxFreedGB on the /nix/store mount
         if [ $free -lt ${toString (cfg.nixHourlyMinFreeGB * 1024)} ]; then
-          ${config.nix.package}/bin/nix-collect-garbage --max-freed ${toString (cfg.nixHourlyMaxFreedGB * 1024 * 1024 * 1024)}
+          ${config.nix.package}/bin/nix-collect-garbage --max-freed ${
+            toString (cfg.nixHourlyMaxFreedGB * 1024 * 1024 * 1024)
+          }
         fi
       '';
     };

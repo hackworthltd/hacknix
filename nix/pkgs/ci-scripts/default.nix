@@ -1,10 +1,11 @@
-{ stdenv
-, lib
-, writeShellApplication
-, nixStable
-, jq
-, cachix
-, gnugrep
+{
+  stdenv,
+  lib,
+  writeShellApplication,
+  nixStable,
+  jq,
+  cachix,
+  gnugrep,
 }:
 
 let
@@ -51,4 +52,3 @@ in
   inherit cachix-push-attr;
   inherit cachix-push-flake-dev-shell;
 }
-

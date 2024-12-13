@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 let
@@ -18,8 +23,7 @@ in
 
     # Prevent users from installing their own authorized_keys.
 
-    services.openssh.authorizedKeysFiles =
-      pkgs.lib.mkForce [ "/etc/ssh/authorized_keys.d/%u" ];
+    services.openssh.authorizedKeysFiles = pkgs.lib.mkForce [ "/etc/ssh/authorized_keys.d/%u" ];
 
     ## Additional sshd_config
     #

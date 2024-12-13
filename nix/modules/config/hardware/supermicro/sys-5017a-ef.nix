@@ -1,6 +1,11 @@
 # SuperMicro 5017A-EF system config.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -14,6 +19,11 @@ in
 
   config = mkIf enabled {
     hacknix.hardware.intel.centerton.enable = true;
-    boot.kernelModules = [ "coretemp" "jc42" "w83795" "i2c_isch" ];
+    boot.kernelModules = [
+      "coretemp"
+      "jc42"
+      "w83795"
+      "i2c_isch"
+    ];
   };
 }

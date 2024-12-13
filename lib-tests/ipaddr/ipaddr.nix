@@ -16,12 +16,23 @@ runTests rec {
 
   test-parseIPv4-1 = {
     expr = parseIPv4 "10.0.10.1";
-    expected = [ 10 0 10 1 ];
+    expected = [
+      10
+      0
+      10
+      1
+    ];
   };
 
   test-parseIPv4-2 = {
     expr = parseIPv4 "10.0.10.1/24";
-    expected = [ 10 0 10 1 24 ];
+    expected = [
+      10
+      0
+      10
+      1
+      24
+    ];
   };
 
   test-parseIPv4-3 = {
@@ -51,12 +62,24 @@ runTests rec {
 
   test-parseIPv4-8 = {
     expr = parseIPv4 "0.0.0.0/0";
-    expected = [ 0 0 0 0 0 ];
+    expected = [
+      0
+      0
+      0
+      0
+      0
+    ];
   };
 
   test-parseIPv4-9 = {
     expr = parseIPv4 "255.255.255.255/32";
-    expected = [ 255 255 255 255 32 ];
+    expected = [
+      255
+      255
+      255
+      255
+      32
+    ];
   };
 
   test-isIPv4-1 = {
@@ -569,12 +592,22 @@ runTests rec {
 
   test-parsedIPv4Addr-1 = {
     expr = parsedIPv4Addr (parseIPv4 "10.0.10.1");
-    expected = [ 10 0 10 1 ];
+    expected = [
+      10
+      0
+      10
+      1
+    ];
   };
 
   test-parsedIPv4Addr-2 = {
     expr = parsedIPv4Addr (parseIPv4 "10.0.10.1/24");
-    expected = [ 10 0 10 1 ];
+    expected = [
+      10
+      0
+      10
+      1
+    ];
   };
 
   test-parsedIPv4PrefixLength-1 = {
@@ -588,35 +621,67 @@ runTests rec {
   };
 
   test-unparseIPv4-1 = {
-    expr = unparseIPv4 [ 10 0 10 1 ];
+    expr = unparseIPv4 [
+      10
+      0
+      10
+      1
+    ];
     expected = "10.0.10.1";
   };
 
   test-unparseIPv4-2 = {
-    expr = unparseIPv4 [ 10 0 10 1 24 ];
+    expr = unparseIPv4 [
+      10
+      0
+      10
+      1
+      24
+    ];
     expected = "10.0.10.1/24";
   };
 
   test-unparseIPv4-3 = {
-    expr = unparseIPv4 [ 10 0 1000 1 ];
+    expr = unparseIPv4 [
+      10
+      0
+      1000
+      1
+    ];
     expected = "";
   };
 
   test-unparseIPv4-4 = {
-    expr = unparseIPv4 [ 10 0 10 1 33 ];
+    expr = unparseIPv4 [
+      10
+      0
+      10
+      1
+      33
+    ];
     expected = "";
   };
 
   test-unparseIPv4-5 = {
-    expr = unparseIPv4 [ 10 0 10 ];
+    expr = unparseIPv4 [
+      10
+      0
+      10
+    ];
     expected = "";
   };
 
   test-unparseIPv4-6 = {
-    expr = unparseIPv4 [ 10 0 10 1 24 3 ];
+    expr = unparseIPv4 [
+      10
+      0
+      10
+      1
+      24
+      3
+    ];
     expected = "";
   };
-
 
   ## IPv6.
 
@@ -1219,7 +1284,6 @@ runTests rec {
     expr = ipv6AddrFromCIDR "2001:db::3:1000:1/56";
     expected = "2001:db::3:1000:1";
   };
-
 
   ## General convenience.
 

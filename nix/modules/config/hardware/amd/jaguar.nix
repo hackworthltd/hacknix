@@ -1,6 +1,11 @@
 # Configuration common to AMD Jaguar (G-series) physical hardware systems.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -14,7 +19,13 @@ in
 
   config = mkIf enabled {
     hacknix.hardware.amd.common.enable = true;
-    boot.initrd.availableKernelModules =
-      [ "xhci_pci" "ahci" "ehci_pci" "usb_storage" "sd_mod" "sdhci_pci" ];
+    boot.initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "ehci_pci"
+      "usb_storage"
+      "sd_mod"
+      "sdhci_pci"
+    ];
   };
 }
