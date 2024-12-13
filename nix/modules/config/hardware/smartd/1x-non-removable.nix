@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -67,19 +72,18 @@ in
     '';
   };
 
-  config = mkIf enabled
-    (
-      {
-        services.smartd = {
-          autodetect = false;
-          devices = [
-            {
-              device = "/dev/sda";
-              options =
-                "-a -n standby,7 -o on -S on -s (S/../../(2|3|4|5|6|7)/02|L/../../1/02)";
-            }
-          ];
-        };
-      } // commonConfig
-    );
+  config = mkIf enabled (
+    {
+      services.smartd = {
+        autodetect = false;
+        devices = [
+          {
+            device = "/dev/sda";
+            options = "-a -n standby,7 -o on -S on -s (S/../../(2|3|4|5|6|7)/02|L/../../1/02)";
+          }
+        ];
+      };
+    }
+    // commonConfig
+  );
 }

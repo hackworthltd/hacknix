@@ -13,16 +13,13 @@ in
 
   dlnAttrSets = callPackage ./attrsets { inherit selfPath; };
 
-
   ## IP address utility tests.
 
   dlnIPAddr = callPackage ./ipaddr { inherit selfPath; };
 
-
   ## Miscellaneous tests.
 
   dlnMisc = callPackage ./misc { inherit selfPath; };
-
 
   ## Types tests.
 

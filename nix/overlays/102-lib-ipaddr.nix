@@ -13,7 +13,8 @@ let
   # "1000.0.10.1" -> []
   # "10.0.10.1/33" -> []
   # "abc" -> []
-  parseIPv4 = s:
+  parseIPv4 =
+    s:
     let
       good = builtins.match "^([[:digit:]]+)\\.([[:digit:]]+)\\.([[:digit:]]+)\\.([[:digit:]]+)(/[[:digit:]]+)?$" s;
       parse = if good == null then [ ] else good;
@@ -22,42 +23,48 @@ let
         let
           suffix' = parsedIPv4PrefixLength parse;
         in
-        if (suffix' == [ ] || suffix' == [ null ])
-        then [ ]
-        else map (x: final.lib.toInt (final.lib.removePrefix "/" x)) suffix';
+        if (suffix' == [ ] || suffix' == [ null ]) then
+          [ ]
+        else
+          map (x: final.lib.toInt (final.lib.removePrefix "/" x)) suffix';
     in
-    if (parse != [ ])
-      && (final.lib.all (x: x <= 255) octets)
-      && (final.lib.all (x: x <= 32) suffix)
-    then octets ++ suffix
-    else [ ];
+    if
+      (parse != [ ]) && (final.lib.all (x: x <= 255) octets) && (final.lib.all (x: x <= 32) suffix)
+    then
+      octets ++ suffix
+    else
+      [ ];
 
-  parseIPv4RFC1918 = s:
+  parseIPv4RFC1918 =
+    s:
     let
       parse = parseIPv4 s;
     in
-    if parse == [ ]
-    then [ ]
+    if parse == [ ] then
+      [ ]
     else
       let
         suffix = parsedIPv4PrefixLength parse;
         octet1 = final.lib.elemAt parse 0;
         octet2 = final.lib.elemAt parse 1;
         block1 = octet1 == 10 && (suffix == [ ] || final.lib.head suffix >= 8);
-        block2 = octet1 == 172 && (octet2 >= 16 && octet2 < 32) && (suffix == [ ] || final.lib.head suffix >= 12);
+        block2 =
+          octet1 == 172 && (octet2 >= 16 && octet2 < 32) && (suffix == [ ] || final.lib.head suffix >= 12);
         block3 = octet1 == 192 && octet2 == 168 && (suffix == [ ] || final.lib.head suffix >= 16);
       in
       if block1 || block2 || block3 then parse else [ ];
 
   isIPv4 = s: (parseIPv4 s) != [ ];
 
-  isIPv4CIDR = s:
+  isIPv4CIDR =
+    s:
     let
       l = parseIPv4 s;
     in
     l != [ ] && (parsedIPv4PrefixLength l) != [ ];
 
-  isIPv4NoCIDR = s:
+  isIPv4NoCIDR =
+    s:
     let
       l = parseIPv4 s;
     in
@@ -65,19 +72,19 @@ let
 
   isIPv4RFC1918 = s: (parseIPv4RFC1918 s) != [ ];
 
-  isIPv4RFC1918CIDR = s:
+  isIPv4RFC1918CIDR =
+    s:
     let
       l = parseIPv4RFC1918 s;
     in
     l != [ ] && (parsedIPv4PrefixLength l) != [ ];
 
-  isIPv4RFC1918NoCIDR = s:
+  isIPv4RFC1918NoCIDR =
+    s:
     let
       l = parseIPv4RFC1918 s;
     in
     l != [ ] && (parsedIPv4PrefixLength l) == [ ];
-
-
 
   ## These functions deal with IPv4 addresses expressed in list
   ## format, e.g., [ 10 0 10 1 24 ] for 10.0.10.1/24, or [ 10 0 10 1 ]
@@ -93,25 +100,31 @@ let
   # [ 10 0 10 1 24 3] -> ""
   # [ 10 0 10 1 33 ] -> ""
   # [ "10" "0" "10" "1" ] -> evaluation error
-  unparseIPv4 = l:
+  unparseIPv4 =
+    l:
     let
       octets = parsedIPv4Addr l;
       suffix = parsedIPv4PrefixLength l;
     in
-    if (final.lib.length l < 4)
+    if
+      (final.lib.length l < 4)
       || (final.lib.length l > 5)
       || (final.lib.any (x: x < 0 || x > 255) octets)
       || (final.lib.any (x: x < 0 || x > 32) suffix)
-    then ""
+    then
+      ""
     else
       let
         addr = final.lib.concatMapStringsSep "." toString octets;
         suffix' = final.lib.concatMapStrings toString suffix;
       in
-      if suffix' == ""
-      then addr
-      else final.lib.concatStringsSep "/" [ addr suffix' ];
-
+      if suffix' == "" then
+        addr
+      else
+        final.lib.concatStringsSep "/" [
+          addr
+          suffix'
+        ];
 
   ## These functions deal with IPv6 addresses expressed as a string.
 
@@ -140,7 +153,8 @@ let
 
   rfc3986 = "(((((([[:xdigit:]]{1,4})):){6})((((([[:xdigit:]]{1,4})):(([[:xdigit:]]{1,4})))|(((((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9])))))))|((::((([[:xdigit:]]{1,4})):){5})((((([[:xdigit:]]{1,4})):(([[:xdigit:]]{1,4})))|(((((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9])))))))|((((([[:xdigit:]]{1,4})))?::((([[:xdigit:]]{1,4})):){4})((((([[:xdigit:]]{1,4})):(([[:xdigit:]]{1,4})))|(((((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9])))))))|(((((([[:xdigit:]]{1,4})):){0,1}(([[:xdigit:]]{1,4})))?::((([[:xdigit:]]{1,4})):){3})((((([[:xdigit:]]{1,4})):(([[:xdigit:]]{1,4})))|(((((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9])))))))|(((((([[:xdigit:]]{1,4})):){0,2}(([[:xdigit:]]{1,4})))?::((([[:xdigit:]]{1,4})):){2})((((([[:xdigit:]]{1,4})):(([[:xdigit:]]{1,4})))|(((((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9])))))))|(((((([[:xdigit:]]{1,4})):){0,3}(([[:xdigit:]]{1,4})))?::(([[:xdigit:]]{1,4})):)((((([[:xdigit:]]{1,4})):(([[:xdigit:]]{1,4})))|(((((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9])))))))|(((((([[:xdigit:]]{1,4})):){0,4}(([[:xdigit:]]{1,4})))?::)((((([[:xdigit:]]{1,4})):(([[:xdigit:]]{1,4})))|(((((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}((25[0-5]|([1-9]|1[0-9]|2[0-4])?[0-9])))))))|(((((([[:xdigit:]]{1,4})):){0,5}(([[:xdigit:]]{1,4})))?::)(([[:xdigit:]]{1,4})))|(((((([[:xdigit:]]{1,4})):){0,6}(([[:xdigit:]]{1,4})))?::)))(%[^/]+)?(/[[:digit:]]+)?";
 
-  parseIPv6 = s:
+  parseIPv6 =
+    s:
     let
       # Note that if the parse matches, we still have to check the
       # prefix (if given) is <= 128. This is a bit clumsy.
@@ -148,37 +162,42 @@ let
       parse = if good == null then [ ] else final.lib.take 1 good;
       suffix = if parse == [ ] then [ ] else parsedIPv6PrefixLength parse;
     in
-    if (suffix == [ ])
-    then parse
+    if (suffix == [ ]) then
+      parse
+    else if (final.lib.head suffix <= 128) then
+      parse
     else
-      if (final.lib.head suffix <= 128) then parse else [ ];
+      [ ];
 
   isIPv6 = s: (parseIPv6 s) != [ ];
 
-  isIPv6CIDR = s:
+  isIPv6CIDR =
+    s:
     let
       l = parseIPv6 s;
     in
     l != [ ] && (parsedIPv6PrefixLength l) != [ ];
 
-  isIPv6NoCIDR = s:
+  isIPv6NoCIDR =
+    s:
     let
       l = parseIPv6 s;
     in
     l != [ ] && (parsedIPv6PrefixLength l) == [ ];
 
-
   ## These functions deal with IPv6 addresses represented as a
   ## single-element string array (post-`parseIPv6`).
 
-  parsedIPv6PrefixLength = l:
+  parsedIPv6PrefixLength =
+    l:
     let
       addr = final.lib.head l;
       suffix = final.lib.tail (final.lib.splitString "/" addr);
     in
     if suffix == [ ] then [ ] else map final.lib.toInt suffix;
 
-  parsedIPv6Addr = l:
+  parsedIPv6Addr =
+    l:
     let
       addr = final.lib.head l;
     in
@@ -186,58 +205,95 @@ let
 
   unparseIPv6 = l: if l == [ ] then "" else final.lib.head l;
 
-
   ## Convenience functions.
 
-  prefixLengthToNetmask = prefixLength:
+  prefixLengthToNetmask =
+    prefixLength:
     assert (prefixLength >= 0 && prefixLength < 33);
-    if prefixLength == 0 then "0.0.0.0" else
-    if prefixLength == 1 then "128.0.0.0" else
-    if prefixLength == 2 then "192.0.0.0" else
-    if prefixLength == 3 then "224.0.0.0" else
-    if prefixLength == 4 then "240.0.0.0" else
-    if prefixLength == 5 then "248.0.0.0" else
-    if prefixLength == 6 then "252.0.0.0" else
-    if prefixLength == 7 then "254.0.0.0" else
-    if prefixLength == 8 then "255.0.0.0" else
-    if prefixLength == 9 then "255.128.0.0" else
-    if prefixLength == 10 then "255.192.0.0" else
-    if prefixLength == 11 then "255.224.0.0" else
-    if prefixLength == 12 then "255.240.0.0" else
-    if prefixLength == 13 then "255.248.0.0" else
-    if prefixLength == 14 then "255.252.0.0" else
-    if prefixLength == 15 then "255.254.0.0" else
-    if prefixLength == 16 then "255.255.0.0" else
-    if prefixLength == 17 then "255.255.128.0" else
-    if prefixLength == 18 then "255.255.192.0" else
-    if prefixLength == 19 then "255.255.224.0" else
-    if prefixLength == 20 then "255.255.240.0" else
-    if prefixLength == 21 then "255.255.248.0" else
-    if prefixLength == 22 then "255.255.252.0" else
-    if prefixLength == 23 then "255.255.254.0" else
-    if prefixLength == 24 then "255.255.255.0" else
-    if prefixLength == 25 then "255.255.255.128" else
-    if prefixLength == 26 then "255.255.255.192" else
-    if prefixLength == 27 then "255.255.255.224" else
-    if prefixLength == 28 then "255.255.255.240" else
-    if prefixLength == 29 then "255.255.255.248" else
-    if prefixLength == 30 then "255.255.255.252" else
-    if prefixLength == 31 then "255.255.255.254" else
-    "255.255.255.255";
+    if prefixLength == 0 then
+      "0.0.0.0"
+    else if prefixLength == 1 then
+      "128.0.0.0"
+    else if prefixLength == 2 then
+      "192.0.0.0"
+    else if prefixLength == 3 then
+      "224.0.0.0"
+    else if prefixLength == 4 then
+      "240.0.0.0"
+    else if prefixLength == 5 then
+      "248.0.0.0"
+    else if prefixLength == 6 then
+      "252.0.0.0"
+    else if prefixLength == 7 then
+      "254.0.0.0"
+    else if prefixLength == 8 then
+      "255.0.0.0"
+    else if prefixLength == 9 then
+      "255.128.0.0"
+    else if prefixLength == 10 then
+      "255.192.0.0"
+    else if prefixLength == 11 then
+      "255.224.0.0"
+    else if prefixLength == 12 then
+      "255.240.0.0"
+    else if prefixLength == 13 then
+      "255.248.0.0"
+    else if prefixLength == 14 then
+      "255.252.0.0"
+    else if prefixLength == 15 then
+      "255.254.0.0"
+    else if prefixLength == 16 then
+      "255.255.0.0"
+    else if prefixLength == 17 then
+      "255.255.128.0"
+    else if prefixLength == 18 then
+      "255.255.192.0"
+    else if prefixLength == 19 then
+      "255.255.224.0"
+    else if prefixLength == 20 then
+      "255.255.240.0"
+    else if prefixLength == 21 then
+      "255.255.248.0"
+    else if prefixLength == 22 then
+      "255.255.252.0"
+    else if prefixLength == 23 then
+      "255.255.254.0"
+    else if prefixLength == 24 then
+      "255.255.255.0"
+    else if prefixLength == 25 then
+      "255.255.255.128"
+    else if prefixLength == 26 then
+      "255.255.255.192"
+    else if prefixLength == 27 then
+      "255.255.255.224"
+    else if prefixLength == 28 then
+      "255.255.255.240"
+    else if prefixLength == 29 then
+      "255.255.255.248"
+    else if prefixLength == 30 then
+      "255.255.255.252"
+    else if prefixLength == 31 then
+      "255.255.255.254"
+    else
+      "255.255.255.255";
 
-  ipv4AddrFromCIDR = s:
+  ipv4AddrFromCIDR =
+    s:
     assert isIPv4CIDR s;
     final.lib.head (final.lib.splitString "/" s);
 
-  ipv6AddrFromCIDR = s:
+  ipv6AddrFromCIDR =
+    s:
     assert isIPv6CIDR s;
     final.lib.head (final.lib.splitString "/" s);
 
-  prefixLengthFromCIDR = s:
+  prefixLengthFromCIDR =
+    s:
     assert (isIPv4CIDR s) || (isIPv6CIDR s);
     final.lib.toInt (final.lib.head (final.lib.tail (final.lib.splitString "/" s)));
 
-  netmaskFromIPv4CIDR = s:
+  netmaskFromIPv4CIDR =
+    s:
     assert isIPv4CIDR s;
     prefixLengthToNetmask (prefixLengthFromCIDR s);
 in
@@ -245,7 +301,14 @@ in
   lib = (prev.lib or { }) // {
     ipaddr = (prev.lib.ipaddr or { }) // {
       inherit parseIPv4 parseIPv4RFC1918;
-      inherit isIPv4 isIPv4CIDR isIPv4NoCIDR isIPv4RFC1918 isIPv4RFC1918CIDR isIPv4RFC1918NoCIDR;
+      inherit
+        isIPv4
+        isIPv4CIDR
+        isIPv4NoCIDR
+        isIPv4RFC1918
+        isIPv4RFC1918CIDR
+        isIPv4RFC1918NoCIDR
+        ;
 
       inherit parsedIPv4Addr parsedIPv4PrefixLength;
       inherit unparseIPv4;
@@ -257,7 +320,12 @@ in
       inherit unparseIPv6;
 
       inherit prefixLengthToNetmask;
-      inherit ipv4AddrFromCIDR ipv6AddrFromCIDR prefixLengthFromCIDR netmaskFromIPv4CIDR;
+      inherit
+        ipv4AddrFromCIDR
+        ipv6AddrFromCIDR
+        prefixLengthFromCIDR
+        netmaskFromIPv4CIDR
+        ;
     };
   };
 }

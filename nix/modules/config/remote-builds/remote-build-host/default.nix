@@ -1,13 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.hacknix.remote-build-host;
   enabled = cfg.enable;
-  authorizedKeys = map
-    (key: ''
-      command="nix-store --serve --write" ${key}
-    '')
-    ((map builtins.readFile cfg.user.sshPublicKeyFiles)
-      ++ cfg.user.sshPublicKeys);
+  authorizedKeys = map (key: ''
+    command="nix-store --serve --write" ${key}
+  '') ((map builtins.readFile cfg.user.sshPublicKeyFiles) ++ cfg.user.sshPublicKeys);
 in
 {
 
@@ -80,7 +82,10 @@ in
     users.groups."${cfg.user.name}" = { };
 
     # Useful utilities.
-    environment.systemPackages = with pkgs; [ htop glances ];
+    environment.systemPackages = with pkgs; [
+      htop
+      glances
+    ];
   };
 
 }

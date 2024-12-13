@@ -1,7 +1,8 @@
-{ stdenv
-, pkgs
-, lib
-, selfPath
+{
+  stdenv,
+  pkgs,
+  lib,
+  selfPath,
 }:
 let
   version = "1";
@@ -27,7 +28,7 @@ stdenv.mkDerivation {
 
     nix-store --init
     cd ${selfPath}/lib-tests/attrsets
-    
+
     nix-instantiate --eval --strict attrsets.nix
     [[ "$(nix-instantiate --eval --strict attrsets.nix)" == "[ ]" ]]
 

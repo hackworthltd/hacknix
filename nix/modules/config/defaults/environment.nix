@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 let
@@ -7,12 +12,15 @@ let
 in
 {
   options.hacknix.defaults.environment = {
-    enable =
-      mkEnableOption "the hacknix shell environment configuration defaults.";
+    enable = mkEnableOption "the hacknix shell environment configuration defaults.";
   };
 
   config = mkIf enabled {
-    environment.systemPackages = with pkgs; [ emacs-nox git wget ];
+    environment.systemPackages = with pkgs; [
+      emacs-nox
+      git
+      wget
+    ];
 
     # Disable HISTFILE globally.
     environment.interactiveShellInit = ''

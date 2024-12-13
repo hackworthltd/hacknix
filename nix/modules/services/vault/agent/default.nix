@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 let
   cfg = config.services.vault-agent;
@@ -9,16 +10,19 @@ let
   ca_cert = lib.optionalString (cfg.server.caCertPath != null) ''
     ca_cert = "${cfg.server.caCertPath}"
   '';
-  configFile = pkgs.writeText "vault-agent.hcl" (cfg.config + ''
-    exit_after_auth = false
-    pid_file = "./vault-agent.pid"
+  configFile = pkgs.writeText "vault-agent.hcl" (
+    cfg.config
+    + ''
+      exit_after_auth = false
+      pid_file = "./vault-agent.pid"
 
-    vault {
-      address = "${cfg.server.address}"
-      tls_skip_verify = ${if cfg.server.tlsSkipVerify then "true" else "false"}
-      ${ca_cert}
-    }
-  '');
+      vault {
+        address = "${cfg.server.address}"
+        tls_skip_verify = ${if cfg.server.tlsSkipVerify then "true" else "false"}
+        ${ca_cert}
+      }
+    ''
+  );
 
   # This directory isn't actually used for anything, but the agent
   # expects it to exist and for the `HOME` env var to be set, anyway.

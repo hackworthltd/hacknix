@@ -1,7 +1,8 @@
-{ stdenv
-, pkgs
-, lib
-, selfPath
+{
+  stdenv,
+  pkgs,
+  lib,
+  selfPath,
 }:
 let
   version = "1";
@@ -27,7 +28,7 @@ stdenv.mkDerivation {
 
     nix-store --init
     cd ${selfPath}/lib-tests/ipaddr
-    
+
     nix-instantiate --eval --strict ipaddr.nix
     [[ "$(nix-instantiate --eval --strict ipaddr.nix)" == "[ ]" ]]
 

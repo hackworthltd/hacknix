@@ -1,23 +1,31 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.hacknix.build-host;
   enabled = cfg.enable;
 
   defaultPrivateKey = "${cfg.sshKeyDir}/remote-builder";
   extraMachinesPath = "nix/extra-machines";
-  mkBuildMachines = remoteBuildHosts:
-    lib.mapAttrsToList
-      (
-        host: descriptor:
-          with descriptor; {
-            inherit hostName systems maxJobs speedFactor mandatoryFeatures
-              supportedFeatures
-              ;
-            sshUser = sshUserName;
-            sshKey = defaultPrivateKey;
-          }
-      )
-      remoteBuildHosts;
+  mkBuildMachines =
+    remoteBuildHosts:
+    lib.mapAttrsToList (
+      host: descriptor: with descriptor; {
+        inherit
+          hostName
+          systems
+          maxJobs
+          speedFactor
+          mandatoryFeatures
+          supportedFeatures
+          ;
+        sshUser = sshUserName;
+        sshKey = defaultPrivateKey;
+      }
+    ) remoteBuildHosts;
   buildMachines = mkBuildMachines cfg.buildMachines;
   extraBuildMachines = mkBuildMachines cfg.extraBuildMachines;
 in
@@ -147,8 +155,7 @@ in
     assertions = [
       {
         assertion = cfg.buildMachines != { };
-        message =
-          "`hacknix.build-host` is enabled, but `hacknix.build-host.buildMachines` is empty";
+        message = "`hacknix.build-host` is enabled, but `hacknix.build-host.buildMachines` is empty";
       }
     ];
 
@@ -159,7 +166,8 @@ in
       pkgs.lib.ssh.wellKnownHosts
       // (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.buildMachines)
       // (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.extraBuildMachines);
-    programs.ssh.extraConfig = (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.buildMachines)
+    programs.ssh.extraConfig =
+      (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.buildMachines)
       + (pkgs.lib.hacknix.remote-build-host.sshExtraConfig cfg.extraBuildMachines);
 
     # We need to generate our own machines file for the extra
@@ -168,25 +176,27 @@ in
     # (nixos/modules/services/misc/nix-daemon.nix):
 
     environment.etc."${extraMachinesPath}" = {
-      text = lib.concatMapStrings
-        (
-          machine:
-          "${ if machine ? sshUser then "${machine.sshUser}@" else ""
-            }${machine.hostName} "
-          + machine.system or (lib.concatStringsSep "," machine.systems)
-          + " ${machine.sshKey or "-"} ${toString machine.maxJobs or 1} "
-          + toString (machine.speedFactor or 1) + " " + lib.concatStringsSep ","
-            (machine.mandatoryFeatures or [ ] ++ machine.supportedFeatures or [ ])
-          + " " + lib.concatStringsSep "," machine.mandatoryFeatures or [ ]
-          + "\n"
-        )
-        extraBuildMachines;
+      text = lib.concatMapStrings (
+        machine:
+        "${if machine ? sshUser then "${machine.sshUser}@" else ""}${machine.hostName} "
+        + machine.system or (lib.concatStringsSep "," machine.systems)
+        + " ${machine.sshKey or "-"} ${toString machine.maxJobs or 1} "
+        + toString (machine.speedFactor or 1)
+        + " "
+        + lib.concatStringsSep "," (machine.mandatoryFeatures or [ ] ++ machine.supportedFeatures or [ ])
+        + " "
+        + lib.concatStringsSep "," machine.mandatoryFeatures or [ ]
+        + "\n"
+      ) extraBuildMachines;
     };
 
     systemd.tmpfiles.rules =
-      if cfg.createSshKey then [
-        "d ${cfg.sshKeyDir}            0755 root root -  -"
-      ] else [ ];
+      if cfg.createSshKey then
+        [
+          "d ${cfg.sshKeyDir}            0755 root root -  -"
+        ]
+      else
+        [ ];
 
     systemd.services.create-remote-builder-key = {
       enable = cfg.createSshKey;

@@ -1,7 +1,12 @@
 # Configuration common to Intel Broadwell-DE (Xeon D) physical
 # hardware systems.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -15,7 +20,14 @@ in
 
   config = mkIf enabled {
     hacknix.hardware.intel.common.enable = true;
-    boot.initrd.availableKernelModules =
-      [ "xhci_pci" "ehci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+    boot.initrd.availableKernelModules = [
+      "xhci_pci"
+      "ehci_pci"
+      "ahci"
+      "nvme"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
   };
 }

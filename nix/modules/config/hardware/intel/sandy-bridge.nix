@@ -1,6 +1,11 @@
 # Configuration common to Intel Sandy Bridge physical hardware systems.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -14,7 +19,12 @@ in
 
   config = mkIf enabled {
     hacknix.hardware.intel.common.enable = true;
-    boot.initrd.availableKernelModules =
-      [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    boot.initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
   };
 }

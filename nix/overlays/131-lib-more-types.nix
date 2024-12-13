@@ -2,166 +2,164 @@
 
 final: prev:
 let
-  fwRule = final.lib.types.listOf
-    (
-      final.lib.types.submodule {
-        options = {
+  fwRule = final.lib.types.listOf (
+    final.lib.types.submodule {
+      options = {
 
-          protocol = final.lib.mkOption {
-            type = final.lib.types.nonEmptyStr;
-            example = "tcp";
-            description = ''
-              The protocol of the rule or packet to check.
-            '';
-          };
-
-          interface = final.lib.mkOption {
-            type = final.lib.types.nullOr final.lib.types.nonEmptyStr;
-            default = null;
-            example = "eth0";
-            description = ''
-              An optional device interface name. If non-null, an
-              additional filter will be applied, using the interface on
-              which packets are received.
-            '';
-          };
-
-          src = {
-            port = final.lib.mkOption {
-              type = final.lib.types.nullOr
-                (
-                  final.lib.types.either final.lib.types.port
-                    (final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+")
-                );
-              default = null;
-              example = "67:68";
-              description = ''
-                An optional source port number, or colon-delimited port
-                number range, to filter on. If non-null, an additional
-                filter will be applied using the provided source port
-                number.
-
-                This is helpful for securing certain protocols, e.g., DHCP.
-              '';
-            };
-
-            ip = final.lib.mkOption {
-              type = final.lib.types.nullOr final.lib.types.ipv4;
-              default = null;
-              example = "10.0.0.0/24";
-              description = ''
-                An optional source IP address to filter on.
-              '';
-            };
-          };
-
-          dest = {
-            port = final.lib.mkOption {
-              type = final.lib.types.nullOr
-                (
-                  final.lib.types.either final.lib.types.port
-                    (final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+")
-                );
-              default = null;
-              example = "8000:8007";
-              description = ''
-                An optional destination port number, or colon-delimited port number range.
-              '';
-            };
-
-            ip = final.lib.mkOption {
-              type = final.lib.types.nullOr final.lib.types.ipv4;
-              default = null;
-              example = "10.0.0.0/24";
-              description = ''
-                An optional destination IP address to filter on.
-              '';
-            };
-          };
-
+        protocol = final.lib.mkOption {
+          type = final.lib.types.nonEmptyStr;
+          example = "tcp";
+          description = ''
+            The protocol of the rule or packet to check.
+          '';
         };
-      }
-    );
-  fwRule6 = final.lib.types.listOf
-    (
-      final.lib.types.submodule {
-        options = {
 
-          protocol = final.lib.mkOption {
-            type = final.lib.types.nonEmptyStr;
-            example = "tcp";
-            description = ''
-              The protocol of the rule or packet to check.
-            '';
-          };
-
-          interface = final.lib.mkOption {
-            type = final.lib.types.nullOr final.lib.types.nonEmptyStr;
-            default = null;
-            example = "eth0";
-            description = ''
-              An optional device interface name. If non-null, an
-              additional filter will be applied, using the interface on
-              which packets are received.
-            '';
-          };
-
-          src = {
-            port = final.lib.mkOption {
-              type = final.lib.types.nullOr
-                (
-                  final.lib.types.either final.lib.types.port
-                    (final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+")
-                );
-              default = null;
-              example = "67:68";
-              description = ''
-                An optional source port number, or colon-delimited port
-                number range, to filter on. If non-null, an additional
-                filter will be applied using the provided source port
-                number.
-
-                This is helpful for securing certain protocols, e.g., DHCP.
-              '';
-            };
-
-            ip = final.lib.mkOption {
-              type = final.lib.types.nullOr final.lib.types.ipv6;
-              default = null;
-              example = "2001:db8::3:0/64";
-              description = ''
-                An optional source IPv6 address to filter on.
-              '';
-            };
-          };
-
-          dest = {
-            port = final.lib.mkOption {
-              type = final.lib.types.nullOr
-                (
-                  final.lib.types.either final.lib.types.port
-                    (final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+")
-                );
-              default = null;
-              example = "8000:8007";
-              description = ''
-                An optional destination port number, or colon-delimited port number range.
-              '';
-            };
-
-            ip = final.lib.mkOption {
-              type = final.lib.types.nullOr final.lib.types.ipv6;
-              default = null;
-              example = "2001:db8::3:0/64";
-              description = ''
-                An optional destination IPv6 address to filter on.
-              '';
-            };
-          };
-
+        interface = final.lib.mkOption {
+          type = final.lib.types.nullOr final.lib.types.nonEmptyStr;
+          default = null;
+          example = "eth0";
+          description = ''
+            An optional device interface name. If non-null, an
+            additional filter will be applied, using the interface on
+            which packets are received.
+          '';
         };
-      }
-    );
+
+        src = {
+          port = final.lib.mkOption {
+            type = final.lib.types.nullOr (
+              final.lib.types.either final.lib.types.port (
+                final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+"
+              )
+            );
+            default = null;
+            example = "67:68";
+            description = ''
+              An optional source port number, or colon-delimited port
+              number range, to filter on. If non-null, an additional
+              filter will be applied using the provided source port
+              number.
+
+              This is helpful for securing certain protocols, e.g., DHCP.
+            '';
+          };
+
+          ip = final.lib.mkOption {
+            type = final.lib.types.nullOr final.lib.types.ipv4;
+            default = null;
+            example = "10.0.0.0/24";
+            description = ''
+              An optional source IP address to filter on.
+            '';
+          };
+        };
+
+        dest = {
+          port = final.lib.mkOption {
+            type = final.lib.types.nullOr (
+              final.lib.types.either final.lib.types.port (
+                final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+"
+              )
+            );
+            default = null;
+            example = "8000:8007";
+            description = ''
+              An optional destination port number, or colon-delimited port number range.
+            '';
+          };
+
+          ip = final.lib.mkOption {
+            type = final.lib.types.nullOr final.lib.types.ipv4;
+            default = null;
+            example = "10.0.0.0/24";
+            description = ''
+              An optional destination IP address to filter on.
+            '';
+          };
+        };
+
+      };
+    }
+  );
+  fwRule6 = final.lib.types.listOf (
+    final.lib.types.submodule {
+      options = {
+
+        protocol = final.lib.mkOption {
+          type = final.lib.types.nonEmptyStr;
+          example = "tcp";
+          description = ''
+            The protocol of the rule or packet to check.
+          '';
+        };
+
+        interface = final.lib.mkOption {
+          type = final.lib.types.nullOr final.lib.types.nonEmptyStr;
+          default = null;
+          example = "eth0";
+          description = ''
+            An optional device interface name. If non-null, an
+            additional filter will be applied, using the interface on
+            which packets are received.
+          '';
+        };
+
+        src = {
+          port = final.lib.mkOption {
+            type = final.lib.types.nullOr (
+              final.lib.types.either final.lib.types.port (
+                final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+"
+              )
+            );
+            default = null;
+            example = "67:68";
+            description = ''
+              An optional source port number, or colon-delimited port
+              number range, to filter on. If non-null, an additional
+              filter will be applied using the provided source port
+              number.
+
+              This is helpful for securing certain protocols, e.g., DHCP.
+            '';
+          };
+
+          ip = final.lib.mkOption {
+            type = final.lib.types.nullOr final.lib.types.ipv6;
+            default = null;
+            example = "2001:db8::3:0/64";
+            description = ''
+              An optional source IPv6 address to filter on.
+            '';
+          };
+        };
+
+        dest = {
+          port = final.lib.mkOption {
+            type = final.lib.types.nullOr (
+              final.lib.types.either final.lib.types.port (
+                final.lib.types.strMatching "[[:digit:]]+:[[:digit:]]+"
+              )
+            );
+            default = null;
+            example = "8000:8007";
+            description = ''
+              An optional destination port number, or colon-delimited port number range.
+            '';
+          };
+
+          ip = final.lib.mkOption {
+            type = final.lib.types.nullOr final.lib.types.ipv6;
+            default = null;
+            example = "2001:db8::3:0/64";
+            description = ''
+              An optional destination IPv6 address to filter on.
+            '';
+          };
+        };
+
+      };
+    }
+  );
 
   ## An IPv4 subnet description.
   ipv4Subnet = final.lib.types.submodule {
@@ -236,15 +234,14 @@ let
       };
 
       range = final.lib.mkOption {
-        type = final.lib.types.nullOr
-          (
-            final.lib.types.submodule {
-              options = {
-                start = final.lib.mkOption { type = final.lib.types.ipv4NoCIDR; };
-                end = final.lib.mkOption { type = final.lib.types.ipv4NoCIDR; };
-              };
-            }
-          );
+        type = final.lib.types.nullOr (
+          final.lib.types.submodule {
+            options = {
+              start = final.lib.mkOption { type = final.lib.types.ipv4NoCIDR; };
+              end = final.lib.mkOption { type = final.lib.types.ipv4NoCIDR; };
+            };
+          }
+        );
         default = null;
         example = {
           start = "192.168.1.200";
@@ -256,15 +253,14 @@ let
       };
 
       leaseTime = final.lib.mkOption {
-        type = final.lib.types.nullOr
-          (
-            final.lib.types.submodule {
-              options = {
-                default = final.lib.mkOption { type = final.lib.types.ints.unsigned; };
-                max = final.lib.mkOption { type = final.lib.types.ints.unsigned; };
-              };
-            }
-          );
+        type = final.lib.types.nullOr (
+          final.lib.types.submodule {
+            options = {
+              default = final.lib.mkOption { type = final.lib.types.ints.unsigned; };
+              max = final.lib.mkOption { type = final.lib.types.ints.unsigned; };
+            };
+          }
+        );
         default = null;
         example = {
           default = 3600;
@@ -276,10 +272,14 @@ let
       };
 
       nameservers = final.lib.mkOption {
-        type = final.lib.types.listOf
-          (final.lib.types.either final.lib.types.ipv4NoCIDR final.lib.types.ipv6NoCIDR);
+        type = final.lib.types.listOf (
+          final.lib.types.either final.lib.types.ipv4NoCIDR final.lib.types.ipv6NoCIDR
+        );
         default = [ ];
-        example = [ "192.168.0.8" "2001:db8::8" ];
+        example = [
+          "192.168.0.8"
+          "2001:db8::8"
+        ];
         description = ''
           An optional list of IPv4 and IPv6 addresses of nameservers
           for clients on this subnet.
@@ -429,7 +429,10 @@ let
       alternateHostNames = final.lib.mkOption {
         type = final.lib.types.listOf final.lib.types.nonEmptyStr;
         default = [ ];
-        example = [ "192.168.1.1" "2001:db8::1" ];
+        example = [
+          "192.168.1.1"
+          "2001:db8::1"
+        ];
         description = ''
           A list of alternate names by which the host is known. At the
           very least, this should include the IPv4 and/or IPv6
@@ -442,8 +445,7 @@ let
       hostPublicKeyLiteral = final.lib.mkOption {
         type = final.lib.types.nullOr final.lib.types.nonEmptyStr;
         default = null;
-        example =
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
+        example = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
         description = ''
           A string literal containing the host's SSH public key. This
           can be obtained by running <literal>ssh-keyscan</literal> on
@@ -453,7 +455,10 @@ let
 
       systems = final.lib.mkOption {
         type = final.lib.types.nonEmptyListOf final.lib.types.nonEmptyStr;
-        example = [ "x86_64-linux" "i686-linux" ];
+        example = [
+          "x86_64-linux"
+          "i686-linux"
+        ];
         description = ''
           A list of Nix system types for which this remote build host
           can build derivations.
@@ -492,7 +497,10 @@ let
       supportedFeatures = final.lib.mkOption {
         type = final.lib.types.listOf final.lib.types.nonEmptyStr;
         default = [ ];
-        example = [ "kvm" "big-parallel" ];
+        example = [
+          "kvm"
+          "big-parallel"
+        ];
         description = ''
           A list of features that the host supports.
         '';
@@ -523,47 +531,47 @@ let
     };
   };
 
-  radiusClient = final.lib.types.submodule
-    (
-      { name, ... }: {
-        options = {
-          name = final.lib.mkOption {
-            type = final.lib.types.nonEmptyStr;
-            default = "${name}";
-            description = ''
-              A short name for the RADIUS client.
-            '';
-          };
-
-          ipv4 = final.lib.mkOption {
-            type = final.lib.types.ipv4NoCIDR;
-            example = "10.0.0.8";
-            description = ''
-              The IPv4 address from which the RADIUS client will connect
-              to the RADIUS server.
-            '';
-          };
-
-          ipv6 = final.lib.mkOption {
-            type = final.lib.types.ipv6NoCIDR;
-            example = "2001:db8::8";
-            description = ''
-              The IPv6 address from which the RADIUS client will connect
-              to the RADIUS server.
-            '';
-          };
-
-          secretFile = final.lib.mkOption {
-            type = final.lib.types.nonStorePath;
-            example = "/var/lib/freeradius/client.secret";
-            description = ''
-              A path to the file containing the client's secret key,
-              which is used to authenticate with the RADIUS server.
-            '';
-          };
+  radiusClient = final.lib.types.submodule (
+    { name, ... }:
+    {
+      options = {
+        name = final.lib.mkOption {
+          type = final.lib.types.nonEmptyStr;
+          default = "${name}";
+          description = ''
+            A short name for the RADIUS client.
+          '';
         };
-      }
-    );
+
+        ipv4 = final.lib.mkOption {
+          type = final.lib.types.ipv4NoCIDR;
+          example = "10.0.0.8";
+          description = ''
+            The IPv4 address from which the RADIUS client will connect
+            to the RADIUS server.
+          '';
+        };
+
+        ipv6 = final.lib.mkOption {
+          type = final.lib.types.ipv6NoCIDR;
+          example = "2001:db8::8";
+          description = ''
+            The IPv6 address from which the RADIUS client will connect
+            to the RADIUS server.
+          '';
+        };
+
+        secretFile = final.lib.mkOption {
+          type = final.lib.types.nonStorePath;
+          example = "/var/lib/freeradius/client.secret";
+          description = ''
+            A path to the file containing the client's secret key,
+            which is used to authenticate with the RADIUS server.
+          '';
+        };
+      };
+    }
+  );
 in
 {
   lib = (prev.lib or { }) // {

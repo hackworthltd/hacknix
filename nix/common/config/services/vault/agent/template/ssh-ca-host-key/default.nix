@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 let
   cfg = config.services.vault-agent.template.ssh-ca-host-key;
@@ -165,4 +166,3 @@ in
     '';
   };
 }
-

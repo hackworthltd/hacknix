@@ -1,6 +1,11 @@
 # SuperMicro 5018D-FN4T system.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -14,6 +19,10 @@ in
 
   config = mkIf enabled {
     hacknix.hardware.intel.broadwell-de.enable = true;
-    boot.kernelModules = [ "coretemp" "jc42" "nct6775" ];
+    boot.kernelModules = [
+      "coretemp"
+      "jc42"
+      "nct6775"
+    ];
   };
 }

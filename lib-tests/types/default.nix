@@ -1,7 +1,8 @@
-{ stdenv
-, pkgs
-, lib
-, selfPath
+{
+  stdenv,
+  pkgs,
+  lib,
+  selfPath,
 }:
 let
   version = "1";
