@@ -103,6 +103,8 @@
 
           packages =
             {
+              inherit (pkgs) talosctl;
+
               inherit (pkgs) vervet;
 
               inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
