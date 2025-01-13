@@ -63,6 +63,10 @@ args
 
         environment.systemPackages = with pkgs; [
           cachix-archive-flake-inputs
+
+          # vector often fails to build and acts here as a canary for
+          # upstream consumers of hacknix.
+          vector
         ];
 
         # Use Vault to issue SSH CA-signed keys for the remote builder.
