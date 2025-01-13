@@ -9,7 +9,7 @@ let
   permissions = "0400";
 
   privateKeyFileName = "ssh_ca_host_ed25519_key";
-  publicKeyFileName = "${privateKeyFileName}.pub";
+  publicKeyFileName = "${privateKeyFileName}-cert.pub";
 
   valid_principals = lib.concatStringsSep "," cfg.hostnames;
 
@@ -52,6 +52,10 @@ let
       chmod 0644 ${publicKeyFileName}
 
       mv "$TEMPDIR"/* ${cfg.keyDir}
+
+      # Clean up any old incorrectly-named keys, see:
+      # https://github.com/hackworthltd/hacknix/issues/767
+      rm -f /etc/ssh/ssh_ca_host_ed25519_key.pub
     '';
   };
 
