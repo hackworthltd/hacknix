@@ -30,19 +30,17 @@ in
 
     nix.settings.trusted-users = [ "@admin" ];
 
-    # See https://gist.github.com/LnL7/1cfca66d17eba1f9936175926bf39de8.
+    # Enable the sandbox, but in order to work around issues with
+    # packages requiring too many paths, we add `/nix/store` by
+    # default. This is less than optimal, but much safer than
+    # disabling the sandbox entirely, and probably safer than
+    # disabling the sandbox on a per-package, as-needed basis, as
+    # well.
     #
-    # XXX dhess - disabled, see:
-    # https://github.com/NixOS/nix/issues/2311
-    # nix.useSandbox = true;
-    # nix.sandboxPaths = [
-    #   "/System/Library/Frameworks"
-    #   "/System/Library/PrivateFrameworks"
-    #   "/usr/lib"
-    #   "/private/tmp"
-    #   "/private/var/tmp"
-    #   "/usr/bin/env"
-    # ];
+    # Ref:
+    # https://github.com/NixOS/nix/issues/4119#issuecomment-2561973914
+    nix.settings.sandbox = true;
+    nix.settings.extra-sandbox-paths = [ "/nix/store" ];
 
     # We always run nix-daemon (multi-user mode).
     services.nix-daemon.enable = true;
