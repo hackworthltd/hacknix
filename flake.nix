@@ -103,6 +103,8 @@
 
           packages =
             {
+              inherit (pkgs) vector;
+
               inherit (pkgs) talosctl;
 
               inherit (pkgs) vervet;
