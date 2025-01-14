@@ -7,12 +7,6 @@
   modules = lib.singleton (
     { pkgs, ... }:
     {
-      environment.systemPackages = with pkgs; [
-        # vector often fails to build and acts here as a canary for
-        # upstream consumers of hacknix.
-        vector
-      ];
-
       # For now, setting this is required.
       environment.darwinConfig = "${pkgs.lib.hacknix.path}/examples/nix-darwin/build-host.nix";
 
