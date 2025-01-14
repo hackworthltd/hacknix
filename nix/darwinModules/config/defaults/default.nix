@@ -51,7 +51,7 @@ in
     # Apple anymore, so we don't go out of our way here to do anything
     # fancy like we do for zsh.
     programs.bash.enable = true;
-    programs.bash.enableCompletion = false;
+    programs.bash.completion.enable = true;
 
     # Configure zsh to work with Nix. Note that the Apple-supplied
     # versions often contain important settings, so we hook them from

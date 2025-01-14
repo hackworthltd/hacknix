@@ -27,6 +27,6 @@ in
       unset HISTFILE
     '';
 
-    programs.bash.enableCompletion = true;
+    programs.bash.completion.enable = true;
   };
 }
