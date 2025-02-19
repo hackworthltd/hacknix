@@ -42,9 +42,7 @@ in
     nix.settings.sandbox = true;
     nix.settings.extra-sandbox-paths = [ "/nix/store" ];
 
-    # We always run nix-daemon (multi-user mode).
-    services.nix-daemon.enable = true;
-    nix.configureBuildUsers = true;
+    nix.enable = true;
     nix.nrBuildUsers = 32;
 
     # Configure bash to work with Nix. bash isn't really supported by
