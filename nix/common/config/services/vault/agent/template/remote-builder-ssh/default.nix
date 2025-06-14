@@ -61,7 +61,7 @@ in
 
     vaultIssuePath = lib.mkOption {
       type = pkgs.lib.types.nonEmptyStr;
-      default = "ssh/issue/remote-builder-user";
+      default = "ssh-user/issue/remote-builder";
       description = ''
         The path to the Vault SSH secrets engine role for issuing
         signed SSH keys. The role should allow username
