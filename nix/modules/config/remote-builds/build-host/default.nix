@@ -24,6 +24,7 @@ let
           ;
         sshUser = sshUserName;
         sshKey = defaultPrivateKey;
+        protocol = "ssh-ng";
       }
     ) remoteBuildHosts;
   buildMachines = mkBuildMachines cfg.buildMachines;

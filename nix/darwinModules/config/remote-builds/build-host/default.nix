@@ -22,6 +22,7 @@ let
           ;
         sshUser = sshUserName;
         sshKey = defaultPrivateKey;
+        protocol = "ssh-ng";
       }
     ) remoteBuildHosts;
   sshConfig = pkgs.writeText "ssh_config" (
