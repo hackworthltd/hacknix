@@ -113,31 +113,30 @@ in
     programs.ssh.knownHosts =
       pkgs.lib.ssh.wellKnownHosts // (pkgs.lib.hacknix.remote-build-host.knownHosts cfg.buildMachines);
 
-    system.activationScripts.postActivation.text =
-      ''
-        mkdir -p ~root/.ssh
-        ${pkgs.coreutils}/bin/chmod 0700 ~root/.ssh
-        cp -f ${sshConfig} ~root/.ssh/config
-        ${pkgs.coreutils}/bin/chown -R root:wheel ~root/.ssh/config
-        ${pkgs.coreutils}/bin/chmod 0400 ~root/.ssh/config
-      ''
-      + lib.optionalString cfg.createSshKey ''
-        printf "Creating remote builder ssh key directory and setting permissions... "
-        install -m 0755 -o root -g wheel -d ${cfg.sshKeyDir}
-        echo "ok"
+    system.activationScripts.postActivation.text = ''
+      mkdir -p ~root/.ssh
+      ${pkgs.coreutils}/bin/chmod 0700 ~root/.ssh
+      cp -f ${sshConfig} ~root/.ssh/config
+      ${pkgs.coreutils}/bin/chown -R root:wheel ~root/.ssh/config
+      ${pkgs.coreutils}/bin/chmod 0400 ~root/.ssh/config
+    ''
+    + lib.optionalString cfg.createSshKey ''
+      printf "Creating remote builder ssh key directory and setting permissions... "
+      install -m 0755 -o root -g wheel -d ${cfg.sshKeyDir}
+      echo "ok"
 
-        if [ ! -e ${defaultPrivateKey} ]; then
-          printf "Creating default remote builder private key... "
-          ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -f ${defaultPrivateKey} -q -N ""
-          echo "ok"
-        fi
-
-        printf "Setting permissions on default remote builder keypair... "
-        ${pkgs.coreutils}/bin/chown root:wheel ${defaultPrivateKey}
-        ${pkgs.coreutils}/bin/chown root:wheel ${defaultPrivateKey}.pub
-        ${pkgs.coreutils}/bin/chmod 0400 ${defaultPrivateKey}
-        ${pkgs.coreutils}/bin/chmod 0444 ${defaultPrivateKey}.pub
+      if [ ! -e ${defaultPrivateKey} ]; then
+        printf "Creating default remote builder private key... "
+        ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -f ${defaultPrivateKey} -q -N ""
         echo "ok"
-      '';
+      fi
+
+      printf "Setting permissions on default remote builder keypair... "
+      ${pkgs.coreutils}/bin/chown root:wheel ${defaultPrivateKey}
+      ${pkgs.coreutils}/bin/chown root:wheel ${defaultPrivateKey}.pub
+      ${pkgs.coreutils}/bin/chmod 0400 ${defaultPrivateKey}
+      ${pkgs.coreutils}/bin/chmod 0444 ${defaultPrivateKey}.pub
+      echo "ok"
+    '';
   };
 }

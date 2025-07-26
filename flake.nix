@@ -99,46 +99,46 @@
                 "LICENSE"
                 ".buildkite/"
                 "flake.lock"
-              ] ++ nixfmt-ignores;
+              ]
+              ++ nixfmt-ignores;
             };
           };
 
-          packages =
+          packages = {
+            inherit (pkgs) vervet;
+
+            inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
+
+            # These aren't actually derivations, and therefore, we
+            # can't export them from packages. They are in the overlay, however.
+            # inherit (pkgs) gitignoreSource gitignoreFilter;
+            # inherit (pkgs) lib;
+          }
+          // (pkgs.lib.optionalAttrs (system == "x86_64-linux") (
+            let
+              lxc =
+                pkgs.lib.flakes.nixosGenerators.importFromDirectory pkgs.lib.hacknix.nixosGenerate ./examples/nixos
+                  {
+                    format = "lxc";
+                  };
+
+              qcow =
+                pkgs.lib.flakes.nixosGenerators.importFromDirectory pkgs.lib.hacknix.nixosGenerate ./examples/nixos
+                  {
+                    format = "qcow";
+                  };
+
+            in
             {
-              inherit (pkgs) vervet;
+              remote-build-host-lxc = lxc.remote-build-host;
+              build-host-lxc = lxc.build-host;
 
-              inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
+              # Disabled until we have `kvm` support in CI again.
 
-              # These aren't actually derivations, and therefore, we
-              # can't export them from packages. They are in the overlay, however.
-              # inherit (pkgs) gitignoreSource gitignoreFilter;
-              # inherit (pkgs) lib;
+              #remote-build-host-qcow = qcow.remote-build-host;
+              #build-host-qcow = qcow.build-host;
             }
-            // (pkgs.lib.optionalAttrs (system == "x86_64-linux") (
-              let
-                lxc =
-                  pkgs.lib.flakes.nixosGenerators.importFromDirectory pkgs.lib.hacknix.nixosGenerate ./examples/nixos
-                    {
-                      format = "lxc";
-                    };
-
-                qcow =
-                  pkgs.lib.flakes.nixosGenerators.importFromDirectory pkgs.lib.hacknix.nixosGenerate ./examples/nixos
-                    {
-                      format = "qcow";
-                    };
-
-              in
-              {
-                remote-build-host-lxc = lxc.remote-build-host;
-                build-host-lxc = lxc.build-host;
-
-                # Disabled until we have `kvm` support in CI again.
-
-                #remote-build-host-qcow = qcow.remote-build-host;
-                #build-host-qcow = qcow.build-host;
-              }
-            ));
+          ));
 
           treefmt.config = {
             projectRootFile = "flake.nix";

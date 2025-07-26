@@ -35,7 +35,8 @@ let
     let
       extraModules' = [
         (final.path + "/nixos/maintainers/scripts/ec2/amazon-image.nix")
-      ] ++ extraModules;
+      ]
+      ++ extraModules;
     in
     nixosSystem' extraModules' config;
 
@@ -47,7 +48,8 @@ let
     let
       extraModules' = [
         (final.path + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
-      ] ++ extraModules;
+      ]
+      ++ extraModules;
     in
     nixosSystem' extraModules' config;
 
