@@ -105,8 +105,6 @@
           };
 
           packages = {
-            inherit (pkgs) vervet;
-
             inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
 
             # These aren't actually derivations, and therefore, we
