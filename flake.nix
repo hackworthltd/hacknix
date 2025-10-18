@@ -86,7 +86,8 @@
                 };
 
                 actionlint = {
-                  enable = true;
+                  # https://github.com/hackworthltd/hacknix/issues/827
+                  enable = false;
                   name = "actionlint";
                   entry = "${pkgs.actionlint}/bin/actionlint";
                   language = "system";
@@ -170,7 +171,8 @@
             buildInputs = (
               with pkgs;
               [
-                actionlint
+                # https://github.com/hackworthltd/hacknix/issues/827
+                #actionlint
                 nodePackages.prettier
                 nixd
                 nodejs
