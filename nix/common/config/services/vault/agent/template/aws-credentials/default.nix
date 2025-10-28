@@ -15,8 +15,8 @@ let
     creds:
     pkgs.writeText "aws.credentials.ctmpl" ''
       [${creds.awsProfile}]
-      {{ with secret "${creds.vaultPath}" }}aws_access_key_id={{ .Data.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key={{ .Data.AWS_SECRET_ACCESS_KEY }}{{ end }}
+      {{ with secret "${creds.vaultPath}" }}aws_access_key_id={{ .Data.data.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key={{ .Data.data.AWS_SECRET_ACCESS_KEY }}{{ end }}
     '';
 
   # Note: while there is some chance of a race condition here between
