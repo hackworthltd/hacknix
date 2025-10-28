@@ -6,11 +6,8 @@
   ...
 }:
 let
-  cfg = config.services.vault-agent.template.aws-sts-credentials;
+  cfg = config.services.vault-agent.template.aws-credentials;
   enabled = cfg != { };
-
-  # A limitation of AWS STS tokens.
-  maxTTL = 60 * 60 * 12;
 
   credentialsFile = creds: "${creds.dir}/credentials";
 
@@ -18,9 +15,8 @@ let
     creds:
     pkgs.writeText "aws.credentials.ctmpl" ''
       [${creds.awsProfile}]
-      {{ with secret "${creds.vaultPath}" "ttl=${builtins.toString creds.tokenTTL}" }}aws_access_key_id={{ .Data.access_key }}
-      aws_secret_access_key={{ .Data.secret_key }}
-      aws_session_token={{ .Data.security_token }}{{ end }}
+      {{ with secret "${creds.vaultPath}" }}aws_access_key_id={{ .Data.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key={{ .Data.AWS_SECRET_ACCESS_KEY }}
     '';
 
   # Note: while there is some chance of a race condition here between
@@ -31,7 +27,7 @@ let
   # only occur upon first launch.
   fixCredsOwner =
     creds:
-    pkgs.writeShellScript "fix-aws-sts-credentials-owner" ''
+    pkgs.writeShellScript "fix-aws-credentials-owner" ''
       ${pkgs.coreutils}/bin/chown ${creds.owner}:${creds.group} ${credentialsFile creds}
     '';
 
@@ -53,15 +49,6 @@ let
     creds: "${pkgs.coreutils}/bin/install -d -m 0700 -o ${creds.owner} -g ${creds.group} ${creds.dir}"
   ) listOfCreds;
 
-  assertions = lib.flatten (
-    map (creds: [
-      {
-        assertion = (creds.tokenTTL <= 60 * 60 * 12);
-        message = "`services.vault-agent.template.aws-sts-credentials.${creds.name}.tokenTTL` is ${builtins.toString creds.tokenTTL}, but must be <= ${builtins.toString maxTTL}";
-      }
-    ]) listOfCreds
-  );
-
   credentials =
     { name, ... }:
     {
@@ -77,10 +64,14 @@ let
 
         vaultPath = lib.mkOption {
           type = pkgs.lib.types.nonEmptyStr;
-          example = "aws/sts/rolename";
+          example = "secret/aws/credentials";
           description = ''
-            The Vault AWS secrets engine path for the generated AWS
-            credentials.
+            The Vault path where the secret containing the credentials is stored.
+
+            Typically this will be a KV store path containing static credentials.
+            For genuine AWS credentials, it's safer to use Vault's support for
+            AWS STS credentials. In that case, prefer the
+            <literal>aws-sts-credentials</literal> Vault agent template over this one.
           '';
         };
 
@@ -127,24 +118,6 @@ let
           '';
         };
 
-        tokenTTL = lib.mkOption {
-          type = pkgs.lib.types.int;
-          default = maxTTL;
-          example = 60 * 60 * 2;
-          description = ''
-            The TTL of the generated AWS credentials, in seconds. Note
-            that due to the mechanism used to generate these credentials,
-            ${builtins.toString maxTTL} is the maximum TTL.
-
-            Vault Agent will take care of renewing the credentials as
-            they get close to expiry. Shorter values are better for
-            security, but on the other hand, they also generate a higher
-            load on the Vault server and increase the chance of failed
-            AWS operations during any potential Vault downtime. The
-            default value is probably best in most cases.
-          '';
-        };
-
         exitOnMissingKey = lib.mkOption {
           type = pkgs.lib.types.bool;
           default = true;
@@ -162,12 +135,12 @@ let
 
 in
 {
-  options.services.vault-agent.template.aws-sts-credentials = lib.mkOption {
+  options.services.vault-agent.template.aws-credentials = lib.mkOption {
     type = pkgs.lib.types.attrsOf (pkgs.lib.types.submodule credentials);
     default = { };
     example = {
       binary-cache = {
-        vaultPath = "aws/sts/nix-binary-cache";
+        vaultPath = "secret/aws/nix-binary-cache";
         dir = "/root/.aws";
         owner = "root";
         group = "root";
@@ -177,7 +150,6 @@ in
   };
 
   config = lib.mkIf enabled {
-    inherit assertions;
     services.vault-agent.config = vaultConfig;
     services.vault-agent.preCommands = mkdirsCmds;
   };
