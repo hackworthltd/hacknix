@@ -6,7 +6,7 @@
   ...
 }:
 let
-  cfg = config.services.vault-agent.template.aws-credentials;
+  cfg = config.services.vault-agent.template.aws-sts-credentials;
   enabled = cfg != { };
 
   # A limitation of AWS STS tokens.
@@ -31,7 +31,7 @@ let
   # only occur upon first launch.
   fixCredsOwner =
     creds:
-    pkgs.writeShellScript "fix-aws-credentials-owner" ''
+    pkgs.writeShellScript "fix-aws-sts-credentials-owner" ''
       ${pkgs.coreutils}/bin/chown ${creds.owner}:${creds.group} ${credentialsFile creds}
     '';
 
@@ -57,7 +57,7 @@ let
     map (creds: [
       {
         assertion = (creds.tokenTTL <= 60 * 60 * 12);
-        message = "`services.vault-agent.template.aws-credentials.${creds.name}.tokenTTL` is ${builtins.toString creds.tokenTTL}, but must be <= ${builtins.toString maxTTL}";
+        message = "`services.vault-agent.template.aws-sts-credentials.${creds.name}.tokenTTL` is ${builtins.toString creds.tokenTTL}, but must be <= ${builtins.toString maxTTL}";
       }
     ]) listOfCreds
   );
@@ -162,7 +162,7 @@ let
 
 in
 {
-  options.services.vault-agent.template.aws-credentials = lib.mkOption {
+  options.services.vault-agent.template.aws-sts-credentials = lib.mkOption {
     type = pkgs.lib.types.attrsOf (pkgs.lib.types.submodule credentials);
     default = { };
     example = {

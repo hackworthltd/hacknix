@@ -291,7 +291,7 @@
 
                 ./nix/common/config/services/vault/agent/auth/approle
                 ./nix/common/config/services/vault/agent/template
-                ./nix/common/config/services/vault/agent/template/aws-credentials
+                ./nix/common/config/services/vault/agent/template/aws-sts-credentials
                 ./nix/common/config/services/vault/agent/template/cachix
                 ./nix/common/config/services/vault/agent/template/github-credentials
                 ./nix/common/config/services/vault/agent/template/netrc
@@ -316,7 +316,7 @@
 
                 ./nix/common/config/services/vault/agent/auth/approle
                 ./nix/common/config/services/vault/agent/template
-                ./nix/common/config/services/vault/agent/template/aws-credentials
+                ./nix/common/config/services/vault/agent/template/aws-sts-credentials
                 ./nix/common/config/services/vault/agent/template/cachix
                 ./nix/common/config/services/vault/agent/template/github-credentials
                 ./nix/common/config/services/vault/agent/template/netrc

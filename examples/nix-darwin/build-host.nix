@@ -88,7 +88,7 @@
           group = "admin";
         };
       };
-      services.vault-agent.template.aws-credentials.binary-cache = {
+      services.vault-agent.template.aws-sts-credentials.binary-cache = {
         vaultPath = "aws/sts/nix-binary-cache";
         dir = "/root/.aws";
         owner = "root";
