@@ -100,6 +100,12 @@ args
           owner = "root";
           group = "root";
         };
+        services.vault-agent.template.aws-credentials.binary-cache = {
+          vaultPath = "aws/nix-binary-cache";
+          dir = "/home/dhess/.aws";
+          owner = "root";
+          group = "root";
+        };
         services.vault-agent.template.cachix.hackworthltd = {
           vaultPath = "secret/cachix/hackworthltd/write";
           dir = "/home/dhess/.config/cachix";
