@@ -106,8 +106,6 @@
           };
 
           packages = {
-            inherit (pkgs) cachix-archive-flake-inputs cachix-push-attr cachix-push-flake-dev-shell;
-
             # These aren't actually derivations, and therefore, we
             # can't export them from packages. They are in the overlay, however.
             # inherit (pkgs) gitignoreSource gitignoreFilter;
@@ -147,21 +145,6 @@
             };
             settings.formatter.nixfmt.excludes = nixfmt-ignores;
           };
-
-          apps =
-            let
-              mkApp = pkg: script: {
-                type = "app";
-                program = "${pkg}/bin/${script}";
-              };
-            in
-            (pkgs.lib.mapAttrs (name: pkg: mkApp pkg name) {
-              inherit (pkgs)
-                cachix-archive-flake-inputs
-                cachix-push-attr
-                cachix-push-flake-dev-shell
-                ;
-            });
 
           devShells.default = pkgs.mkShell {
             inputsFrom = [
