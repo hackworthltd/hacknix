@@ -7,6 +7,9 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    niks3.url = "github:Mic92/niks3";
+    niks3.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
 
@@ -110,6 +113,8 @@
             # can't export them from packages. They are in the overlay, however.
             # inherit (pkgs) gitignoreSource gitignoreFilter;
             # inherit (pkgs) lib;
+
+            inherit (pkgs) niks3;
           }
           // (pkgs.lib.optionalAttrs (system == "x86_64-linux") (
             let
