@@ -39,8 +39,14 @@ in
     #
     # Ref:
     # https://github.com/NixOS/nix/issues/4119#issuecomment-2561973914
+    #
+    # We also allow `/var/run/resolv.conf` as `/etc/resolv.conf` may
+    # be a symlink to that location.
     nix.settings.sandbox = true;
-    nix.settings.extra-sandbox-paths = [ "/nix/store" ];
+    nix.settings.extra-sandbox-paths = [
+      "/nix/store"
+      "/var/run/resolv.conf"
+    ];
 
     nix.enable = true;
     nix.nrBuildUsers = 32;
