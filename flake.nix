@@ -7,7 +7,7 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    niks3.url = "https://github.com/Mic92/niks3/archive/refs/tags/v1.0.0.zip";
+    niks3.url = "https://github.com/Mic92/niks3/archive/refs/tags/v1.4.0.zip";
     niks3.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-compat.url = "github:edolstra/flake-compat";
