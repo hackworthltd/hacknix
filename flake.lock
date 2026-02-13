@@ -58,11 +58,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1763759067,
-        "narHash": "sha256-LlLt2Jo/gMNYAwOgdRQBrsRoOz7BPRkzvNaI/fzXi2Q=",
+        "lastModified": 1769996383,
+        "narHash": "sha256-AnYjnFWgS49RlqX7LrC4uA+sCCDBj0Ry/WOJ5XWAsa0=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "2cccadc7357c0ba201788ae99c4dfa90728ef5e0",
+        "rev": "57928607ea566b5db3ad13af0e57e921e6b12381",
         "type": "github"
       },
       "original": {
@@ -118,14 +118,14 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1765483403,
-        "narHash": "sha256-+ggVISq62FU1DerdbojEQK6I7L2FRiADCkEZgPd3v0U=",
+        "lastModified": 1771012035,
+        "narHash": "sha256-zskaX55kGzbFFO0UGwTsOpALEzPTSIycgbrQRurlVz8=",
         "type": "tarball",
-        "url": "https://github.com/Mic92/niks3/archive/refs/tags/v1.0.0.zip"
+        "url": "https://github.com/Mic92/niks3/archive/refs/tags/v1.4.0.zip"
       },
       "original": {
         "type": "tarball",
-        "url": "https://github.com/Mic92/niks3/archive/refs/tags/v1.0.0.zip"
+        "url": "https://github.com/Mic92/niks3/archive/refs/tags/v1.4.0.zip"
       }
     },
     "nix-darwin": {
@@ -239,11 +239,11 @@
     },
     "process-compose": {
       "locked": {
-        "lastModified": 1764915241,
-        "narHash": "sha256-vTqn6IAkZhuuctvkxjhzI1EEybyzwaNd7HJvhF662O8=",
+        "lastModified": 1767863885,
+        "narHash": "sha256-XXekPAxzbv1DmHFo3Elmj/vDnvWc1V0jdDUvM0/Wf7k=",
         "owner": "Platonic-Systems",
         "repo": "process-compose-flake",
-        "rev": "36678818ecbd0e06a60740a291c55b683fec79dd",
+        "rev": "99bea96cf269cfd235833ebdf645b567069fd398",
         "type": "github"
       },
       "original": {
@@ -273,11 +273,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762938485,
-        "narHash": "sha256-AlEObg0syDl+Spi4LsZIBrjw+snSVU4T8MOeuZJUJjM=",
+        "lastModified": 1770228511,
+        "narHash": "sha256-wQ6NJSuFqAEmIg2VMnLdCnUc0b7vslUohqqGGD+Fyxk=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "5b4ee75aeefd1e2d5a1cc43cf6ba65eba75e83e4",
+        "rev": "337a4fe074be1042a35086f15481d763b8ddc0e7",
         "type": "github"
       },
       "original": {
