@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/agent-stack-k8s/main/cmd/linter/schema.json
+
+agents:
+  queue: kubernetes
+
+steps:
+  - command: nix flake archive .#
+    label: ":nixos: Archive Nix flake inputs"
+    plugins:
+      - kubernetes:
+          podTemplate: nix-ci-template
+
+  - command: nix-buildkite
+    label: ":nixos: :buildkite:"
+    plugins:
+      - hackworthltd/nix#v2.4.0:
+          expr: ".#hydraJobs"
+          use-nix-build: "true"
+          attr-prefix: ".#hydraJobs."
+          nix-eval-jobs-args: --workers 4 --max-memory-size 4GiB --flake --force-recurse
+          kubernetes-pod-template: nix-ci-template
+          agent-tags: queue=kubernetes
+      - kubernetes:
+          podTemplate: nix-ci-template
