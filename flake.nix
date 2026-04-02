@@ -161,7 +161,7 @@
               [
                 # https://github.com/hackworthltd/hacknix/issues/827
                 #actionlint
-                nodePackages.prettier
+                prettier
                 nixd
                 nodejs
                 vscode-langservers-extracted
