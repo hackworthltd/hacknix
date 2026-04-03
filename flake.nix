@@ -269,8 +269,6 @@
                 ./nix/modules/config/remote-builds/remote-build-host
                 ./nix/modules/config/remote-builds/build-host
 
-                ./nix/modules/core/module-hashes.nix
-
                 ./nix/modules/networking/accept
                 ./nix/modules/networking/virtual-ips
 
@@ -286,6 +284,7 @@
                 ./nix/common/config/services/vault/agent/template/netrc
                 ./nix/common/config/services/vault/agent/template/remote-builder-ssh
                 ./nix/common/config/services/vault/agent/template/ssh-ca-host-key
+                ./nix/common/core/module-hashes.nix
               ];
               nixpkgs.overlays = [ inputs.self.overlays.default ];
             };
@@ -312,6 +311,7 @@
                 ./nix/common/config/services/vault/agent/template/netrc
                 ./nix/common/config/services/vault/agent/template/remote-builder-ssh
                 ./nix/common/config/services/vault/agent/template/ssh-ca-host-key
+                ./nix/common/core/module-hashes.nix
               ];
               nixpkgs.overlays = [ inputs.self.overlays.default ];
             };
