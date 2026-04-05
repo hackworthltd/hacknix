@@ -339,6 +339,10 @@
                 inherit (aarch64-darwin-pkgs) lib;
               };
 
+          # This is convenient for using this flake's utilities
+          # downstream.
+          inherit (pkgs) lib;
+
           x86_64-linux-ci =
             let
               packages = inputs.self.packages.x86_64-linux;
