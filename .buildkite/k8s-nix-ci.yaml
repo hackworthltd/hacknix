@@ -18,7 +18,7 @@ steps:
           use-nix-build: "true"
           nix-build-opts: --print-build-logs --no-update-lock-file --max-jobs 0 --eval-store auto --store ssh-ng://remote-builder@remote-builders.nix-daemon.svc.cluster.local?ssh-key=/etc/secrets/ssh/remote-builder-ssh-key
           attr-prefix: ".#x86_64-linux-ci."
-          nix-eval-jobs-args: --workers 4 --max-memory-size 4GiB --flake
+          nix-eval-jobs-args: --no-instantiate --workers 4 --max-memory-size 4GiB --flake
           kubernetes-pod-template: nix-ci-template
           agent-tags: queue=kubernetes
       - kubernetes:
