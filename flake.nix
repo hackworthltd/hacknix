@@ -175,14 +175,18 @@
       flake =
         let
           # See above, we need to use our own `pkgs` within the flake.
-          pkgs = import inputs.nixpkgs {
-            system = "x86_64-linux";
-            config = {
-              allowUnfree = true;
-              allowBroken = true;
+          pkgsFor =
+            system:
+            import inputs.nixpkgs {
+              inherit system;
+              config = {
+                allowUnfree = true;
+                allowBroken = true;
+              };
+              overlays = [ inputs.self.overlays.default ];
             };
-            overlays = [ inputs.self.overlays.default ];
-          };
+          pkgs = pkgsFor "x86_64-linux";
+          aarch64-darwin-pkgs = pkgsFor "aarch64-darwin";
         in
         {
           overlays = {
@@ -328,27 +332,64 @@
             };
 
           darwinConfigurations =
-            pkgs.lib.flakes.darwinConfigurations.importFromDirectory pkgs.lib.hacknix.darwinSystem
+            aarch64-darwin-pkgs.lib.flakes.darwinConfigurations.importFromDirectory
+              aarch64-darwin-pkgs.lib.hacknix.darwinSystem
               ./examples/nix-darwin
               {
-                inherit (pkgs) lib;
+                inherit (aarch64-darwin-pkgs) lib;
               };
 
-          # This is convenient for using this flake's utilities
-          # downstream.
-          inherit (pkgs) lib;
+          x86_64-linux-ci =
+            let
+              packages = inputs.self.packages.x86_64-linux;
+              checks = inputs.self.checks.x86_64-linux;
+              devShells = inputs.self.devShells.x86_64-linux;
+              nixosConfigurations = pkgs.lib.flakes.nixosConfigurations.build inputs.self.nixosConfigurations;
+            in
+            pkgs.lib.flakes.recurseIntoHydraJobs {
+              inherit
+                packages
+                checks
+                devShells
+                nixosConfigurations
+                ;
+              required = pkgs.releaseTools.aggregate {
+                name = "required";
+                constituents = builtins.map builtins.attrValues ([
+                  packages
+                  checks
+                  devShells
+                  nixosConfigurations
+                ]);
+                meta.description = "Required x86_64-linux CI builds";
+              };
+            };
 
-          x86_64-linux-ci = pkgs.lib.flakes.recurseIntoHydraJobs {
-            packages = inputs.self.packages.x86_64-linux;
-            checks = inputs.self.checks.x86_64-linux;
-            devShells = inputs.self.devShells.x86_64-linux;
-          };
-
-          aarch64-darwin-ci = pkgs.lib.flakes.recurseIntoHydraJobs {
-            packages = inputs.self.packages.aarch64-darwin;
-            checks = inputs.self.checks.aarch64-darwin;
-            devShells = inputs.self.devShells.aarch64-darwin;
-          };
+          aarch64-darwin-ci =
+            let
+              packages = inputs.self.packages.aarch64-darwin;
+              checks = inputs.self.checks.aarch64-darwin;
+              devShells = inputs.self.devShells.aarch64-darwin;
+              darwinConfigurations = aarch64-darwin-pkgs.lib.flakes.darwinConfigurations.build inputs.self.darwinConfigurations;
+            in
+            aarch64-darwin-pkgs.lib.flakes.recurseIntoHydraJobs {
+              inherit
+                packages
+                checks
+                devShells
+                darwinConfigurations
+                ;
+              required = aarch64-darwin-pkgs.releaseTools.aggregate {
+                name = "required";
+                constituents = builtins.map builtins.attrValues ([
+                  packages
+                  checks
+                  devShells
+                  darwinConfigurations
+                ]);
+                meta.description = "Required aarch64-darwin CI builds";
+              };
+            };
         };
     };
 }
