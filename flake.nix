@@ -341,78 +341,17 @@
           # downstream.
           inherit (pkgs) lib;
 
-          hydraJobs = {
-            inherit (inputs.self) checks;
-            inherit (inputs.self) packages;
-            inherit (inputs.self) devShells;
-
-            nixosConfigurations = pkgs.lib.flakes.nixosConfigurations.build inputs.self.nixosConfigurations;
-
-            darwinConfigurations = pkgs.lib.flakes.darwinConfigurations.build inputs.self.darwinConfigurations;
-
-            # Bespoke tests which don't fit into `checks`, because
-            # they depend on the nixpkgs release-lib framework.
-            #
-            # Note: disabled for now, as we're moving to a
-            # containerized CI environment that can't run VMs.
-
-            # tests = {
-            #   tests =
-            #     (pkgs.lib.testing.nixos.importFromDirectory ./tests/fixtures
-            #       {
-            #         hostPkgs = pkgs;
-            #         defaults.imports = [ inputs.self.nixosModules.default ];
-            #       }
-            #     )
-            #     // (with import (inputs.nixpkgs + "/pkgs/top-level/release-lib.nix")
-            #       {
-            #         supportedSystems = [ "x86_64-linux" ];
-            #         scrubJobs = true;
-            #         nixpkgsArgs = {
-            #           config = {
-            #             allowUnfree = false;
-            #             allowBroken = true;
-            #             inHydra = true;
-            #           };
-            #           overlays = [
-            #             inputs.self.overlays.default
-            #             (import ./lib-tests)
-            #           ];
-            #         };
-            #       };
-            #     mapTestOn {
-            #       dlnAttrSets = all;
-            #       dlnIPAddr = all;
-            #       dlnMisc = all;
-            #       dlnTypes = all;
-            #     });
-            # };
-
-            required = pkgs.releaseTools.aggregate {
-              name = "required-nix-ci";
-              constituents = builtins.map builtins.attrValues (
-                with inputs.self.hydraJobs;
-                [
-                  packages.x86_64-linux
-                  packages.aarch64-darwin
-                  checks.x86_64-linux
-                  checks.aarch64-darwin
-                  devShells.x86_64-linux
-                  devShells.aarch64-darwin
-
-                  nixosConfigurations
-                  darwinConfigurations
-
-                  # These don't evaluate correctly for some reason.
-
-                  #tests
-                ]
-              );
-              meta.description = "Required Nix CI builds";
-            };
+          x86_64-linux-ci = pkgs.lib.flakes.recurseIntoHydraJobs {
+            packages = inputs.self.packages.x86_64-linux;
+            checks = inputs.self.checks.x86_64-linux;
+            devShells = inputs.self.devShells.x86_64-linux;
           };
 
-          ciJobs = pkgs.lib.flakes.recurseIntoHydraJobs inputs.self.hydraJobs;
+          aarch64-darwin-ci = pkgs.lib.flakes.recurseIntoHydraJobs {
+            packages = inputs.self.packages.aarch64-darwin;
+            checks = inputs.self.checks.aarch64-darwin;
+            devShells = inputs.self.devShells.aarch64-darwin;
+          };
         };
     };
 }
