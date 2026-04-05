@@ -354,7 +354,7 @@
                 nixosConfigurations
                 ;
               required = pkgs.releaseTools.aggregate {
-                name = "required-x86_64-linux";
+                name = "required";
                 constituents = builtins.map builtins.attrValues ([
                   packages
                   checks
@@ -380,7 +380,7 @@
                 darwinConfigurations
                 ;
               required = aarch64-darwin-pkgs.releaseTools.aggregate {
-                name = "required-aarch64-darwin";
+                name = "required";
                 constituents = builtins.map builtins.attrValues ([
                   packages
                   checks
