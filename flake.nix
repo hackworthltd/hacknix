@@ -183,6 +183,14 @@
             };
             overlays = [ inputs.self.overlays.default ];
           };
+          aarch64-darwin-pkgs = import inputs.nixpkgs {
+            system = "aarch64-darwin";
+            config = {
+              allowUnfree = true;
+              allowBroken = true;
+            };
+            overlays = [ inputs.self.overlays.default ];
+          };
         in
         {
           overlays = {
@@ -338,17 +346,57 @@
           # downstream.
           inherit (pkgs) lib;
 
-          x86_64-linux-ci = pkgs.lib.flakes.recurseIntoHydraJobs {
-            packages = inputs.self.packages.x86_64-linux;
-            checks = inputs.self.checks.x86_64-linux;
-            devShells = inputs.self.devShells.x86_64-linux;
-          };
+          x86_64-linux-ci =
+            let
+              packages = inputs.self.packages.x86_64-linux;
+              checks = inputs.self.checks.x86_64-linux;
+              devShells = inputs.self.devShells.x86_64-linux;
+              nixosConfigurations = pkgs.lib.flakes.nixosConfigurations.build inputs.self.nixosConfigurations;
+            in
+            pkgs.lib.flakes.recurseIntoHydraJobs {
+              inherit
+                packages
+                checks
+                devShells
+                nixosConfigurations
+                ;
+              required = pkgs.releaseTools.aggregate {
+                name = "required-x86_64-linux";
+                constituents = builtins.map builtins.attrValues ([
+                  packages
+                  checks
+                  devShells
+                  nixosConfigurations
+                ]);
+                meta.description = "Required x86_64-linux CI builds";
+              };
+            };
 
-          aarch64-darwin-ci = pkgs.lib.flakes.recurseIntoHydraJobs {
-            packages = inputs.self.packages.aarch64-darwin;
-            checks = inputs.self.checks.aarch64-darwin;
-            devShells = inputs.self.devShells.aarch64-darwin;
-          };
+          aarch64-darwin-ci =
+            let
+              packages = inputs.self.packages.aarch64-darwin;
+              checks = inputs.self.checks.aarch64-darwin;
+              devShells = inputs.self.devShells.aarch64-darwin;
+              darwinConfigurations = pkgs.lib.flakes.darwinConfigurations.build inputs.self.darwinConfigurations;
+            in
+            pkgs.lib.flakes.recurseIntoHydraJobs {
+              inherit
+                packages
+                checks
+                devShells
+                darwinConfigurations
+                ;
+              required = aarch64-darwin-pkgs.releaseTools.aggregate {
+                name = "required-aarch64-darwin";
+                constituents = builtins.map builtins.attrValues ([
+                  packages
+                  checks
+                  devShells
+                  darwinConfigurations
+                ]);
+                meta.description = "Required aarch64-darwin CI builds";
+              };
+            };
         };
     };
 }
