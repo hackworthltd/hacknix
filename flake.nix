@@ -175,22 +175,18 @@
       flake =
         let
           # See above, we need to use our own `pkgs` within the flake.
-          pkgs = import inputs.nixpkgs {
-            system = "x86_64-linux";
-            config = {
-              allowUnfree = true;
-              allowBroken = true;
+          pkgsFor =
+            system:
+            import inputs.nixpkgs {
+              inherit system;
+              config = {
+                allowUnfree = true;
+                allowBroken = true;
+              };
+              overlays = [ inputs.self.overlays.default ];
             };
-            overlays = [ inputs.self.overlays.default ];
-          };
-          aarch64-darwin-pkgs = import inputs.nixpkgs {
-            system = "aarch64-darwin";
-            config = {
-              allowUnfree = true;
-              allowBroken = true;
-            };
-            overlays = [ inputs.self.overlays.default ];
-          };
+          pkgs = pkgsFor "x86_64-linux";
+          aarch64-darwin-pkgs = pkgsFor "aarch64-darwin";
         in
         {
           overlays = {
@@ -336,15 +332,12 @@
             };
 
           darwinConfigurations =
-            pkgs.lib.flakes.darwinConfigurations.importFromDirectory pkgs.lib.hacknix.darwinSystem
+            aarch64-darwin-pkgs.lib.flakes.darwinConfigurations.importFromDirectory
+              aarch64-darwin-pkgs.lib.hacknix.darwinSystem
               ./examples/nix-darwin
               {
-                inherit (pkgs) lib;
+                inherit (aarch64-darwin-pkgs) lib;
               };
-
-          # This is convenient for using this flake's utilities
-          # downstream.
-          inherit (pkgs) lib;
 
           x86_64-linux-ci =
             let
@@ -377,9 +370,9 @@
               packages = inputs.self.packages.aarch64-darwin;
               checks = inputs.self.checks.aarch64-darwin;
               devShells = inputs.self.devShells.aarch64-darwin;
-              darwinConfigurations = pkgs.lib.flakes.darwinConfigurations.build inputs.self.darwinConfigurations;
+              darwinConfigurations = aarch64-darwin-pkgs.lib.flakes.darwinConfigurations.build inputs.self.darwinConfigurations;
             in
-            pkgs.lib.flakes.recurseIntoHydraJobs {
+            aarch64-darwin-pkgs.lib.flakes.recurseIntoHydraJobs {
               inherit
                 packages
                 checks
