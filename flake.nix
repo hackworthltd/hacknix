@@ -83,8 +83,7 @@
                 };
 
                 actionlint = {
-                  # https://github.com/hackworthltd/hacknix/issues/827
-                  enable = false;
+                  enable = true;
                   name = "actionlint";
                   entry = "${pkgs.actionlint}/bin/actionlint";
                   language = "system";
