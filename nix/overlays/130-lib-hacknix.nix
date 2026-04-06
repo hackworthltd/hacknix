@@ -15,9 +15,6 @@ let
     extraModules:
     final.lib.flakes.darwinSystem' ([ final.lib.hacknix.flake.darwinModules.default ] ++ extraModules);
   darwinSystem = darwinSystem' [ ];
-  nixosGenerate' =
-    extraModules: final.lib.flakes.nixosGenerate' (hacknixExtraModules ++ extraModules);
-  nixosGenerate = nixosGenerate' [ ];
 
   # Given a set of remote build hosts of the hacknix remoteBuildHost
   # type, create SSH config for the remote build host hostname and
@@ -82,7 +79,6 @@ in
         isoImage
         ;
       inherit darwinSystem' darwinSystem;
-      inherit nixosGenerate' nixosGenerate;
 
       remote-build-host = (prev.lib.hacknix.remote-build-host or { }) // {
         inherit sshExtraConfig;

@@ -53,17 +53,6 @@ let
     in
     nixosSystem' extraModules' config;
 
-  # Like nixosSystem', but for using nixosGenerate from
-  # nix-community:nixos-generators.
-  nixosGenerate' =
-    extraModules: args:
-    final.lib.flakes.nixosGenerate (
-      args
-      // {
-        modules = (args.modules or [ ]) ++ extraModules;
-      }
-    );
-
   # Import a directory full of
   # nixosConfigurations/darwinConfigurations and apply a function that
   # has the same shape as nixosSystem.
@@ -162,7 +151,6 @@ in
 
       inherit nixosSystem';
       inherit amazonImage isoImage;
-      inherit nixosGenerate';
 
       nixosConfigurations = (prev.lib.flakes.nixosConfigruations or { }) // {
         inherit importFromDirectory;
@@ -177,11 +165,6 @@ in
       inherit darwinSystem';
 
       darwinConfigurations = (prev.lib.flakes.darwinConfigurations or { }) // {
-        inherit importFromDirectory;
-        inherit build' build;
-      };
-
-      nixosGenerators = (prev.lib.flakes.nixosGenerators or { }) // {
         inherit importFromDirectory;
         inherit build' build;
       };

@@ -2,27 +2,24 @@
   description = "Hackworth Ltd Nix.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz";
 
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.url = "https://github.com/nix-darwin/nix-darwin/archive/master.tar.gz";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-compat.url = "github:edolstra/flake-compat";
+    flake-compat.url = "https://github.com/NixOS/flake-compat/archive/master.tar.gz";
     flake-compat.flake = false;
 
-    gitignore-nix.url = "github:hercules-ci/gitignore.nix";
+    gitignore-nix.url = "https://github.com/hercules-ci/gitignore.nix/archive/master.tar.gz";
     gitignore-nix.flake = false;
 
-    nixos-generators.url = "github:nix-community/nixos-generators";
-    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
-
-    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.url = "https://github.com/numtide/treefmt-nix/archive/main.tar.gz";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
+    pre-commit-hooks-nix.url = "https://github.com/cachix/git-hooks.nix/archive/master.tar.gz";
     pre-commit-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.url = "https://github.com/hercules-ci/flake-parts/archive/main.tar.gz";
   };
 
   outputs =
@@ -106,38 +103,8 @@
           };
 
           packages = {
-            # These aren't actually derivations, and therefore, we
-            # can't export them from packages. They are in the overlay, however.
-            # inherit (pkgs) gitignoreSource gitignoreFilter;
-            # inherit (pkgs) lib;
-
             inherit (pkgs) niks3;
-          }
-          // (pkgs.lib.optionalAttrs (system == "x86_64-linux") (
-            let
-              lxc =
-                pkgs.lib.flakes.nixosGenerators.importFromDirectory pkgs.lib.hacknix.nixosGenerate ./examples/nixos
-                  {
-                    format = "lxc";
-                  };
-
-              qcow =
-                pkgs.lib.flakes.nixosGenerators.importFromDirectory pkgs.lib.hacknix.nixosGenerate ./examples/nixos
-                  {
-                    format = "qcow";
-                  };
-
-            in
-            {
-              remote-build-host-lxc = lxc.remote-build-host;
-              build-host-lxc = lxc.build-host;
-
-              # Disabled until we have `kvm` support in CI again.
-
-              #remote-build-host-qcow = qcow.remote-build-host;
-              #build-host-qcow = qcow.build-host;
-            }
-          ));
+          };
 
           treefmt.config = {
             projectRootFile = "flake.nix";
@@ -206,8 +173,6 @@
 
                       # Ditto for nix-darwin's lib.darwinSystem function.
                       inherit (inputs.nix-darwin.lib) darwinSystem;
-
-                      inherit (inputs.nixos-generators) nixosGenerate;
                     };
 
                     hacknix = (prev.lib.hacknix or { }) // {
