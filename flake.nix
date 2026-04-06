@@ -102,7 +102,7 @@
           };
 
           packages = {
-            inherit (pkgs) niks3;
+            inherit (pkgs) hello;
           };
 
           treefmt.config = {
