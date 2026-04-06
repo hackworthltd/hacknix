@@ -1,7 +1,8 @@
 final: prev:
 let
-  # No extra NixOS modules for now.
-  hacknixExtraModules = [ ];
+  hacknixExtraModules = [
+    final.lib.hacknix.flake.nixosModules.default
+  ];
 
   # Like their lib.flakes equivalents, except these automatically
   # append the hacknix modules (or darwinModules) to the

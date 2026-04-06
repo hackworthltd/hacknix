@@ -178,6 +178,7 @@
                       flake = (prev.lib.hacknix.flake or { }) // {
                         inherit inputs;
                         inherit (inputs.self) darwinModules;
+                        inherit (inputs.self) nixosModules;
                       };
                     };
                   };
@@ -186,9 +187,20 @@
               ];
           };
 
+          nixosModules = {
+            default = {
+              imports = [
+                ./nix/common/core/module-hashes.nix
+              ];
+              nixpkgs.overlays = [ inputs.self.overlays.default ];
+            };
+          };
+
           darwinModules = {
             default = {
               imports = [
+                ./nix/common/core/module-hashes.nix
+
                 ./nix/darwinModules/config/defaults/default.nix
                 ./nix/darwinModules/config/defaults/nix.nix
                 ./nix/darwinModules/config/remote-builds/build-host
