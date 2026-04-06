@@ -5,15 +5,12 @@
       "locked": {
         "lastModified": 1767039857,
         "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/NixOS/flake-compat/archive/master.tar.gz"
       },
       "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/NixOS/flake-compat/archive/master.tar.gz"
       }
     },
     "flake-compat_2": {
@@ -39,15 +36,12 @@
       "locked": {
         "lastModified": 1775087534,
         "narHash": "sha256-91qqW8lhL7TLwgQWijoGBbiD4t7/q75KTi8NxjVmSmA=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "3107b77cd68437b9a76194f0f7f9c55f2329ca5b",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/hercules-ci/flake-parts/archive/main.tar.gz"
       },
       "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/hercules-ci/flake-parts/archive/main.tar.gz"
       }
     },
     "gitignore": {
@@ -76,15 +70,12 @@
       "locked": {
         "lastModified": 1762808025,
         "narHash": "sha256-XmjITeZNMTQXGhhww6ed/Wacy2KzD6svioyCX7pkUu4=",
-        "owner": "hercules-ci",
-        "repo": "gitignore.nix",
-        "rev": "cb5e3fdca1de58ccbc3ef53de65bd372b48f567c",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/hercules-ci/gitignore.nix/archive/master.tar.gz"
       },
       "original": {
-        "owner": "hercules-ci",
-        "repo": "gitignore.nix",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/hercules-ci/gitignore.nix/archive/master.tar.gz"
       }
     },
     "nix-darwin": {
@@ -96,67 +87,24 @@
       "locked": {
         "lastModified": 1775037210,
         "narHash": "sha256-KM2WYj6EA7M/FVZVCl3rqWY+TFV5QzSyyGE2gQxeODU=",
-        "owner": "LnL7",
-        "repo": "nix-darwin",
-        "rev": "06648f4902343228ce2de79f291dd5a58ee12146",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/nix-darwin/nix-darwin/archive/master.tar.gz"
       },
       "original": {
-        "owner": "LnL7",
-        "repo": "nix-darwin",
-        "type": "github"
-      }
-    },
-    "nixlib": {
-      "locked": {
-        "lastModified": 1736643958,
-        "narHash": "sha256-tmpqTSWVRJVhpvfSN9KXBvKEXplrwKnSZNAoNPf/S/s=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "1418bc28a52126761c02dd3d89b2d8ca0f521181",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
-    "nixos-generators": {
-      "inputs": {
-        "nixlib": "nixlib",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1769813415,
-        "narHash": "sha256-nnVmNNKBi1YiBNPhKclNYDORoHkuKipoz7EtVnXO50A=",
-        "owner": "nix-community",
-        "repo": "nixos-generators",
-        "rev": "8946737ff703382fda7623b9fab071d037e897d5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixos-generators",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/nix-darwin/nix-darwin/archive/master.tar.gz"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1775126147,
-        "narHash": "sha256-J0dZU4atgcfo4QvM9D92uQ0Oe1eLTxBVXjJzdEMQpD0=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "8d8c1fa5b412c223ffa47410867813290cdedfef",
-        "type": "github"
+        "lastModified": 1775403759,
+        "narHash": "sha256-cGyKiTspHEUx3QwAnV3RfyT+VOXhHLs+NEr17HU34Wo=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz"
       }
     },
     "nixpkgs-lib": {
@@ -185,15 +133,12 @@
       "locked": {
         "lastModified": 1775036584,
         "narHash": "sha256-zW0lyy7ZNNT/x8JhzFHBsP2IPx7ATZIPai4FJj12BgU=",
-        "owner": "cachix",
-        "repo": "pre-commit-hooks.nix",
-        "rev": "4e0eb042b67d863b1b34b3f64d52ceb9cd926735",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/cachix/git-hooks.nix/archive/master.tar.gz"
       },
       "original": {
-        "owner": "cachix",
-        "repo": "pre-commit-hooks.nix",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/cachix/git-hooks.nix/archive/master.tar.gz"
       }
     },
     "root": {
@@ -202,7 +147,6 @@
         "flake-parts": "flake-parts",
         "gitignore-nix": "gitignore-nix",
         "nix-darwin": "nix-darwin",
-        "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks-nix": "pre-commit-hooks-nix",
         "treefmt-nix": "treefmt-nix"
@@ -217,15 +161,12 @@
       "locked": {
         "lastModified": 1775125835,
         "narHash": "sha256-2qYcPgzFhnQWchHo0SlqLHrXpux5i6ay6UHA+v2iH4U=",
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "rev": "75925962939880974e3ab417879daffcba36c4a3",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/numtide/treefmt-nix/archive/main.tar.gz"
       },
       "original": {
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/numtide/treefmt-nix/archive/main.tar.gz"
       }
     }
   },
