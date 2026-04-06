@@ -195,20 +195,7 @@
                 ./nix/darwinModules/config/remote-builds/build-host
                 ./nix/darwinModules/config/remote-builds/remote-build-host
 
-                ./nix/darwinModules/config/services/vault-agent
-
                 ./nix/darwinModules/programs/git
-
-                ./nix/common/config/services/vault/agent/auth/approle
-                ./nix/common/config/services/vault/agent/template
-                ./nix/common/config/services/vault/agent/template/aws-credentials
-                ./nix/common/config/services/vault/agent/template/aws-sts-credentials
-                ./nix/common/config/services/vault/agent/template/cachix
-                ./nix/common/config/services/vault/agent/template/github-credentials
-                ./nix/common/config/services/vault/agent/template/netrc
-                ./nix/common/config/services/vault/agent/template/remote-builder-ssh
-                ./nix/common/config/services/vault/agent/template/ssh-ca-host-key
-                ./nix/common/core/module-hashes.nix
               ];
               nixpkgs.overlays = [ inputs.self.overlays.default ];
             };
