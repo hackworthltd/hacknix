@@ -193,8 +193,6 @@
                 ./nix/darwinModules/config/defaults/nix.nix
                 ./nix/darwinModules/config/remote-builds/build-host
                 ./nix/darwinModules/config/remote-builds/remote-build-host
-
-                ./nix/darwinModules/programs/git
               ];
               nixpkgs.overlays = [ inputs.self.overlays.default ];
             };
