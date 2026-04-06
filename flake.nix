@@ -179,81 +179,12 @@
                       flake = (prev.lib.hacknix.flake or { }) // {
                         inherit inputs;
                         inherit (inputs.self) darwinModules;
-                        inherit (inputs.self) nixosModules;
                       };
                     };
                   };
                 })
                 overlaysFromDir
               ];
-          };
-
-          nixosModules = {
-            # Ideally, this would be refactored into multiple stand-alone
-            # modules, but many of these modules are interdependent at the
-            # moment, so we simply export them as a single module, for now.
-            default = {
-              imports = [
-                ./nix/modules/config/defaults/default.nix
-                ./nix/modules/config/defaults/acme.nix
-                ./nix/modules/config/defaults/environment.nix
-                ./nix/modules/config/defaults/networking.nix
-                ./nix/modules/config/defaults/nix.nix
-                ./nix/modules/config/defaults/security.nix
-                ./nix/modules/config/defaults/ssh.nix
-                ./nix/modules/config/defaults/sudo.nix
-                ./nix/modules/config/defaults/system.nix
-                ./nix/modules/config/defaults/tmux.nix
-                ./nix/modules/config/defaults/users.nix
-
-                ./nix/modules/config/hardware/amd/common.nix
-                ./nix/modules/config/hardware/amd/jaguar.nix
-                ./nix/modules/config/hardware/apu2/apu3c4.nix
-                ./nix/modules/config/hardware/intel/broadwell-de.nix
-                ./nix/modules/config/hardware/intel/centerton.nix
-                ./nix/modules/config/hardware/intel/coffee-lake.nix
-                ./nix/modules/config/hardware/intel/common.nix
-                ./nix/modules/config/hardware/intel/haswell.nix
-                ./nix/modules/config/hardware/intel/kaby-lake.nix
-                ./nix/modules/config/hardware/intel/sandy-bridge.nix
-                ./nix/modules/config/hardware/smartd/1x-non-removable.nix
-                ./nix/modules/config/hardware/smartd/2x-non-removable.nix
-                ./nix/modules/config/hardware/smartd/36x-hotswap.nix
-                ./nix/modules/config/hardware/smartd/4x-hotswap.nix
-                ./nix/modules/config/hardware/supermicro/sys-5017a-ef.nix
-                ./nix/modules/config/hardware/supermicro/sys-5018d-fn4t.nix
-                ./nix/modules/config/hardware/supermicro/sys-5018d-mtln4f.nix
-                ./nix/modules/config/hardware/supermicro/mb-x10.nix
-                ./nix/modules/config/hardware/hwutils.nix
-                ./nix/modules/config/hardware/mbr.nix
-                ./nix/modules/config/hardware/uefi.nix
-
-                ./nix/modules/config/networking/tcp-bbr
-
-                ./nix/modules/config/nix/auto-gc
-
-                ./nix/modules/config/remote-builds/remote-build-host
-                ./nix/modules/config/remote-builds/build-host
-
-                ./nix/modules/networking/accept
-                ./nix/modules/networking/virtual-ips
-
-                ./nix/modules/services/tftpd-hpa
-                ./nix/modules/services/vault/agent
-
-                ./nix/common/config/services/vault/agent/auth/approle
-                ./nix/common/config/services/vault/agent/template
-                ./nix/common/config/services/vault/agent/template/aws-credentials
-                ./nix/common/config/services/vault/agent/template/aws-sts-credentials
-                ./nix/common/config/services/vault/agent/template/cachix
-                ./nix/common/config/services/vault/agent/template/github-credentials
-                ./nix/common/config/services/vault/agent/template/netrc
-                ./nix/common/config/services/vault/agent/template/remote-builder-ssh
-                ./nix/common/config/services/vault/agent/template/ssh-ca-host-key
-                ./nix/common/core/module-hashes.nix
-              ];
-              nixpkgs.overlays = [ inputs.self.overlays.default ];
-            };
           };
 
           darwinModules = {
@@ -283,19 +214,6 @@
             };
           };
 
-          nixosConfigurations =
-            let
-              extraModules = [
-                {
-                  boot.isContainer = true;
-                }
-              ];
-              mkSystem = pkgs.lib.hacknix.nixosSystem' extraModules;
-            in
-            pkgs.lib.flakes.nixosConfigurations.importFromDirectory mkSystem ./examples/nixos {
-              inherit (pkgs) lib;
-            };
-
           darwinConfigurations =
             aarch64-darwin-pkgs.lib.flakes.darwinConfigurations.importFromDirectory
               aarch64-darwin-pkgs.lib.hacknix.darwinSystem
@@ -313,14 +231,12 @@
               packages = inputs.self.packages.x86_64-linux;
               checks = inputs.self.checks.x86_64-linux;
               devShells = inputs.self.devShells.x86_64-linux;
-              nixosConfigurations = pkgs.lib.flakes.nixosConfigurations.build inputs.self.nixosConfigurations;
             in
             pkgs.lib.flakes.recurseIntoHydraJobs {
               inherit
                 packages
                 checks
                 devShells
-                nixosConfigurations
                 ;
               required = pkgs.releaseTools.aggregate {
                 name = "required";
@@ -328,7 +244,6 @@
                   packages
                   checks
                   devShells
-                  nixosConfigurations
                 ]);
                 meta.description = "Required x86_64-linux CI builds";
               };
