@@ -1,3 +1,3 @@
 # hacknix
 
-Hackworth Ltd's nix overlays and modules.
+Hackworth Ltd's Nix helpers.
