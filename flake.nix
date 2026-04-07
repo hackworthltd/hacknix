@@ -2,24 +2,24 @@
   description = "Hackworth Ltd Nix.";
 
   inputs = {
-    nixpkgs.url = "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz";
+    nixpkgs.url = "github:NixOS/nixpkgs";
 
-    nix-darwin.url = "https://github.com/nix-darwin/nix-darwin/archive/master.tar.gz";
+    nix-darwin.url = "github:nix-darwin/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-compat.url = "https://github.com/NixOS/flake-compat/archive/master.tar.gz";
+    flake-compat.url = "github:NixOS/flake-compat";
     flake-compat.flake = false;
 
-    gitignore-nix.url = "https://github.com/hercules-ci/gitignore.nix/archive/master.tar.gz";
+    gitignore-nix.url = "github:hercules-ci/gitignore.nix";
     gitignore-nix.flake = false;
 
-    treefmt-nix.url = "https://github.com/numtide/treefmt-nix/archive/main.tar.gz";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    pre-commit-hooks-nix.url = "https://github.com/cachix/git-hooks.nix/archive/master.tar.gz";
+    pre-commit-hooks-nix.url = "github:cachix/git-hooks.nix";
     pre-commit-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-parts.url = "https://github.com/hercules-ci/flake-parts/archive/main.tar.gz";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs =
